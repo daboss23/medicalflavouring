@@ -56,6 +56,7 @@
 
   /* Radii */
   --r-xs:8px; --r-sm:12px; --r-md:16px; --r-lg:22px; --r-xl:30px; --r-pill:999px;
+  --r-btn:12px; --r-orb:6px;   /* rectangular CTA geometry */
 
   /* Rhythm */
   --gutter:clamp(18px,4vw,32px);
@@ -151,7 +152,7 @@ p{text-wrap:pretty}
   display:inline-flex; align-items:center; gap:14px;
   padding:7px 7px 7px 26px;
   min-height:56px;
-  border:0; border-radius:var(--r-pill);
+  border:0; border-radius:var(--r-btn);
   background:var(--btn-bg); color:var(--btn-fg);
   font-family:var(--display);
   font-size:15.5px; font-weight:650; letter-spacing:-.005em;
@@ -169,7 +170,7 @@ p{text-wrap:pretty}
 .btn:active{transform:translateY(0) scale(.985); transition-duration:.12s}
 .btn-orb{
   flex:none;
-  width:42px; height:42px; border-radius:var(--r-pill);
+  width:42px; height:42px; border-radius:var(--r-orb);
   display:grid; place-items:center;
   background:rgba(255,255,255,.16);
   transition:transform .55s var(--ease), background-color .4s var(--ease);
@@ -198,31 +199,15 @@ p{text-wrap:pretty}
 .btn--navy{--btn-bg:var(--navy); box-shadow:var(--lift-2)}
 .btn--navy:hover{--btn-bg:var(--navy-soft)}
 
-.btn--ghost{
-  --btn-bg:transparent; --btn-fg:var(--navy);
-  box-shadow:inset 0 0 0 1.5px var(--line-strong);
-  padding-left:24px;
-}
-.btn--ghost::before{display:none}
-.btn--ghost .btn-orb{background:rgba(18,58,107,.08)}
-.btn--ghost:hover{--btn-bg:rgba(18,58,107,.05); box-shadow:inset 0 0 0 1.5px rgba(18,58,107,.32)}
-.btn--ghost:hover .btn-orb{background:rgba(18,58,107,.14)}
-
 .btn--on-dark{--btn-fg:var(--navy); --btn-bg:#fff}
 .btn--on-dark .btn-orb{background:rgba(18,58,107,.10)}
 .btn--sm{min-height:46px; font-size:14px; padding:5px 5px 5px 20px}
-.btn--sm .btn-orb{width:36px; height:36px}
+.btn--sm{border-radius:10px}
+.btn--sm .btn-orb{width:36px; height:36px; border-radius:5px}
 .btn--sm .btn-orb svg{width:15px; height:15px}
 .btn--block{display:flex; width:100%; justify-content:space-between}
 
 .cta-stack{display:flex; flex-wrap:wrap; gap:14px; align-items:center}
-/* Micro-proof under CTAs — reassurance at the moment of decision */
-.cta-proof{
-  display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:20px;
-  font-size:13.5px; color:var(--ink-3);
-}
-.cta-proof span{display:inline-flex; align-items:center; gap:7px}
-.cta-proof svg{width:15px; height:15px; color:#1a9d6a; flex:none}
 
 /* ============================================================
    Announcement bar + live countdown
@@ -284,7 +269,7 @@ p{text-wrap:pretty}
 .brand img{height:44px; width:auto}
 .head-nav{display:flex; align-items:center; gap:6px}
 .head-nav a{
-  position:relative; padding:9px 14px; border-radius:var(--r-pill);
+  position:relative; padding:9px 14px; border-radius:8px;
   font-size:14.5px; font-weight:520; color:var(--ink-2);
   transition:color .3s var(--ease), background-color .3s var(--ease);
 }
@@ -299,7 +284,7 @@ p{text-wrap:pretty}
 .head-actions{display:flex; align-items:center; gap:12px}
 .cart-chip{
   display:inline-flex; align-items:center; gap:9px;
-  padding:10px 16px 10px 14px; border-radius:var(--r-pill);
+  padding:10px 16px 10px 14px; border-radius:10px;
   background:var(--navy); color:#fff;
   font-size:13.5px; font-weight:600; letter-spacing:-.005em;
   box-shadow:var(--lift-1);
@@ -309,7 +294,7 @@ p{text-wrap:pretty}
 .cart-chip svg{width:16px; height:16px}
 .cart-chip .n{
   font-family:var(--mono); font-variant-numeric:tabular-nums;
-  min-width:20px; padding:1px 6px; border-radius:var(--r-pill);
+  min-width:20px; padding:1px 6px; border-radius:5px;
   background:var(--flame); font-size:12px; text-align:center;
 }
 .cart-chip.is-bumped{animation:chipPop .55s var(--ease-spring)}
@@ -348,7 +333,7 @@ p{text-wrap:pretty}
 }
 .hero-tag{
   display:inline-flex; align-items:center; gap:10px;
-  padding:8px 16px 8px 12px; border-radius:var(--r-pill);
+  padding:8px 16px 8px 12px; border-radius:10px;
   background:rgba(18,58,107,.06);
   box-shadow:inset 0 0 0 1px rgba(18,58,107,.14);
   font-family:var(--mono); font-size:11px; font-weight:500;
@@ -405,7 +390,8 @@ p{text-wrap:pretty}
 .price-crown{
   background:linear-gradient(96deg,var(--flame-deep),var(--flame) 45%,var(--flame-lift));
   color:#fff; text-align:center; padding:14px 16px;
-  font-family:var(--display); font-weight:750; font-size:18px; letter-spacing:-.015em;
+  font-family:var(--display); font-weight:800; font-size:clamp(21px,2.2vw,27px);
+  letter-spacing:.005em; text-transform:uppercase; line-height:1.15;
   position:relative; overflow:hidden;
 }
 .price-crown::after{
@@ -441,11 +427,6 @@ p{text-wrap:pretty}
 }
 .price-save .big{font-family:var(--display); font-weight:750; font-size:17px; letter-spacing:-.015em}
 .price-save .pct{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#ffb69c}
-.price-foot{
-  padding:14px 18px; background:rgba(255,255,255,.05);
-  border-top:1px solid rgba(255,255,255,.10);
-  font-size:12.5px; color:#b8c7dc; text-align:center;
-}
 
 /* ============================================================
    Range strip
@@ -478,7 +459,7 @@ p{text-wrap:pretty}
 }
 .pill-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px}
 .pill{
-  padding:10px 18px; border-radius:var(--r-pill);
+  padding:10px 18px; border-radius:10px;
   background:#fff; box-shadow:inset 0 0 0 1px var(--line), var(--lift-1);
   font-family:var(--display); font-size:14px; font-weight:600; letter-spacing:-.01em;
   transition:transform .45s var(--ease), box-shadow .45s var(--ease);
@@ -679,11 +660,11 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 /* Steppers */
 .stepper{
   display:inline-flex; align-items:center; gap:2px; padding:3px;
-  border-radius:var(--r-pill); background:var(--mist);
+  border-radius:10px; background:var(--mist);
   box-shadow:inset 0 0 0 1px var(--line-soft);
 }
 .step-btn{
-  width:32px; height:32px; border:0; border-radius:50%; background:transparent;
+  width:32px; height:32px; border:0; border-radius:6px; background:transparent;
   display:grid; place-items:center; cursor:pointer; color:var(--ink-2);
   transition:background-color .3s var(--ease), transform .3s var(--ease), color .3s var(--ease);
 }
@@ -698,7 +679,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 .step-n.is-bumped{animation:nPop .45s var(--ease-spring)}
 @keyframes nPop{0%{transform:scale(1)}40%{transform:scale(1.28); color:var(--flame)}100%{transform:scale(1)}}
 .link-btn{
-  flex:1; height:38px; border:0; border-radius:var(--r-pill);
+  flex:1; height:38px; border:0; border-radius:10px;
   background:rgba(18,58,107,.07); color:var(--navy); cursor:pointer;
   font-family:var(--display); font-size:12.5px; font-weight:650; letter-spacing:-.005em;
   transition:background-color .35s var(--ease), color .35s var(--ease);
@@ -769,7 +750,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 .count-l{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4)}
 .free-badge{
   display:inline-flex; align-items:center; gap:7px;
-  padding:7px 14px; border-radius:var(--r-pill);
+  padding:7px 14px; border-radius:9px;
   background:rgba(238,60,19,.10); color:var(--flame);
   box-shadow:inset 0 0 0 1px rgba(238,60,19,.28);
   font-family:var(--display); font-weight:700; font-size:13.5px; letter-spacing:-.01em;
@@ -904,7 +885,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 }
 .pdp-flag{
   position:absolute; top:16px; left:16px; z-index:2;
-  padding:7px 14px; border-radius:var(--r-pill);
+  padding:7px 14px; border-radius:8px;
   background:var(--flame); color:#fff;
   font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase;
   box-shadow:var(--lift-flame);
@@ -980,7 +961,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 }
 .acc-btn:hover{color:var(--flame)}
 .acc-sign{
-  flex:none; width:28px; height:28px; border-radius:50%;
+  flex:none; width:28px; height:28px; border-radius:7px;
   display:grid; place-items:center; background:var(--mist); color:var(--ink-2);
   transition:transform .5s var(--ease), background-color .4s var(--ease), color .4s var(--ease);
 }
@@ -1201,7 +1182,6 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
     <g id="i-check"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></g>
     <g id="i-plus"><path d="M10 4v12M4 10h12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></g>
     <g id="i-minus"><path d="M4 10h12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></g>
-    <g id="i-phone"><path d="M6.5 3.5h-2A1.5 1.5 0 003 5c0 6.6 5.4 12 12 12a1.5 1.5 0 001.5-1.5v-2l-3.5-1.2-1.6 1.9a11.5 11.5 0 01-5-5l1.9-1.6L6.5 3.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></g>
     <g id="i-mail"><rect x="2.5" y="4.5" width="15" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 6l7 5 7-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>
     <g id="i-cart"><path d="M2.5 3.5h2l2.2 9.2h8.1l1.7-6.4H5.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="16" r="1.3" fill="currentColor"/><circle cx="14.5" cy="16" r="1.3" fill="currentColor"/></g>
     <g id="i-shield"><path d="M10 2.5l6 2.3v4.6c0 4-2.6 6.9-6 8.1-3.4-1.2-6-4.1-6-8.1V4.8l6-2.3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7.2 10l2 2 3.6-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g>
@@ -1297,15 +1277,6 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
           <span class="btn-label">Bundle your 6 + 1 free!</span>
           <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </a>
-        <a class="btn btn--ghost" href="tel:+61393870427">
-          <span class="btn-label">Order desk (03) 9387 0427</span>
-          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-phone"/></svg></span>
-        </a>
-      </div>
-      <div class="cta-proof" data-reveal style="--d:320ms">
-        <span><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Ships in 24–48 hrs from Brunswick East, VIC</span>
-        <span><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Trade accounts opened on the same call</span>
-        <span><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Mix any ORA® products to reach six</span>
       </div>
     </div>
 
@@ -1323,7 +1294,6 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
             <span class="pct">— 22% off —</span>
           </div>
         </div>
-        <div class="price-foot data">≈ 5.4¢ per mL · 473 mL · Padagis manufactured</div>
       </div>
     </aside>
   </div>
