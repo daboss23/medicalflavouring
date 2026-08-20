@@ -9,7 +9,7 @@ Sales page for the Padagis ORA® compounding vehicle range (Medical Flavouring S
 | `index.html` | The page. Single file, no build step, no dependencies. Loads fonts from Google Fonts and bottle images from `assets/`. |
 | `assets/` | Product photography and logo, supplied by the manufacturer. |
 | `dist/mfs-ora-sales-page.html` | Self-contained build — images inlined as data URIs, no `<html>`/`<head>` wrapper. Used for the shared preview. Regenerate with `build.py`. |
-| `build.py` | Inlines `assets/` into `dist/` and swaps the SEO `<title>` for the short preview name. |
+| `build.py` | Inlines `assets/` into `dist/` (re-encoded to WebP) and swaps the SEO `<title>` for the short preview name. Needs Pillow. |
 
 ## Deploying
 
@@ -28,8 +28,16 @@ var DEADLINE = new Date('2026-08-31T23:59:59+10:00').getTime();
 
 Product copy, specs and FAQ entries are the `SKUS`, `EXTRA` and `FAQ` arrays in the same script block.
 
+## Product colour system
+
+Each product carries an identity colour sampled from its printed label stripe, held
+in `:root` as `--sku-plus`, `--sku-sweet` and `--sku-blend`. Colour marks the family,
+so the two SF variants share their parent's colour — a pharmacist scanning the range
+sees family first and sugar-free second. The colour appears as the rule above each
+product card, the dot beside its name, the bar on an active bundle row, and the tick
+under each product-detail swatch. Selection state stays flame; identity stays tinted.
+
 ## Placeholders to replace before launch
 
 - Three testimonial quotes are marked `[Placeholder quote — …]`.
-- The stability panel has an image slot for a lab / compounding bench photo.
 - The product detail thumbnails include two empty slots (label detail, carton).
