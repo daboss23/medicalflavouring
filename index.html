@@ -441,27 +441,27 @@ p{text-wrap:pretty}
   background:linear-gradient(90deg,var(--flame),var(--flame-lift) 40%,var(--navy));
 }
 .range-grid{
-  display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(28px,4vw,56px); align-items:center;
-  padding-block:clamp(34px,4.4vw,52px);
+  display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(32px,4.6vw,64px); align-items:center;
+  padding-block:clamp(56px,7vw,96px);
 }
-.bottle-row{display:flex; align-items:flex-end; justify-content:center; gap:4px}
+.bottle-row{display:flex; align-items:flex-end; justify-content:center; gap:2px}
 .bottle-row img{
-  height:clamp(126px,14vw,196px); width:auto;
+  height:clamp(150px,21vw,330px); width:auto;
   filter:drop-shadow(0 22px 26px rgba(14,20,32,.16));
   transition:transform .7s var(--ease), filter .7s var(--ease);
   will-change:transform;
 }
-.bottle-row img:nth-child(even){height:clamp(118px,13.2vw,184px)}
+.bottle-row img:nth-child(even){height:clamp(140px,19.6vw,308px)}
 .bottle-row:hover img{opacity:.82; filter:drop-shadow(0 18px 22px rgba(14,20,32,.10))}
 .bottle-row img:hover{
   transform:translateY(-14px) scale(1.045); opacity:1;
   filter:drop-shadow(0 30px 34px rgba(14,20,32,.24));
 }
-.pill-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px}
+.pill-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px}
 .pill{
-  padding:10px 18px; border-radius:10px;
+  padding:12px 20px; border-radius:10px;
   background:#fff; box-shadow:inset 0 0 0 1px var(--line), var(--lift-1);
-  font-family:var(--display); font-size:14px; font-weight:600; letter-spacing:-.01em;
+  font-family:var(--display); font-size:15px; font-weight:600; letter-spacing:-.012em;
   transition:transform .45s var(--ease), box-shadow .45s var(--ease);
 }
 .pill:hover{transform:translateY(-2px); box-shadow:inset 0 0 0 1px rgba(18,58,107,.30), var(--lift-2)}
@@ -1142,7 +1142,8 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
   .assure{grid-template-columns:1fr; text-align:center; justify-items:center}
   .assure-seal{margin:0 auto}
   .bottle-row{gap:0}
-  .bottle-row img,.bottle-row img:nth-child(even){height:100px}
+  .bottle-row img{height:150px}
+  .bottle-row img:nth-child(even){height:140px}
   .value-anchor .va-rule{display:none}
   .value-anchor{gap:14px 22px}
   .cta-stack{flex-direction:column; align-items:stretch}
@@ -1311,8 +1312,8 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
     </div>
     <div data-reveal style="--d:120ms">
       <span class="eyebrow eyebrow--navy">The complete offer</span>
-      <h2 class="h-sub" style="margin:14px 0 12px;color:var(--navy)">Suspension vehicles &amp; sweetening agents</h2>
-      <p class="lede" style="font-size:17px">Every product in the offer. Buffered, preserved, ready to use — and available in sugar-free options for paediatric, diabetic and enteral-feed patients.</p>
+      <h2 class="h-section" style="margin:18px 0 16px;color:var(--navy)">Suspension vehicles &amp; sweetening agents</h2>
+      <p class="lede">Every product in the offer. Buffered, preserved, ready to use — and available in sugar-free options for paediatric, diabetic and enteral-feed patients.</p>
       <div class="pill-row">
         <span class="pill">ORA-Plus®</span>
         <span class="pill">ORA-Sweet®</span>
@@ -1326,7 +1327,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 
 <!-- ========== Why ORA ========== -->
 <section id="why" class="shell bay">
-  <div class="sec-head" data-reveal>
+  <div class="sec-head is-centered" data-reveal>
     <span class="eyebrow">The clinical case</span>
     <h2 class="h-section">Why pharmacists specify ORA®</h2>
   </div>
@@ -1373,7 +1374,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
         <li><span class="tick"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg></span> Consistent, reproducible vehicle batch to batch</li>
       </ul>
       <div class="cta-stack" style="margin-top:26px">
-        <a class="btn btn--on-dark btn--sm" href="#builder">
+        <a class="btn btn--flame" href="#builder">
           <span class="btn-label">Build my 6 + 1</span>
           <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </a>
@@ -1395,7 +1396,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 <!-- ========== Qualifier ========== -->
 <section class="shell" style="padding-bottom:clamp(40px,5vw,64px)">
   <div class="qual" data-reveal>
-    <div class="sec-head" style="margin-bottom:0">
+    <div class="sec-head is-centered" style="margin-bottom:0">
       <span class="eyebrow eyebrow--navy">Who this offer is for</span>
       <h2 class="h-sub">If you compound oral liquids, this is the cheapest your ORA® stock will be this year</h2>
     </div>
@@ -1533,7 +1534,6 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 <!-- ========== Testimonials ========== -->
 <section class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
   <div class="sec-head is-centered" data-reveal>
-    <span class="eyebrow">Social proof</span>
     <h2 class="h-section">What pharmacists say</h2>
   </div>
   <div class="quote-grid">
