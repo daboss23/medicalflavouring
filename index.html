@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ORA® Compounding Vehicles — Buy 6, Get the 7th Free | MFS</title>
+<meta name="description" content="The complete Padagis ORA® suspension vehicle and sweetening agent range at Australia's lowest price. Mix and match any six 473 mL bottles and the seventh is free. Backed by 150+ published stability studies.">
+<meta name="theme-color" content="#123a6b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MFS · ORA® range sales page
+   Design system tokens
+   ============================================================ */
+:root{
+  color-scheme: light;
+
+  /* Brand */
+  --flame:#ee3c13;
+  --flame-lift:#ff5a2b;
+  --flame-deep:#c72d09;
+  --navy:#123a6b;
+  --navy-deep:#0b2444;
+  --navy-soft:#1c4d86;
+
+  /* Neutrals */
+  --ink:#0e1420;
+  --ink-2:#39414f;
+  --ink-3:#626c7d;
+  --ink-4:#8b95a4;
+  --paper:#ffffff;
+  --cream:#f7f4ef;
+  --mist:#f3f6fa;
+  --line:rgba(14,20,32,.10);
+  --line-soft:rgba(14,20,32,.06);
+  --line-strong:rgba(14,20,32,.16);
+
+  /* Type */
+  --display:'Geist','Plus Jakarta Sans','Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --body:'Geist','Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono','JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+
+  /* Elevation — soft, diffused, never harsh */
+  --lift-1:0 1px 2px rgba(14,20,32,.04), 0 8px 20px -12px rgba(14,20,32,.14);
+  --lift-2:0 1px 2px rgba(14,20,32,.04), 0 18px 44px -18px rgba(14,20,32,.20);
+  --lift-3:0 2px 4px rgba(14,20,32,.05), 0 40px 80px -28px rgba(18,58,107,.32);
+  --lift-flame:0 12px 28px -10px rgba(238,60,19,.48), 0 2px 6px rgba(238,60,19,.20);
+
+  /* Motion */
+  --ease:cubic-bezier(.22,1,.36,1);
+  --ease-soft:cubic-bezier(.32,.72,0,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+
+  /* Radii */
+  --r-xs:8px; --r-sm:12px; --r-md:16px; --r-lg:22px; --r-xl:30px; --r-pill:999px;
+
+  /* Rhythm */
+  --gutter:clamp(18px,4vw,32px);
+  --shell:1220px;
+  --bay:clamp(64px,8vw,120px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:104px}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.6;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+img{max-width:100%; display:block}
+a{color:var(--flame); text-decoration:none; transition:color .3s var(--ease)}
+a:hover{color:var(--navy)}
+button{font:inherit; color:inherit}
+h1,h2,h3,h4{font-family:var(--display); margin:0; text-wrap:balance}
+p{text-wrap:pretty}
+::selection{background:var(--flame); color:#fff}
+:focus-visible{outline:2.5px solid var(--flame); outline-offset:3px; border-radius:4px}
+
+.shell{max-width:var(--shell); margin:0 auto; padding-inline:var(--gutter)}
+.bay{padding-block:var(--bay)}
+
+/* ============================================================
+   Type scale
+   ============================================================ */
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11.5px;
+  font-weight:500;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--flame);
+  display:inline-flex; align-items:center; gap:9px;
+}
+.eyebrow::before{
+  content:''; width:16px; height:1.5px; background:currentColor; opacity:.55; flex:none;
+}
+.eyebrow--navy{color:var(--navy)}
+.eyebrow--light{color:#f0a68e}
+
+.h-display{
+  font-size:clamp(42px,6.4vw,78px);
+  font-weight:800;
+  line-height:.98;
+  letter-spacing:-.038em;
+}
+.h-section{
+  font-size:clamp(30px,3.9vw,50px);
+  font-weight:800;
+  line-height:1.03;
+  letter-spacing:-.032em;
+}
+.h-sub{
+  font-size:clamp(22px,2.4vw,30px);
+  font-weight:750;
+  line-height:1.12;
+  letter-spacing:-.024em;
+}
+.lede{
+  font-size:clamp(17px,1.35vw,20px);
+  line-height:1.6;
+  color:var(--ink-2);
+  max-width:62ch;
+}
+.micro{font-size:13.5px; line-height:1.5; color:var(--ink-3)}
+.data{font-family:var(--mono); font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1}
+.serif-em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spacing:.005em}
+
+/* Section header block */
+.sec-head{display:flex; flex-direction:column; gap:16px; margin-bottom:clamp(34px,4vw,56px)}
+.sec-head.is-centered{align-items:center; text-align:center}
+.sec-head .lede{margin:0}
+
+/* ============================================================
+   Buttons — nested "island" architecture
+   ============================================================ */
+.btn{
+  --btn-bg:var(--navy);
+  --btn-fg:#fff;
+  position:relative;
+  display:inline-flex; align-items:center; gap:14px;
+  padding:7px 7px 7px 26px;
+  min-height:56px;
+  border:0; border-radius:var(--r-pill);
+  background:var(--btn-bg); color:var(--btn-fg);
+  font-family:var(--display);
+  font-size:15.5px; font-weight:650; letter-spacing:-.005em;
+  cursor:pointer;
+  isolation:isolate;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), background-color .4s var(--ease);
+  will-change:transform;
+}
+.btn::before{
+  content:''; position:absolute; inset:0; border-radius:inherit; z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 52%);
+  opacity:.9;
+}
+.btn:hover{transform:translateY(-2.5px)}
+.btn:active{transform:translateY(0) scale(.985); transition-duration:.12s}
+.btn-orb{
+  flex:none;
+  width:42px; height:42px; border-radius:var(--r-pill);
+  display:grid; place-items:center;
+  background:rgba(255,255,255,.16);
+  transition:transform .55s var(--ease), background-color .4s var(--ease);
+}
+.btn-orb svg{width:17px; height:17px; transition:transform .55s var(--ease)}
+.btn:hover .btn-orb{background:rgba(255,255,255,.26)}
+.btn:hover .btn-orb svg{transform:translateX(3px)}
+.btn-label{white-space:nowrap}
+
+.btn--flame{
+  --btn-bg:var(--flame);
+  background:linear-gradient(168deg,var(--flame-lift) 0%,var(--flame) 46%,var(--flame-deep) 100%);
+  box-shadow:var(--lift-flame);
+}
+.btn--flame:hover{box-shadow:0 18px 38px -12px rgba(238,60,19,.55), 0 2px 6px rgba(238,60,19,.22)}
+/* Sheen sweep on the money button */
+.btn--flame .btn-label{position:relative}
+.btn--flame::after{
+  content:''; position:absolute; inset:0; border-radius:inherit; z-index:-1; overflow:hidden;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.34) 50%,transparent 62%);
+  background-size:260% 100%; background-position:190% 0;
+  transition:background-position 1.05s var(--ease-soft);
+}
+.btn--flame:hover::after{background-position:-60% 0}
+
+.btn--navy{--btn-bg:var(--navy); box-shadow:var(--lift-2)}
+.btn--navy:hover{--btn-bg:var(--navy-soft)}
+
+.btn--ghost{
+  --btn-bg:transparent; --btn-fg:var(--navy);
+  box-shadow:inset 0 0 0 1.5px var(--line-strong);
+  padding-left:24px;
+}
+.btn--ghost::before{display:none}
+.btn--ghost .btn-orb{background:rgba(18,58,107,.08)}
+.btn--ghost:hover{--btn-bg:rgba(18,58,107,.05); box-shadow:inset 0 0 0 1.5px rgba(18,58,107,.32)}
+.btn--ghost:hover .btn-orb{background:rgba(18,58,107,.14)}
+
+.btn--on-dark{--btn-fg:var(--navy); --btn-bg:#fff}
+.btn--on-dark .btn-orb{background:rgba(18,58,107,.10)}
+.btn--sm{min-height:46px; font-size:14px; padding:5px 5px 5px 20px}
+.btn--sm .btn-orb{width:36px; height:36px}
+.btn--sm .btn-orb svg{width:15px; height:15px}
+.btn--block{display:flex; width:100%; justify-content:space-between}
+
+.cta-stack{display:flex; flex-wrap:wrap; gap:14px; align-items:center}
+/* Micro-proof under CTAs — reassurance at the moment of decision */
+.cta-proof{
+  display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:20px;
+  font-size:13.5px; color:var(--ink-3);
+}
+.cta-proof span{display:inline-flex; align-items:center; gap:7px}
+.cta-proof svg{width:15px; height:15px; color:#1a9d6a; flex:none}
+
+/* ============================================================
+   Announcement bar + live countdown
+   ============================================================ */
+.ticker{
+  position:relative;
+  background:linear-gradient(96deg,var(--flame-deep),var(--flame) 40%,var(--flame-lift) 100%);
+  color:#fff; overflow:hidden;
+}
+.ticker::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(0,0,0,.06));
+}
+.ticker-inner{
+  position:relative; z-index:1;
+  max-width:var(--shell); margin:0 auto; padding:11px var(--gutter);
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px 34px;
+  font-family:var(--mono); font-size:11.5px; font-weight:500;
+  letter-spacing:.15em; text-transform:uppercase;
+}
+.ticker-inner b{font-weight:600}
+.pulse-dot{
+  width:7px; height:7px; border-radius:50%; background:#fff; flex:none;
+  box-shadow:0 0 0 0 rgba(255,255,255,.7);
+  animation:pulse 2.4s var(--ease) infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(255,255,255,.65)}
+  70%{box-shadow:0 0 0 9px rgba(255,255,255,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
+}
+.countdown{display:inline-flex; align-items:center; gap:6px}
+.cd-cell{
+  min-width:26px; padding:2px 5px; border-radius:5px;
+  background:rgba(0,0,0,.20);
+  font-variant-numeric:tabular-nums; letter-spacing:.06em;
+}
+.cd-sep{opacity:.5}
+
+/* ============================================================
+   Header — glass, hides on scroll down
+   ============================================================ */
+.site-head{
+  position:sticky; top:0; z-index:60;
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid var(--line-soft);
+  transition:transform .55s var(--ease), box-shadow .4s var(--ease);
+  will-change:transform;
+}
+.site-head.is-tucked{transform:translateY(-100%)}
+.site-head.is-stuck{box-shadow:0 12px 30px -22px rgba(14,20,32,.5)}
+.head-row{
+  max-width:var(--shell); margin:0 auto; padding:14px var(--gutter);
+  display:flex; align-items:center; justify-content:space-between; gap:28px;
+}
+.brand{display:flex; align-items:center; gap:14px}
+.brand img{height:44px; width:auto}
+.head-nav{display:flex; align-items:center; gap:6px}
+.head-nav a{
+  position:relative; padding:9px 14px; border-radius:var(--r-pill);
+  font-size:14.5px; font-weight:520; color:var(--ink-2);
+  transition:color .3s var(--ease), background-color .3s var(--ease);
+}
+.head-nav a::after{
+  content:''; position:absolute; left:14px; right:14px; bottom:5px; height:1.5px;
+  background:var(--flame); border-radius:2px;
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .45s var(--ease);
+}
+.head-nav a:hover{color:var(--ink); background:rgba(14,20,32,.035)}
+.head-nav a:hover::after{transform:scaleX(1)}
+.head-actions{display:flex; align-items:center; gap:12px}
+.cart-chip{
+  display:inline-flex; align-items:center; gap:9px;
+  padding:10px 16px 10px 14px; border-radius:var(--r-pill);
+  background:var(--navy); color:#fff;
+  font-size:13.5px; font-weight:600; letter-spacing:-.005em;
+  box-shadow:var(--lift-1);
+  transition:transform .45s var(--ease), background-color .35s var(--ease);
+}
+.cart-chip:hover{color:#fff; background:var(--navy-soft); transform:translateY(-1.5px)}
+.cart-chip svg{width:16px; height:16px}
+.cart-chip .n{
+  font-family:var(--mono); font-variant-numeric:tabular-nums;
+  min-width:20px; padding:1px 6px; border-radius:var(--r-pill);
+  background:var(--flame); font-size:12px; text-align:center;
+}
+.cart-chip.is-bumped{animation:chipPop .55s var(--ease-spring)}
+@keyframes chipPop{0%{transform:scale(1)}38%{transform:scale(1.14)}100%{transform:scale(1)}}
+.head-strip{
+  border-top:1px solid var(--line-soft);
+  background:rgba(243,246,250,.6);
+}
+.head-strip .shell{
+  padding-block:8px;
+  font-size:12.5px; color:var(--ink-3);
+  display:flex; flex-wrap:wrap; gap:6px 18px; align-items:center;
+}
+.head-strip .dot{width:3px; height:3px; border-radius:50%; background:var(--ink-4); flex:none}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{position:relative; overflow:hidden}
+.hero::before{
+  /* soft ambient light behind the fold — no harsh gradients */
+  content:''; position:absolute; z-index:0; pointer-events:none;
+  width:min(860px,90vw); aspect-ratio:1; right:-16%; top:-42%;
+  background:radial-gradient(circle at center,rgba(238,60,19,.10),rgba(238,60,19,0) 62%);
+}
+.hero::after{
+  content:''; position:absolute; z-index:0; pointer-events:none;
+  width:min(700px,80vw); aspect-ratio:1; left:-24%; bottom:-46%;
+  background:radial-gradient(circle at center,rgba(18,58,107,.09),rgba(18,58,107,0) 60%);
+}
+.hero-grid{
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:1.32fr .82fr; gap:clamp(32px,4.6vw,68px);
+  align-items:start;
+  padding-block:clamp(44px,5.6vw,76px) clamp(40px,5vw,68px);
+}
+.hero-tag{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 16px 8px 12px; border-radius:var(--r-pill);
+  background:rgba(18,58,107,.06);
+  box-shadow:inset 0 0 0 1px rgba(18,58,107,.14);
+  font-family:var(--mono); font-size:11px; font-weight:500;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--navy);
+  margin-bottom:26px;
+}
+.hero-tag .spark{
+  width:20px; height:20px; border-radius:50%; display:grid; place-items:center;
+  background:var(--flame); color:#fff; flex:none;
+}
+.hero-tag .spark svg{width:11px; height:11px}
+.nowrap{white-space:nowrap}
+.hero h1 .free{
+  position:relative; color:var(--flame); display:inline-block;
+}
+/* hand-drawn underline that draws itself in */
+.hero h1 .free svg{
+  position:absolute; left:-2%; bottom:-.16em; width:104%; height:.3em; overflow:visible;
+}
+.hero h1 .free path{
+  stroke:var(--flame); stroke-width:7; fill:none; stroke-linecap:round;
+  stroke-dasharray:340; stroke-dashoffset:340;
+}
+.is-lit .hero h1 .free path{animation:draw 1.15s var(--ease) .75s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.hero .lede{margin:26px 0 0}
+.hero .lede strong{color:var(--ink); font-weight:650}
+.hero-cta{margin-top:34px}
+
+/* Anchor / value bar under the hero copy */
+.value-anchor{
+  margin-top:30px; padding:18px 22px;
+  border-radius:var(--r-lg);
+  background:var(--cream);
+  box-shadow:inset 0 0 0 1px rgba(14,20,32,.05);
+  display:flex; flex-wrap:wrap; gap:14px 30px; align-items:center;
+}
+.value-anchor .va-item{display:flex; flex-direction:column; gap:2px}
+.value-anchor .va-n{
+  font-family:var(--display); font-weight:800; font-size:23px;
+  letter-spacing:-.03em; color:var(--navy); font-variant-numeric:tabular-nums;
+}
+.value-anchor .va-l{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4)}
+.value-anchor .va-rule{width:1px; align-self:stretch; background:var(--line); flex:none}
+
+/* Price card — double-bezel construction */
+.price-shell{
+  padding:8px; border-radius:var(--r-xl);
+  background:linear-gradient(180deg,rgba(18,58,107,.08),rgba(18,58,107,.02));
+  box-shadow:inset 0 0 0 1px rgba(18,58,107,.10), var(--lift-3);
+  position:sticky; top:112px;
+}
+.price-core{border-radius:calc(var(--r-xl) - 8px); overflow:hidden; background:var(--navy-deep)}
+.price-crown{
+  background:linear-gradient(96deg,var(--flame-deep),var(--flame) 45%,var(--flame-lift));
+  color:#fff; text-align:center; padding:14px 16px;
+  font-family:var(--display); font-weight:750; font-size:18px; letter-spacing:-.015em;
+  position:relative; overflow:hidden;
+}
+.price-crown::after{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(100deg,transparent 40%,rgba(255,255,255,.30) 50%,transparent 60%);
+  background-size:300% 100%;
+  animation:sweep 5.5s var(--ease-soft) infinite;
+}
+@keyframes sweep{0%{background-position:180% 0}55%,100%{background-position:-80% 0}}
+.price-body{
+  padding:30px 28px 28px; text-align:center; color:#fff;
+  background:
+    radial-gradient(120% 90% at 50% -10%,rgba(255,255,255,.14),transparent 60%),
+    var(--navy-deep);
+}
+.price-was{font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#9fb4cf}
+.price-was s{text-decoration-thickness:1.5px; text-decoration-color:rgba(238,60,19,.9)}
+.price-now{
+  font-family:var(--display); font-weight:800; font-size:clamp(52px,5.4vw,66px);
+  line-height:1; letter-spacing:-.045em; margin:8px 0 4px; font-variant-numeric:tabular-nums;
+}
+.price-unit{font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:#9fb4cf}
+.price-note{
+  font-family:var(--display); font-weight:650; font-size:15px; letter-spacing:-.01em;
+  margin-top:16px; line-height:1.4; color:#e8eef6;
+}
+.price-rule{height:1px; background:rgba(255,255,255,.16); margin:22px 0}
+.price-save{
+  display:inline-flex; flex-direction:column; gap:3px; align-items:center;
+  padding:12px 22px; border-radius:var(--r-md);
+  background:rgba(238,60,19,.16);
+  box-shadow:inset 0 0 0 1px rgba(238,60,19,.34);
+}
+.price-save .big{font-family:var(--display); font-weight:750; font-size:17px; letter-spacing:-.015em}
+.price-save .pct{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#ffb69c}
+.price-foot{
+  padding:14px 18px; background:rgba(255,255,255,.05);
+  border-top:1px solid rgba(255,255,255,.10);
+  font-size:12.5px; color:#b8c7dc; text-align:center;
+}
+
+/* ============================================================
+   Range strip
+   ============================================================ */
+.range-strip{
+  border-top:1px solid var(--line-soft);
+  background:linear-gradient(180deg,var(--cream),#fdfbf8);
+  position:relative; overflow:hidden;
+}
+.range-strip::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  background:linear-gradient(90deg,var(--flame),var(--flame-lift) 40%,var(--navy));
+}
+.range-grid{
+  display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(28px,4vw,56px); align-items:center;
+  padding-block:clamp(34px,4.4vw,52px);
+}
+.bottle-row{display:flex; align-items:flex-end; justify-content:center; gap:4px}
+.bottle-row img{
+  height:clamp(126px,14vw,196px); width:auto;
+  filter:drop-shadow(0 22px 26px rgba(14,20,32,.16));
+  transition:transform .7s var(--ease), filter .7s var(--ease);
+  will-change:transform;
+}
+.bottle-row img:nth-child(even){height:clamp(118px,13.2vw,184px)}
+.bottle-row:hover img{opacity:.82; filter:drop-shadow(0 18px 22px rgba(14,20,32,.10))}
+.bottle-row img:hover{
+  transform:translateY(-14px) scale(1.045); opacity:1;
+  filter:drop-shadow(0 30px 34px rgba(14,20,32,.24));
+}
+.pill-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px}
+.pill{
+  padding:10px 18px; border-radius:var(--r-pill);
+  background:#fff; box-shadow:inset 0 0 0 1px var(--line), var(--lift-1);
+  font-family:var(--display); font-size:14px; font-weight:600; letter-spacing:-.01em;
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease);
+}
+.pill:hover{transform:translateY(-2px); box-shadow:inset 0 0 0 1px rgba(18,58,107,.30), var(--lift-2)}
+
+/* ============================================================
+   Stat cards
+   ============================================================ */
+.stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(14px,1.6vw,22px)}
+.stat{
+  padding:28px 26px 26px; border-radius:var(--r-lg);
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
+  transition:transform .6s var(--ease), box-shadow .6s var(--ease);
+  position:relative; overflow:hidden;
+}
+.stat::after{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:3px;
+  background:linear-gradient(90deg,var(--flame),var(--flame-lift));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .7s var(--ease);
+}
+.stat:hover{transform:translateY(-5px); box-shadow:inset 0 0 0 1px var(--line), var(--lift-2)}
+.stat:hover::after{transform:scaleX(1)}
+.stat-n{
+  font-family:var(--display); font-weight:800; font-size:clamp(38px,4vw,50px);
+  line-height:1; letter-spacing:-.045em; color:var(--flame);
+  font-variant-numeric:tabular-nums;
+}
+.stat-t{
+  font-family:var(--display); font-weight:700; font-size:16px; letter-spacing:-.015em;
+  margin:12px 0 10px;
+}
+.stat p{margin:0; font-size:14.5px; line-height:1.55; color:var(--ink-3)}
+
+/* ============================================================
+   Stability panel
+   ============================================================ */
+.panel{
+  border-radius:var(--r-xl); overflow:hidden;
+  background:var(--navy-deep); color:#fff;
+  display:grid; grid-template-columns:.92fr 1.08fr; align-items:stretch;
+  box-shadow:var(--lift-3);
+}
+.panel-art{
+  position:relative; min-height:340px;
+  background:
+    radial-gradient(90% 70% at 20% 15%,rgba(238,60,19,.30),transparent 62%),
+    radial-gradient(80% 80% at 85% 90%,rgba(64,140,225,.34),transparent 60%),
+    var(--navy);
+  display:grid; place-items:center; overflow:hidden;
+}
+/* fine lab-grid texture instead of a broken image slot */
+.panel-art::before{
+  content:''; position:absolute; inset:0; opacity:.30;
+  background-image:linear-gradient(rgba(255,255,255,.16) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.16) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:radial-gradient(75% 75% at 50% 50%,#000,transparent);
+  -webkit-mask-image:radial-gradient(75% 75% at 50% 50%,#000,transparent);
+}
+.panel-art .slot{
+  position:relative; z-index:1; text-align:center; padding:28px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  color:rgba(255,255,255,.62);
+}
+.panel-art .slot .frame{
+  width:88px; height:88px; margin:0 auto 16px; border-radius:var(--r-md);
+  display:grid; place-items:center;
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.32);
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+}
+.panel-art .slot svg{width:30px; height:30px; color:rgba(255,255,255,.8)}
+.panel-copy{padding:clamp(30px,3.6vw,52px)}
+.panel-copy h2{margin:16px 0 16px}
+.panel-copy p{margin:0 0 20px; color:#c9d6e6; font-size:16.5px; line-height:1.6}
+.tick-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:13px}
+.tick-list li{display:flex; gap:13px; align-items:flex-start; font-size:16px; line-height:1.5; color:#eaf1f8}
+.tick-list .tick{
+  flex:none; width:23px; height:23px; border-radius:50%; margin-top:2px;
+  display:grid; place-items:center;
+  background:rgba(238,60,19,.22); box-shadow:inset 0 0 0 1px rgba(238,60,19,.5);
+  color:#ff9a78;
+}
+.tick-list .tick svg{width:12px; height:12px}
+
+/* ============================================================
+   Trust badges
+   ============================================================ */
+.trust-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+.trust{
+  display:flex; align-items:center; gap:12px;
+  padding:16px 18px; border-radius:var(--r-md);
+  background:var(--mist);
+  box-shadow:inset 0 0 0 1px var(--line-soft);
+  font-family:var(--display); font-size:13.5px; font-weight:620; letter-spacing:-.01em;
+  color:var(--ink-2);
+  transition:background-color .45s var(--ease), transform .45s var(--ease);
+}
+.trust:hover{background:#fff; transform:translateY(-2px); box-shadow:inset 0 0 0 1px var(--line), var(--lift-1)}
+.trust svg{width:19px; height:19px; color:var(--navy); flex:none}
+
+/* ============================================================
+   Qualifier ("built for") block
+   ============================================================ */
+.qual{
+  border-radius:var(--r-xl); padding:clamp(28px,3.4vw,46px);
+  background:var(--cream);
+  box-shadow:inset 0 0 0 1px rgba(14,20,32,.05);
+}
+.qual-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(16px,2vw,26px); margin-top:30px}
+.qual-card{
+  padding:24px; border-radius:var(--r-lg); background:#fff;
+  box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
+  transition:transform .55s var(--ease), box-shadow .55s var(--ease);
+}
+.qual-card:hover{transform:translateY(-4px); box-shadow:inset 0 0 0 1px var(--line), var(--lift-2)}
+.qual-card .icon{
+  width:40px; height:40px; border-radius:var(--r-sm); display:grid; place-items:center;
+  background:rgba(238,60,19,.10); color:var(--flame); margin-bottom:16px;
+}
+.qual-card .icon svg{width:20px; height:20px}
+.qual-card h3{font-size:17px; font-weight:700; letter-spacing:-.018em; margin-bottom:8px}
+.qual-card p{margin:0; font-size:14.5px; line-height:1.55; color:var(--ink-3)}
+
+/* ============================================================
+   Comparison table
+   ============================================================ */
+.table-wrap{
+  border-radius:var(--r-lg); overflow-x:auto;
+  box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
+  background:#fff;
+}
+table{width:100%; border-collapse:collapse; font-size:15.5px; min-width:640px}
+thead th{
+  padding:18px 16px; text-align:center;
+  font-family:var(--mono); font-size:11px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4);
+  background:var(--mist);
+}
+thead th:first-child{text-align:left}
+thead th.is-hero{
+  background:var(--navy); color:#fff;
+  font-family:var(--display); font-size:14.5px; font-weight:700;
+  letter-spacing:-.01em; text-transform:none;
+}
+tbody td{padding:17px 16px; border-top:1px solid var(--line-soft); text-align:center; color:var(--ink-3)}
+tbody td:first-child{text-align:left; font-weight:600; color:var(--ink)}
+tbody td.is-hero{
+  background:rgba(18,58,107,.045); color:var(--navy);
+  font-weight:680; font-family:var(--display); letter-spacing:-.012em;
+}
+tbody tr{transition:background-color .35s var(--ease)}
+tbody tr:hover td{background:rgba(14,20,32,.022)}
+tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
+.cell-yes{display:inline-flex; align-items:center; gap:7px; justify-content:center}
+.cell-yes svg{width:15px; height:15px; color:#1a9d6a}
+
+/* ============================================================
+   Product cards
+   ============================================================ */
+.card-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:clamp(12px,1.4vw,18px)}
+.card{
+  display:flex; flex-direction:column; border-radius:var(--r-lg); overflow:hidden;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
+  transition:transform .6s var(--ease), box-shadow .6s var(--ease);
+}
+.card:hover{transform:translateY(-6px); box-shadow:inset 0 0 0 1px var(--line), var(--lift-2)}
+.card-art{
+  background:linear-gradient(175deg,var(--cream),#fdfcfa);
+  padding:22px 18px; text-align:center; position:relative; overflow:hidden;
+}
+.card-art::before{
+  content:''; position:absolute; inset:auto -20% -55% -20%; aspect-ratio:2/1;
+  background:radial-gradient(closest-side,rgba(18,58,107,.10),transparent);
+}
+.card-art img{
+  height:150px; width:auto; margin:0 auto; position:relative;
+  filter:drop-shadow(0 14px 18px rgba(14,20,32,.14));
+  transition:transform .7s var(--ease);
+  will-change:transform;
+}
+.card:hover .card-art img{transform:translateY(-8px) scale(1.05)}
+.card-body{padding:18px; display:flex; flex-direction:column; gap:9px; flex:1}
+.card-name{font-family:var(--display); font-weight:750; font-size:17.5px; letter-spacing:-.022em}
+.card-kind{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4)}
+.card p{margin:0; font-size:14px; line-height:1.5; color:var(--ink-3); flex:1}
+.card-price{
+  font-family:var(--display); font-weight:750; font-size:21px; letter-spacing:-.03em;
+  color:var(--navy); font-variant-numeric:tabular-nums;
+}
+.card-price span{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--ink-4); font-weight:400}
+.card-actions{display:flex; gap:8px; align-items:center; margin-top:2px}
+
+/* Steppers */
+.stepper{
+  display:inline-flex; align-items:center; gap:2px; padding:3px;
+  border-radius:var(--r-pill); background:var(--mist);
+  box-shadow:inset 0 0 0 1px var(--line-soft);
+}
+.step-btn{
+  width:32px; height:32px; border:0; border-radius:50%; background:transparent;
+  display:grid; place-items:center; cursor:pointer; color:var(--ink-2);
+  transition:background-color .3s var(--ease), transform .3s var(--ease), color .3s var(--ease);
+}
+.step-btn svg{width:13px; height:13px}
+.step-btn:hover{background:#fff; color:var(--navy); box-shadow:var(--lift-1)}
+.step-btn:active{transform:scale(.9)}
+.step-btn[disabled]{opacity:.3; cursor:not-allowed}
+.step-n{
+  min-width:30px; text-align:center;
+  font-family:var(--mono); font-weight:500; font-size:15px; font-variant-numeric:tabular-nums;
+}
+.step-n.is-bumped{animation:nPop .45s var(--ease-spring)}
+@keyframes nPop{0%{transform:scale(1)}40%{transform:scale(1.28); color:var(--flame)}100%{transform:scale(1)}}
+.link-btn{
+  flex:1; height:38px; border:0; border-radius:var(--r-pill);
+  background:rgba(18,58,107,.07); color:var(--navy); cursor:pointer;
+  font-family:var(--display); font-size:12.5px; font-weight:650; letter-spacing:-.005em;
+  transition:background-color .35s var(--ease), color .35s var(--ease);
+}
+.link-btn:hover{background:var(--navy); color:#fff}
+
+/* ============================================================
+   Bundle builder
+   ============================================================ */
+.builder{
+  border-radius:var(--r-xl); overflow:hidden;
+  background:linear-gradient(180deg,var(--navy-deep),#0e2c52);
+  color:#fff; box-shadow:var(--lift-3);
+  position:relative;
+}
+.builder::before{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(100% 60% at 15% 0%,rgba(238,60,19,.20),transparent 55%),
+             radial-gradient(80% 60% at 100% 100%,rgba(64,140,225,.20),transparent 60%);
+}
+.builder-head{position:relative; padding:clamp(30px,3.6vw,46px) clamp(26px,3.4vw,46px) 0}
+.builder-head h2{margin:14px 0 12px; color:#fff}
+.builder-head p{margin:0; color:#c2d1e3; font-size:16.5px; max-width:60ch}
+.builder-grid{
+  position:relative;
+  display:grid; grid-template-columns:1.16fr .84fr; gap:clamp(20px,2.6vw,34px);
+  padding:clamp(26px,3.2vw,40px);
+}
+.sku-list{display:flex; flex-direction:column; gap:10px}
+.sku{
+  display:flex; align-items:center; gap:16px;
+  padding:14px 16px; border-radius:var(--r-md);
+  background:rgba(255,255,255,.05);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.10);
+  transition:background-color .45s var(--ease), box-shadow .45s var(--ease);
+}
+.sku:hover{background:rgba(255,255,255,.085); box-shadow:inset 0 0 0 1px rgba(255,255,255,.20)}
+.sku.is-active{box-shadow:inset 0 0 0 1.5px rgba(238,60,19,.60); background:rgba(238,60,19,.10)}
+.sku-thumb{
+  width:52px; height:62px; flex:none; border-radius:var(--r-xs);
+  background:rgba(255,255,255,.08); display:grid; place-items:center; overflow:hidden;
+}
+.sku-thumb img{height:56px; width:auto; filter:drop-shadow(0 5px 8px rgba(0,0,0,.3))}
+.sku-meta{flex:1; min-width:0}
+.sku-name{font-family:var(--display); font-weight:680; font-size:16px; letter-spacing:-.018em}
+.sku-sub{font-size:12.5px; color:#a8bcd4; margin-top:2px}
+.sku .stepper{background:rgba(255,255,255,.09); box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.sku .step-btn{color:#e6eef7}
+.sku .step-btn:hover{background:rgba(255,255,255,.20); color:#fff; box-shadow:none}
+.sku .step-n{color:#fff}
+
+/* Order summary */
+.summary{
+  border-radius:var(--r-lg); padding:24px 22px 22px;
+  background:#fff; color:var(--ink);
+  box-shadow:var(--lift-2);
+  align-self:start; position:sticky; top:112px;
+}
+.summary-title{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--ink-4);
+}
+.count-row{display:flex; align-items:baseline; gap:10px; margin-top:10px; flex-wrap:wrap}
+.count-n{
+  font-family:var(--display); font-weight:800; font-size:52px; line-height:1;
+  letter-spacing:-.045em; font-variant-numeric:tabular-nums;
+}
+.count-l{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4)}
+.free-badge{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:7px 14px; border-radius:var(--r-pill);
+  background:rgba(238,60,19,.10); color:var(--flame);
+  box-shadow:inset 0 0 0 1px rgba(238,60,19,.28);
+  font-family:var(--display); font-weight:700; font-size:13.5px; letter-spacing:-.01em;
+  margin-left:auto;
+  transition:transform .5s var(--ease-spring), background-color .4s var(--ease);
+}
+.free-badge.is-hot{background:var(--flame); color:#fff; box-shadow:var(--lift-flame)}
+.free-badge.is-popped{animation:badgePop .6s var(--ease-spring)}
+@keyframes badgePop{0%{transform:scale(1)}35%{transform:scale(1.18) rotate(-2deg)}100%{transform:scale(1)}}
+.progress{
+  height:9px; border-radius:var(--r-pill); background:var(--mist);
+  overflow:hidden; margin:18px 0 12px;
+  box-shadow:inset 0 0 0 1px var(--line-soft);
+}
+.progress-fill{
+  height:100%; border-radius:inherit; transform-origin:left; transform:scaleX(0);
+  background:linear-gradient(90deg,var(--flame),var(--flame-lift));
+  transition:transform .8s var(--ease);
+}
+.progress-note{font-size:13.5px; color:var(--ink-2); min-height:20px; font-weight:520}
+.sum-rule{height:1px; background:var(--line-soft); margin:18px 0}
+.sum-line{display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:14.5px; margin-bottom:9px}
+.sum-line .k{color:var(--ink-3)}
+.sum-line .v{font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:500}
+.sum-line.is-total{font-size:17px; margin-top:14px}
+.sum-line.is-total .k{color:var(--ink); font-weight:650; font-family:var(--display)}
+.sum-line.is-total .v{font-family:var(--display); font-weight:800; font-size:26px; letter-spacing:-.035em; color:var(--navy)}
+.saving-note{
+  margin-top:12px; padding:11px 14px; border-radius:var(--r-sm);
+  background:rgba(26,157,106,.09); color:#0f6b47;
+  box-shadow:inset 0 0 0 1px rgba(26,157,106,.20);
+  font-size:13.5px; font-weight:560; line-height:1.45;
+}
+/* Order bump */
+.bump{
+  width:100%; text-align:left; margin-top:16px;
+  display:flex; gap:13px; align-items:flex-start;
+  padding:15px; border:0; border-radius:var(--r-md);
+  background:#fffaf3; cursor:pointer;
+  box-shadow:inset 0 0 0 1.5px rgba(238,60,19,.28);
+  transition:box-shadow .4s var(--ease), background-color .4s var(--ease);
+}
+.bump:hover{background:#fff6ea; box-shadow:inset 0 0 0 1.5px rgba(238,60,19,.5)}
+.bump.is-on{background:rgba(238,60,19,.07); box-shadow:inset 0 0 0 2px var(--flame)}
+.bump-check{
+  flex:none; width:22px; height:22px; border-radius:6px; margin-top:1px;
+  display:grid; place-items:center; background:#fff;
+  box-shadow:inset 0 0 0 1.5px rgba(238,60,19,.45);
+  color:#fff;
+  transition:background-color .35s var(--ease);
+}
+.bump.is-on .bump-check{background:var(--flame); box-shadow:inset 0 0 0 1.5px var(--flame)}
+.bump-check svg{width:12px; height:12px; opacity:0; transform:scale(.5); transition:opacity .3s var(--ease), transform .35s var(--ease-spring)}
+.bump.is-on .bump-check svg{opacity:1; transform:scale(1)}
+.bump-copy .k{
+  display:block; font-family:var(--mono); font-size:10px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--flame); margin-bottom:4px;
+}
+.bump-copy .t{display:block; font-size:13.5px; line-height:1.45; color:var(--ink-2)}
+.sum-fine{margin-top:14px; font-size:12px; line-height:1.5; color:var(--ink-4); text-align:center}
+
+/* Value stack */
+.stack{
+  margin-top:22px; padding:20px 22px; border-radius:var(--r-lg);
+  background:rgba(255,255,255,.06);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+}
+.stack h3{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:#9fb4cf; font-weight:500; margin-bottom:14px;
+}
+.stack-line{
+  display:flex; justify-content:space-between; align-items:center; gap:14px;
+  padding:9px 0; border-bottom:1px solid rgba(255,255,255,.09);
+  font-size:14.5px; color:#dce6f2;
+}
+.stack-line:last-of-type{border-bottom:0}
+.stack-line .v{font-family:var(--mono); font-variant-numeric:tabular-nums; color:#fff}
+.stack-line.is-free .v{color:#7ee3b4; font-weight:600}
+.stack-total{
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px;
+  margin-top:14px; padding-top:14px; border-top:1.5px solid rgba(238,60,19,.45);
+}
+.stack-total .k{font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:-.015em}
+.stack-total .v{font-family:var(--display); font-weight:800; font-size:28px; letter-spacing:-.04em; color:#ff8a63; font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   Testimonials
+   ============================================================ */
+.quote-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(14px,1.8vw,24px)}
+.quote{
+  padding:28px 26px; border-radius:var(--r-lg);
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
+  display:flex; flex-direction:column; gap:18px;
+  transition:transform .55s var(--ease), box-shadow .55s var(--ease);
+}
+.quote:hover{transform:translateY(-4px); box-shadow:inset 0 0 0 1px var(--line), var(--lift-2)}
+.quote .mark{font-family:var(--serif); font-size:56px; line-height:.5; height:22px; color:var(--flame); opacity:.32}
+.quote p{margin:0; font-size:17px; line-height:1.55; color:var(--ink-2); flex:1}
+.quote footer{
+  display:flex; align-items:center; gap:11px; padding-top:16px;
+  border-top:1px solid var(--line-soft);
+  font-size:13px; color:var(--ink-3);
+}
+.quote .av{
+  width:34px; height:34px; border-radius:50%; flex:none;
+  background:linear-gradient(140deg,var(--navy),var(--navy-soft));
+  display:grid; place-items:center; color:#fff;
+  font-family:var(--mono); font-size:11px; letter-spacing:.04em;
+}
+
+/* ============================================================
+   Product detail
+   ============================================================ */
+.pdp{
+  border-radius:var(--r-xl); overflow:hidden; background:#fff;
+  box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-2);
+}
+.crumb{
+  padding:16px clamp(20px,2.6vw,34px); border-bottom:1px solid var(--line-soft);
+  font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-4);
+  background:var(--mist);
+}
+.crumb b{color:var(--navy); font-weight:500}
+.pdp-grid{display:grid; grid-template-columns:.92fr 1.08fr; gap:clamp(24px,3vw,44px); padding:clamp(24px,3vw,40px)}
+.pdp-art{
+  align-self:start; position:sticky; top:110px; border-radius:var(--r-lg); overflow:hidden;
+  background:linear-gradient(170deg,var(--cream),#fdfcfa);
+  padding:30px 24px; display:flex; flex-direction:column; align-items:center; gap:22px;
+  box-shadow:inset 0 0 0 1px var(--line-soft);
+}
+.pdp-flag{
+  position:absolute; top:16px; left:16px; z-index:2;
+  padding:7px 14px; border-radius:var(--r-pill);
+  background:var(--flame); color:#fff;
+  font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase;
+  box-shadow:var(--lift-flame);
+}
+.pdp-hero-img{
+  height:clamp(230px,26vw,330px); width:auto;
+  filter:drop-shadow(0 26px 34px rgba(14,20,32,.20));
+  transition:transform .8s var(--ease), opacity .5s var(--ease);
+}
+.pdp-hero-img.is-swapping{opacity:0; transform:translateY(14px) scale(.97)}
+.pdp-thumbs{display:flex; gap:10px; justify-content:center; width:100%}
+.pdp-thumbs .th{
+  width:66px; height:66px; border-radius:var(--r-sm);
+  background:#fff; box-shadow:inset 0 0 0 1px var(--line);
+  display:grid; place-items:center; overflow:hidden;
+}
+.pdp-thumbs .th img{height:56px; width:auto}
+.pdp-thumbs .th.is-slot{
+  font-family:var(--mono); font-size:8.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-4); text-align:center; padding:6px; line-height:1.3;
+  box-shadow:inset 0 0 0 1.5px var(--line); background:var(--mist);
+}
+.pdp-copy h2{margin:0 0 6px}
+.pdp-kind{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4)}
+.pdp-alt{margin-top:14px; font-size:14px; color:var(--ink-3)}
+.pdp-alt button{
+  border:0; background:none; padding:0; cursor:pointer; color:var(--flame);
+  font-weight:600; text-decoration:underline; text-underline-offset:3px;
+  text-decoration-thickness:1.5px; transition:color .3s var(--ease);
+}
+.pdp-alt button:hover{color:var(--navy)}
+.pdp-copy > p{margin:18px 0 0; font-size:16px; line-height:1.6; color:var(--ink-2)}
+.spec-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:24px}
+.spec{
+  padding:14px 14px; border-radius:var(--r-sm); background:var(--mist);
+  box-shadow:inset 0 0 0 1px var(--line-soft);
+}
+.spec .k{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4)}
+.spec .v{font-family:var(--display); font-size:14px; font-weight:640; letter-spacing:-.015em; margin-top:5px; line-height:1.3}
+.swatches{margin-top:26px}
+.swatch-label{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-4); margin-bottom:12px}
+.swatch-row{display:flex; gap:9px; flex-wrap:wrap}
+.swatch{
+  border:0; cursor:pointer; padding:10px 8px 8px; border-radius:var(--r-sm);
+  background:#fff; box-shadow:inset 0 0 0 1px var(--line);
+  display:flex; flex-direction:column; align-items:center; gap:6px; width:78px;
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease);
+}
+.swatch img{height:44px; width:auto}
+.swatch .n{font-family:var(--display); font-size:11px; font-weight:640; letter-spacing:-.01em; color:var(--ink-2)}
+.swatch:hover{transform:translateY(-3px); box-shadow:inset 0 0 0 1px var(--line-strong), var(--lift-1)}
+.swatch.is-on{box-shadow:inset 0 0 0 2px var(--flame), var(--lift-1)}
+.swatch.is-on .n{color:var(--flame)}
+.buy-row{
+  margin-top:24px; padding:20px; border-radius:var(--r-lg);
+  background:var(--cream); box-shadow:inset 0 0 0 1px rgba(14,20,32,.05);
+  display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;
+}
+.buy-price{font-family:var(--display); font-weight:800; font-size:30px; letter-spacing:-.04em; color:var(--navy); font-variant-numeric:tabular-nums}
+.buy-price span{font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink-4); font-weight:400}
+.buy-qty{display:flex; align-items:center; gap:12px}
+.buy-qty .lbl{font-family:var(--mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-4)}
+
+/* Accordions */
+.acc{margin-top:8px; border-top:1px solid var(--line-soft)}
+.acc-item{border-bottom:1px solid var(--line-soft)}
+.acc-btn{
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:18px;
+  padding:19px 4px; border:0; background:none; cursor:pointer; text-align:left;
+  font-family:var(--display); font-size:16px; font-weight:640; letter-spacing:-.016em;
+  color:var(--ink);
+  transition:color .35s var(--ease);
+}
+.acc-btn:hover{color:var(--flame)}
+.acc-sign{
+  flex:none; width:28px; height:28px; border-radius:50%;
+  display:grid; place-items:center; background:var(--mist); color:var(--ink-2);
+  transition:transform .5s var(--ease), background-color .4s var(--ease), color .4s var(--ease);
+}
+.acc-sign svg{width:12px; height:12px}
+.acc-item.is-open .acc-sign{transform:rotate(45deg); background:var(--flame); color:#fff}
+.acc-panel{display:grid; grid-template-rows:0fr; transition:grid-template-rows .55s var(--ease)}
+.acc-item.is-open .acc-panel{grid-template-rows:1fr}
+.acc-panel > div{overflow:hidden}
+.acc-panel p{
+  margin:0; padding:0 4px 22px; max-width:76ch;
+  font-size:15.5px; line-height:1.65; color:var(--ink-3);
+  opacity:0; transform:translateY(-6px);
+  transition:opacity .45s var(--ease) .1s, transform .45s var(--ease) .1s;
+}
+.acc-item.is-open .acc-panel p{opacity:1; transform:translateY(0)}
+
+/* ============================================================
+   Order routes / risk reversal
+   ============================================================ */
+.routes{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(14px,1.8vw,22px)}
+.route{
+  padding:26px 24px; border-radius:var(--r-lg);
+  background:#fff; box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
+  display:flex; flex-direction:column; gap:12px;
+  transition:transform .55s var(--ease), box-shadow .55s var(--ease);
+}
+.route:hover{transform:translateY(-4px); box-shadow:inset 0 0 0 1px var(--line), var(--lift-2)}
+.route-n{
+  width:34px; height:34px; border-radius:50%; display:grid; place-items:center;
+  background:var(--navy); color:#fff;
+  font-family:var(--mono); font-size:12.5px; font-weight:500;
+}
+.route h3{font-size:17px; font-weight:700; letter-spacing:-.02em}
+.route .v{font-family:var(--display); font-size:19px; font-weight:700; letter-spacing:-.025em; color:var(--flame); word-break:break-word}
+.route .v:hover{color:var(--navy)}
+.route .m{font-size:13.5px; color:var(--ink-3); margin:0}
+.route .btn{align-self:flex-start}
+
+.assure{
+  border-radius:var(--r-xl); padding:clamp(28px,3.4vw,44px);
+  background:linear-gradient(150deg,var(--mist),#fff);
+  box-shadow:inset 0 0 0 1px var(--line-soft);
+  display:grid; grid-template-columns:auto 1fr; gap:clamp(20px,2.6vw,34px); align-items:center;
+}
+.assure-seal{
+  width:96px; height:96px; border-radius:50%; flex:none;
+  display:grid; place-items:center;
+  background:linear-gradient(150deg,var(--navy),var(--navy-soft));
+  color:#fff; box-shadow:var(--lift-2);
+}
+.assure-seal svg{width:42px; height:42px}
+.assure h3{font-size:clamp(21px,2.2vw,27px); font-weight:750; letter-spacing:-.028em; margin-bottom:10px}
+.assure p{margin:0; color:var(--ink-2); font-size:16px; line-height:1.6; max-width:70ch}
+
+/* ============================================================
+   Final CTA + P.S.
+   ============================================================ */
+.closer{
+  position:relative; overflow:hidden; border-radius:var(--r-xl);
+  background:linear-gradient(140deg,var(--flame-deep),var(--flame) 45%,var(--flame-lift));
+  color:#fff; padding:clamp(34px,4.4vw,62px);
+  box-shadow:var(--lift-3);
+}
+.closer::before{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(80% 100% at 100% 0%,rgba(255,255,255,.22),transparent 55%);
+}
+.closer-row{
+  position:relative; display:flex; flex-wrap:wrap; gap:28px;
+  align-items:center; justify-content:space-between;
+}
+.closer h2{font-size:clamp(28px,3.6vw,46px); font-weight:800; letter-spacing:-.035em; line-height:1.05}
+.closer .cd-strip{
+  display:flex; gap:8px; margin-top:20px; flex-wrap:wrap;
+}
+.closer .cd-box{
+  min-width:66px; padding:10px 12px; border-radius:var(--r-sm); text-align:center;
+  background:rgba(0,0,0,.18); box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
+}
+.closer .cd-box .n{font-family:var(--display); font-weight:800; font-size:26px; letter-spacing:-.04em; font-variant-numeric:tabular-nums; line-height:1.1}
+.closer .cd-box .l{font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; opacity:.72; margin-top:2px}
+.ps{
+  margin-top:26px; padding:22px 26px; border-radius:var(--r-lg);
+  background:var(--cream); box-shadow:inset 0 0 0 1px rgba(14,20,32,.05);
+  font-size:16px; line-height:1.6; color:var(--ink-2);
+}
+.ps b{font-family:var(--display); font-weight:750; color:var(--ink); letter-spacing:-.015em}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.site-foot{background:var(--navy-deep); color:#c3d2e4; margin-top:clamp(60px,7vw,100px)}
+.foot-grid{
+  display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:clamp(24px,3vw,44px);
+  padding-block:clamp(44px,5vw,68px) 34px;
+}
+.foot-grid img{height:46px; width:auto; margin-bottom:18px; filter:brightness(0) invert(1); opacity:.92}
+.foot-grid h4{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; text-transform:uppercase;
+  color:#7e94ae; font-weight:500; margin-bottom:14px;
+}
+.foot-grid p, .foot-grid li{font-size:14.5px; line-height:1.65; margin:0 0 6px}
+.foot-grid ul{list-style:none; margin:0; padding:0}
+.foot-grid a{color:#dce7f4}
+.foot-grid a:hover{color:var(--flame-lift)}
+.foot-note{
+  border-top:1px solid rgba(255,255,255,.10);
+  padding-block:18px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:#8fa5bd;
+  display:flex; flex-wrap:wrap; gap:8px 22px;
+}
+.foot-legal{
+  border-top:1px solid rgba(255,255,255,.10);
+  padding-block:22px 34px;
+  font-size:12px; line-height:1.65; color:#7b90a9; max-width:100ch;
+}
+
+/* ============================================================
+   Sticky order bar — the conversion safety net
+   ============================================================ */
+.order-bar{
+  position:fixed; left:0; right:0; bottom:0; z-index:70;
+  padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+  background:rgba(11,36,68,.94);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-top:1px solid rgba(255,255,255,.12);
+  color:#fff;
+  transform:translateY(112%);
+  transition:transform .6s var(--ease);
+  will-change:transform;
+}
+.order-bar.is-up{transform:translateY(0)}
+.order-bar-inner{
+  max-width:var(--shell); margin:0 auto;
+  display:flex; align-items:center; gap:20px; justify-content:space-between;
+}
+.ob-facts{display:flex; align-items:center; gap:22px; min-width:0}
+.ob-item{display:flex; flex-direction:column; gap:1px; white-space:nowrap}
+.ob-item .k{font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase; color:#93aac5}
+.ob-item .v{font-family:var(--display); font-weight:750; font-size:18px; letter-spacing:-.028em; font-variant-numeric:tabular-nums}
+.ob-item .v.is-free{color:#ff9a78}
+.ob-rule{width:1px; height:30px; background:rgba(255,255,255,.16); flex:none}
+
+/* ============================================================
+   Scroll reveal
+   ============================================================ */
+[data-reveal]{
+  opacity:0; transform:translateY(20px);
+  transition:opacity .7s var(--ease) var(--d,0ms), transform .7s var(--ease) var(--d,0ms), filter .7s var(--ease) var(--d,0ms);
+  filter:blur(4px);
+}
+[data-reveal].is-in{opacity:1; transform:none; filter:blur(0)}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width:1080px){
+  .hero-grid{grid-template-columns:1fr; gap:38px}
+  .price-shell{position:static; max-width:460px}
+  .stat-grid,.trust-grid{grid-template-columns:repeat(2,1fr)}
+  .card-grid{grid-template-columns:repeat(3,1fr)}
+  .builder-grid,.pdp-grid,.panel,.range-grid{grid-template-columns:1fr}
+  .pdp-art{position:static}
+  .summary{position:static}
+  .quote-grid,.routes,.qual-grid{grid-template-columns:1fr}
+  .panel-art{min-height:230px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .head-nav{display:none}
+}
+@media (max-width:720px){
+  body{font-size:16px}
+  html{scroll-padding-top:80px}
+  .head-strip{display:none}
+  .brand img{height:38px}
+  .card-grid,.stat-grid,.trust-grid,.spec-grid{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr}
+  .assure{grid-template-columns:1fr; text-align:center; justify-items:center}
+  .assure-seal{margin:0 auto}
+  .bottle-row{gap:0}
+  .bottle-row img,.bottle-row img:nth-child(even){height:100px}
+  .value-anchor .va-rule{display:none}
+  .value-anchor{gap:14px 22px}
+  .cta-stack{flex-direction:column; align-items:stretch}
+  .cta-stack .btn{justify-content:space-between; width:100%}
+  .ticker-inner{gap:4px 14px; font-size:9.5px; letter-spacing:.09em; padding-block:9px}
+  .cd-cell{min-width:22px; padding:1px 4px}
+  .hero-tag{font-size:9.5px; letter-spacing:.13em; padding:6px 13px 6px 7px; margin-bottom:20px}
+  .hero-tag .spark{width:17px; height:17px}
+  .ob-facts .ob-item:nth-child(3),.ob-facts .ob-rule:nth-child(4){display:none}
+  .order-bar .btn-label{display:none}
+  .order-bar .btn{padding-left:7px}
+  .buy-row{flex-direction:column; align-items:stretch}
+  .buy-row .btn{justify-content:space-between}
+  .quote .mark{font-size:40px}
+}
+@media (max-width:420px){
+  .card-grid,.spec-grid{grid-template-columns:1fr}
+  .stat-grid,.trust-grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  [data-reveal]{opacity:1; transform:none; filter:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== SVG icon sprite ========== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="i-arrow"><path d="M4 10h12M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-check"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-plus"><path d="M10 4v12M4 10h12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></g>
+    <g id="i-minus"><path d="M4 10h12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></g>
+    <g id="i-phone"><path d="M6.5 3.5h-2A1.5 1.5 0 003 5c0 6.6 5.4 12 12 12a1.5 1.5 0 001.5-1.5v-2l-3.5-1.2-1.6 1.9a11.5 11.5 0 01-5-5l1.9-1.6L6.5 3.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></g>
+    <g id="i-mail"><rect x="2.5" y="4.5" width="15" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 6l7 5 7-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-cart"><path d="M2.5 3.5h2l2.2 9.2h8.1l1.7-6.4H5.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="16" r="1.3" fill="currentColor"/><circle cx="14.5" cy="16" r="1.3" fill="currentColor"/></g>
+    <g id="i-shield"><path d="M10 2.5l6 2.3v4.6c0 4-2.6 6.9-6 8.1-3.4-1.2-6-4.1-6-8.1V4.8l6-2.3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7.2 10l2 2 3.6-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-truck"><path d="M1.5 5.5h9v8h-9zM10.5 8.5h3.4l2.6 2.6v2.4h-6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="5" cy="15" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="14" cy="15" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/></g>
+    <g id="i-doc"><path d="M5 2.5h6.5L15.5 6v11.5h-11z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M11.2 2.6V6.2h3.9M7 10h6M7 13h4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></g>
+    <g id="i-flask"><path d="M8 2.5h4M8.8 2.5v5.2L4.6 15a1.4 1.4 0 001.2 2.1h8.4A1.4 1.4 0 0015.4 15l-4.2-7.3V2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.6 12h6.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></g>
+    <g id="i-clock"><circle cx="10" cy="10" r="7.3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 5.6V10l3 1.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-spark"><path d="M10 2.5l1.9 5.1 5.1 1.9-5.1 1.9-1.9 5.1-1.9-5.1L3 9.5l5.1-1.9z" fill="currentColor"/></g>
+    <g id="i-hospital"><path d="M3.5 17.5V7.2L10 3l6.5 4.2v10.3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 8v5M7.5 10.5h5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></g>
+    <g id="i-image"><rect x="2.5" y="3.5" width="15" height="13" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="7" cy="8" r="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 14l4.4-4 3.2 2.8 2.6-2.3 4.3 3.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+  </defs>
+</svg>
+
+<!-- ========== Announcement bar with live countdown ========== -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span style="display:inline-flex;align-items:center;gap:9px"><i class="pulse-dot"></i> Limited time offer</span>
+    <span>Australia's lowest price on the ORA® range</span>
+    <span class="countdown" aria-live="off">
+      <b>Offer ends 31 Aug 2026</b>
+      <span class="cd-cell" data-cd="d">--</span><span class="cd-sep">:</span>
+      <span class="cd-cell" data-cd="h">--</span><span class="cd-sep">:</span>
+      <span class="cd-cell" data-cd="m">--</span><span class="cd-sep">:</span>
+      <span class="cd-cell" data-cd="s">--</span>
+    </span>
+  </div>
+</div>
+
+<!-- ========== Header ========== -->
+<header class="site-head" id="siteHead">
+  <div class="head-row">
+    <a class="brand" href="#top" aria-label="MFS Medical Flavouring Systems — home">
+      <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+    </a>
+    <div class="head-actions">
+      <nav class="head-nav" aria-label="Primary">
+        <a href="#range">The Range</a>
+        <a href="#why">Why ORA®</a>
+        <a href="#builder">Bundle 6+1</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="cart-chip" href="#builder" id="cartChip">
+        <svg viewBox="0 0 20 20"><use href="#i-cart"/></svg>
+        <span>Cart</span>
+        <span class="n" id="cartCount">0</span>
+      </a>
+    </div>
+  </div>
+  <div class="head-strip">
+    <div class="shell">
+      <span>Australian supplier of Padagis ORA® compounding vehicles</span>
+      <i class="dot"></i><span>Retail pharmacy</span>
+      <i class="dot"></i><span>Hospital pharmacy departments</span>
+      <i class="dot"></i><span>Compounding laboratories</span>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ========== Hero ========== -->
+<section class="hero">
+  <div class="shell hero-grid">
+    <div>
+      <div class="hero-tag" data-reveal>
+        <span class="spark"><svg viewBox="0 0 20 20"><use href="#i-spark"/></svg></span>
+        Padagis ORA® range · Compounding deal
+      </div>
+      <h1 class="h-display" data-reveal style="--d:60ms">
+        Buy 6 bottles,<br><span class="nowrap">get the 7th <span class="free">free<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M6 13 C 70 4, 150 4, 294 11"/></svg></span>.</span>
+      </h1>
+      <p class="lede" data-reveal style="--d:140ms">The complete ORA® suspension vehicle and sweetening agent range — now at the <strong>cheapest price in Australia</strong>. Mix and match <strong>any combination</strong> of ORA® products to make up your six. Backed by <strong>over 150 published stability studies</strong>, so you can compound with confidence and defend your beyond-use dates.</p>
+
+      <div class="value-anchor" data-reveal style="--d:200ms">
+        <div class="va-item">
+          <span class="va-n" data-count="22.03" data-prefix="$" data-dp="2">$22.03</span>
+          <span class="va-l">Effective per bottle</span>
+        </div>
+        <i class="va-rule"></i>
+        <div class="va-item">
+          <span class="va-n" data-count="33" data-suffix="% off" data-dp="0">33% off</span>
+          <span class="va-l">Against list price</span>
+        </div>
+        <i class="va-rule"></i>
+        <div class="va-item">
+          <span class="va-n" data-count="76.73" data-prefix="$" data-dp="2">$76.73</span>
+          <span class="va-l">Saved on your first 6 + 1</span>
+        </div>
+      </div>
+
+      <div class="cta-stack hero-cta" data-reveal style="--d:260ms">
+        <a class="btn btn--flame" href="#builder">
+          <span class="btn-label">Bundle your 6 + 1 free!</span>
+          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+        </a>
+        <a class="btn btn--ghost" href="tel:+61393870427">
+          <span class="btn-label">Order desk (03) 9387 0427</span>
+          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-phone"/></svg></span>
+        </a>
+      </div>
+      <div class="cta-proof" data-reveal style="--d:320ms">
+        <span><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Ships in 24–48 hrs from Brunswick East, VIC</span>
+        <span><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Trade accounts opened on the same call</span>
+        <span><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Mix any ORA® products to reach six</span>
+      </div>
+    </div>
+
+    <aside class="price-shell" data-reveal style="--d:180ms">
+      <div class="price-core">
+        <div class="price-crown">7th bottle free!</div>
+        <div class="price-body">
+          <div class="price-was">Usually <s>$32.99</s> per bottle</div>
+          <div class="price-now">$25.70</div>
+          <div class="price-unit">+ GST · 473 mL bottle</div>
+          <div class="price-note">Per bottle — with bonus stock</div>
+          <div class="price-rule"></div>
+          <div class="price-save">
+            <span class="big">You save $7.29 a bottle</span>
+            <span class="pct">— 22% off —</span>
+          </div>
+        </div>
+        <div class="price-foot data">≈ 5.4¢ per mL · 473 mL · Padagis manufactured</div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ========== Range strip ========== -->
+<section class="range-strip">
+  <div class="shell range-grid">
+    <div class="bottle-row" data-reveal>
+      <img src="assets/ora-plus-1.png" alt="ORA-Plus" loading="lazy">
+      <img src="assets/ora-sweet-1.png" alt="ORA-Sweet" loading="lazy">
+      <img src="assets/ora-sweet-sf-1.png" alt="ORA-Sweet SF" loading="lazy">
+      <img src="assets/ora-blend-1.png" alt="ORA-Blend" loading="lazy">
+      <img src="assets/ora-blend-sf-1.png" alt="ORA-Blend SF" loading="lazy">
+    </div>
+    <div data-reveal style="--d:120ms">
+      <span class="eyebrow eyebrow--navy">The complete offer</span>
+      <h2 class="h-sub" style="margin:14px 0 12px;color:var(--navy)">Suspension vehicles &amp; sweetening agents</h2>
+      <p class="lede" style="font-size:17px">Every product in the offer. Buffered, preserved, ready to use — and available in sugar-free options for paediatric, diabetic and enteral-feed patients.</p>
+      <div class="pill-row">
+        <span class="pill">ORA-Plus®</span>
+        <span class="pill">ORA-Sweet®</span>
+        <span class="pill">ORA-Sweet® SF</span>
+        <span class="pill">ORA-Blend®</span>
+        <span class="pill">ORA-Blend® SF</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Why ORA ========== -->
+<section id="why" class="shell bay">
+  <div class="sec-head" data-reveal>
+    <span class="eyebrow">The clinical case</span>
+    <h2 class="h-section">Why pharmacists specify ORA®</h2>
+  </div>
+  <div class="stat-grid">
+    <div class="stat" data-reveal>
+      <div class="stat-n" data-count="150" data-suffix="+" data-dp="0">150+</div>
+      <div class="stat-t">Stability studies</div>
+      <p>The most extensively documented oral vehicle range available — peer-reviewed data supporting extemporaneous formulations.</p>
+    </div>
+    <div class="stat" data-reveal style="--d:90ms">
+      <div class="stat-n">1st</div>
+      <div class="stat-t">The original vehicles</div>
+      <p>The longest-standing compounding oral vehicles on the market and the most widely specified in hospital formularies.</p>
+    </div>
+    <div class="stat" data-reveal style="--d:180ms">
+      <div class="stat-n">SF</div>
+      <div class="stat-t">Sugar-free options</div>
+      <p>ORA-Sweet® SF and ORA-Blend® SF are sugar-free and dye-free — suitable for paediatric and diabetic dosing.</p>
+    </div>
+    <div class="stat" data-reveal style="--d:270ms">
+      <div class="stat-n">RT</div>
+      <div class="stat-t">Room-temperature stable</div>
+      <p>Preserved, buffered to a slightly acidic pH, and stable at room temperature or refrigerated. No prep required.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Stability panel ========== -->
+<section class="shell" style="padding-bottom:clamp(30px,4vw,50px)">
+  <div class="panel" data-reveal>
+    <div class="panel-art">
+      <div class="slot">
+        <div class="frame"><svg viewBox="0 0 20 20"><use href="#i-flask"/></svg></div>
+        Image slot — lab / compounding bench photo
+      </div>
+    </div>
+    <div class="panel-copy">
+      <span class="eyebrow eyebrow--light">Stability &amp; beyond-use dating</span>
+      <h2 class="h-sub" style="color:#fff">Compound with data behind you</h2>
+      <p>Over 150 published stability studies cover ORA® vehicles across common extemporaneous formulations. When a beyond-use date is challenged at accreditation or audit, the literature is there to support it.</p>
+      <ul class="tick-list">
+        <li><span class="tick"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg></span> Peer-reviewed data for paediatric and geriatric suspensions</li>
+        <li><span class="tick"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg></span> Buffered to a slightly acidic pH to limit oxidative degradation</li>
+        <li><span class="tick"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg></span> Consistent, reproducible vehicle batch to batch</li>
+      </ul>
+      <div class="cta-stack" style="margin-top:26px">
+        <a class="btn btn--on-dark btn--sm" href="#builder">
+          <span class="btn-label">Build my 6 + 1</span>
+          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Trust strip ========== -->
+<section class="shell" style="padding-bottom:clamp(40px,5vw,64px)">
+  <div class="trust-grid">
+    <div class="trust" data-reveal><svg viewBox="0 0 20 20"><use href="#i-shield"/></svg> Australian Padagis supplier</div>
+    <div class="trust" data-reveal style="--d:80ms"><svg viewBox="0 0 20 20"><use href="#i-doc"/></svg> 150+ published studies</div>
+    <div class="trust" data-reveal style="--d:160ms"><svg viewBox="0 0 20 20"><use href="#i-hospital"/></svg> Hospital formulary standard</div>
+    <div class="trust" data-reveal style="--d:240ms"><svg viewBox="0 0 20 20"><use href="#i-clock"/></svg> Ready to use, no prep</div>
+  </div>
+</section>
+
+<!-- ========== Qualifier ========== -->
+<section class="shell" style="padding-bottom:clamp(40px,5vw,64px)">
+  <div class="qual" data-reveal>
+    <div class="sec-head" style="margin-bottom:0">
+      <span class="eyebrow eyebrow--navy">Who this offer is for</span>
+      <h2 class="h-sub">If you compound oral liquids, this is the cheapest your ORA® stock will be this year</h2>
+    </div>
+    <div class="qual-grid">
+      <div class="qual-card">
+        <span class="icon"><svg viewBox="0 0 20 20"><use href="#i-flask"/></svg></span>
+        <h3>Retail pharmacy</h3>
+        <p>You compound paediatric suspensions to script and want one vehicle that tastes right, suspends properly and doesn't tie up bench time.</p>
+      </div>
+      <div class="qual-card">
+        <span class="icon"><svg viewBox="0 0 20 20"><use href="#i-hospital"/></svg></span>
+        <h3>Hospital pharmacy</h3>
+        <p>Your formulary specifies ORA®, your beyond-use dates have to survive accreditation, and your stock needs to arrive when the ward needs it.</p>
+      </div>
+      <div class="qual-card">
+        <span class="icon"><svg viewBox="0 0 20 20"><use href="#i-doc"/></svg></span>
+        <h3>Compounding laboratory</h3>
+        <p>You batch at volume, you're judged on reproducibility, and a manufacturer-controlled vehicle is worth more to you than a cheaper unknown.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Comparison ========== -->
+<section class="shell" style="padding-bottom:clamp(40px,5vw,64px)">
+  <div class="sec-head is-centered" data-reveal>
+    <span class="eyebrow">Side by side</span>
+    <h2 class="h-section">ORA® vs. the alternatives</h2>
+  </div>
+  <div class="table-wrap" data-reveal>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th class="is-hero">ORA® range</th>
+          <th>Simple syrup</th>
+          <th>In-house vehicle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Published stability data</td>
+          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> 150+ studies</span></td>
+          <td>None</td><td>Varies</td>
+        </tr>
+        <tr>
+          <td>Sugar-free option</td>
+          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Yes — SF vehicles</span></td>
+          <td>No</td><td>Varies</td>
+        </tr>
+        <tr>
+          <td>Room-temperature stable</td>
+          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Yes</span></td>
+          <td>Short shelf life</td><td>Varies</td>
+        </tr>
+        <tr>
+          <td>Compounding time</td>
+          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Low — ready to use</span></td>
+          <td>High</td><td>High</td>
+        </tr>
+        <tr>
+          <td>Batch-to-batch consistency</td>
+          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Manufacturer controlled</span></td>
+          <td>Operator dependent</td><td>Operator dependent</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ========== The range ========== -->
+<section id="range" class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+  <div class="sec-head" data-reveal>
+    <span class="eyebrow">All five, all $25.70</span>
+    <h2 class="h-section">The range</h2>
+  </div>
+  <div class="card-grid" id="cardGrid"><!-- rendered by script --></div>
+</section>
+
+<!-- ========== Bundle builder ========== -->
+<section id="builder" class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+  <div class="builder" data-reveal>
+    <div class="builder-head">
+      <span class="eyebrow eyebrow--light">Mix and match bundle</span>
+      <h2 class="h-section">Bundle your 6 + 1 free!</h2>
+      <p>Any combination of ORA® products counts toward your six. Every sixth bottle adds a seventh free.</p>
+    </div>
+    <div class="builder-grid">
+      <div>
+        <div class="sku-list" id="skuList"><!-- rendered by script --></div>
+
+        <div class="stack">
+          <h3>What you're getting</h3>
+          <div id="stackLines"></div>
+          <div class="stack-total">
+            <span class="k">Total saved vs list price</span>
+            <span class="v" id="stackSaved">$0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="summary">
+        <div class="summary-title">Your order</div>
+        <div class="count-row">
+          <span class="count-n" id="bottleCount">0</span>
+          <span class="count-l">bottles paid</span>
+          <span class="free-badge" id="freeBadge">+ <span id="freeCount">0</span> free</span>
+        </div>
+        <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-note" id="progressNote">Add 6 bottles to unlock your free bottle.</div>
+        <div class="sum-rule"></div>
+        <div class="sum-line"><span class="k">Unit price</span><span class="v">$25.70 + GST</span></div>
+        <div class="sum-line"><span class="k">Bottles shipped</span><span class="v" id="shipCount">0</span></div>
+        <div class="sum-line is-total"><span class="k">Total ex GST</span><span class="v" id="orderTotal">$0.00</span></div>
+        <div class="saving-note" id="savingNote">Usually $32.99 a bottle.</div>
+
+        <button class="bump" id="bumpBtn" type="button" aria-pressed="false">
+          <span class="bump-check"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg></span>
+          <span class="bump-copy">
+            <span class="k">One time offer</span>
+            <span class="t">Add a spare ORA-Plus® 473 mL for <b>$19.90</b> — $13.09 off list, this order only.</span>
+          </span>
+        </button>
+
+        <button class="btn btn--flame btn--block" id="addBundle" type="button" style="margin-top:16px">
+          <span class="btn-label">Add bundle to cart</span>
+          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+        </button>
+        <div class="sum-fine">Trade account required for hospital pricing. Ships from Brunswick East, VIC.</div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Testimonials ========== -->
+<section class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+  <div class="sec-head is-centered" data-reveal>
+    <span class="eyebrow">Social proof</span>
+    <h2 class="h-section">What pharmacists say</h2>
+  </div>
+  <div class="quote-grid">
+    <blockquote class="quote" data-reveal>
+      <span class="mark">&ldquo;</span>
+      <p class="serif-em">"[Placeholder quote — swap in a real testimonial about stability data and audit confidence.]"</p>
+      <footer><span class="av">PIC</span> Pharmacist-in-Charge · [Hospital name]</footer>
+    </blockquote>
+    <blockquote class="quote" data-reveal style="--d:100ms">
+      <span class="mark">&ldquo;</span>
+      <p class="serif-em">"[Placeholder quote — swap in a real testimonial about paediatric sugar-free dosing.]"</p>
+      <footer><span class="av">CL</span> Compounding Lead · [Pharmacy name]</footer>
+    </blockquote>
+    <blockquote class="quote" data-reveal style="--d:200ms">
+      <span class="mark">&ldquo;</span>
+      <p class="serif-em">"[Placeholder quote — swap in a real testimonial about ordering and supply reliability.]"</p>
+      <footer><span class="av">PO</span> Procurement Officer · [Health service]</footer>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ========== Product detail ========== -->
+<section id="product" class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+  <div class="pdp" data-reveal>
+    <div class="crumb">Home / The Range / <b id="crumbName">ORA-Blend®</b></div>
+    <div class="pdp-grid">
+      <div class="pdp-art">
+        <div class="pdp-flag">Buy 6 (any ORA® mix), get a 7th free</div>
+        <img class="pdp-hero-img" id="pdpImg" src="assets/ora-blend-1.png" alt="ORA-Blend bottle">
+        <div class="pdp-thumbs">
+          <div class="th"><img id="pdpThumb" src="assets/ora-blend-1.png" alt=""></div>
+          <div class="th is-slot">Label detail</div>
+          <div class="th is-slot">Carton</div>
+        </div>
+      </div>
+      <div class="pdp-copy">
+        <h2 class="h-sub" id="pdpName">ORA-Blend®</h2>
+        <div class="pdp-kind"><span id="pdpSub">Flavoured suspending vehicle</span> · 473 mL</div>
+        <div class="pdp-alt" id="pdpAltWrap">Also available: <button type="button" id="pdpAltBtn">ORA-Blend® SF</button></div>
+        <p id="pdpDesc"></p>
+        <div class="spec-grid">
+          <div class="spec"><div class="k">Appearance</div><div class="v" id="specA"></div></div>
+          <div class="spec"><div class="k">pH</div><div class="v" id="specB"></div></div>
+          <div class="spec"><div class="k">Sweetener</div><div class="v" id="specC"></div></div>
+          <div class="spec"><div class="k">Flavour</div><div class="v" id="specD"></div></div>
+        </div>
+        <div class="swatches">
+          <div class="swatch-label">Rest of the range — mix in to reach your 6</div>
+          <div class="swatch-row" id="swatchRow"></div>
+        </div>
+        <div class="buy-row">
+          <div class="buy-price">$25.70 <span>+GST</span></div>
+          <div class="buy-qty">
+            <span class="lbl">Pack 473 mL · Qty</span>
+            <div class="stepper">
+              <button class="step-btn" type="button" id="pdpDec" aria-label="Decrease quantity"><svg viewBox="0 0 20 20"><use href="#i-minus"/></svg></button>
+              <span class="step-n" id="pdpQty">0</span>
+              <button class="step-btn" type="button" id="pdpInc" aria-label="Increase quantity"><svg viewBox="0 0 20 20"><use href="#i-plus"/></svg></button>
+            </div>
+          </div>
+          <button class="btn btn--navy btn--sm" type="button" id="addPdp">
+            <span class="btn-label">Add to cart</span>
+            <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-cart"/></svg></span>
+          </button>
+        </div>
+        <p class="micro" style="margin-top:12px">Any combination of ORA® products counts toward your six.</p>
+        <div class="acc" id="pdpAcc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section id="faq" class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+  <div class="sec-head" data-reveal>
+    <span class="eyebrow">Before you order</span>
+    <h2 class="h-section">FAQ</h2>
+  </div>
+  <div class="acc" id="faqAcc" data-reveal></div>
+</section>
+
+<!-- ========== Assurance ========== -->
+<section class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+  <div class="assure" data-reveal>
+    <div class="assure-seal"><svg viewBox="0 0 20 20"><use href="#i-shield"/></svg></div>
+    <div>
+      <h3>Not sure which vehicle your formulation needs? Ask before you buy.</h3>
+      <p>Call the order desk and describe what you're compounding. If ORA® is the right vehicle, we'll tell you which one and send the stability references that cover it. If it isn't, we'll tell you that too — a bottle sitting unopened on your shelf does neither of us any good.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Three ways to order ========== -->
+<section class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+  <div class="sec-head is-centered" data-reveal>
+    <span class="eyebrow">However suits you</span>
+    <h2 class="h-section">3 fast ways to order</h2>
+  </div>
+  <div class="routes">
+    <div class="route" data-reveal>
+      <span class="route-n">1</span>
+      <h3>Order online</h3>
+      <a class="btn btn--flame btn--sm" href="#builder">
+        <span class="btn-label">Bundle your 6 + 1 free!</span>
+        <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+      </a>
+      <p class="m">Build your mix in under a minute — the seventh bottle is added automatically.</p>
+    </div>
+    <div class="route" data-reveal style="--d:100ms">
+      <span class="route-n">2</span>
+      <h3>Email us</h3>
+      <a class="v" href="mailto:info@medicalfs.com.au">info@medicalfs.com.au</a>
+      <p class="m">Send your list and a PO number — we'll confirm pricing and stock the same business day.</p>
+    </div>
+    <div class="route" data-reveal style="--d:200ms">
+      <span class="route-n">3</span>
+      <h3>Call the order desk</h3>
+      <a class="v" href="tel:+61393870427">(03) 9387 0427</a>
+      <p class="m">Talk to a person who knows the range. Trade accounts can be opened on the same call.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Closer ========== -->
+<section class="shell" style="padding-bottom:clamp(20px,3vw,36px)">
+  <div class="closer" data-reveal>
+    <div class="closer-row">
+      <div>
+        <h2>Offer ends 31 Aug 2026 —<br>lock in your allocation</h2>
+        <div class="cd-strip">
+          <div class="cd-box"><div class="n" data-cd="d">--</div><div class="l">Days</div></div>
+          <div class="cd-box"><div class="n" data-cd="h">--</div><div class="l">Hours</div></div>
+          <div class="cd-box"><div class="n" data-cd="m">--</div><div class="l">Mins</div></div>
+          <div class="cd-box"><div class="n" data-cd="s">--</div><div class="l">Secs</div></div>
+        </div>
+      </div>
+      <div class="cta-stack">
+        <a class="btn btn--on-dark" href="#builder">
+          <span class="btn-label">Bundle your 6 + 1 free!</span>
+          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="ps" data-reveal>
+    <b>P.S.</b> — The 1-on-6 bonus is bonus stock, not a discount code: every sixth bottle you buy before 31 August adds a seventh bottle to the carton, free. Buy the six you were going to buy anyway and the seventh costs you nothing. <b>P.P.S.</b> — Any mix qualifies, so a hospital order of ORA-Plus® and a paediatric order of ORA-Sweet® SF can go on the same six.
+  </div>
+</section>
+
+</main>
+
+<!-- ========== Footer ========== -->
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+        <p><strong style="color:#fff">MFS P/L — Medical Flavouring Systems</strong></p>
+        <p>P.O. Box 270, Brunswick East, Victoria 3057, Australia</p>
+      </div>
+      <div>
+        <h4>Order desk</h4>
+        <ul>
+          <li>P <a href="tel:+61393870427">(03) 9387 0427</a></li>
+          <li>F (03) 9387 0627</li>
+          <li><a href="mailto:info@medicalfs.com.au">info@medicalfs.com.au</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick links</h4>
+        <ul>
+          <li><a href="#range">The range</a></li>
+          <li><a href="#builder">Build 6 + 1</a></li>
+          <li><a href="https://www.medicalfs.com.au">www.medicalfs.com.au</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>Trade account required for hospital pricing</span>
+      <span>·</span>
+      <span>Ships in 24–48 hours from Brunswick East, VIC</span>
+    </div>
+    <div class="foot-legal">
+      Prices exclude GST and are per 473 mL bottle. Bonus stock supplied as 1 free bottle with every 6 purchased; any combination of ORA® products qualifies. Offer available while stocks last and closes 31 August 2026. Product information: www.padagis.com. ORA-Plus®, ORA-Sweet® and ORA-Blend® are registered trademarks of Padagis. Images supplied by the manufacturer.
+    </div>
+  </div>
+</footer>
+
+<!-- ========== Sticky order bar ========== -->
+<div class="order-bar" id="orderBar">
+  <div class="order-bar-inner">
+    <div class="ob-facts">
+      <div class="ob-item"><span class="k">Bottles</span><span class="v" id="obBottles">0</span></div>
+      <i class="ob-rule"></i>
+      <div class="ob-item"><span class="k">Free</span><span class="v is-free" id="obFree">0</span></div>
+      <i class="ob-rule"></i>
+      <div class="ob-item"><span class="k">Total ex GST</span><span class="v" id="obTotal">$0.00</span></div>
+    </div>
+    <a class="btn btn--flame btn--sm" href="#builder" id="obCta">
+      <span class="btn-label">Build my 6 + 1</span>
+      <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+    </a>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ============================================================
+   Data — carried over verbatim from the original page
+   ============================================================ */
+var UNIT = 25.70, RRP = 32.99, GOAL = 6, BUMP = 19.90;
+var DEADLINE = new Date('2026-08-31T23:59:59+10:00').getTime();
+
+var SKUS = [
+  { key:'plus', name:'ORA-Plus®', sub:'Suspending vehicle', img:'assets/ora-plus-1.png',
+    short:'Buffered, bland, unsweetened suspending vehicle for oral, non-soluble aqueous dosage forms.',
+    desc:'A buffered, bland suspending vehicle for oral, non-soluble (suspended) aqueous dosage forms. Buffered to an acidic pH to provide a vehicle that is consistent and predictable for extemporaneous compounding.',
+    specs:['Opaque liquid','Slightly acidic','None — unsweetened','Unflavoured'],
+    contains:'Purified water, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate, citric acid and sodium phosphate as buffers, dimethicone antifoam emulsion. Preserved with methylparaben and potassium sorbate.' },
+  { key:'sweet', name:'ORA-Sweet®', sub:'Syrup vehicle', img:'assets/ora-sweet-1.png',
+    short:'Sucrose-sweetened citrus-berry syrup vehicle — the modern version of simple syrup.',
+    desc:'A syrup vehicle used to simplify flavouring and sweetening of extemporaneous compounded oral preparations — the modern version of simple syrup, flavoured with a citrus-berry blend. Formulated to complement ORA-Plus® in a 50/50 ratio.',
+    specs:['Clear syrup','Slightly acidic','Sucrose','Citrus-berry'],
+    contains:'Purified water, sucrose, glycerin, sorbitol and berry citrus flavour. Buffered with citric acid and sodium phosphate. Preserved with methylparaben, potassium sorbate and sodium benzoate.' },
+  { key:'sweetsf', name:'ORA-Sweet® SF', sub:'Sugar-free syrup vehicle', img:'assets/ora-sweet-sf-1.png',
+    short:'Sugar-free, alcohol-free syrup vehicle for sweetening sugar-free oral preparations.',
+    desc:'A sugar-free, alcohol-free syrup vehicle for flavouring and sweetening sugar-free extemporaneous oral preparations. Sodium saccharin imparts sweetness; xanthan gum, glycerin and sorbitol give texture and flow.',
+    specs:['Clear syrup','Slightly acidic','Sodium saccharin','Citrus-berry'],
+    contains:'Purified water, glycerin, sorbitol, sodium saccharin, xanthan gum and berry citrus flavour. Buffered with citric acid and sodium citrate. Preserved with methylparaben, propylparaben and potassium sorbate.' },
+  { key:'blend', name:'ORA-Blend®', sub:'Flavoured suspending vehicle', img:'assets/ora-blend-1.png',
+    short:'Ready-blended suspending and flavouring vehicle — ORA-Plus® and ORA-Sweet® in one bottle.',
+    desc:'A flavoured oral suspending vehicle combining the suspending properties of ORA-Plus® with the flavouring agents of ORA-Sweet®. Medicated powder can be incorporated to form elegant, uniform and physically stable suspensions.',
+    specs:['Cloudy liquid','Approx. 4.0 – 4.5','Sucrose','Sweet citrus-berry'],
+    contains:'Purified water, sucrose, glycerin, sorbitol, berry citrus flavour, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate, citric acid and sodium phosphate as buffers, dimethicone antifoam emulsion. Preserved with methylparaben and potassium sorbate.' },
+  { key:'blendsf', name:'ORA-Blend® SF', sub:'Sugar-free suspending vehicle', img:'assets/ora-blend-sf-1.png',
+    short:'Buffered, sweetened, sugar-free suspending vehicle with antifoam agent and preservatives.',
+    desc:'A buffered, sweetened, sugar-free suspending vehicle containing an antifoam agent and suitable preservatives — consistent and predictable for extemporaneous compounding where sugar must be avoided.',
+    specs:['Cloudy liquid','Slightly acidic','Sugar-free','Sweet citrus-berry'],
+    contains:'Purified water, glycerin, sorbitol, berry citrus flavour, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate, citric acid and sodium phosphate as buffers, dimethicone antifoam emulsion. Preserved with methylparaben and potassium sorbate.' }
+];
+
+var EXTRA = {
+  plus:{ alt:null,
+    applications:'Oral, non-soluble (suspended) aqueous dosage forms for paediatric and geriatric patients. Combine 50/50 with ORA-Sweet® or ORA-Sweet® SF to produce a pleasant tasting, elegant suspension.',
+    compat:'May be used alone or in combination with other agents. Specially formulated to pair with ORA-Sweet® and ORA-Sweet® SF in a 50/50 ratio. Buffered to an acidic pH so the vehicle stays consistent and predictable across extemporaneous formulations.' },
+  sweet:{ alt:'sweetsf',
+    applications:'Flavouring and sweetening of paediatric and geriatric suspensions. Retains its flavouring properties when diluted up to 50% with water or suspending agents.',
+    compat:'Ideal flavouring and sweetening agent for many suspensions, and specially formulated to complement ORA-Plus®. ORA-Sweet® and ORA-Plus® combine in a 50/50 ratio. Small amounts of glycerin and sorbitol prevent the cap lock problems common to most syrups.' },
+  sweetsf:{ alt:'sweet',
+    applications:'Flavouring and sweetening of sugar-free paediatric and geriatric suspensions. Retains its flavouring properties when diluted up to 50% with water or suspending agents.',
+    compat:'May be used alone or with other agents, and is specially formulated to complement ORA-Plus® in a 50/50 ratio. Contains no sugar and no alcohol; xanthan gum, glycerin and sorbitol contribute texture and flow characteristics.' },
+  blend:{ alt:'blendsf',
+    applications:'Paediatric and geriatric oral suspensions where a single ready-blended vehicle is preferred. Medicated powder can be incorporated directly to form elegant, uniform and physically stable suspensions.',
+    compat:'Combines the suspending properties of ORA-Plus® with the flavouring agents of ORA-Sweet®, so no in-pharmacy blending step is required. The suspending agents form a structured, gel-like matrix that suspends particles with little settling; an antifoam agent allows vigorous shaking with minimal foam.' },
+  blendsf:{ alt:'blend',
+    applications:'Sugar-free paediatric, diabetic and enteral-feed oral suspensions where a single ready-blended vehicle is preferred.',
+    compat:'A sugar-free equivalent of ORA-Blend®, buffered and sweetened, containing an antifoam agent and suitable preservatives. Consistent and predictable for extemporaneous compounding where sugar must be avoided.' }
+};
+
+var FAQ = [
+  { q:'Can I mix products to reach my six?', a:'Yes. Any combination of ORA-Plus®, ORA-Sweet®, ORA-Sweet® SF, ORA-Blend® and ORA-Blend® SF counts toward the six. Every sixth bottle purchased adds a seventh bottle free.' },
+  { q:'Do I need a trade account?', a:'Retail pharmacies can order directly. Hospital pharmacy departments and compounding laboratories ordering on contract pricing need a trade account — the order desk can set one up on the same call.' },
+  { q:'How do I support a beyond-use date?', a:'Over 150 published stability studies cover ORA® vehicles across common extemporaneous formulations. Ask the order desk for the study list relevant to your formulation and we will send the references.' },
+  { q:'Which products are sugar-free?', a:'ORA-Sweet® SF and ORA-Blend® SF are sugar-free and dye-free, suitable for paediatric, diabetic and enteral-feed patients.' },
+  { q:'Can I order more than seven bottles?', a:'Yes, and the bonus repeats. Every six bottles you buy adds another free bottle — twelve paid bottles ship as fourteen, eighteen ship as twenty-one, and so on, while stocks last.' },
+  { q:'How quickly does it ship?', a:'Orders ship in 24–48 hours from Brunswick East, Victoria. If you need stock on the ward or the bench by a particular date, tell the order desk when you place the order and they will confirm it.' },
+  { q:'When does the offer close?', a:'The 1-on-6 bonus offer runs while stocks last and closes 31 August 2026. Prices exclude GST and are per 473 mL bottle.' }
+];
+
+/* ============================================================
+   Helpers
+   ============================================================ */
+var $ = function(s,r){ return (r||document).querySelector(s); };
+var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function money(n){ return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function icon(id){ return '<svg viewBox="0 0 20 20"><use href="#'+id+'"/></svg>'; }
+function pop(el, cls){
+  if(!el || reduced) return;
+  el.classList.remove(cls);
+  void el.offsetWidth;
+  el.classList.add(cls);
+}
+
+/* ============================================================
+   State
+   ============================================================ */
+var state = {
+  qty:{ plus:2, sweet:1, sweetsf:0, blend:1, blendsf:0 },
+  pdp:'blend',
+  bumpOn:false,
+  cart:0,
+  lastFree:0
+};
+
+/* ============================================================
+   Render — product cards
+   ============================================================ */
+var cardGrid = $('#cardGrid');
+cardGrid.innerHTML = SKUS.map(function(s,i){
+  return '<article class="card" data-reveal style="--d:'+(i*70)+'ms">'+
+    '<div class="card-art"><img src="'+s.img+'" alt="'+s.name+' bottle" loading="lazy"></div>'+
+    '<div class="card-body">'+
+      '<div class="card-name">'+s.name+'</div>'+
+      '<div class="card-kind">'+s.sub+'</div>'+
+      '<p>'+s.short+'</p>'+
+      '<div class="card-price">$25.70 <span>+GST</span></div>'+
+      '<div class="card-actions">'+
+        '<div class="stepper">'+
+          '<button class="step-btn" type="button" data-dec="'+s.key+'" aria-label="Remove one '+s.name+'">'+icon('i-minus')+'</button>'+
+          '<span class="step-n" data-qty="'+s.key+'">0</span>'+
+          '<button class="step-btn" type="button" data-inc="'+s.key+'" aria-label="Add one '+s.name+'">'+icon('i-plus')+'</button>'+
+        '</div>'+
+        '<button class="link-btn" type="button" data-view="'+s.key+'">Details</button>'+
+      '</div>'+
+    '</div>'+
+  '</article>';
+}).join('');
+
+/* ============================================================
+   Render — builder SKU rows
+   ============================================================ */
+var skuList = $('#skuList');
+skuList.innerHTML = SKUS.map(function(s){
+  return '<div class="sku" data-sku="'+s.key+'">'+
+    '<div class="sku-thumb"><img src="'+s.img+'" alt="" loading="lazy"></div>'+
+    '<div class="sku-meta">'+
+      '<div class="sku-name">'+s.name+'</div>'+
+      '<div class="sku-sub">'+s.sub+' · 473 mL</div>'+
+    '</div>'+
+    '<div class="stepper">'+
+      '<button class="step-btn" type="button" data-dec="'+s.key+'" aria-label="Remove one '+s.name+'">'+icon('i-minus')+'</button>'+
+      '<span class="step-n" data-qty="'+s.key+'">0</span>'+
+      '<button class="step-btn" type="button" data-inc="'+s.key+'" aria-label="Add one '+s.name+'">'+icon('i-plus')+'</button>'+
+    '</div>'+
+  '</div>';
+}).join('');
+
+/* ============================================================
+   Render — PDP swatches
+   ============================================================ */
+$('#swatchRow').innerHTML = SKUS.map(function(s){
+  var label = s.name.replace('ORA-','');
+  return '<button class="swatch" type="button" data-view="'+s.key+'">'+
+    '<img src="'+s.img+'" alt="" loading="lazy"><span class="n">'+label+'</span></button>';
+}).join('');
+
+/* ============================================================
+   Render — accordions
+   ============================================================ */
+function accHTML(items, ns){
+  return items.map(function(it,i){
+    return '<div class="acc-item" data-acc="'+ns+'-'+i+'">'+
+      '<button class="acc-btn" type="button" aria-expanded="false"><span>'+it.q+'</span>'+
+      '<span class="acc-sign">'+icon('i-plus')+'</span></button>'+
+      '<div class="acc-panel"><div><p>'+it.a+'</p></div></div>'+
+    '</div>';
+  }).join('');
+}
+$('#faqAcc').innerHTML = accHTML(FAQ,'faq');
+
+document.addEventListener('click', function(e){
+  var btn = e.target.closest('.acc-btn');
+  if(!btn) return;
+  var item = btn.parentElement;
+  var open = item.classList.contains('is-open');
+  var group = item.parentElement;
+  group.querySelectorAll('.acc-item.is-open').forEach(function(o){
+    o.classList.remove('is-open');
+    o.querySelector('.acc-btn').setAttribute('aria-expanded','false');
+  });
+  if(!open){ item.classList.add('is-open'); btn.setAttribute('aria-expanded','true'); }
+});
+
+/* ============================================================
+   Cart + quantity interactions
+   ============================================================ */
+document.addEventListener('click', function(e){
+  var inc = e.target.closest('[data-inc]');
+  var dec = e.target.closest('[data-dec]');
+  var view = e.target.closest('[data-view]');
+  if(inc){ bumpQty(inc.getAttribute('data-inc'), 1); }
+  else if(dec){ bumpQty(dec.getAttribute('data-dec'), -1); }
+  else if(view){ showPdp(view.getAttribute('data-view'), true); }
+});
+
+function bumpQty(key, delta){
+  var next = Math.max(0, (state.qty[key]||0) + delta);
+  if(next === state.qty[key]) return;
+  state.qty[key] = next;
+  render();
+  document.querySelectorAll('[data-qty="'+key+'"]').forEach(function(el){ pop(el,'is-bumped'); });
+}
+
+$('#bumpBtn').addEventListener('click', function(){
+  state.bumpOn = !state.bumpOn;
+  this.classList.toggle('is-on', state.bumpOn);
+  this.setAttribute('aria-pressed', String(state.bumpOn));
+  render();
+});
+
+$('#addBundle').addEventListener('click', function(){
+  var t = totals();
+  if(t.bottles === 0){
+    document.querySelector('#skuList .sku').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  state.cart += t.bottles + t.free + (state.bumpOn ? 1 : 0);
+  paintCart();
+});
+$('#addPdp').addEventListener('click', function(){
+  state.cart += 1;
+  bumpQty(state.pdp, 1);
+  paintCart();
+});
+$('#pdpInc').addEventListener('click', function(){ bumpQty(state.pdp, 1); });
+$('#pdpDec').addEventListener('click', function(){ bumpQty(state.pdp, -1); });
+
+function paintCart(){
+  $('#cartCount').textContent = state.cart;
+  pop($('#cartChip'),'is-bumped');
+}
+
+/* ============================================================
+   Totals + render
+   ============================================================ */
+function totals(){
+  var bottles = SKUS.reduce(function(t,s){ return t + (state.qty[s.key]||0); }, 0);
+  var free = Math.floor(bottles / GOAL);
+  var toNext = bottles === 0 ? GOAL : (GOAL - (bottles % GOAL)) % GOAL;
+  var total = bottles * UNIT + (state.bumpOn ? BUMP : 0);
+  var saved = bottles * (RRP - UNIT) + free * RRP + (state.bumpOn ? (RRP - BUMP) : 0);
+  return { bottles:bottles, free:free, toNext:toNext, total:total, saved:saved };
+}
+
+function render(){
+  var t = totals();
+
+  SKUS.forEach(function(s){
+    var q = state.qty[s.key] || 0;
+    document.querySelectorAll('[data-qty="'+s.key+'"]').forEach(function(el){ el.textContent = q; });
+    var row = document.querySelector('.sku[data-sku="'+s.key+'"]');
+    if(row) row.classList.toggle('is-active', q > 0);
+    document.querySelectorAll('[data-dec="'+s.key+'"]').forEach(function(b){ b.disabled = q === 0; });
+  });
+
+  $('#bottleCount').textContent = t.bottles;
+  $('#freeCount').textContent = t.free;
+  $('#shipCount').textContent = t.bottles + t.free + (state.bumpOn ? 1 : 0);
+  $('#orderTotal').textContent = money(t.total);
+  $('#pdpQty').textContent = state.qty[state.pdp] || 0;
+
+  var badge = $('#freeBadge');
+  badge.classList.toggle('is-hot', t.free > 0);
+  if(t.free > state.lastFree) pop(badge,'is-popped');
+  state.lastFree = t.free;
+
+  var within = t.bottles % GOAL === 0 && t.bottles > 0 ? GOAL : t.bottles % GOAL;
+  $('#progressFill').style.transform = 'scaleX(' + Math.min(1, within / GOAL) + ')';
+
+  $('#progressNote').textContent = t.bottles === 0
+    ? 'Add ' + GOAL + ' bottles to unlock your free bottle.'
+    : (t.toNext === 0
+        ? t.free + (t.free === 1 ? ' free bottle' : ' free bottles') + ' unlocked. Add ' + GOAL + ' more for another.'
+        : t.toNext + (t.toNext === 1 ? ' more bottle' : ' more bottles') + ' for your next free bottle.');
+
+  $('#savingNote').textContent = t.bottles === 0
+    ? 'Usually ' + money(RRP) + ' a bottle.'
+    : 'You save ' + money(t.saved) + ' against list price, including bonus stock.';
+
+  // Value stack
+  var lines = '';
+  SKUS.forEach(function(s){
+    var q = state.qty[s.key] || 0;
+    if(q > 0) lines += '<div class="stack-line"><span class="k">'+q+' × '+s.name+'</span><span class="v">'+money(q*UNIT)+'</span></div>';
+  });
+  if(state.bumpOn) lines += '<div class="stack-line"><span class="k">1 × ORA-Plus® (one-time offer)</span><span class="v">'+money(BUMP)+'</span></div>';
+  if(t.free > 0) lines += '<div class="stack-line is-free"><span class="k">'+t.free+' × bonus bottle'+(t.free===1?'':'s')+' — yours free</span><span class="v">'+money(t.free*RRP)+' → $0.00</span></div>';
+  if(!lines) lines = '<div class="stack-line"><span class="k">Nothing selected yet</span><span class="v">—</span></div>';
+  $('#stackLines').innerHTML = lines;
+  $('#stackSaved').textContent = money(t.saved);
+
+  // Sticky order bar
+  $('#obBottles').textContent = t.bottles;
+  $('#obFree').textContent = t.free;
+  $('#obTotal').textContent = money(t.total);
+  $('#obCta .btn-label').textContent = t.bottles === 0 ? 'Build my 6 + 1' : (t.toNext === 0 ? 'Add bundle to cart' : t.toNext + ' more to go free');
+}
+
+/* ============================================================
+   Product detail panel
+   ============================================================ */
+function showPdp(key, scroll){
+  var s = SKUS.filter(function(x){ return x.key === key; })[0];
+  if(!s) return;
+  state.pdp = key;
+
+  var img = $('#pdpImg');
+  img.classList.add('is-swapping');
+  window.setTimeout(function(){
+    img.src = s.img; img.alt = s.name + ' bottle';
+    $('#pdpThumb').src = s.img;
+    img.classList.remove('is-swapping');
+  }, reduced ? 0 : 220);
+
+  $('#pdpName').textContent = s.name;
+  $('#crumbName').textContent = s.name;
+  $('#pdpSub').textContent = s.sub;
+  $('#pdpDesc').textContent = s.desc;
+  $('#specA').textContent = s.specs[0];
+  $('#specB').textContent = s.specs[1];
+  $('#specC').textContent = s.specs[2];
+  $('#specD').textContent = s.specs[3];
+
+  var ex = EXTRA[key];
+  var altKey = ex.alt;
+  var altWrap = $('#pdpAltWrap');
+  if(altKey){
+    var alt = SKUS.filter(function(x){ return x.key === altKey; })[0];
+    altWrap.style.display = '';
+    $('#pdpAltBtn').textContent = alt.name;
+    $('#pdpAltBtn').setAttribute('data-view', altKey);
+  } else {
+    altWrap.style.display = 'none';
+  }
+
+  $('#pdpAcc').innerHTML = accHTML([
+    { q:'Applications', a:ex.applications },
+    { q:'Compendial & formulation compatibility', a:ex.compat },
+    { q:'Stability & beyond-use dating', a:'Over 150 published stability studies cover ORA® vehicles across common extemporaneous formulations, including data supporting beyond-use dating for ' + s.name + '. Ask the order desk for the reference list relevant to your formulation and we will send the citations.' },
+    { q:'Contains', a:s.contains },
+    { q:'Storage & handling', a:'Supplied in a 473 mL bottle. Store at room temperature or refrigerated; shake well before use. Preserved and buffered, ready to use with no preparation required. Safety data sheet available on request from the order desk.' }
+  ], 'pdp');
+
+  document.querySelectorAll('.swatch').forEach(function(b){
+    b.classList.toggle('is-on', b.getAttribute('data-view') === key);
+  });
+
+  render();
+
+  if(scroll){
+    var el = $('#product');
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 92, behavior: reduced ? 'auto' : 'smooth' });
+  }
+}
+
+/* ============================================================
+   Countdown — a real deadline, counted honestly
+   ============================================================ */
+function tickClock(){
+  var left = Math.max(0, DEADLINE - Date.now());
+  var s = Math.floor(left/1000);
+  var parts = {
+    d: Math.floor(s/86400),
+    h: Math.floor(s%86400/3600),
+    m: Math.floor(s%3600/60),
+    s: s%60
+  };
+  Object.keys(parts).forEach(function(k){
+    var v = String(parts[k]).padStart(2,'0');
+    document.querySelectorAll('[data-cd="'+k+'"]').forEach(function(el){
+      if(el.textContent !== v) el.textContent = v;
+    });
+  });
+}
+tickClock();
+window.setInterval(tickClock, 1000);
+
+/* ============================================================
+   Scroll reveal
+   ============================================================ */
+if('IntersectionObserver' in window && !reduced){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('is-in'); io.unobserve(en.target); }
+    });
+  }, { rootMargin:'0px 0px -4% 0px', threshold:0.02 });
+  document.querySelectorAll('[data-reveal]').forEach(function(el){ io.observe(el); });
+} else {
+  document.querySelectorAll('[data-reveal]').forEach(function(el){ el.classList.add('is-in'); });
+}
+
+/* ============================================================
+   Count-up numbers
+   ============================================================ */
+function countUp(el){
+  var target = parseFloat(el.getAttribute('data-count'));
+  var dp = parseInt(el.getAttribute('data-dp') || '0', 10);
+  var pre = el.getAttribute('data-prefix') || '';
+  var suf = el.getAttribute('data-suffix') || '';
+  var t0 = null, dur = 1300;
+  function frame(ts){
+    if(t0 === null) t0 = ts;
+    var p = Math.min(1, (ts - t0) / dur);
+    var eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = pre + (target * eased).toFixed(dp) + suf;
+    if(p < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+if('IntersectionObserver' in window && !reduced){
+  var cio = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ countUp(en.target); cio.unobserve(en.target); }
+    });
+  }, { threshold:0.6 });
+  document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
+}
+
+/* ============================================================
+   Header tuck + sticky order bar
+   ============================================================ */
+var head = $('#siteHead'), bar = $('#orderBar');
+var lastY = window.scrollY, ticking = false;
+function onScroll(){
+  var y = window.scrollY;
+  head.classList.toggle('is-stuck', y > 8);
+  if(y > 420 && y > lastY + 6){ head.classList.add('is-tucked'); }
+  else if(y < lastY - 6){ head.classList.remove('is-tucked'); }
+  var foot = document.querySelector('.site-foot');
+  var nearFoot = foot.getBoundingClientRect().top < window.innerHeight - 40;
+  bar.classList.toggle('is-up', y > 700 && !nearFoot);
+  lastY = y;
+  ticking = false;
+}
+window.addEventListener('scroll', function(){
+  if(!ticking){ requestAnimationFrame(onScroll); ticking = true; }
+}, { passive:true });
+
+/* ============================================================
+   Boot
+   ============================================================ */
+showPdp('blend', false);
+render();
+requestAnimationFrame(function(){ document.documentElement.classList.add('is-lit'); });
+onScroll();
+})();
+</script>
+</body>
+</html>
