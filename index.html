@@ -341,10 +341,11 @@ p{text-wrap:pretty}
 .hero-tag{
   display:inline-flex; align-items:center; gap:10px;
   padding:8px 16px 8px 12px; border-radius:10px;
-  background:rgba(18,58,107,.06);
-  box-shadow:inset 0 0 0 1px rgba(18,58,107,.14);
-  font-family:var(--mono); font-size:11px; font-weight:500;
-  letter-spacing:.18em; text-transform:uppercase; color:var(--navy);
+  background:rgba(14,20,32,.035);
+  box-shadow:inset 0 0 0 1px rgba(14,20,32,.14);
+  font-family:'Lucida Handwriting','Brush Script MT','Segoe Script',cursive;
+  font-size:clamp(15px,1.45vw,19px); font-weight:400;
+  letter-spacing:-.025em; color:#000;
   margin-bottom:26px;
 }
 .hero-tag .spark{
@@ -375,6 +376,7 @@ p{text-wrap:pretty}
 .lineup{
   display:flex; align-items:flex-end; justify-content:center; width:100%;
   gap:clamp(16px,2.6vw,34px); padding:44px 0 38px;
+  translate:0 clamp(12px,1.5vw,22px);
 }
 .lineup-six{position:relative}
 .six-row{display:flex; align-items:flex-end}
@@ -426,43 +428,6 @@ p{text-wrap:pretty}
   background:linear-gradient(90deg,transparent,var(--line-strong));
 }
 .lineup-note::after{background:linear-gradient(90deg,var(--line-strong),transparent)}
-
-/* Anchor / value bar under the hero copy */
-.offer-block{
-  margin-top:28px; border-radius:var(--r-lg); overflow:hidden;
-  background:var(--cream);
-  box-shadow:inset 0 0 0 1px rgba(14,20,32,.06), var(--lift-1);
-}
-.offer-row{display:flex; flex-direction:column; gap:12px; padding:18px 22px 20px}
-.offer-price{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap}
-.op-now{
-  font-family:var(--display); font-weight:800; font-size:clamp(36px,3.4vw,46px);
-  line-height:.95; letter-spacing:-.045em; color:var(--navy); font-variant-numeric:tabular-nums;
-}
-.op-meta{font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-4); line-height:1.7}
-.offer-was{display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px}
-.ow-was{font-family:var(--mono); font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-4)}
-.ow-was s{text-decoration-thickness:1.5px; text-decoration-color:var(--flame); color:var(--ink-3)}
-.ow-save{
-  display:inline-flex; align-items:center; gap:8px; align-self:flex-start;
-  padding:7px 13px; border-radius:8px;
-  background:rgba(238,60,19,.09); color:var(--flame-deep);
-  box-shadow:inset 0 0 0 1px rgba(238,60,19,.25);
-  font-family:var(--display); font-weight:700; font-size:13.5px; letter-spacing:-.012em;
-}
-.value-anchor{
-  padding:15px 22px 17px;
-  background:rgba(14,20,32,.035);
-  box-shadow:inset 0 1px 0 rgba(14,20,32,.07);
-  display:grid; grid-template-columns:repeat(3,1fr); gap:14px 18px; align-items:start;
-}
-.value-anchor .va-item{display:flex; flex-direction:column; gap:3px; min-width:0}
-.value-anchor .va-item + .va-item{padding-left:18px; border-left:1px solid var(--line)}
-.value-anchor .va-n{
-  font-family:var(--display); font-weight:800; font-size:21px;
-  letter-spacing:-.03em; color:var(--navy); font-variant-numeric:tabular-nums;
-}
-.value-anchor .va-l{font-family:var(--mono); font-size:9.5px; line-height:1.45; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-4)}
 
 /* Price card — double-bezel construction */
 .price-shell{
@@ -1245,10 +1210,9 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 @media (max-width:1080px){
   .hero-grid{grid-template-columns:1fr; gap:clamp(34px,5vw,48px)}
   .panel{gap:clamp(30px,5vw,44px)}
-  .lineup{gap:clamp(20px,3.6vw,42px)}
+  .lineup{gap:clamp(20px,3.6vw,42px); translate:0}
   .lineup img{height:clamp(150px,25vw,250px); margin-left:clamp(-26px,-2.6vw,-12px)}
   .lineup-free img{height:clamp(166px,27.5vw,276px)}
-  .offer-block{max-width:640px; margin-inline:auto}
   .stat-grid{grid-template-columns:repeat(2,1fr)}
   .card-grid{grid-template-columns:repeat(3,1fr)}
   .builder-grid,.pdp-grid,.panel,.range-grid{grid-template-columns:1fr}
@@ -1271,14 +1235,11 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
   .bottle-row{gap:0}
   .bottle-row img{height:150px}
   .bottle-row img:nth-child(even){height:140px}
-  .value-anchor{grid-template-columns:1fr 1fr}
-  .value-anchor .va-item + .va-item{padding-left:14px}
-  .value-anchor .va-item:nth-child(3){grid-column:1/-1; padding-left:0; border-left:0; padding-top:12px; border-top:1px solid var(--line)}
   .cta-stack{flex-direction:column; align-items:stretch}
   .cta-stack .btn{justify-content:space-between; width:100%}
   .ticker-inner{gap:4px 14px; font-size:9.5px; letter-spacing:.09em; padding-block:9px}
   .cd-cell{min-width:22px; padding:1px 4px}
-  .hero-tag{font-size:9.5px; letter-spacing:.13em; padding:6px 13px 6px 7px; margin-bottom:20px}
+  .hero-tag{font-size:14px; letter-spacing:-.025em; padding:6px 13px 6px 7px; margin-bottom:20px}
   .hero-tag .spark{width:17px; height:17px}
   .ob-facts .ob-item:nth-child(3),.ob-facts .ob-rule:nth-child(4){display:none}
   .order-bar .btn-label{display:none}
@@ -1379,7 +1340,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
     <div>
       <div class="hero-tag" data-reveal>
         <span class="spark"><svg viewBox="0 0 20 20"><use href="#i-spark"/></svg></span>
-        Padagis ORA® range · Compounding deal
+        1 On 6 Bonus Speacial Offer
       </div>
       <h1 class="h-display" data-reveal style="--d:60ms">
         Buy 6 bottles,<br><span class="nowrap">get the 7th <span class="free">free<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M6 13 C 70 4, 150 4, 294 11"/></svg></span>.</span>
@@ -1412,33 +1373,6 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
           <img src="assets/ora-blend-1.png" alt="Buy any six ORA products and the seventh bottle is free">
         </div>
       </div>
-      <div class="offer-block" data-reveal style="--d:260ms">
-        <div class="offer-row">
-          <span class="ow-was">Usually <s>$32.99</s> per bottle</span>
-          <div class="offer-price">
-            <span class="op-now">$25.70</span>
-            <span class="op-meta">+ GST · 473 mL bottle<br>Per bottle — with bonus stock</span>
-          </div>
-          <div class="offer-was">
-            <span class="ow-save">You save $7.29 a bottle — 22% off</span>
-          </div>
-        </div>
-        <div class="value-anchor">
-        <div class="va-item">
-          <span class="va-n" data-count="22.03" data-prefix="$" data-dp="2">$22.03</span>
-          <span class="va-l">Effective per bottle</span>
-        </div>
-        <div class="va-item">
-          <span class="va-n" data-count="33" data-suffix="% off" data-dp="0">33% off</span>
-          <span class="va-l">Against list price</span>
-        </div>
-        <div class="va-item">
-          <span class="va-n" data-count="76.73" data-prefix="$" data-dp="2">$76.73</span>
-          <span class="va-l">Saved on your first 6 + 1</span>
-        </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
