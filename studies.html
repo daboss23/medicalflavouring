@@ -100,10 +100,20 @@ button{color:inherit}
   50%{filter:drop-shadow(0 0 8px var(--cta-glow))}
 }
 
-.hero{position:relative;overflow:hidden;background:var(--navy-deep);color:#fff}
-.hero::before{content:'';position:absolute;width:700px;aspect-ratio:1;left:-250px;top:-420px;border-radius:50%;background:radial-gradient(circle,rgba(238,60,19,.28),rgba(238,60,19,0) 66%)}
-.hero::after{content:'';position:absolute;width:620px;aspect-ratio:1;right:-210px;bottom:-430px;border-radius:50%;background:radial-gradient(circle,rgba(65,140,225,.24),rgba(65,140,225,0) 66%)}
-.hero-grid{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(30px,4.5vw,52px);padding-block:calc(var(--section-space) + 12px)}
+.hero{position:relative;overflow:hidden;isolation:isolate;background-color:#0b2949;color:#fff}
+.hero::before{
+  content:'';position:absolute;z-index:0;pointer-events:none;inset:-22% 0;
+  background-image:url('assets/medical-team-hero.jpg');
+  background-size:cover;background-position:center 48%;background-repeat:no-repeat;
+  transform:scale(1.05);transform-origin:center;
+}
+.hero::after{
+  content:'';position:absolute;z-index:1;pointer-events:none;inset:0;
+  background:
+    linear-gradient(90deg,rgba(5,24,47,.90) 0%,rgba(7,32,59,.80) 50%,rgba(5,24,47,.90) 100%),
+    linear-gradient(180deg,rgba(4,18,35,.18),transparent 26%,transparent 70%,rgba(4,18,35,.40));
+}
+.hero-grid{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(30px,4.5vw,52px);padding-block:calc(var(--section-space) + 12px)}
 .hero-lead{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:900px}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#f0a68e;font-family:var(--mono);font-size:11.5px;font-weight:550;letter-spacing:.2em;text-transform:uppercase}
 .eyebrow::before{content:'';width:18px;height:1.5px;background:currentColor;opacity:.7}
