@@ -773,8 +773,8 @@ p{text-wrap:pretty}
 }
 .why-card--lead{box-shadow:inset 0 0 0 1.5px rgba(18,58,107,.22), var(--lift-2)}
 .why-card-head{padding:clamp(22px,2.4vw,30px) clamp(22px,2.4vw,30px) clamp(18px,2vw,24px)}
-.why-card-title{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-.why-card-title h3{font-size:19px; font-weight:750; letter-spacing:-.02em; color:var(--ink)}
+.why-card-title{display:flex; align-items:center; gap:10px; flex-wrap:wrap; min-height:34px}
+.why-card-title h3{font-size:19px; line-height:1.2; font-weight:750; letter-spacing:-.02em; color:var(--ink)}
 .why-badge{
   font-family:var(--mono); font-size:10px; font-weight:600;
   letter-spacing:.14em; text-transform:uppercase;
@@ -918,6 +918,11 @@ p{text-wrap:pretty}
 .sku-meta{flex:1; min-width:0}
 .sku-name{font-family:var(--display); font-weight:680; font-size:16px; letter-spacing:-.018em}
 .sku-sub{font-size:12.5px; color:#a8bcd4; margin-top:2px}
+.sku-add{display:flex; flex-direction:column; align-items:center; gap:5px}
+.sku-add-lbl{
+  font-family:var(--mono); font-size:9.5px; font-weight:600;
+  letter-spacing:.13em; text-transform:uppercase; color:#9fb4cd; white-space:nowrap;
+}
 .sku .stepper{background:rgba(255,255,255,.09); box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
 .sku .step-btn{color:#e6eef7}
 .sku .step-btn:hover{background:rgba(255,255,255,.20); color:#fff; box-shadow:none}
@@ -1577,7 +1582,8 @@ body.has-product-modal{overflow:hidden}
   .sku-thumb img{height:49px}
   .sku-name{font-size:15px}
   .sku-sub{font-size:11.5px;line-height:1.35}
-  .sku .stepper{grid-column:1/-1;display:grid;grid-template-columns:44px 1fr 44px;width:100%;padding:2px}
+  .sku-add{grid-column:1/-1;width:100%}
+  .sku .stepper{display:grid;grid-template-columns:44px 1fr 44px;width:100%;padding:2px}
   .sku .step-btn{width:44px;height:44px}
   .stack{margin-top:18px;padding:18px 16px;border-radius:16px}
   .stack-line{gap:10px;font-size:13px}
@@ -1916,7 +1922,7 @@ body.has-product-modal{overflow:hidden}
 <section class="shell section-space why-section">
   <div class="why-head" data-reveal>
     <h2 class="h-section">Why ORA&reg;?</h2>
-    <p class="lede">What a manufacturer-made vehicle gives you that simple syrup and an in-house recipe cannot.</p>
+    <p class="lede" style="max-width:none">What a manufacturer-made vehicle gives you that an in-house recipe cannot.</p>
   </div>
   <div class="why-grid" data-reveal>
 
@@ -2396,10 +2402,13 @@ skuList.innerHTML = SKUS.map(function(s){
       '<div class="sku-name">'+s.name+'</div>'+
       '<div class="sku-sub">'+s.sub+' · 473 mL</div>'+
     '</div>'+
-    '<div class="stepper">'+
-      '<button class="step-btn" type="button" data-dec="'+s.key+'" aria-label="Remove one '+s.name+'">'+icon('i-minus')+'</button>'+
-      '<span class="step-n" data-qty="'+s.key+'">0</span>'+
-      '<button class="step-btn" type="button" data-inc="'+s.key+'" aria-label="Add one '+s.name+'">'+icon('i-plus')+'</button>'+
+    '<div class="sku-add">'+
+      '<span class="sku-add-lbl">Add to cart</span>'+
+      '<div class="stepper">'+
+        '<button class="step-btn" type="button" data-dec="'+s.key+'" aria-label="Remove one '+s.name+'">'+icon('i-minus')+'</button>'+
+        '<span class="step-n" data-qty="'+s.key+'">0</span>'+
+        '<button class="step-btn" type="button" data-inc="'+s.key+'" aria-label="Add one '+s.name+'">'+icon('i-plus')+'</button>'+
+      '</div>'+
     '</div>'+
   '</div>';
 }).join('');
