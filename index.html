@@ -458,7 +458,7 @@ p{text-wrap:pretty}
   background:radial-gradient(circle at center,rgba(238,60,19,.22),rgba(238,60,19,0) 62%);
 }
 .free-flag{
-  position:absolute; left:50%; top:-4px; translate:-50% -100%;
+  position:absolute; left:50%; top:-24px; translate:-50% -100%;
   white-space:nowrap;
   padding:9px 19px; border-radius:10px;
   background:linear-gradient(168deg,var(--flame-lift),var(--flame) 55%,var(--flame-deep));
@@ -467,25 +467,26 @@ p{text-wrap:pretty}
   font-size:clamp(13px,1.3vw,17px); line-height:1.2; letter-spacing:.02em; text-transform:uppercase;
 }
 .free-arrows{
-  position:absolute; left:50%; top:calc(100% + 5px); translate:-50% 0;
-  width:30px; height:54px; pointer-events:none;
+  position:absolute; left:50%; top:calc(100% + 9px); translate:-50% 0;
+  width:28px; height:70px; pointer-events:none;
 }
 .free-arrows i{
-  position:absolute; left:50%; top:0; width:13px; height:13px;
-  border-right:3px solid #ff6d45; border-bottom:3px solid #ff6d45;
-  filter:drop-shadow(0 2px 3px rgba(238,60,19,.48));
-  opacity:0; transform:translate(-50%,-8px) rotate(45deg);
-  animation:freeArrowStream 1.8s linear infinite;
+  position:absolute; left:50%; top:0; width:15px; height:15px;
+  border-right:3px solid #fff; border-bottom:3px solid #fff;
+  border-bottom-right-radius:3px;
+  filter:drop-shadow(0 0 7px rgba(255,90,43,.95)) drop-shadow(0 0 2px rgba(255,255,255,.7));
+  opacity:0; transform:translate(-50%,-6px) rotate(45deg) scale(.6);
+  animation:freeArrowStream 1.9s var(--ease) infinite;
 }
-.free-arrows i:nth-child(2){animation-delay:.6s}
-.free-arrows i:nth-child(3){animation-delay:1.2s}
+.free-arrows i:nth-child(2){animation-delay:.63s}
+.free-arrows i:nth-child(3){animation-delay:1.26s}
 .is-lit .free-flag{animation:flagDrop .7s var(--ease-spring) .95s backwards}
 @keyframes flagDrop{from{opacity:0; translate:-50% -160%}}
 @keyframes freeArrowStream{
-  0%{opacity:0;transform:translate(-50%,-8px) rotate(45deg)}
-  18%{opacity:1}
-  72%{opacity:.72}
-  100%{opacity:0;transform:translate(-50%,34px) rotate(45deg)}
+  0%{opacity:0;transform:translate(-50%,-6px) rotate(45deg) scale(.55)}
+  22%{opacity:1;transform:translate(-50%,10px) rotate(45deg) scale(1)}
+  60%{opacity:.9}
+  100%{opacity:0;transform:translate(-50%,52px) rotate(45deg) scale(.82)}
 }
 .lineup-note{
   position:absolute; left:50%; top:calc(100% + 14px); translate:-50% 0;
