@@ -68,11 +68,16 @@
   /* Rhythm */
   --gutter:clamp(18px,4vw,32px);
   --shell:1220px;
-  /* Plain sections stack, so adjacent ones sum to one full gap. */
-  --section-space:clamp(46px,2.6vw + 30px,78px);
-  /* Self-contained bands (own background) carry the gap alone, so they run larger. */
-  --band-space:clamp(58px,3.2vw + 36px,98px);
-  --bay:var(--section-space);
+  /* Every section contributes --space per side and nothing else, so the join
+     between any two of them is always 2x --space. One number, no exceptions:
+     a section must never need to know what it sits next to. */
+  --space:clamp(40px,2.2vw + 20px,66px);
+  /* One interior padding for every panel that paints its own box, so a panel
+     edge sits the same distance from its content wherever it appears. */
+  --panel-pad:clamp(28px,3.4vw,46px);
+  --section-space:var(--space);
+  --band-space:var(--space);
+  --bay:var(--space);
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -724,7 +729,7 @@ p{text-wrap:pretty}
    Qualifier ("built for") block
    ============================================================ */
 .qual{
-  border-radius:var(--r-xl); padding:clamp(28px,3.4vw,46px);
+  border-radius:var(--r-xl); padding:var(--panel-pad);
   background:var(--cream);
   box-shadow:inset 0 0 0 1px rgba(14,20,32,.05);
 }
@@ -862,13 +867,13 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
   background:radial-gradient(100% 60% at 15% 0%,rgba(238,60,19,.20),transparent 55%),
              radial-gradient(80% 60% at 100% 100%,rgba(64,140,225,.20),transparent 60%);
 }
-.builder-head{position:relative; padding:clamp(30px,3.6vw,46px) clamp(26px,3.4vw,46px) 0}
+.builder-head{position:relative; padding:var(--panel-pad) var(--panel-pad) 0}
 .builder-head h2{margin:14px 0 12px; color:#fff}
 .builder-head p{margin:0; color:#c2d1e3; font-size:16.5px; max-width:60ch}
 .builder-grid{
   position:relative;
   display:grid; grid-template-columns:1.16fr .84fr; gap:clamp(20px,2.6vw,34px);
-  padding:clamp(26px,3.2vw,40px);
+  padding:var(--panel-pad);
 }
 .sku-list{display:flex; flex-direction:column; gap:10px}
 .sku{
@@ -1059,7 +1064,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 .testimonial-carousel{width:min(100%,780px); margin-inline:auto}
 .testimonial-viewport{min-height:340px; display:grid}
 .testimonial-slide{
-  position:relative; overflow:hidden; margin:0; padding:clamp(32px,5vw,54px);
+  position:relative; overflow:hidden; margin:0; padding:var(--panel-pad);
   border-radius:clamp(20px,3vw,30px); background:#fff; text-align:center;
   box-shadow:inset 0 0 0 1px var(--line-soft),0 26px 70px -46px rgba(18,58,107,.5);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;
@@ -1331,7 +1336,7 @@ body.has-product-modal{overflow:hidden}
 .route .btn{align-self:flex-start}
 
 .assure{
-  border-radius:var(--r-xl); padding:clamp(28px,3.4vw,44px);
+  border-radius:var(--r-xl); padding:var(--panel-pad);
   background:linear-gradient(150deg,var(--mist),#fff);
   box-shadow:inset 0 0 0 1px var(--line-soft);
   display:grid; grid-template-columns:auto 1fr; gap:clamp(20px,2.6vw,34px); align-items:center;
@@ -1352,7 +1357,7 @@ body.has-product-modal{overflow:hidden}
 .closer{
   position:relative; overflow:hidden; border-radius:var(--r-xl);
   background:linear-gradient(140deg,var(--flame-deep),var(--flame) 45%,var(--flame-lift));
-  color:#fff; padding:clamp(34px,4.4vw,62px);
+  color:#fff; padding:var(--panel-pad);
   box-shadow:var(--lift-3);
 }
 .closer::before{
@@ -1472,7 +1477,7 @@ body.has-product-modal{overflow:hidden}
   .head-nav{display:none}
 }
 @media (max-width:720px){
-  :root{--gutter:20px;--section-space:44px;--band-space:56px;--bay:var(--section-space);--r-xl:24px;--r-lg:18px}
+  :root{--gutter:20px;--space:38px;--section-space:var(--space);--band-space:var(--space);--bay:var(--space);--r-xl:24px;--r-lg:18px}
   body{font-size:16px;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
   html{scroll-padding-top:128px}
   .head-row{flex-wrap:wrap;padding-block:11px 0;gap:10px 14px}
