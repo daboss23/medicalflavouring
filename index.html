@@ -912,13 +912,13 @@ p{text-wrap:pretty}
   background:color-mix(in srgb,var(--tint) 12%,rgba(255,255,255,.05));
 }
 .sku-thumb{
-  width:52px; height:62px; flex:none; border-radius:var(--r-xs);
-  background:rgba(255,255,255,.08); display:grid; place-items:center; overflow:hidden;
+  width:62px; height:74px; flex:none; border-radius:var(--r-xs);
+  background:rgba(255,255,255,.10); display:grid; place-items:center; overflow:hidden;
 }
-.sku-thumb img{height:56px; width:auto; filter:drop-shadow(0 5px 8px rgba(0,0,0,.3))}
+.sku-thumb img{height:68px; width:auto; filter:drop-shadow(0 5px 8px rgba(0,0,0,.3))}
 .sku-meta{flex:1; min-width:0}
-.sku-name{font-family:var(--display); font-weight:680; font-size:16px; letter-spacing:-.018em}
-.sku-sub{font-size:12.5px; color:#a8bcd4; margin-top:2px}
+.sku-name{font-family:var(--display); font-weight:720; font-size:18px; letter-spacing:-.018em; color:#fff}
+.sku-sub{font-size:13.5px; color:#c3d3e6; margin-top:3px}
 .sku-add{display:flex; flex-direction:column; align-items:center; gap:9px; width:158px; flex:none}
 .sku-add-btn{
   width:100%; justify-content:center; gap:0;
@@ -1027,23 +1027,23 @@ p{text-wrap:pretty}
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
 }
 .stack h3{
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em;
-  text-transform:uppercase; color:#9fb4cf; font-weight:500; margin-bottom:14px;
+  font-family:var(--mono); font-size:12px; letter-spacing:.2em;
+  text-transform:uppercase; color:#c4d3e6; font-weight:600; margin-bottom:14px;
 }
 .stack-line{
   display:flex; justify-content:space-between; align-items:center; gap:14px;
-  padding:9px 0; border-bottom:1px solid rgba(255,255,255,.09);
-  font-size:14.5px; color:#dce6f2;
+  padding:10px 0; border-bottom:1px solid rgba(255,255,255,.11);
+  font-size:16px; color:#eaf1f9;
 }
 .stack-line:last-of-type{border-bottom:0}
 .stack-line .v{font-family:var(--mono); font-variant-numeric:tabular-nums; color:#fff}
-.stack-line.is-free .v{color:#7ee3b4; font-weight:600}
+.stack-line.is-free .v{color:#8bf0c0; font-weight:700}
 .stack-total{
   display:flex; justify-content:space-between; align-items:baseline; gap:14px;
   margin-top:14px; padding-top:14px; border-top:1.5px solid rgba(238,60,19,.45);
 }
-.stack-total .k{font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:-.015em}
-.stack-total .v{font-family:var(--display); font-weight:800; font-size:28px; letter-spacing:-.04em; color:#ff8a63; font-variant-numeric:tabular-nums}
+.stack-total .k{font-family:var(--display); font-weight:750; font-size:17px; letter-spacing:-.015em; color:#fff}
+.stack-total .v{font-family:var(--display); font-weight:800; font-size:33px; letter-spacing:-.04em; color:#ff9061; font-variant-numeric:tabular-nums}
 
 /* Product choice stays here; Stripe collects customer and shipping details. */
 .bonus-choices{
