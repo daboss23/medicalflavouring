@@ -753,35 +753,54 @@ p{text-wrap:pretty}
 /* ============================================================
    Comparison table
    ============================================================ */
-.table-wrap{
-  border-radius:var(--r-lg); overflow-x:auto;
+
+/* ---- Why ORA — two-card comparison ---- */
+.why-head{
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  text-align:center; margin-bottom:clamp(30px,3.4vw,46px);
+}
+.why-pill{
+  display:inline-flex; align-items:center; gap:8px; padding:7px 15px;
+  border-radius:999px; background:#fff;
   box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
-  background:#fff;
+  font-family:var(--mono); font-size:11px; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--navy);
 }
-table{width:100%; border-collapse:collapse; font-size:15.5px; min-width:640px}
-thead th{
-  padding:18px 16px; text-align:center;
-  font-family:var(--mono); font-size:11px; font-weight:500;
-  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4);
-  background:var(--mist);
+.why-pill svg{width:15px; height:15px; flex:none}
+.why-head .lede{margin:0}
+.why-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(18px,2.2vw,28px); align-items:stretch;
 }
-thead th:first-child{text-align:left}
-thead th.is-hero{
-  background:var(--navy); color:#fff;
-  font-family:var(--display); font-size:14.5px; font-weight:700;
-  letter-spacing:-.01em; text-transform:none;
+.why-card{
+  display:flex; flex-direction:column;
+  background:#fff; border-radius:var(--r-xl); overflow:hidden;
+  box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
 }
-tbody td{padding:17px 16px; border-top:1px solid var(--line-soft); text-align:center; color:var(--ink-3)}
-tbody td:first-child{text-align:left; font-weight:600; color:var(--ink)}
-tbody td.is-hero{
-  background:rgba(18,58,107,.045); color:var(--navy);
-  font-weight:680; font-family:var(--display); letter-spacing:-.012em;
+.why-card--lead{box-shadow:inset 0 0 0 1.5px rgba(18,58,107,.22), var(--lift-2)}
+.why-card-head{padding:clamp(22px,2.4vw,30px) clamp(22px,2.4vw,30px) clamp(18px,2vw,24px)}
+.why-card-title{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.why-card-title h3{font-size:19px; font-weight:750; letter-spacing:-.02em; color:var(--ink)}
+.why-badge{
+  font-family:var(--mono); font-size:10px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:5px 10px; border-radius:999px;
+  background:var(--mist); color:var(--navy);
+  box-shadow:inset 0 0 0 1px var(--line-soft);
 }
-tbody tr{transition:background-color .35s var(--ease)}
-tbody tr:hover td{background:rgba(14,20,32,.022)}
-tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
-.cell-yes{display:inline-flex; align-items:center; gap:7px; justify-content:center}
-.cell-yes svg{width:15px; height:15px; color:#1a9d6a}
+.why-card-head p{margin:10px 0 0; font-size:14.5px; line-height:1.55; color:var(--ink-3); max-width:46ch}
+.why-list{
+  flex:1; list-style:none; margin:0; border-top:1px solid var(--line-soft);
+  padding:clamp(18px,2vw,24px) clamp(22px,2.4vw,30px) clamp(24px,2.6vw,32px);
+  display:flex; flex-direction:column; gap:14px;
+}
+.why-list li{display:flex; align-items:flex-start; gap:11px; font-size:15px; line-height:1.5}
+.why-list .ic{flex:none; width:20px; height:20px; border-radius:6px; display:grid; place-items:center; margin-top:1px}
+.why-list .ic svg{width:13px; height:13px}
+.why-list--yes .ic{background:rgba(26,157,106,.12); color:#1a9d6a}
+.why-list--yes li{color:var(--ink); font-weight:560}
+.why-list--no .ic{background:rgba(14,20,32,.06); color:var(--ink-4)}
+.why-list--no li{color:var(--ink-3)}
 
 /* ============================================================
    Product cards
@@ -1542,7 +1561,7 @@ body.has-product-modal{overflow:hidden}
   .qual{padding:24px 20px;border-radius:22px}
   .qual-grid{gap:12px;margin-top:24px}
   .qual-card{padding:20px;border-radius:16px}
-  .table-wrap{border-radius:16px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .why-grid{grid-template-columns:1fr}
   table{min-width:600px;font-size:14px}
   thead th,tbody td{padding:15px 13px}
   thead th:first-child,tbody td:first-child{position:sticky;left:0;z-index:2;box-shadow:8px 0 14px -14px rgba(14,20,32,.7)}
@@ -1693,6 +1712,7 @@ body.has-product-modal{overflow:hidden}
     <g id="i-mail"><rect x="2.5" y="4.5" width="15" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 6l7 5 7-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>
     <g id="i-cart"><path d="M2.5 3.5h2l2.2 9.2h8.1l1.7-6.4H5.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="16" r="1.3" fill="currentColor"/><circle cx="14.5" cy="16" r="1.3" fill="currentColor"/></g>
     <g id="i-shield"><path d="M10 2.5l6 2.3v4.6c0 4-2.6 6.9-6 8.1-3.4-1.2-6-4.1-6-8.1V4.8l6-2.3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7.2 10l2 2 3.6-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-x"><path d="M6 6l8 8M14 6l-8 8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></g>
     <g id="i-truck"><path d="M1.5 5.5h9v8h-9zM10.5 8.5h3.4l2.6 2.6v2.4h-6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="5" cy="15" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="14" cy="15" r="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/></g>
     <g id="i-doc"><path d="M5 2.5h6.5L15.5 6v11.5h-11z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M11.2 2.6V6.2h3.9M7 10h6M7 13h4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></g>
     <g id="i-flask"><path d="M8 2.5h4M8.8 2.5v5.2L4.6 15a1.4 1.4 0 001.2 2.1h8.4A1.4 1.4 0 0015.4 15l-4.2-7.3V2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.6 12h6.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></g>
@@ -1900,47 +1920,52 @@ body.has-product-modal{overflow:hidden}
 
 <!-- ========== Comparison ========== -->
 <section class="shell section-space">
-  <div class="sec-head is-centered" data-reveal>
-    <h2 class="h-section">ORA® vs. the alternatives</h2>
+  <div class="why-head" data-reveal>
+    <span class="why-pill"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-shield"/></svg> Comparison</span>
+    <h2 class="h-section">Why ORA&reg;?</h2>
+    <p class="lede">What a manufacturer-made vehicle gives you that simple syrup and an in-house recipe cannot.</p>
   </div>
-  <div class="table-wrap" data-reveal>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th class="is-hero">ORA® range</th>
-          <th>Simple syrup</th>
-          <th>In-house vehicle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Published stability data</td>
-          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> 150+ studies</span></td>
-          <td>None</td><td>Varies</td>
-        </tr>
-        <tr>
-          <td>Sugar-free option</td>
-          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Yes, SF vehicles</span></td>
-          <td>No</td><td>Varies</td>
-        </tr>
-        <tr>
-          <td>Room-temperature stable</td>
-          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Yes</span></td>
-          <td>Short shelf life</td><td>Varies</td>
-        </tr>
-        <tr>
-          <td>Compounding time</td>
-          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Low, ready to use</span></td>
-          <td>High</td><td>High</td>
-        </tr>
-        <tr>
-          <td>Batch-to-batch consistency</td>
-          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Manufacturer controlled</span></td>
-          <td>Operator dependent</td><td>Operator dependent</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="why-grid" data-reveal>
+
+    <div class="why-card why-card--lead">
+      <div class="why-card-head">
+        <div class="why-card-title">
+          <h3>ORA&reg; range</h3>
+          <span class="why-badge">Recommended</span>
+        </div>
+        <p>Manufacturer-controlled vehicles with published data behind every claim.</p>
+      </div>
+      <ul class="why-list why-list--yes">
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span>150+ published stability studies</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span>Sugar-free vehicles available, ORA-Sweet&reg; SF and ORA-Blend&reg; SF</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span>Room-temperature stable, refrigeration optional</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span>Ready to use, no bench prep required</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span>Batch-to-batch consistency, manufacturer controlled</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span>Buffered and preserved to a defined specification</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span>Hospital formulary standard</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span>Australian Padagis supplier, ships in 24&ndash;48 hrs</li>
+      </ul>
+    </div>
+
+    <div class="why-card">
+      <div class="why-card-head">
+        <div class="why-card-title">
+          <h3>The alternatives</h3>
+        </div>
+        <p>Simple syrup and in-house vehicles, and what they leave you to carry.</p>
+      </div>
+      <ul class="why-list why-list--no">
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg></span>No published stability data, or none for your formulation</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg></span>Sugar-free options limited or unavailable</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg></span>Short shelf life, or stability you cannot evidence</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg></span>Bench time on every batch</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg></span>Consistency depends on the operator</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg></span>Buffering and preservation vary with the recipe</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg></span>Harder to defend at accreditation</li>
+        <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-x"/></svg></span>Supply depends on in-house capacity</li>
+      </ul>
+    </div>
+
   </div>
 </section>
 
