@@ -755,18 +755,12 @@ p{text-wrap:pretty}
    ============================================================ */
 
 /* ---- Why ORA — two-card comparison ---- */
+/* Deliberately above the shared rhythm: this block is lifted by request. */
+.why-section{padding-block-start:max(16px,calc(var(--space) - 48px))}
 .why-head{
   display:flex; flex-direction:column; align-items:center; gap:14px;
   text-align:center; margin-bottom:clamp(30px,3.4vw,46px);
 }
-.why-pill{
-  display:inline-flex; align-items:center; gap:8px; padding:7px 15px;
-  border-radius:999px; background:#fff;
-  box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
-  font-family:var(--mono); font-size:11px; font-weight:600;
-  letter-spacing:.16em; text-transform:uppercase; color:var(--navy);
-}
-.why-pill svg{width:15px; height:15px; flex:none}
 .why-head .lede{margin:0}
 .why-grid{
   display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1081,7 +1075,7 @@ p{text-wrap:pretty}
 /* ============================================================
    Testimonials
    ============================================================ */
-.testimonial-shell{padding-block:var(--band-space)}
+.testimonial-shell{padding-block:var(--space)}
 .testimonial-carousel{width:min(100%,780px); margin-inline:auto}
 .testimonial-viewport{min-height:340px; display:grid}
 .testimonial-slide{
@@ -1119,7 +1113,7 @@ p{text-wrap:pretty}
    About Padagis / executive team
    ============================================================ */
 .team-section{
-  position:relative; isolation:isolate; overflow:hidden; padding-block:var(--band-space);
+  position:relative; isolation:isolate; overflow:hidden; padding-block:var(--space);
   background:
     radial-gradient(circle at 14% 18%,rgba(238,60,19,.065),transparent 24%),
     linear-gradient(180deg,#fff 0%,#fbfcfe 100%);
@@ -1603,7 +1597,7 @@ body.has-product-modal{overflow:hidden}
   .bump-copy .t{font-size:13.5px}
   .testimonial-slide{padding:30px 22px;gap:17px}
   .testimonial-copy{font-size:20px;line-height:1.48}
-  .team-section{padding-block:var(--band-space)}
+  .team-section{padding-block:var(--space)}
   .team-head{margin-bottom:34px}
   .team-marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
   .team-set{gap:14px;padding-right:14px}
@@ -1919,9 +1913,8 @@ body.has-product-modal{overflow:hidden}
 </section>
 
 <!-- ========== Comparison ========== -->
-<section class="shell section-space">
+<section class="shell section-space why-section">
   <div class="why-head" data-reveal>
-    <span class="why-pill"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-shield"/></svg> Comparison</span>
     <h2 class="h-section">Why ORA&reg;?</h2>
     <p class="lede">What a manufacturer-made vehicle gives you that simple syrup and an in-house recipe cannot.</p>
   </div>
