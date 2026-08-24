@@ -7,24 +7,33 @@ Sales page for the Padagis ORA® compounding vehicle range (Medical Flavouring S
 | Path | What it is |
 | --- | --- |
 | `index.html` | The page. Single file, no build step, no dependencies. Loads fonts from Google Fonts and bottle images from `assets/`. |
+| `studies.html` | Searchable, branded A–Z bibliography of ORA® stability studies. |
+| `studies-data.js` | The 107 Padagis study citations, available synopsis links, and 70-issue Secundum Artem archive. |
+| `privacy.html` | Branded MFS privacy policy covering website, order and hosted Stripe Checkout data. |
+| `terms.html` | Branded MFS website and ordering Terms of Use. |
+| `legal.css` | Shared responsive design system for the Privacy Policy and Terms of Use pages. |
+| `pricing.js` | Shared, integer-cent pricing engine used by the page and Stripe checkout endpoint. |
+| `api/create-checkout-session.js` | Stripe-ready Vercel endpoint that validates product choices and recalculates every charge server-side. |
 | `assets/` | Product photography and logo, supplied by the manufacturer. |
 | `dist/mfs-ora-sales-page.html` | Self-contained build — images inlined as data URIs, no `<html>`/`<head>` wrapper. Used for the shared preview. Regenerate with `build.py`. |
 | `build.py` | Inlines `assets/` into `dist/` (re-encoded to WebP) and swaps the SEO `<title>` for the short preview name. Needs Pillow. |
 
 ## Deploying
 
-Upload `index.html` and `assets/` and you're done. Nothing to compile.
+Upload the site HTML, CSS and JavaScript files together with `assets/`. There is no application compile step; `build.py` is only needed when regenerating the self-contained sales-page preview in `dist/`.
 
-## Editing the offer
+## Pricing and checkout
 
-The commercial numbers live in one place, at the top of the `<script>` block in `index.html`:
+The commercial rules live in `pricing.js` and use integer cents to avoid floating-point payment errors:
 
-```js
-var UNIT = 25.70, RRP = 32.99, GOAL = 6, BUMP = 19.90;
-var DEADLINE = new Date('2026-08-31T23:59:59+10:00').getTime();
-```
+- 1–5 paid bottles: $32.99 each, no bonus.
+- 6 paid bottles: $29.99 each and 1 free; $179.94 ex GST for 7 shipped, displayed as $25.70 effective per bottle.
+- 12 paid bottles: $29.99 each and 3 free; $359.88 ex GST for 15 shipped, displayed as $23.99 effective per bottle.
+- Larger orders repeat the same pattern: each complete 12 earns 3 bonus bottles and a remaining block of 6 earns 1.
 
-`GOAL` drives the whole bundle mechanic — set it to 5 and the page becomes buy-5-get-1 everywhere, including the progress bar and the "N more bottles" copy. The hard-coded figures in the hero anchor bar (`$22.03`, `33% off`, `$76.73`) and the price card are derived from those constants, so update them together.
+Run `node tests/pricing.test.js` and `node tests/checkout-api.test.js` after changing any pricing or checkout rule.
+
+The page sends product quantities and bonus selections directly to hosted Stripe Checkout. Stripe then collects the customer and business names, email, phone, billing address, Australian shipping address, optional purchase order number, order notes and payment details. On Vercel, `api/create-checkout-session.js` creates the Checkout Session when `STRIPE_SECRET_KEY` is configured (and uses `SITE_URL` for return links when supplied). The endpoint accepts product choices—not browser-calculated prices—and recalculates the quote with the shared pricing engine before sending integer-cent line items to Stripe. Stripe Automatic Tax is enabled with exclusive product prices; the Stripe account must have its Australian tax registration and default product tax code configured before live payments are enabled.
 
 Product copy, specs and FAQ entries are the `SKUS`, `EXTRA` and `FAQ` arrays in the same script block.
 
@@ -39,5 +48,4 @@ under each product-detail swatch. Selection state stays flame; identity stays ti
 
 ## Placeholders to replace before launch
 
-- Three testimonial quotes are marked `[Placeholder quote — …]`.
 - The product detail thumbnails include two empty slots (label detail, carton).

@@ -22,7 +22,7 @@ OUT = os.path.join(ROOT, 'dist', 'mfs-ora-sales-page.html')
 PREVIEW_TITLE = 'ORA® 6 + 1 Offer'
 
 
-def data_uri(path):
+def image_data_uri(path):
     im = Image.open(path).convert('RGBA')
     if im.height > MAX_H:
         im = im.resize((round(im.width * MAX_H / im.height), MAX_H), Image.LANCZOS)
@@ -31,11 +31,29 @@ def data_uri(path):
     return 'data:image/webp;base64,' + base64.b64encode(buf.getvalue()).decode('ascii')
 
 
+def file_data_uri(path):
+    ext = os.path.splitext(path)[1].lower()
+    if ext == '.pdf':
+        with open(path, 'rb') as f:
+            return 'data:application/pdf;base64,' + base64.b64encode(f.read()).decode('ascii')
+    return image_data_uri(path)
+
+
 def main():
     src = open(SRC, encoding='utf-8').read()
 
-    for name in sorted(os.listdir(os.path.join(ROOT, 'assets'))):
-        src = src.replace('assets/' + name, data_uri(os.path.join(ROOT, 'assets', name)))
+    pricing_path = os.path.join(ROOT, 'pricing.js')
+    pricing_tag = '<script src="pricing.js"></script>'
+    if pricing_tag in src:
+        with open(pricing_path, encoding='utf-8') as f:
+            src = src.replace(pricing_tag, '<script>\n' + f.read() + '</script>')
+
+    assets_root = os.path.join(ROOT, 'assets')
+    for folder, _, names in os.walk(assets_root):
+        for name in sorted(names):
+            path = os.path.join(folder, name)
+            relative = os.path.relpath(path, assets_root).replace(os.sep, '/')
+            src = src.replace('assets/' + relative, file_data_uri(path))
 
     head = re.search(r'<head>(.*?)</head>', src, re.S).group(1)
     body = re.search(r'<body>(.*?)</body>', src, re.S).group(1)

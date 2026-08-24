@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ORA® Stability Studies | MFS</title>
+<meta name="description" content="Browse the Padagis bibliography of stability studies for extemporaneously prepared oral formulations using ORA® compounding vehicles.">
+<meta name="theme-color" content="#0b2444">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --flame:#ee3c13;
+  --flame-lift:#ff5a2b;
+  --flame-deep:#c72d09;
+  --navy:#123a6b;
+  --navy-deep:#0b2444;
+  --navy-soft:#1c4d86;
+  --ink:#0e1420;
+  --ink-2:#39414f;
+  --ink-3:#626c7d;
+  --ink-4:#8b95a4;
+  --paper:#fff;
+  --cream:#f7f4ef;
+  --mist:#f3f6fa;
+  --line:rgba(14,20,32,.10);
+  --line-strong:rgba(14,20,32,.16);
+  --display:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --shell:1220px;
+  --gutter:clamp(18px,4vw,32px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+button{color:inherit}
+::selection{background:var(--flame);color:#fff}
+:focus-visible{outline:2.5px solid var(--flame);outline-offset:3px;border-radius:5px}
+.shell{width:min(100%,var(--shell));margin-inline:auto;padding-inline:var(--gutter)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.ticker{background:linear-gradient(96deg,var(--flame-deep),var(--flame) 48%,var(--flame-lift));color:#fff}
+.ticker-inner{min-height:40px;display:flex;align-items:center;justify-content:center;gap:12px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:550;letter-spacing:.14em;text-transform:uppercase}
+.pulse{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.15)}
+
+.site-head{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.86);border-bottom:1px solid rgba(14,20,32,.07);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%)}
+.head-row{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand img{height:44px;width:auto}
+.head-side{display:flex;align-items:center;gap:12px}
+.head-nav{display:flex;align-items:center;gap:4px}
+.head-nav a{position:relative;padding:9px 13px;border-radius:8px;color:var(--ink-2);font-size:14.5px;font-weight:520;transition:color .25s var(--ease),background .25s var(--ease)}
+.head-nav a:hover{color:var(--ink);background:rgba(14,20,32,.04)}
+.head-nav a[aria-current="page"]{color:var(--navy);font-weight:700;background:rgba(18,58,107,.07)}
+.head-nav a[aria-current="page"]::after{content:'';position:absolute;left:13px;right:13px;bottom:5px;height:2px;background:var(--flame);border-radius:4px}
+.back-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 15px;border-radius:10px;background:var(--navy);color:#fff;font-size:13.5px;font-weight:650;box-shadow:0 10px 24px -16px rgba(18,58,107,.6);transition:transform .3s var(--ease),background .3s var(--ease)}
+.back-link:hover{transform:translateY(-2px);background:var(--navy-soft)}
+.back-link svg{width:16px;height:16px}
+
+.hero{position:relative;overflow:hidden;background:var(--navy-deep);color:#fff}
+.hero::before{content:'';position:absolute;width:700px;aspect-ratio:1;left:-250px;top:-420px;border-radius:50%;background:radial-gradient(circle,rgba(238,60,19,.28),rgba(238,60,19,0) 66%)}
+.hero::after{content:'';position:absolute;width:620px;aspect-ratio:1;right:-210px;bottom:-430px;border-radius:50%;background:radial-gradient(circle,rgba(65,140,225,.24),rgba(65,140,225,0) 66%)}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:50px;padding-block:clamp(70px,9vw,124px)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;color:#f0a68e;font-family:var(--mono);font-size:11.5px;font-weight:550;letter-spacing:.2em;text-transform:uppercase}
+.eyebrow::before{content:'';width:18px;height:1.5px;background:currentColor;opacity:.7}
+h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weight:820;line-height:.98;letter-spacing:-.045em;text-wrap:balance}
+.serif{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0;color:#ff9a78}
+.hero-copy{max-width:70ch;margin:0;color:#cad7e6;font-size:clamp(17px,1.4vw,20px);line-height:1.65;text-wrap:pretty}
+.hero-proof{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:10px;min-width:min(100%,460px)}
+.proof{padding:22px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(255,255,255,.065);backdrop-filter:blur(8px)}
+.proof strong{display:block;color:#fff;font-size:32px;line-height:1;font-weight:800;letter-spacing:-.04em}
+.proof span{display:block;margin-top:9px;color:#9fb4ca;font-family:var(--mono);font-size:9.5px;line-height:1.45;letter-spacing:.13em;text-transform:uppercase}
+
+.library{padding-block:clamp(54px,7vw,92px) clamp(76px,9vw,120px)}
+.library-tabs{display:grid;grid-template-columns:1fr 1fr;margin-bottom:clamp(42px,5vw,66px);border-bottom:1px solid var(--line)}
+.library-tab{position:relative;min-height:60px;padding:10px 20px;border:0;background:transparent;color:var(--ink-3);font-size:14px;font-weight:650;cursor:pointer;transition:color .25s var(--ease),background .25s var(--ease)}
+.library-tab::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:var(--flame);transform:scaleX(0);transition:transform .35s var(--ease)}
+.library-tab:hover{color:var(--navy);background:rgba(18,58,107,.025)}
+.library-tab.is-active{color:var(--navy)}
+.library-tab.is-active::after{transform:scaleX(1)}
+[role="tabpanel"][hidden]{display:none}
+.library-head{display:grid;grid-template-columns:1fr minmax(320px,500px);gap:40px;align-items:end;margin-bottom:28px}
+.library-head h2{margin:10px 0 0;font-size:clamp(30px,4vw,48px);line-height:1.04;letter-spacing:-.035em}
+.library-head p{margin:12px 0 0;max-width:62ch;color:var(--ink-3)}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:18px;top:50%;width:20px;height:20px;translate:0 -50%;color:var(--ink-4);pointer-events:none}
+.search{width:100%;min-height:58px;padding:0 54px 0 50px;border:1px solid var(--line-strong);border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 16px 36px -26px rgba(14,20,32,.35);transition:border-color .25s var(--ease),box-shadow .25s var(--ease)}
+.search::placeholder{color:var(--ink-4)}
+.search:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 4px rgba(18,58,107,.10),0 16px 36px -26px rgba(14,20,32,.35)}
+.key-hint{position:absolute;right:14px;top:50%;translate:0 -50%;min-width:28px;padding:2px 7px;border:1px solid var(--line);border-bottom-color:var(--line-strong);border-radius:6px;background:var(--mist);color:var(--ink-4);font-family:var(--mono);font-size:11px;text-align:center;pointer-events:none}
+.filter-bar{position:sticky;top:74px;z-index:20;margin-inline:calc(var(--gutter) * -1);padding:14px var(--gutter);border-block:1px solid rgba(14,20,32,.07);background:rgba(255,255,255,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.filter-row{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding:2px 1px}
+.filter-row::-webkit-scrollbar{display:none}
+.letter{flex:none;min-width:34px;height:34px;padding-inline:9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-3);font-family:var(--mono);font-size:11px;font-weight:600;cursor:pointer;transition:color .2s,background .2s,border-color .2s,transform .2s}
+.letter:hover:not(:disabled){color:var(--navy);border-color:rgba(18,58,107,.3);transform:translateY(-1px)}
+.letter.is-active{background:var(--navy);border-color:var(--navy);color:#fff}
+.letter:disabled{opacity:.28;cursor:not-allowed}
+.letter:first-child{min-width:46px}
+.results-meta{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:32px 0 16px;color:var(--ink-3);font-size:13px}
+.results-meta strong{color:var(--ink);font-variant-numeric:tabular-nums}
+.source-mini{display:inline-flex;align-items:center;gap:8px}
+.source-mini::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--flame)}
+.study-list{display:grid;gap:12px}
+.study-card{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:20px;align-items:start;padding:24px 25px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 12px 34px -30px rgba(14,20,32,.35);transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease)}
+.study-card:hover{transform:translateY(-2px);border-color:rgba(18,58,107,.24);box-shadow:0 22px 48px -30px rgba(18,58,107,.36)}
+.study-index{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:var(--mist);color:var(--ink-4);font-family:var(--mono);font-size:11px;font-variant-numeric:tabular-nums}
+.study-card h3{margin:0 0 5px;font-size:18px;line-height:1.3;letter-spacing:-.018em}
+.study-card h3 a{display:inline-flex;align-items:center;gap:8px;color:var(--navy);text-decoration:underline;text-decoration-color:rgba(18,58,107,.28);text-underline-offset:3px;transition:color .2s,text-decoration-color .2s}
+.study-card h3 a:hover{color:var(--flame);text-decoration-color:var(--flame)}
+.study-card h3 svg{width:14px;height:14px;flex:none}
+.citation{margin:0;color:var(--ink-2);font-family:Georgia,'Times New Roman',serif;font-size:15.5px;line-height:1.65}
+.doc-badge{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;margin-top:3px;padding:5px 9px;border-radius:7px;background:rgba(238,60,19,.075);color:var(--flame-deep);font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.doc-badge svg{width:12px;height:12px}
+.doc-badge.is-muted{background:var(--mist);color:var(--ink-4)}
+.empty{padding:64px 24px;border:1px dashed var(--line-strong);border-radius:16px;background:var(--mist);text-align:center}
+.empty strong{display:block;margin-bottom:5px;font-size:19px}
+.empty span{color:var(--ink-3)}
+
+.notice{display:grid;grid-template-columns:40px minmax(0,1fr);gap:16px;margin-top:34px;padding:22px;border-radius:14px;background:var(--cream);border:1px solid rgba(14,20,32,.07)}
+.notice-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:#fff;color:var(--navy)}
+.notice-icon svg{width:19px;height:19px}
+.notice h3{margin:0 0 4px;font-size:15px}
+.notice p{margin:0;color:var(--ink-3);font-size:13.5px;line-height:1.6}
+.notice a{color:var(--navy);font-weight:650;text-decoration:underline;text-underline-offset:3px}
+
+.archive-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:34px;align-items:end;margin-bottom:30px}
+.archive-head h2{margin:10px 0 0;font-size:clamp(30px,4vw,48px);line-height:1.04;letter-spacing:-.035em}
+.archive-head p{max-width:68ch;margin:14px 0 0;color:var(--ink-3)}
+.archive-count{white-space:nowrap;color:var(--ink-3);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.archive-count strong{color:var(--flame);font-size:20px;letter-spacing:-.02em}
+.ce-note{display:flex;align-items:center;gap:10px;margin:0 0 22px;padding:13px 15px;border-radius:10px;background:var(--cream);color:var(--ink-3);font-size:13px}
+.ce-note svg{width:17px;height:17px;color:var(--navy);flex:none}
+.issue-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.issue-card{display:flex;flex-direction:column;min-height:154px;padding:22px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 12px 34px -30px rgba(14,20,32,.35);transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease)}
+.issue-card:hover{transform:translateY(-2px);border-color:rgba(18,58,107,.24);box-shadow:0 22px 48px -30px rgba(18,58,107,.36)}
+.issue-main{display:block;flex:1}
+.issue-main-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:11px}
+.issue-volume{color:var(--flame);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.issue-main svg{width:15px;height:15px;color:var(--navy);flex:none;transition:transform .25s var(--ease)}
+.issue-main:hover svg{transform:translate(2px,-2px)}
+.issue-card h3{margin:0;color:var(--navy);font-size:17px;line-height:1.4;letter-spacing:-.018em}
+.issue-extra{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.issue-extra a{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:7px;background:var(--mist);color:var(--navy);font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase}
+.issue-extra a:hover{background:var(--navy);color:#fff}
+.issue-extra svg{width:11px;height:11px}
+
+.site-foot{background:var(--navy-deep);color:#b8c8da;padding-block:50px calc(42px + env(safe-area-inset-bottom))}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:42px}
+.site-foot img{height:48px;width:auto;filter:brightness(0) invert(1);opacity:.96;margin-bottom:17px}
+.site-foot p{margin:5px 0;font-size:13.5px}
+.site-foot strong{color:#fff}
+.site-foot h4{margin:3px 0 13px;color:#fff;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.site-foot ul{list-style:none;margin:0;padding:0;display:grid;gap:7px;font-size:13.5px}
+.site-foot a{color:#dce7f2}
+.site-foot a:hover{color:#ff9a78}
+.foot-legal{margin-top:35px;padding-top:19px;border-top:1px solid rgba(255,255,255,.12);font-size:11.5px;line-height:1.6;color:#8298b0}
+.footer-policy-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:15px}
+.footer-policy-links a{color:#e3edf7;font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:4px}
+.footer-policy-links a:hover{color:#ff9a78;text-decoration-color:currentColor}
+
+@media (max-width:950px){
+  .head-nav{display:none}
+  .hero-grid{grid-template-columns:1fr;align-items:start}
+  .hero-proof{max-width:520px}
+  .library-head{grid-template-columns:1fr}
+  .archive-head{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .ticker-inner{font-size:9px;letter-spacing:.1em}
+  .head-row{min-height:66px}
+  .brand img{height:38px}
+  .back-link span{display:none}
+  .back-link{width:42px;padding:0;justify-content:center}
+  .hero-grid{padding-block:58px 66px;gap:34px}
+  .hero-proof{width:100%;grid-template-columns:1fr 1fr}
+  .library{padding-top:44px}
+  .filter-bar{top:66px}
+  .study-card{grid-template-columns:42px minmax(0,1fr);gap:14px;padding:20px 17px}
+  .study-index{width:36px;height:36px}
+  .doc-badge{grid-column:2;justify-self:start;margin-top:2px}
+  .foot-grid{grid-template-columns:1fr;gap:30px}
+  .issue-list{grid-template-columns:1fr}
+}
+@media (max-width:430px){
+  h1{font-size:42px}
+  .hero-proof{grid-template-columns:1fr}
+  .library-head h2{font-size:32px}
+  .results-meta{align-items:flex-start;flex-direction:column;gap:4px}
+  .study-card{grid-template-columns:1fr}
+  .study-index{display:none}
+  .doc-badge{grid-column:1}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="i-arrow"><path d="M4 10h12M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-search"><circle cx="8.5" cy="8.5" r="5.7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12.7 12.7L17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></g>
+    <g id="i-external"><path d="M11 4h5v5M16 4l-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 11.5v4h-10v-10h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-doc"><path d="M5 2.5h6.5L15.5 6v11.5h-11z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M11.2 2.6V6.2h3.9M7 10h6M7 13h4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></g>
+    <g id="i-info"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 9v5M10 6.2v.1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></g>
+  </defs>
+</svg>
+
+<div class="ticker">
+  <div class="shell ticker-inner"><i class="pulse"></i><span>MFS clinical evidence library · sourced from Padagis</span></div>
+</div>
+
+<header class="site-head">
+  <div class="shell head-row">
+    <a class="brand" href="index.html" aria-label="MFS Medical Flavouring Systems — home">
+      <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+    </a>
+    <div class="head-side">
+      <nav class="head-nav" aria-label="Primary">
+        <a href="index.html#range">The Range</a>
+        <a href="index.html#why">Why ORA®</a>
+        <a href="studies.html" aria-current="page">Studies</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <a class="back-link" href="index.html#builder">
+        <span>Build your 6 + 1</span>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <span class="eyebrow">ORA® evidence library</span>
+        <h1>Stability studies,<br><span class="serif">all in one place.</span></h1>
+        <p class="hero-copy">Browse the stability-study bibliography and the complete <em>Secundum Artem</em> archive of practical compounding publications. Open any linked drug synopsis or archive issue directly from Padagis.</p>
+      </div>
+      <div class="hero-proof" aria-label="Library overview">
+        <div class="proof"><strong id="heroCount">107</strong><span>Referenced formulations</span></div>
+        <div class="proof"><strong id="docCount">17</strong><span>Source synopsis documents</span></div>
+        <div class="proof"><strong id="issueCount">70</strong><span>Secundum Artem issues</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell library" id="library">
+    <div class="library-tabs" role="tablist" aria-label="Study resources">
+      <button class="library-tab is-active" id="bibliographyTab" type="button" role="tab" aria-selected="true" aria-controls="bibliographyPanel">Bibliography</button>
+      <button class="library-tab" id="secundumTab" type="button" role="tab" aria-selected="false" aria-controls="secundumPanel">Secundum Artem</button>
+    </div>
+
+    <div id="bibliographyPanel" role="tabpanel" aria-labelledby="bibliographyTab">
+      <div class="library-head">
+      <div>
+        <span class="eyebrow" style="color:var(--flame)">Bibliography</span>
+        <h2>Stability studies of extemporaneously prepared oral formulations</h2>
+        <p>Search by drug, author, journal or publication year. Linked drug names open their synopsis in a new tab.</p>
+      </div>
+      <div class="search-wrap">
+        <label class="sr-only" for="studySearch">Search stability studies</label>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-search"/></svg>
+        <input class="search" id="studySearch" type="search" autocomplete="off" placeholder="Search drug, author or journal…">
+        <span class="key-hint" aria-hidden="true">/</span>
+      </div>
+      </div>
+
+      <div class="filter-bar" aria-label="Filter studies by first letter">
+        <div class="filter-row" id="letterFilters"></div>
+      </div>
+
+      <div class="results-meta">
+        <span id="resultCount" aria-live="polite"><strong>107</strong> studies shown</span>
+        <span class="source-mini">Source bibliography: Padagis</span>
+      </div>
+      <div class="study-list" id="studyList"></div>
+
+      <aside class="notice">
+        <div class="notice-icon"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-info"/></svg></div>
+        <div>
+          <h3>Professional reference information</h3>
+          <p>This bibliography is provided for qualified healthcare professionals and does not replace the full study, current product information, professional judgement or applicable compounding standards. Verify formulation, concentration, vehicle, storage conditions and beyond-use dating against the original publication. Bibliography sourced from <a href="https://www.padagis.com/compounding-products/" target="_blank" rel="noopener noreferrer">Padagis Compounding Products</a>.</p>
+        </div>
+      </aside>
+    </div>
+
+    <div id="secundumPanel" role="tabpanel" aria-labelledby="secundumTab" hidden>
+      <div class="archive-head">
+        <div>
+          <span class="eyebrow" style="color:var(--flame)">Secundum Artem</span>
+          <h2>Previous issues available for reference</h2>
+          <p>The complete Padagis archive of <em>Secundum Artem</em> compounding publications, from Volume 20 back to Volume 1. Select any issue to open the original PDF.</p>
+        </div>
+        <div class="archive-count"><strong id="archiveCount">70</strong><br>archive issues</div>
+      </div>
+      <div class="ce-note"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-info"/></svg>Continuing education credit is no longer available through Padagis; the publications remain available for reference.</div>
+      <div class="issue-list" id="issueList"></div>
+
+      <aside class="notice">
+        <div class="notice-icon"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-doc"/></svg></div>
+        <div>
+          <h3>Original archive documents</h3>
+          <p>All issue, Pharmacist CPE and Pharmacy Technician CE links point directly to the documents hosted by <a href="https://www.padagis.com/compounding-products/" target="_blank" rel="noopener noreferrer">Padagis</a>.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+        <p><strong>MFS P/L — Medical Flavouring Systems</strong></p>
+        <p>P.O. Box 270, Brunswick East, Victoria 3057, Australia</p>
+      </div>
+      <div>
+        <h4>Order desk</h4>
+        <ul>
+          <li>P <a href="tel:+61393870427">(03) 9387 0427</a></li>
+          <li>F (03) 9387 0627</li>
+          <li><a href="mailto:info@medicalfs.com.au">info@medicalfs.com.au</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick links</h4>
+        <ul>
+          <li><a href="index.html#range">The ORA® range</a></li>
+          <li><a href="index.html#builder">Build 6 + 1</a></li>
+          <li><a href="https://www.medicalfs.com.au">medicalfs.com.au</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <div>ORA-Plus®, ORA-Sweet® and ORA-Blend® are registered trademarks of Padagis. Study citations and Secundum Artem issue titles are reproduced as reference information from Padagis. Original linked documents remain hosted by Padagis.</div>
+      <nav class="footer-policy-links" aria-label="Legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="studies-data.js"></script>
+<script>
+(function(){
+  'use strict';
+  var studies = Array.isArray(window.STUDIES) ? window.STUDIES : [];
+  var issues = Array.isArray(window.SECUNDUM_ARTEM) ? window.SECUNDUM_ARTEM : [];
+  var list = document.getElementById('studyList');
+  var issueList = document.getElementById('issueList');
+  var search = document.getElementById('studySearch');
+  var filters = document.getElementById('letterFilters');
+  var resultCount = document.getElementById('resultCount');
+  var activeLetter = 'ALL';
+  var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  var available = new Set(studies.map(function(study){ return study.name.charAt(0).toUpperCase(); }));
+
+  document.getElementById('heroCount').textContent = studies.length;
+  document.getElementById('docCount').textContent = new Set(studies.filter(function(study){ return study.href; }).map(function(study){ return study.href; })).size;
+  document.getElementById('issueCount').textContent = issues.length;
+  document.getElementById('archiveCount').textContent = issues.length;
+
+  function escapeHtml(value){
+    return String(value).replace(/[&<>'"]/g,function(char){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char];
+    });
+  }
+
+  function makeFilter(label){
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'letter' + (label === activeLetter ? ' is-active' : '');
+    button.textContent = label === 'ALL' ? 'All' : label;
+    button.dataset.letter = label;
+    button.setAttribute('aria-pressed', label === activeLetter ? 'true' : 'false');
+    if(label !== 'ALL' && !available.has(label)) button.disabled = true;
+    button.addEventListener('click', function(){
+      activeLetter = label;
+      Array.prototype.forEach.call(filters.children,function(item){
+        var on = item.dataset.letter === activeLetter;
+        item.classList.toggle('is-active',on);
+        item.setAttribute('aria-pressed',on ? 'true' : 'false');
+      });
+      render();
+    });
+    filters.appendChild(button);
+  }
+
+  function render(){
+    var query = search.value.trim().toLocaleLowerCase('en-AU');
+    var matches = studies.filter(function(study){
+      var matchesLetter = activeLetter === 'ALL' || study.name.charAt(0).toUpperCase() === activeLetter;
+      var haystack = (study.name + ' ' + study.citation).toLocaleLowerCase('en-AU');
+      return matchesLetter && (!query || haystack.indexOf(query) !== -1);
+    });
+    resultCount.innerHTML = '<strong>' + matches.length + '</strong> ' + (matches.length === 1 ? 'study' : 'studies') + ' shown';
+
+    if(!matches.length){
+      list.innerHTML = '<div class="empty"><strong>No matching studies</strong><span>Try a different drug, author, journal or letter.</span></div>';
+      return;
+    }
+
+    list.innerHTML = matches.map(function(study){
+      var source = studies.indexOf(study) + 1;
+      var name = escapeHtml(study.name);
+      var title = study.href
+        ? '<a href="' + escapeHtml(study.href) + '" target="_blank" rel="noopener noreferrer">' + name + '<svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-external"/></svg></a>'
+        : name;
+      var badge = study.href
+        ? '<span class="doc-badge"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-doc"/></svg>Synopsis PDF</span>'
+        : '<span class="doc-badge is-muted">Citation only</span>';
+      return '<article class="study-card">' +
+        '<span class="study-index">' + String(source).padStart(3,'0') + '</span>' +
+        '<div><h3>' + title + '</h3><p class="citation">' + escapeHtml(study.citation) + '</p></div>' +
+        badge + '</article>';
+    }).join('');
+  }
+
+  function renderIssues(){
+    issueList.innerHTML = issues.map(function(issue){
+      var extras = issue.extra && issue.extra.length
+        ? '<div class="issue-extra">' + issue.extra.map(function(link){
+            return '<a href="' + escapeHtml(link.href) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(link.label) + '<svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-external"/></svg></a>';
+          }).join('') + '</div>'
+        : '';
+      return '<article class="issue-card">' +
+        '<a class="issue-main" href="' + escapeHtml(issue.href) + '" target="_blank" rel="noopener noreferrer">' +
+          '<span class="issue-main-top"><span class="issue-volume">' + escapeHtml(issue.volume) + '</span><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-external"/></svg></span>' +
+          '<h3>' + escapeHtml(issue.title) + '</h3>' +
+        '</a>' + extras + '</article>';
+    }).join('');
+  }
+
+  function selectTab(name, updateHash){
+    var bibliographyOn = name !== 'secundum';
+    var bibliographyTab = document.getElementById('bibliographyTab');
+    var secundumTab = document.getElementById('secundumTab');
+    document.getElementById('bibliographyPanel').hidden = !bibliographyOn;
+    document.getElementById('secundumPanel').hidden = bibliographyOn;
+    bibliographyTab.classList.toggle('is-active',bibliographyOn);
+    secundumTab.classList.toggle('is-active',!bibliographyOn);
+    bibliographyTab.setAttribute('aria-selected',bibliographyOn ? 'true' : 'false');
+    secundumTab.setAttribute('aria-selected',bibliographyOn ? 'false' : 'true');
+    bibliographyTab.tabIndex = bibliographyOn ? 0 : -1;
+    secundumTab.tabIndex = bibliographyOn ? -1 : 0;
+    if(updateHash && window.history && window.history.replaceState){
+      window.history.replaceState(null,'',bibliographyOn ? '#bibliography' : '#secundum-artem');
+    }
+  }
+
+  makeFilter('ALL');
+  letters.forEach(makeFilter);
+  renderIssues();
+  document.getElementById('bibliographyTab').addEventListener('click',function(){ selectTab('bibliography',true); });
+  document.getElementById('secundumTab').addEventListener('click',function(){ selectTab('secundum',true); });
+  document.querySelector('.library-tabs').addEventListener('keydown',function(event){
+    if(event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    var next = document.activeElement.id === 'bibliographyTab' ? 'secundum' : 'bibliography';
+    selectTab(next,true);
+    document.getElementById(next === 'secundum' ? 'secundumTab' : 'bibliographyTab').focus();
+  });
+  search.addEventListener('input',render);
+  document.addEventListener('keydown',function(event){
+    if(event.key === '/' && document.activeElement !== search){
+      event.preventDefault(); search.focus();
+    }
+    if(event.key === 'Escape' && document.activeElement === search){
+      search.value = ''; search.blur(); render();
+    }
+  });
+  render();
+  selectTab(window.location.hash === '#secundum-artem' ? 'secundum' : 'bibliography',false);
+})();
+</script>
+</body>
+</html>
