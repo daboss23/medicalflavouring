@@ -68,15 +68,17 @@
   /* Rhythm */
   --gutter:clamp(18px,4vw,32px);
   --shell:1220px;
-  /* Every section contributes --space per side and nothing else, so the join
-     between any two of them is always 2x --space. One number, no exceptions:
-     a section must never need to know what it sits next to. */
-  --space:clamp(40px,2.2vw + 20px,66px);
-  /* One interior padding for every panel that paints its own box, so a panel
-     edge sits the same distance from its content wherever it appears. */
-  --panel-pad:clamp(28px,3.4vw,46px);
+  /* Two scales, because they do different jobs.
+     --space is what a PLAIN section contributes per side; two of them meet at
+     a join, so a join is always 2x this and never more - that is what used to
+     grow down the page.
+     --band-space is the INTERIOR of a filled band. Its edge is the visual
+     boundary, so this is internal air, not a join, and it runs generous.
+     --panel-pad is the interior of any panel that paints its own box. */
+  --space:clamp(40px,2.2vw + 26px,72px);
+  --band-space:clamp(56px,3.6vw + 38px,104px);
+  --panel-pad:clamp(30px,3.8vw,54px);
   --section-space:var(--space);
-  --band-space:var(--space);
   --bay:var(--space);
 }
 
@@ -1477,7 +1479,7 @@ body.has-product-modal{overflow:hidden}
   .head-nav{display:none}
 }
 @media (max-width:720px){
-  :root{--gutter:20px;--space:38px;--section-space:var(--space);--band-space:var(--space);--bay:var(--space);--r-xl:24px;--r-lg:18px}
+  :root{--gutter:20px;--space:40px;--band-space:58px;--panel-pad:30px;--section-space:var(--space);--bay:var(--space);--r-xl:24px;--r-lg:18px}
   body{font-size:16px;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
   html{scroll-padding-top:128px}
   .head-row{flex-wrap:wrap;padding-block:11px 0;gap:10px 14px}
