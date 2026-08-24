@@ -919,10 +919,11 @@ p{text-wrap:pretty}
 .sku-meta{flex:1; min-width:0}
 .sku-name{font-family:var(--display); font-weight:680; font-size:16px; letter-spacing:-.018em}
 .sku-sub{font-size:12.5px; color:#a8bcd4; margin-top:2px}
-.sku-add{display:flex; flex-direction:column; align-items:center; gap:5px}
-.sku-add-lbl{
-  font-family:var(--mono); font-size:9.5px; font-weight:600;
-  letter-spacing:.13em; text-transform:uppercase; color:#9fb4cd; white-space:nowrap;
+.sku-add{display:flex; flex-direction:column; align-items:center; gap:9px; width:158px; flex:none}
+.sku-add-btn{
+  width:100%; justify-content:center; gap:0;
+  min-height:42px; padding:6px 14px; border-radius:9px;
+  font-size:14px; font-weight:750; letter-spacing:.05em; text-transform:uppercase;
 }
 .sku .stepper{background:rgba(255,255,255,.09); box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
 .sku .step-btn{color:#e6eef7}
@@ -1583,7 +1584,7 @@ body.has-product-modal{overflow:hidden}
   .sku-thumb img{height:49px}
   .sku-name{font-size:15px}
   .sku-sub{font-size:11.5px;line-height:1.35}
-  .sku-add{grid-column:1/-1;width:100%}
+  .sku-add{grid-column:1/-1;width:100%;align-items:stretch}
   .sku .stepper{display:grid;grid-template-columns:44px 1fr 44px;width:100%;padding:2px}
   .sku .step-btn{width:44px;height:44px}
   .stack{margin-top:18px;padding:18px 16px;border-radius:16px}
@@ -2404,7 +2405,7 @@ skuList.innerHTML = SKUS.map(function(s){
       '<div class="sku-sub">'+s.sub+' · 473 mL</div>'+
     '</div>'+
     '<div class="sku-add">'+
-      '<span class="sku-add-lbl">Add to cart</span>'+
+      '<button class="btn btn--flame sku-add-btn" type="button" data-inc="'+s.key+'" aria-label="Add one '+s.name+' to cart"><span class="btn-label">Add to cart</span></button>'+
       '<div class="stepper">'+
         '<button class="step-btn" type="button" data-dec="'+s.key+'" aria-label="Remove one '+s.name+'">'+icon('i-minus')+'</button>'+
         '<span class="step-n" data-qty="'+s.key+'">0</span>'+
