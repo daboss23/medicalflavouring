@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>ORA® Stability Studies | MFS</title>
 <meta name="description" content="Browse the Padagis bibliography of stability studies for extemporaneously prepared oral formulations using ORA® compounding vehicles.">
 <meta name="theme-color" content="#0b2444">
@@ -33,6 +36,7 @@
   --ease:cubic-bezier(.22,1,.36,1);
   --shell:1220px;
   --gutter:clamp(18px,4vw,32px);
+  --section-space:48px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:120px;-webkit-text-size-adjust:100%}
@@ -59,14 +63,47 @@ button{color:inherit}
 .head-nav a:hover{color:var(--ink);background:rgba(14,20,32,.04)}
 .head-nav a[aria-current="page"]{color:var(--navy);font-weight:700;background:rgba(18,58,107,.07)}
 .head-nav a[aria-current="page"]::after{content:'';position:absolute;left:13px;right:13px;bottom:5px;height:2px;background:var(--flame);border-radius:4px}
-.back-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 15px;border-radius:10px;background:var(--navy);color:#fff;font-size:13.5px;font-weight:650;box-shadow:0 10px 24px -16px rgba(18,58,107,.6);transition:transform .3s var(--ease),background .3s var(--ease)}
-.back-link:hover{transform:translateY(-2px);background:var(--navy-soft)}
-.back-link svg{width:16px;height:16px}
+.back-link{
+  --cta-cycle:3s;--cta-glow:rgba(255,74,27,.28);
+  position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  min-height:46px;padding:5px 20px;border:1px solid rgba(255,128,86,.92);border-radius:10px;
+  background:linear-gradient(174deg,#ff7652 0%,var(--flame-lift) 16%,var(--flame) 52%,#c92508 100%);
+  color:#fff;font-size:15.5px;font-weight:750;letter-spacing:.025em;line-height:1.2;text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(91,14,2,.34);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.68),inset 0 -4px 0 rgba(117,18,4,.48),inset 0 0 0 1px rgba(130,20,4,.34),0 13px 28px -10px rgba(238,60,19,.58),0 0 18px rgba(238,60,19,.18);
+  animation:ctaGlow var(--cta-cycle) ease-in-out infinite;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+}
+.back-link::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 52%);
+}
+.back-link::after{
+  content:'';position:absolute;inset:1px;border-radius:8px;z-index:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 39%,rgba(255,255,255,.04) 45%,rgba(255,255,255,.3) 50%,rgba(255,255,255,.05) 55%,transparent 61%);
+  background-size:280% 100%;background-position:180% 0;opacity:0;
+  animation:ctaShine var(--cta-cycle) linear infinite;
+}
+.back-link span{position:relative;z-index:1;white-space:nowrap;color:#fff}
+.back-link .cta-arrow{position:relative;z-index:1;flex:none;width:24px;height:24px;color:#fff}
+.back-link .cta-arrow svg{display:block;width:22px;height:22px;transition:transform .55s var(--ease)}
+.back-link:hover .cta-arrow svg{transform:translateX(3px)}
+.back-link:hover{color:#fff;transform:translateY(-2.5px);box-shadow:inset 0 1px 0 rgba(255,255,255,.76),inset 0 -4px 0 rgba(117,18,4,.5),inset 0 0 0 1px rgba(130,20,4,.3),0 20px 42px -11px rgba(238,60,19,.72),0 0 28px rgba(255,78,32,.3)}
+@keyframes ctaShine{
+  0%,10%{background-position:180% 0;opacity:0}
+  20%{opacity:.72}
+  74%{opacity:.72}
+  84%,100%{background-position:-80% 0;opacity:0}
+}
+@keyframes ctaGlow{
+  0%,100%{filter:drop-shadow(0 0 0 transparent)}
+  50%{filter:drop-shadow(0 0 8px var(--cta-glow))}
+}
 
 .hero{position:relative;overflow:hidden;background:var(--navy-deep);color:#fff}
 .hero::before{content:'';position:absolute;width:700px;aspect-ratio:1;left:-250px;top:-420px;border-radius:50%;background:radial-gradient(circle,rgba(238,60,19,.28),rgba(238,60,19,0) 66%)}
 .hero::after{content:'';position:absolute;width:620px;aspect-ratio:1;right:-210px;bottom:-430px;border-radius:50%;background:radial-gradient(circle,rgba(65,140,225,.24),rgba(65,140,225,0) 66%)}
-.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:50px;padding-block:clamp(70px,9vw,124px)}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:50px;padding-block:var(--section-space)}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#f0a68e;font-family:var(--mono);font-size:11.5px;font-weight:550;letter-spacing:.2em;text-transform:uppercase}
 .eyebrow::before{content:'';width:18px;height:1.5px;background:currentColor;opacity:.7}
 h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weight:820;line-height:.98;letter-spacing:-.045em;text-wrap:balance}
@@ -77,7 +114,7 @@ h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weig
 .proof strong{display:block;color:#fff;font-size:32px;line-height:1;font-weight:800;letter-spacing:-.04em}
 .proof span{display:block;margin-top:9px;color:#9fb4ca;font-family:var(--mono);font-size:9.5px;line-height:1.45;letter-spacing:.13em;text-transform:uppercase}
 
-.library{padding-block:clamp(54px,7vw,92px) clamp(76px,9vw,120px)}
+.library{padding-block:var(--section-space)}
 .library-tabs{display:grid;grid-template-columns:1fr 1fr;margin-bottom:clamp(42px,5vw,66px);border-bottom:1px solid var(--line)}
 .library-tab{position:relative;min-height:60px;padding:10px 20px;border:0;background:transparent;color:var(--ink-3);font-size:14px;font-weight:650;cursor:pointer;transition:color .25s var(--ease),background .25s var(--ease)}
 .library-tab::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:var(--flame);transform:scaleX(0);transition:transform .35s var(--ease)}
@@ -150,7 +187,7 @@ h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weig
 .issue-extra a:hover{background:var(--navy);color:#fff}
 .issue-extra svg{width:11px;height:11px}
 
-.site-foot{background:var(--navy-deep);color:#b8c8da;padding-block:50px calc(42px + env(safe-area-inset-bottom))}
+.site-foot{background:var(--navy-deep);color:#b8c8da;padding-block:var(--section-space) calc(var(--section-space) + env(safe-area-inset-bottom))}
 .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:42px}
 .site-foot img{height:48px;width:auto;filter:brightness(0) invert(1);opacity:.96;margin-bottom:17px}
 .site-foot p{margin:5px 0;font-size:13.5px}
@@ -164,7 +201,7 @@ h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weig
 .footer-policy-links a{color:#e3edf7;font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,255,255,.3);text-underline-offset:4px}
 .footer-policy-links a:hover{color:#ff9a78;text-decoration-color:currentColor}
 
-@media (max-width:950px){
+@media (max-width:1080px){
   .head-nav{display:none}
   .hero-grid{grid-template-columns:1fr;align-items:start}
   .hero-proof{max-width:520px}
@@ -172,32 +209,68 @@ h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weig
   .archive-head{grid-template-columns:1fr}
 }
 @media (max-width:720px){
-  .ticker-inner{font-size:9px;letter-spacing:.1em}
-  .head-row{min-height:66px}
-  .brand img{height:38px}
-  .back-link span{display:none}
-  .back-link{width:42px;padding:0;justify-content:center}
-  .hero-grid{padding-block:58px 66px;gap:34px}
-  .hero-proof{width:100%;grid-template-columns:1fr 1fr}
-  .library{padding-top:44px}
-  .filter-bar{top:66px}
-  .study-card{grid-template-columns:42px minmax(0,1fr);gap:14px;padding:20px 17px}
+  :root{--gutter:20px;--section-space:48px}
+  .ticker-inner{min-height:36px;padding-block:7px;font-size:8.5px;line-height:1.35;letter-spacing:.08em}
+  .head-row{min-height:68px;gap:14px}
+  .brand img{height:44px}
+  .head-side{gap:8px}
+  .back-link{min-height:44px;padding:5px 12px;font-size:11.5px;letter-spacing:.015em}
+  .hero-grid{padding-block:var(--section-space);gap:28px}
+  .eyebrow{font-size:10px;letter-spacing:.16em}
+  h1{font-size:clamp(42px,12vw,54px);line-height:1}
+  .hero-copy{font-size:16px;line-height:1.58}
+  .hero-proof{width:100%;min-width:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .proof{padding:16px 11px;border-radius:12px}
+  .proof strong{font-size:28px}
+  .proof span{margin-top:7px;font-size:8px;letter-spacing:.09em}
+  .library{padding-block:var(--section-space)}
+  .library-tabs{margin-bottom:34px}
+  .library-tab{min-height:54px;padding-inline:10px;font-size:13px}
+  .library-head{gap:23px;margin-bottom:24px}
+  .library-head h2,.archive-head h2{font-size:32px}
+  .search{min-height:54px;padding-inline:48px 18px}
+  .search-wrap svg{left:16px}
+  .key-hint{display:none}
+  .filter-bar{top:68px;padding-block:10px}
+  .filter-row{gap:6px}
+  .letter{min-width:44px;height:44px;padding-inline:10px}
+  .letter:first-child{min-width:52px}
+  .results-meta{margin:25px 0 14px}
+  .study-card{grid-template-columns:40px minmax(0,1fr);gap:13px;padding:18px 16px;border-radius:12px}
   .study-index{width:36px;height:36px}
   .doc-badge{grid-column:2;justify-self:start;margin-top:2px}
-  .foot-grid{grid-template-columns:1fr;gap:30px}
+  .citation{font-size:15px;line-height:1.58}
+  .notice{gap:13px;margin-top:28px;padding:18px 16px}
+  .archive-head{gap:18px;margin-bottom:24px}
+  .archive-count{white-space:normal}
+  .ce-note{align-items:flex-start;padding:12px 13px}
+  .issue-card{min-height:0;padding:19px 17px;border-radius:12px}
+  .foot-grid{grid-template-columns:1fr;gap:28px}
+  .site-foot{padding-block:var(--section-space) calc(var(--section-space) + env(safe-area-inset-bottom))}
+  .site-foot img{height:44px}
+  .foot-legal{margin-top:28px}
   .issue-list{grid-template-columns:1fr}
 }
 @media (max-width:430px){
-  h1{font-size:42px}
-  .hero-proof{grid-template-columns:1fr}
-  .library-head h2{font-size:32px}
+  :root{--gutter:16px}
+  h1{font-size:40px}
+  .hero-proof{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .proof{padding:14px 8px}
+  .proof strong{font-size:25px}
+  .proof span{font-size:7.5px;line-height:1.35}
+  .library-head h2,.archive-head h2{font-size:30px}
   .results-meta{align-items:flex-start;flex-direction:column;gap:4px}
-  .study-card{grid-template-columns:1fr}
+  .study-card{grid-template-columns:1fr;padding:17px 15px}
   .study-index{display:none}
   .doc-badge{grid-column:1}
+  .study-card h3{font-size:17px}
+  .notice{grid-template-columns:34px minmax(0,1fr);padding:16px 14px}
+  .notice-icon{width:34px;height:34px}
+  .issue-card h3{font-size:16px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  .back-link,.back-link::after{animation:none!important}
   *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.001ms!important}
 }
 </style>
@@ -224,14 +297,16 @@ h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weig
     </a>
     <div class="head-side">
       <nav class="head-nav" aria-label="Primary">
-        <a href="index.html#range">The Range</a>
+        <a href="index.html#top">Home</a>
         <a href="index.html#why">Why ORA®</a>
         <a href="studies.html" aria-current="page">Studies</a>
-        <a href="index.html#faq">FAQ</a>
+        <a href="index.html#range">Range</a>
+        <a href="index.html#builder">Bundle 1 on 6</a>
+        <a href="index.html#about">Team</a>
       </nav>
       <a class="back-link" href="index.html#builder">
-        <span>Build your 6 + 1</span>
-        <svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg>
+        <span>BUILD YOUR FREE 1 ON 6</span>
+        <span class="cta-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
       </a>
     </div>
   </div>
@@ -335,9 +410,12 @@ h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weig
       <div>
         <h4>Quick links</h4>
         <ul>
-          <li><a href="index.html#range">The ORA® range</a></li>
-          <li><a href="index.html#builder">Build 6 + 1</a></li>
-          <li><a href="https://www.medicalfs.com.au">medicalfs.com.au</a></li>
+          <li><a href="index.html#top">Home</a></li>
+          <li><a href="index.html#why">Why ORA®</a></li>
+          <li><a href="studies.html" aria-current="page">Studies</a></li>
+          <li><a href="index.html#range">Range</a></li>
+          <li><a href="index.html#builder">Bundle 1 on 6</a></li>
+          <li><a href="index.html#about">Team</a></li>
         </ul>
       </div>
     </div>

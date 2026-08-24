@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ORA® Compounding Vehicles — Buy 6, Get the 7th Free | MFS</title>
+<title>ORA® Compounding Vehicles, Buy 6, Get the 7th Free | MFS</title>
 <meta name="description" content="The complete Padagis ORA® suspension vehicle and sweetening agent range at Australia's lowest price. Mix and match any six 473 mL bottles and the seventh is free. Backed by 150+ published stability studies.">
 <meta name="theme-color" content="#123a6b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,7 +68,8 @@
   /* Rhythm */
   --gutter:clamp(18px,4vw,32px);
   --shell:1220px;
-  --bay:clamp(64px,8vw,120px);
+  --section-space:48px;
+  --bay:var(--section-space);
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -97,24 +98,30 @@ p{text-wrap:pretty}
 
 .shell{max-width:var(--shell); margin:0 auto; padding-inline:var(--gutter)}
 .bay{padding-block:var(--bay)}
+.section-space{padding-block:var(--section-space)}
 
 /* ============================================================
    Type scale
    ============================================================ */
 .eyebrow{
   font-family:var(--mono);
-  font-size:11.5px;
-  font-weight:500;
-  letter-spacing:.22em;
+  font-size:13px;
+  font-weight:650;
+  letter-spacing:.24em;
+  line-height:1.35;
   text-transform:uppercase;
-  color:var(--flame);
-  display:inline-flex; align-items:center; gap:9px;
+  color:var(--flame-lift);
+  display:inline-flex; align-items:center; gap:12px;
+  text-shadow:0 0 14px rgba(238,60,19,.24);
 }
-.eyebrow::before{
-  content:''; width:16px; height:1.5px; background:currentColor; opacity:.55; flex:none;
+.eyebrow::before,.eyebrow::after{
+  content:''; width:28px; height:3px; flex:none;
+  background:currentColor;
+  filter:drop-shadow(0 0 4px rgba(238,60,19,.28));
 }
-.eyebrow--navy{color:var(--navy)}
-.eyebrow--light{color:#f0a68e}
+.eyebrow::before{clip-path:polygon(0 44%,100% 0,100% 100%,0 56%)}
+.eyebrow::after{clip-path:polygon(0 0,100% 44%,100% 56%,0 100%)}
+.eyebrow--navy,.eyebrow--light{color:var(--flame-lift)}
 
 .h-display{
   font-size:clamp(42px,6.4vw,78px);
@@ -155,9 +162,10 @@ p{text-wrap:pretty}
 .btn{
   --btn-bg:var(--navy);
   --btn-fg:#fff;
+  --cta-cycle:3s;
   position:relative;
   display:inline-flex; align-items:center; gap:14px;
-  padding:7px 7px 7px 26px;
+  padding:7px 20px 7px 26px;
   min-height:56px;
   border:0; border-radius:var(--r-btn);
   background:var(--btn-bg); color:var(--btn-fg);
@@ -173,46 +181,86 @@ p{text-wrap:pretty}
   background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 52%);
   opacity:.9;
 }
-.btn:hover{transform:translateY(-2.5px)}
+.btn:hover{color:#fff;transform:translateY(-2.5px)}
+.btn:hover .btn-label,.btn:hover .btn-arrow{color:#fff}
 .btn:active{transform:translateY(0) scale(.985); transition-duration:.12s}
-.btn-orb{
-  flex:none;
-  width:42px; height:42px; border-radius:var(--r-orb);
-  display:grid; place-items:center;
-  background:rgba(255,255,255,.16);
-  transition:transform .55s var(--ease), background-color .4s var(--ease);
-}
-.btn-orb svg{width:17px; height:17px; transition:transform .55s var(--ease)}
-.btn:hover .btn-orb{background:rgba(255,255,255,.26)}
-.btn:hover .btn-orb svg{transform:translateX(3px)}
+.btn-arrow{position:relative;z-index:1;flex:none;width:24px;height:24px;display:grid;place-items:center;color:#fff}
+.btn-arrow svg{width:22px;height:22px;transition:transform .55s var(--ease)}
+.btn:hover .btn-arrow svg{transform:translateX(3px)}
 .btn-label{white-space:nowrap}
 
 .btn--flame{
   --btn-bg:var(--flame);
-  background:linear-gradient(168deg,var(--flame-lift) 0%,var(--flame) 46%,var(--flame-deep) 100%);
-  box-shadow:var(--lift-flame);
+  --cta-glow:rgba(255,74,27,.28);
+  border:1px solid rgba(255,128,86,.92);
+  background:linear-gradient(174deg,#ff7652 0%,var(--flame-lift) 16%,var(--flame) 52%,#c92508 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.68),
+    inset 0 -4px 0 rgba(117,18,4,.48),
+    inset 0 0 0 1px rgba(130,20,4,.34),
+    0 13px 28px -10px rgba(238,60,19,.58),
+    0 0 18px rgba(238,60,19,.18);
+  font-size:17px; font-weight:750;
+  letter-spacing:.025em; text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(91,14,2,.34);
+  animation:ctaGlow var(--cta-cycle) ease-in-out infinite;
 }
-.btn--flame:hover{box-shadow:0 18px 38px -12px rgba(238,60,19,.55), 0 2px 6px rgba(238,60,19,.22)}
-/* Sheen sweep on the money button */
-.btn--flame .btn-label{position:relative}
-.btn--flame::after{
-  content:''; position:absolute; inset:0; border-radius:inherit; z-index:-1; overflow:hidden;
-  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.34) 50%,transparent 62%);
-  background-size:260% 100%; background-position:190% 0;
-  transition:background-position 1.05s var(--ease-soft);
+.btn--flame:hover{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.76),
+    inset 0 -4px 0 rgba(117,18,4,.5),
+    inset 0 0 0 1px rgba(130,20,4,.3),
+    0 20px 42px -11px rgba(238,60,19,.72),
+    0 0 28px rgba(255,78,32,.3);
 }
-.btn--flame:hover::after{background-position:-60% 0}
+.btn--flame .btn-label,.btn--navy .btn-label{position:relative;z-index:1}
+/* One restrained, synchronized sheen and glow cycle for every CTA. */
+.btn--flame::after,.btn--navy::after{
+  content:''; position:absolute; inset:1px; border-radius:calc(var(--r-btn) - 2px); z-index:0; pointer-events:none;
+  background:linear-gradient(105deg,transparent 39%,rgba(255,255,255,.04) 45%,rgba(255,255,255,.3) 50%,rgba(255,255,255,.05) 55%,transparent 61%);
+  background-size:280% 100%; background-position:180% 0; opacity:0;
+  animation:ctaShine var(--cta-cycle) linear infinite;
+}
+@keyframes ctaShine{
+  0%,10%{background-position:180% 0;opacity:0}
+  20%{opacity:.72}
+  74%{opacity:.72}
+  84%,100%{background-position:-80% 0;opacity:0}
+}
+@keyframes ctaGlow{
+  0%,100%{filter:drop-shadow(0 0 0 transparent)}
+  50%{filter:drop-shadow(0 0 8px var(--cta-glow))}
+}
 
-.btn--navy{--btn-bg:var(--navy); box-shadow:var(--lift-2)}
-.btn--navy:hover{--btn-bg:var(--navy-soft)}
-
-.btn--on-dark{--btn-fg:var(--navy); --btn-bg:#fff}
-.btn--on-dark .btn-orb{background:rgba(18,58,107,.10)}
-.btn--sm{min-height:46px; font-size:14px; padding:5px 5px 5px 20px}
+.btn--navy{
+  --btn-bg:var(--navy);
+  --cta-glow:rgba(35,91,151,.28);
+  border:1px solid rgba(55,102,155,.9);
+  background:linear-gradient(174deg,#2c5d92 0%,#1d4a7d 16%,var(--navy) 52%,#071f3c 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.48),
+    inset 0 -4px 0 rgba(3,18,35,.62),
+    inset 0 0 0 1px rgba(3,18,35,.35),
+    0 13px 28px -10px rgba(18,58,107,.62),
+    0 0 18px rgba(18,58,107,.2);
+  font-size:17px; font-weight:750;
+  letter-spacing:.025em; text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(3,18,35,.48);
+  animation:ctaGlow var(--cta-cycle) ease-in-out infinite;
+}
+.btn--navy:hover{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.56),
+    inset 0 -4px 0 rgba(3,18,35,.66),
+    inset 0 0 0 1px rgba(3,18,35,.3),
+    0 20px 42px -11px rgba(18,58,107,.76),
+    0 0 28px rgba(29,74,125,.34);
+}
+.btn--sm{min-height:46px; font-size:14px; padding:5px 16px 5px 20px}
+.btn--flame.btn--sm,.btn--navy.btn--sm{font-size:15.5px}
 .btn--sm{border-radius:10px}
-.btn--sm .btn-orb{width:36px; height:36px; border-radius:5px}
-.btn--sm .btn-orb svg{width:15px; height:15px}
 .btn--block{display:flex; width:100%; justify-content:space-between}
+.btn--text-only{justify-content:center;padding-inline:26px}
 
 .cta-stack{display:flex; flex-wrap:wrap; gap:14px; align-items:center}
 
@@ -269,23 +317,23 @@ p{text-wrap:pretty}
 .site-head.is-tucked{transform:translateY(-100%)}
 .site-head.is-stuck{box-shadow:0 12px 30px -22px rgba(14,20,32,.5)}
 .head-row{
-  max-width:var(--shell); margin:0 auto; padding:14px var(--gutter);
-  display:flex; align-items:center; justify-content:space-between; gap:28px;
+  max-width:var(--shell); min-height:74px; margin:0 auto; padding:0 var(--gutter);
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
 }
 .brand{display:flex; align-items:center; gap:14px}
 .brand img{
-  display:block;height:52px;width:auto;object-fit:contain;
+  display:block;height:44px;width:auto;object-fit:contain;
   image-rendering:-webkit-optimize-contrast;
   filter:contrast(1.1) saturate(1.06);
 }
-.head-nav{display:flex; align-items:center; gap:6px}
+.head-nav{display:flex; align-items:center; gap:4px}
 .head-nav a{
-  position:relative; padding:9px 14px; border-radius:8px;
+  position:relative; padding:9px 13px; border-radius:8px;
   font-size:14.5px; font-weight:520; color:var(--ink-2);
   transition:color .3s var(--ease), background-color .3s var(--ease);
 }
 .head-nav a::after{
-  content:''; position:absolute; left:14px; right:14px; bottom:5px; height:1.5px;
+  content:''; position:absolute; left:13px; right:13px; bottom:5px; height:1.5px;
   background:var(--flame); border-radius:2px;
   transform:scaleX(0); transform-origin:left;
   transition:transform .45s var(--ease);
@@ -294,14 +342,11 @@ p{text-wrap:pretty}
 .head-nav a:hover::after{transform:scaleX(1)}
 .head-actions{display:flex; align-items:center; gap:12px}
 .cart-chip{
-  display:inline-flex; align-items:center; gap:9px;
-  padding:10px 16px 10px 14px; border-radius:10px;
-  background:var(--navy); color:#fff;
-  font-size:13.5px; font-weight:600; letter-spacing:-.005em;
-  box-shadow:var(--lift-1);
-  transition:transform .45s var(--ease), background-color .35s var(--ease);
+  gap:9px; padding:5px 7px 5px 14px; border-radius:10px;
+  color:#fff; font-size:14px; font-weight:750; letter-spacing:.02em;
 }
-.cart-chip:hover{color:#fff; background:var(--navy-soft); transform:translateY(-1.5px)}
+.cart-chip:hover{color:#fff}
+.cart-chip>svg,.cart-chip>span{position:relative;z-index:1}
 .cart-chip svg{width:16px; height:16px}
 .cart-chip .n{
   font-family:var(--mono); font-variant-numeric:tabular-nums;
@@ -310,51 +355,50 @@ p{text-wrap:pretty}
 }
 .cart-chip.is-bumped{animation:chipPop .55s var(--ease-spring)}
 @keyframes chipPop{0%{transform:scale(1)}38%{transform:scale(1.14)}100%{transform:scale(1)}}
-.head-strip{
-  border-top:1px solid var(--line-soft);
-  background:rgba(243,246,250,.6);
-}
-.head-strip .shell{
-  padding-block:8px;
-  font-size:12.5px; color:var(--ink-3);
-  display:flex; flex-wrap:wrap; gap:6px 18px; align-items:center;
-}
-.head-strip .dot{width:3px; height:3px; border-radius:50%; background:var(--ink-4); flex:none}
-
 /* ============================================================
    Hero
    ============================================================ */
-.hero{position:relative; overflow:hidden}
+.hero{
+  --hero-parallax-y:0px;
+  position:relative; overflow:hidden; isolation:isolate;
+  background-color:#0b2949;
+}
 .hero::before{
-  /* soft ambient light behind the fold — no harsh gradients */
-  content:''; position:absolute; z-index:0; pointer-events:none;
-  width:min(860px,90vw); aspect-ratio:1; right:-16%; top:-42%;
-  background:radial-gradient(circle at center,rgba(238,60,19,.10),rgba(238,60,19,0) 62%);
+  content:''; position:absolute; z-index:0; pointer-events:none; inset:-22% 0;
+  background-image:url('assets/medical-team-hero.jpg');
+  background-size:cover;
+  background-position:center 48%;
+  background-repeat:no-repeat;
+  transform:translate3d(0,var(--hero-parallax-y),0) scale(1.05);
+  transform-origin:center;
+  will-change:transform;
 }
 .hero::after{
-  content:''; position:absolute; z-index:0; pointer-events:none;
-  width:min(700px,80vw); aspect-ratio:1; left:-24%; bottom:-46%;
-  background:radial-gradient(circle at center,rgba(18,58,107,.09),rgba(18,58,107,0) 60%);
+  content:''; position:absolute; z-index:1; pointer-events:none; inset:0;
+  background:
+    linear-gradient(90deg,rgba(5,24,47,.93) 0%,rgba(7,32,59,.86) 43%,rgba(7,29,53,.72) 100%),
+    linear-gradient(180deg,rgba(4,18,35,.12),transparent 24%,transparent 72%,rgba(4,18,35,.34));
 }
 .hero-grid{
-  position:relative; z-index:1;
+  position:relative; z-index:2;
   display:grid; grid-template-columns:1.06fr .94fr; gap:clamp(28px,4vw,56px);
   align-items:start;
-  padding-block:clamp(72px,7.5vw,104px) clamp(44px,5.4vw,76px);
+  padding-block:96px;
 }
 .hero-tag{
-  display:inline-flex; align-items:center; gap:10px;
+  display:inline-flex; align-items:center;
   padding:0;
   font-family:var(--display); font-size:clamp(19px,2vw,27px); font-weight:800;
-  letter-spacing:-.035em; color:var(--ink);
+  letter-spacing:-.035em; line-height:1.15; color:#fff;
   margin-bottom:22px;
 }
 .hero-tag-mark{
-  padding:0 .18em;
-  color:#fff;
-  background:linear-gradient(transparent 16%,var(--flame) 16%,var(--flame) 88%,transparent 88%);
+  padding:0 .2em; color:#fff;
+  background:linear-gradient(transparent 8%,var(--flame) 8%,var(--flame) 92%,transparent 92%);
   box-decoration-break:clone; -webkit-box-decoration-break:clone;
+  text-shadow:0 2px 8px rgba(105,16,2,.28);
 }
+.hero h1{color:#fff;text-shadow:0 3px 24px rgba(0,0,0,.24)}
 .nowrap{white-space:nowrap}
 .hero h1 .free{
   position:relative; color:var(--flame); display:inline-block;
@@ -369,8 +413,8 @@ p{text-wrap:pretty}
 }
 .is-lit .hero h1 .free path{animation:draw 1.15s var(--ease) .75s forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
-.hero .lede{margin:26px 0 0; max-width:54ch}
-.hero .lede strong{color:var(--ink); font-weight:650}
+.hero .lede{margin:26px 0 0; max-width:54ch;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.28)}
+.hero .lede strong{color:#fff; font-weight:700}
 .hero-cta{margin-top:34px}
 
 /* ---- Hero stage: six bottles you buy, plus the seventh ---- */
@@ -385,12 +429,12 @@ p{text-wrap:pretty}
 .lineup img{
   height:clamp(156px,19.2vw,292px); width:auto; flex:none;
   margin-left:clamp(-28px,-1.9vw,-10px);
-  filter:drop-shadow(0 20px 24px rgba(14,20,32,.16));
+  filter:drop-shadow(0 22px 28px rgba(0,0,0,.34)) drop-shadow(0 0 4px rgba(255,255,255,.24));
   transition:transform .8s var(--ease), filter .8s var(--ease);
   will-change:transform;
 }
 .lineup img:first-child{margin-left:0}
-.lineup img:hover{transform:translateY(-12px); filter:drop-shadow(0 28px 32px rgba(14,20,32,.24))}
+.lineup img:hover{transform:translateY(-12px); filter:drop-shadow(0 30px 34px rgba(0,0,0,.42)) drop-shadow(0 0 5px rgba(255,255,255,.34))}
 .lineup-free{position:relative; flex:none}
 .lineup-free img{
   margin-left:0;
@@ -404,32 +448,47 @@ p{text-wrap:pretty}
   background:radial-gradient(circle at center,rgba(238,60,19,.22),rgba(238,60,19,0) 62%);
 }
 .free-flag{
-  position:absolute; left:50%; top:-14px; translate:-50% -100%;
+  position:absolute; left:50%; top:-4px; translate:-50% -100%;
   white-space:nowrap;
-  padding:10px 16px; border-radius:9px;
+  padding:9px 19px; border-radius:10px;
   background:linear-gradient(168deg,var(--flame-lift),var(--flame) 55%,var(--flame-deep));
   color:#fff; box-shadow:var(--lift-flame);
   font-family:var(--display); font-weight:800;
-  font-size:clamp(12px,1.15vw,15px); letter-spacing:.02em; text-transform:uppercase;
+  font-size:clamp(13px,1.3vw,17px); line-height:1.2; letter-spacing:.02em; text-transform:uppercase;
 }
-.free-flag::after{
-  content:''; position:absolute; left:50%; bottom:-6px; translate:-50% 0;
-  width:12px; height:12px; rotate:45deg; background:var(--flame-deep);
+.free-arrows{
+  position:absolute; left:50%; top:calc(100% + 5px); translate:-50% 0;
+  width:30px; height:54px; pointer-events:none;
 }
+.free-arrows i{
+  position:absolute; left:50%; top:0; width:13px; height:13px;
+  border-right:3px solid #ff6d45; border-bottom:3px solid #ff6d45;
+  filter:drop-shadow(0 2px 3px rgba(238,60,19,.48));
+  opacity:0; transform:translate(-50%,-8px) rotate(45deg);
+  animation:freeArrowStream 1.8s linear infinite;
+}
+.free-arrows i:nth-child(2){animation-delay:.6s}
+.free-arrows i:nth-child(3){animation-delay:1.2s}
 .is-lit .free-flag{animation:flagDrop .7s var(--ease-spring) .95s backwards}
 @keyframes flagDrop{from{opacity:0; translate:-50% -160%}}
+@keyframes freeArrowStream{
+  0%{opacity:0;transform:translate(-50%,-8px) rotate(45deg)}
+  18%{opacity:1}
+  72%{opacity:.72}
+  100%{opacity:0;transform:translate(-50%,34px) rotate(45deg)}
+}
 .lineup-note{
   position:absolute; left:50%; top:calc(100% + 14px); translate:-50% 0;
   width:max-content; max-width:88vw;
   display:flex; align-items:center; gap:11px; justify-content:center;
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.15em;
-  text-transform:uppercase; color:var(--ink-4); white-space:nowrap;
+  font-family:var(--mono); font-size:12px; font-weight:550; letter-spacing:.16em;
+  text-transform:uppercase; color:rgba(255,255,255,.9); white-space:nowrap;
 }
 .lineup-note::before,.lineup-note::after{
   content:''; height:1px; width:26px; flex:none;
-  background:linear-gradient(90deg,transparent,var(--line-strong));
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.64));
 }
-.lineup-note::after{background:linear-gradient(90deg,var(--line-strong),transparent)}
+.lineup-note::after{background:linear-gradient(90deg,rgba(255,255,255,.64),transparent)}
 
 /* Price card — double-bezel construction */
 .price-shell{
@@ -494,7 +553,7 @@ p{text-wrap:pretty}
 }
 .range-grid{
   display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(32px,4.6vw,64px); align-items:center;
-  padding-block:clamp(56px,7vw,96px);
+  padding-block:var(--section-space);
 }
 .bottle-row{display:flex; align-items:flex-end; justify-content:center; gap:2px}
 .bottle-row img{
@@ -560,9 +619,9 @@ p{text-wrap:pretty}
 }
 .panel{
   position:relative;
-  display:grid; grid-template-columns:.86fr 1.14fr; gap:clamp(28px,4vw,64px);
+  display:grid; grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr); gap:clamp(32px,4vw,60px);
   align-items:center;
-  padding-block:clamp(56px,7vw,104px);
+  padding-block:var(--section-space);
 }
 .panel-art{position:relative; display:grid; place-items:center; min-height:280px}
 /* fine lab-grid texture behind standalone product art */
@@ -579,9 +638,9 @@ p{text-wrap:pretty}
   filter:drop-shadow(0 34px 46px rgba(0,0,0,.45));
 }
 .panel-art--scene{
-  isolation:isolate; min-height:clamp(390px,42vw,540px); overflow:hidden;
-  border-radius:clamp(22px,3vw,34px);
-  background:var(--navy-deep); box-shadow:none;
+  isolation:isolate; width:100%; min-height:0; aspect-ratio:1.08 / 1; overflow:visible;
+  border-radius:0;
+  background:transparent; box-shadow:none;
 }
 .panel-art--scene::before{
   content:none;
@@ -590,11 +649,17 @@ p{text-wrap:pretty}
   content:none;
 }
 .panel-art--scene > img{
-  position:absolute; inset:-3%; width:106%; height:106%; max-width:none;
+  position:absolute; inset:0; width:100%; height:100%; max-width:none;
   object-fit:cover; object-position:50% 50%; transform:none;
   filter:saturate(.96) contrast(1.02) brightness(.96);
-  mask-image:radial-gradient(ellipse 82% 84% at 50% 50%,#000 0 66%,rgba(0,0,0,.96) 74%,rgba(0,0,0,.55) 86%,transparent 100%);
-  -webkit-mask-image:radial-gradient(ellipse 82% 84% at 50% 50%,#000 0 66%,rgba(0,0,0,.96) 74%,rgba(0,0,0,.55) 86%,transparent 100%);
+  mask-image:
+    linear-gradient(90deg,transparent 0,rgba(0,0,0,.78) 1%,#000 3.5%,#000 96.5%,rgba(0,0,0,.78) 99%,transparent 100%),
+    linear-gradient(180deg,transparent 0,rgba(0,0,0,.78) 1%,#000 3.5%,#000 96.5%,rgba(0,0,0,.78) 99%,transparent 100%);
+  mask-composite:intersect;
+  -webkit-mask-image:
+    linear-gradient(90deg,transparent 0,rgba(0,0,0,.78) 1%,#000 3.5%,#000 96.5%,rgba(0,0,0,.78) 99%,transparent 100%),
+    linear-gradient(180deg,transparent 0,rgba(0,0,0,.78) 1%,#000 3.5%,#000 96.5%,rgba(0,0,0,.78) 99%,transparent 100%);
+  -webkit-mask-composite:source-in;
 }
 .panel-art--scene .panel-stamp{
   z-index:3; right:4%; left:auto; top:5%;
@@ -618,7 +683,8 @@ p{text-wrap:pretty}
   text-transform:uppercase; color:rgba(255,255,255,.7); line-height:1.35;
 }
 .panel-copy{padding:0}
-.panel-copy h2{margin:16px 0 16px}
+.panel-copy .eyebrow{display:flex;width:max-content;max-width:100%;margin-inline:0;justify-content:flex-start;text-align:left}
+.panel-copy h2{margin:16px 0 16px;text-align:left}
 .panel-copy p{margin:0 0 20px; color:#c9d6e6; font-size:16.5px; line-height:1.6}
 .tick-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:13px}
 .tick-list li{display:flex; gap:13px; align-items:flex-start; font-size:16px; line-height:1.5; color:#eaf1f8}
@@ -970,11 +1036,23 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 .bonus-field select:focus{border-color:#ff8a63;box-shadow:0 0 0 3px rgba(238,60,19,.18)}
 .checkout-status{min-height:18px;margin:10px 4px 0;color:#b53618;font-size:12px;line-height:1.45;text-align:center}
 .checkout-status.is-ok{color:#0f6b47}
+#addBundle{justify-content:center;padding-inline:56px}
+#addBundle .btn-label{width:100%;text-align:center}
+#addBundle .btn-arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%)}
 #addBundle:disabled{cursor:wait;opacity:.68;transform:none;box-shadow:none}
+.checkout-trust{margin-top:14px;background:#fff}
+.checkout-trust img{display:block;width:92%;height:auto;margin-inline:auto}
+.checkout-privacy{
+  margin:10px 0 0; color:var(--ink-4); text-align:center;
+  font-family:var(--mono); font-size:clamp(6.5px,1vw,10px); font-weight:600;
+  line-height:1.35; letter-spacing:clamp(.015em,.09vw,.09em); text-transform:uppercase;
+  white-space:nowrap;
+}
 
 /* ============================================================
    Testimonials
    ============================================================ */
+.testimonial-shell{padding-block:var(--section-space)}
 .testimonial-carousel{width:min(100%,780px); margin-inline:auto}
 .testimonial-viewport{min-height:340px; display:grid}
 .testimonial-slide{
@@ -1008,11 +1086,57 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 .testimonial-author cite{display:block; color:var(--navy-deep); font-family:var(--display); font-size:15px; font-style:italic; font-weight:760}
 .testimonial-author span{display:block; margin-top:2px; color:var(--ink-4); font-family:var(--mono); font-size:9.5px; letter-spacing:.11em; text-transform:uppercase}
 .testimonial-author .testimonial-avatar{display:grid; margin-top:0; color:#fff}
-.testimonial-controls{display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:20px}
-.testimonial-arrow{width:46px; height:46px; border:1px solid var(--line); border-radius:50%; background:#fff; color:var(--ink-4); font:600 20px/1 var(--display)}
-.testimonial-arrow:disabled{cursor:default; opacity:.48}
-.testimonial-indicators{display:flex; align-items:center; justify-content:center; gap:8px}
-.testimonial-indicator{width:10px; height:10px; border-radius:50%; background:var(--flame); box-shadow:0 0 0 4px rgba(238,60,19,.12)}
+/* ============================================================
+   About Padagis / executive team
+   ============================================================ */
+.team-section{
+  position:relative; isolation:isolate; overflow:hidden; padding-block:var(--section-space);
+  background:
+    radial-gradient(circle at 14% 18%,rgba(238,60,19,.065),transparent 24%),
+    linear-gradient(180deg,#fff 0%,#fbfcfe 100%);
+  border-bottom:1px solid var(--line-soft);
+}
+.team-section::before{
+  content:''; position:absolute; z-index:-1; right:-160px; bottom:-185px; width:520px; aspect-ratio:1;
+  border:38px solid rgba(18,58,107,.055); border-left-color:rgba(238,60,19,.08); border-radius:48% 52% 44% 56%;
+  transform:rotate(-18deg); pointer-events:none;
+}
+.team-head{width:min(100% - (var(--gutter) * 2),840px); margin:0 auto clamp(40px,5vw,64px); text-align:center}
+.team-head .h-section{margin:0}
+.team-marquee{
+  position:relative; width:100%; overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+}
+.team-track{display:flex; width:max-content; will-change:transform; animation:teamScroll 54s linear infinite}
+.team-marquee:hover .team-track,.team-marquee:focus-within .team-track{animation-play-state:paused}
+.team-set{display:flex; gap:24px; padding-right:24px}
+.team-card{width:258px; flex:0 0 258px}
+.team-photo{
+  position:relative; overflow:hidden; aspect-ratio:414 / 454; border-radius:22px;
+  background:#e8edf3; box-shadow:0 22px 48px -34px rgba(18,58,107,.68);
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease);
+}
+.team-photo::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(18,58,107,.09),inset 0 -110px 80px -80px rgba(6,25,50,.28);
+  border-radius:inherit;
+}
+.team-photo img{
+  display:block; width:100%; height:100%; object-fit:cover; filter:saturate(1);
+  transition:filter .5s var(--ease),transform .65s var(--ease);
+}
+.team-card:hover .team-photo,.team-card:focus-within .team-photo{transform:translateY(-7px);box-shadow:0 32px 58px -32px rgba(18,58,107,.72)}
+.team-card:hover img,.team-card:focus-within img{filter:saturate(1.06);transform:scale(1.025)}
+.team-meta{
+  position:absolute; z-index:2; left:10px; right:10px; bottom:10px; min-height:58px; padding:8px 13px;
+  display:flex; flex-direction:column; justify-content:center; border:1px solid rgba(255,255,255,.54); border-radius:14px;
+  background:rgba(255,255,255,.88); backdrop-filter:blur(13px); -webkit-backdrop-filter:blur(13px);
+  box-shadow:0 12px 30px -24px rgba(6,25,50,.72);
+}
+.team-meta h3{margin:0; color:var(--navy-deep); font-family:var(--display); font-size:16px; line-height:1.12; letter-spacing:-.015em}
+.team-meta p{margin:3px 0 0; color:var(--ink-3); font-size:10.5px; line-height:1.25}
+@keyframes teamScroll{to{transform:translateX(-50%)}}
 
 /* ============================================================
    Product detail
@@ -1257,10 +1381,10 @@ body.has-product-modal{overflow:hidden}
    Footer
    ============================================================ */
 .tint-band{background:linear-gradient(180deg,#fff,var(--cream) 22%,var(--cream) 78%,#fff)}
-.site-foot{background:var(--navy-deep); color:#c3d2e4; margin-top:clamp(60px,7vw,100px)}
+.site-foot{background:var(--navy-deep); color:#c3d2e4; margin-top:0}
 .foot-grid{
   display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:clamp(24px,3vw,44px);
-  padding-block:clamp(44px,5vw,68px) 34px;
+  padding-block:var(--section-space) 34px;
 }
 .foot-grid img{height:46px; width:auto; margin-bottom:18px; filter:brightness(0) invert(1); opacity:.92}
 .foot-grid h4{
@@ -1279,10 +1403,10 @@ body.has-product-modal{overflow:hidden}
 }
 .foot-legal{
   border-top:1px solid rgba(255,255,255,.10);
-  padding-block:22px 34px;
+  padding-block:22px var(--section-space);
   font-size:12px; line-height:1.65; color:#7b90a9; max-width:100ch;
 }
-.footer-policy-links{display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:16px}
+.footer-policy-links{display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:0}
 .footer-policy-links a{color:#e3edf7; font-weight:700; text-decoration:underline; text-decoration-color:rgba(255,255,255,.3); text-underline-offset:4px}
 .footer-policy-links a:hover{color:var(--flame-lift); text-decoration-color:currentColor}
 
@@ -1340,51 +1464,204 @@ body.has-product-modal{overflow:hidden}
   .summary{position:static}
   .routes,.qual-grid{grid-template-columns:1fr}
   .panel-art{min-height:230px}
-  .panel-art--scene{min-height:clamp(400px,66vw,620px)}
+  .panel-art--scene{width:min(100%,720px);aspect-ratio:1.08 / 1;justify-self:center}
   .foot-grid{grid-template-columns:1fr 1fr}
   .head-nav{display:none}
 }
 @media (max-width:720px){
-  body{font-size:16px}
-  html{scroll-padding-top:80px}
-  .head-strip{display:none}
+  :root{--gutter:20px;--section-space:48px;--bay:var(--section-space);--r-xl:24px;--r-lg:18px}
+  body{font-size:16px;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  html{scroll-padding-top:128px}
+  .head-row{flex-wrap:wrap;padding-block:11px 0;gap:10px 14px}
+  .brand{order:1}
   .brand img{height:44px}
+  .head-actions{display:contents}
+  .head-nav{order:3;display:flex;width:calc(100% + (var(--gutter) * 2));margin-inline:calc(var(--gutter) * -1);padding:7px var(--gutter) 9px;gap:4px;overflow-x:auto;overscroll-behavior-inline:contain;border-top:1px solid var(--line-soft);scrollbar-width:none}
+  .head-nav::-webkit-scrollbar{display:none}
+  .head-nav a{flex:none;min-height:44px;display:flex;align-items:center;padding:8px 11px;font-size:13.5px}
+  .head-nav a::after{left:11px;right:11px}
+  .cart-chip{order:2;margin-left:auto;min-height:44px;padding:8px 12px;gap:8px}
   .card-grid,.stat-grid,.spec-grid{grid-template-columns:repeat(2,1fr)}
-  .foot-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr;gap:28px;padding-block:var(--section-space) 28px}
   .assure{grid-template-columns:1fr; text-align:center; justify-items:center}
-  .assure-seal{margin:0 auto}
-  .bottle-row{gap:0}
-  .bottle-row img{height:150px}
+  .assure-seal{width:82px;height:82px;margin:0 auto}
+  .assure-seal svg{width:36px;height:36px}
+  .bottle-row{width:calc(100% + 8px);margin-inline:-4px;gap:0}
+  .bottle-row img{height:clamp(142px,38vw,164px)}
   .cta-stack{flex-direction:column; align-items:stretch}
   .cta-stack .btn{justify-content:space-between; width:100%}
-  .ticker-inner{gap:4px 14px; font-size:9.5px; letter-spacing:.09em; padding-block:9px}
-  .cd-cell{min-width:22px; padding:1px 4px}
-  .hero-tag{font-size:18px; letter-spacing:-.03em; padding:0; margin-bottom:18px}
+  .cta-stack .btn--text-only{justify-content:center}
+  .btn{min-height:54px;padding-left:20px;font-size:15px}
+  .btn--flame{font-size:clamp(14px,4.1vw,16.5px);letter-spacing:.015em}
+  .btn--flame.btn--sm{font-size:14px}
+  .ticker-inner{gap:6px 12px;font-size:9px;line-height:1.35;letter-spacing:.08em;padding:8px var(--gutter)}
+  .ticker-inner>span:nth-child(2){display:none}
+  .countdown{gap:4px}
+  .countdown b{font-size:8.5px}
+  .cd-cell{min-width:22px;padding:2px 4px}
+  .hero-grid{padding-block:96px;gap:18px}
+  .hero::before{inset:-15% 0;background-position:44% center}
+  .hero::after{background:linear-gradient(180deg,rgba(5,24,47,.92),rgba(7,31,58,.85) 52%,rgba(5,24,47,.78))}
+  .h-display{font-size:clamp(40px,12vw,50px);line-height:1;letter-spacing:-.04em}
+  .h-section{font-size:clamp(30px,9vw,38px);line-height:1.06}
+  .h-sub{font-size:clamp(23px,6.8vw,28px)}
+  .eyebrow{font-size:11px;line-height:1.4;letter-spacing:.18em;gap:7px}
+  .eyebrow::before,.eyebrow::after{width:15px;height:2px}
+  .sec-head{gap:12px;margin-bottom:30px}
+  .hero-tag{font-size:18px;line-height:1.3;letter-spacing:-.03em;padding:0;margin-bottom:19px}
+  .hero .lede{margin-top:22px;font-size:16.5px;line-height:1.58}
+  .hero-cta{margin-top:28px}
+  .lineup{gap:10px;padding:34px 0 30px}
+  .lineup img{height:clamp(118px,34vw,144px);margin-left:clamp(-21px,-5vw,-15px)}
+  .lineup-free img{height:clamp(132px,38vw,160px);margin-left:0}
+  .free-flag{top:0;padding:8px 12px;font-size:11px;border-radius:8px}
+  .lineup-note{top:calc(100% + 10px);gap:7px;font-size:9.5px;letter-spacing:.13em}
+  .lineup-note::before,.lineup-note::after{width:18px}
+  .range-grid{gap:28px;padding-block:var(--section-space)}
+  .pill-row{gap:8px;margin-top:22px}
+  .pill{flex:1 1 calc(50% - 4px);justify-content:center;padding:10px 12px;font-size:13.5px;text-align:center}
+  .stat-grid{gap:12px}
+  .stat{padding:21px 18px 20px;border-radius:16px}
+  .stat-n{font-size:38px}
+  .stat-t{font-size:15px;margin:10px 0 7px}
+  .stat p{font-size:13.5px;line-height:1.5}
+  .panel{padding-block:var(--section-space);gap:28px}
+  .panel-copy p{font-size:15.5px}
+  .tick-list{gap:11px}
+  .tick-list li{gap:11px;font-size:15px}
+  .qual{padding:24px 20px;border-radius:22px}
+  .qual-grid{gap:12px;margin-top:24px}
+  .qual-card{padding:20px;border-radius:16px}
+  .table-wrap{border-radius:16px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  table{min-width:600px;font-size:14px}
+  thead th,tbody td{padding:15px 13px}
+  thead th:first-child,tbody td:first-child{position:sticky;left:0;z-index:2;box-shadow:8px 0 14px -14px rgba(14,20,32,.7)}
+  thead th:first-child{background:var(--mist)}
+  tbody td:first-child{background:#fff}
+  .card-grid{gap:12px}
+  .card{border-radius:16px}
+  .card-art{padding:36px 10px 31px}
+  .card-art img{height:clamp(172px,49vw,198px)}
+  .card-label{font-size:13px;bottom:9px}
+  .card-expand{top:9px;padding:4px 6px;font-size:7.5px}
+  .builder{border-radius:22px}
+  .builder-head{padding:28px 20px 0}
+  .builder-head h2{margin:12px 0 10px}
+  .builder-head p{font-size:15px;line-height:1.55}
+  .builder-grid{gap:20px;padding:20px}
+  .sku{display:grid;grid-template-columns:46px minmax(0,1fr);gap:10px 12px;padding:12px 13px 13px 16px;border-radius:14px}
+  .sku-thumb{width:46px;height:54px}
+  .sku-thumb img{height:49px}
+  .sku-name{font-size:15px}
+  .sku-sub{font-size:11.5px;line-height:1.35}
+  .sku .stepper{grid-column:1/-1;display:grid;grid-template-columns:44px 1fr 44px;width:100%;padding:2px}
+  .sku .step-btn{width:44px;height:44px}
+  .stack{margin-top:18px;padding:18px 16px;border-radius:16px}
+  .stack-line{gap:10px;font-size:13px}
+  .stack-line .k{min-width:0}
+  .stack-total{align-items:center}
+  .stack-total .k{font-size:13.5px}
+  .stack-total .v{font-size:24px}
+  .summary{padding:21px 17px 18px;border-radius:18px}
+  .count-row{display:grid;grid-template-columns:1fr;margin-top:9px}
+  .count-n{font-size:46px}
+  .bonus-choices{width:100%;max-width:none;margin:8px 0 0;padding:14px}
+  .bonus-field select{min-height:44px;font-size:14px}
+  .sum-line{font-size:13.5px}
+  .sum-line.is-total .v{font-size:24px}
+  .bump{gap:13px;padding:18px 16px;border-radius:14px}
+  .bump-copy .k{font-size:14px}
+  .bump-copy .t{font-size:13.5px}
+  .testimonial-slide{padding:30px 22px;gap:17px}
+  .testimonial-copy{font-size:20px;line-height:1.48}
+  .team-section{padding-block:var(--section-space)}
+  .team-head{margin-bottom:34px}
+  .team-marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+  .team-set{gap:14px;padding-right:14px}
+  .team-card{width:218px;flex-basis:218px}
+  .team-photo{border-radius:18px}
+  .team-meta{left:8px;right:8px;bottom:8px;min-height:56px;padding:8px 11px;border-radius:12px}
+  .team-meta h3{font-size:15px}
+  .team-meta p{font-size:10px;line-height:1.23}
   .ob-facts .ob-item:nth-child(3),.ob-facts .ob-rule:nth-child(4){display:none}
-  .order-bar .btn-label{display:none}
-  .order-bar .btn{padding-left:7px}
+  .ob-facts{gap:13px}
+  .ob-item .v{font-size:17px}
+  .ob-rule{height:27px}
+  .order-bar{padding:9px 14px calc(9px + env(safe-area-inset-bottom))}
+  .order-bar-inner{gap:12px}
+  .order-bar .btn{min-width:auto;padding:6px 12px;font-size:11.5px}
   .buy-row{flex-direction:column; align-items:stretch}
   .buy-row .btn{justify-content:space-between}
   .testimonial-viewport{min-height:auto}
-  .testimonial-slide{padding:30px 22px}
   .product-modal{padding:8px}
   .product-modal-dialog{max-height:calc(100vh - 16px); border-radius:var(--r-lg)}
   .product-modal-close{position:fixed; top:16px; right:16px}
+  .product-modal-close{width:44px;height:44px}
   .product-doc-head{align-items:flex-start; padding:14px 58px 14px 14px; gap:12px; flex-wrap:wrap}
   .product-doc-bottle{width:36px; height:50px}
   .product-pdf-frame{height:calc(100vh - 172px)}
-  .panel-art--scene{min-height:clamp(350px,91vw,500px); border-radius:22px}
+  .panel-art--scene{width:100%;min-height:0;aspect-ratio:1 / 1;border-radius:0}
+  .panel-stamp{width:92px}
   .panel-art--scene .panel-stamp{right:5%; left:auto; top:5%}
+  .pdp-grid{padding:18px}
+  .pdp-art{padding:24px 18px}
+  .pdp-hero-img{height:250px}
+  .buy-row{padding:17px}
+  .acc-btn{min-height:60px;padding:16px 2px;font-size:15.5px}
+  .acc-panel p{padding:0 2px 19px;font-size:14.5px}
+  .route{padding:22px 20px;border-radius:16px}
+  .route .btn{width:100%;justify-content:space-between}
+  .route .btn--text-only{justify-content:center}
+  .assure{padding:26px 22px;border-radius:22px}
+  .assure p{font-size:15px}
+  .closer{padding:28px 22px;border-radius:22px}
+  .closer-row{gap:24px}
+  .closer .cd-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:100%}
+  .closer .cd-box{min-width:0;padding:9px 5px}
+  .closer .cd-box .n{font-size:23px}
+  .closer-row>.cta-stack{width:100%}
+  .ps{margin-top:18px;padding:18px;border-radius:16px;font-size:14.5px}
+  .site-foot{margin-top:0}
+  .foot-note{gap:7px 14px;font-size:9.5px;line-height:1.55}
+  .foot-legal{padding-block:20px var(--section-space);font-size:11.5px}
 }
 @media (max-width:420px){
-  .card-grid,.spec-grid{grid-template-columns:1fr}
+  :root{--gutter:16px}
+  .spec-grid{grid-template-columns:1fr}
   .stat-grid{grid-template-columns:1fr}
+  .ticker-inner{font-size:8.5px}
+  .countdown b{display:none}
+  .cart-chip>span:not(.n){display:none}
+  .cart-chip{padding-inline:13px}
+  .h-display{font-size:clamp(38px,11.5vw,46px)}
+  .lineup img{height:clamp(108px,33vw,132px);margin-left:-18px}
+  .lineup-free img{height:clamp(121px,37vw,148px)}
+  .card-art img{height:clamp(164px,48vw,190px)}
+  .testimonial-author{align-items:flex-start}
+  .testimonial-copy{font-size:19px}
+  .builder-head,.builder-grid{padding-inline:16px}
+  .summary{padding-inline:15px}
+  .sum-line{gap:8px;font-size:13px}
+  .sum-line.is-total{font-size:15px}
+  .sum-line.is-total .v{font-size:22px}
+  .closer h2{font-size:28px}
+  .closer .cd-box .n{font-size:21px}
+}
+@media (max-width:350px){
+  .card-grid{grid-template-columns:1fr}
+  .card-art img{height:200px}
 }
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  .hero::before{transform:none!important;will-change:auto}
+  .btn--flame,.btn--flame::after,.btn--navy,.btn--navy::after{animation:none!important}
+  .btn--flame::after,.btn--navy::after{background-position:50% 0}
   .marquee-track{animation:none; width:100%; flex-wrap:wrap; justify-content:center; gap:10px}
   .marquee-track .marq-item:nth-child(n+7){display:none}
+  .team-marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none;padding-inline:var(--gutter)}
+  .team-track{animation:none;width:max-content;will-change:auto}
+  .team-set[aria-hidden="true"]{display:none}
   *,*::before,*::after{
     animation-duration:.001ms !important; animation-iteration-count:1 !important;
     transition-duration:.001ms !important;
@@ -1394,6 +1671,7 @@ body.has-product-modal{overflow:hidden}
 </style>
 </head>
 <body>
+<div id="top" aria-hidden="true"></div>
 
 <!-- ========== SVG icon sprite ========== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -1432,52 +1710,45 @@ body.has-product-modal{overflow:hidden}
 <!-- ========== Header ========== -->
 <header class="site-head" id="siteHead">
   <div class="head-row">
-    <a class="brand" href="#top" aria-label="MFS Medical Flavouring Systems — home">
+    <a class="brand" href="#top" aria-label="MFS Medical Flavouring Systems, home">
       <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
     </a>
     <div class="head-actions">
       <nav class="head-nav" aria-label="Primary">
-        <a href="#range">The Range</a>
+        <a href="#top">Home</a>
         <a href="#why">Why ORA®</a>
         <a href="studies.html">Studies</a>
+        <a href="#range">Range</a>
         <a href="#builder">Bundle 1 on 6</a>
-        <a href="#faq">FAQ</a>
+        <a href="#about">Team</a>
       </nav>
-      <a class="cart-chip" href="#builder" id="cartChip">
+      <a class="btn btn--navy btn--sm cart-chip" href="#builder" id="cartChip">
         <svg viewBox="0 0 20 20"><use href="#i-cart"/></svg>
         <span>Cart</span>
         <span class="n" id="cartCount">0</span>
       </a>
     </div>
   </div>
-  <div class="head-strip">
-    <div class="shell">
-      <span>Australian supplier of Padagis ORA® compounding vehicles</span>
-      <i class="dot"></i><span>Retail pharmacy</span>
-      <i class="dot"></i><span>Hospital pharmacy departments</span>
-      <i class="dot"></i><span>Compounding laboratories</span>
-    </div>
-  </div>
 </header>
 
-<main id="top">
+<main>
 
 <!-- ========== Hero ========== -->
 <section class="hero">
   <div class="shell hero-grid">
     <div>
       <div class="hero-tag" data-reveal>
-        <span class="hero-tag-mark">1 On 6 Bonus Special Offer</span>
+        <span class="hero-tag-mark">LIMITED-TIME 1 ON 6 SPECIAL BONUS OFFER</span>
       </div>
       <h1 class="h-display" data-reveal style="--d:60ms">
-        Buy 6 bottles,<br><span class="nowrap">get the 7th <span class="free">free<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M6 13 C 70 4, 150 4, 294 11"/></svg></span>.</span>
+        Buy 6 bottles,<br><span class="nowrap">get the 7th <span class="free">free<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M6 13 C 70 4, 150 4, 294 11"/></svg></span></span>
       </h1>
-      <p class="lede" data-reveal style="--d:140ms">The complete ORA® suspension vehicle and sweetening agent range — now at the <strong>cheapest price in Australia</strong>. Mix and match <strong>any combination</strong> of ORA® products to make up your six. Backed by <strong>over 150 published stability studies</strong>, so you can compound with confidence and defend your beyond-use dates.</p>
+      <p class="lede" data-reveal style="--d:140ms">The complete ORA® suspension vehicle and sweetening agent range. Mix and match <strong>any combination</strong> of ORA® products to make up your six. Backed by <strong>over 150 published stability studies</strong>, so you can compound with confidence and defend your beyond-use dates.</p>
 
       <div class="cta-stack hero-cta" data-reveal style="--d:260ms">
         <a class="btn btn--flame" href="#builder">
-          <span class="btn-label">Bundle your 6 + 1 free!</span>
-          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+          <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
+          <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </a>
       </div>
     </div>
@@ -1496,7 +1767,7 @@ body.has-product-modal{overflow:hidden}
           <div class="lineup-note">Any six ORA® products</div>
         </div>
         <div class="lineup-free">
-          <span class="free-flag">7th bottle free!</span>
+          <span class="free-flag">7th bottle free!<span class="free-arrows" aria-hidden="true"><i></i><i></i><i></i></span></span>
           <img src="assets/ora-blend-1.png" alt="Buy any six ORA products and the seventh bottle is free">
         </div>
       </div>
@@ -1516,7 +1787,7 @@ body.has-product-modal{overflow:hidden}
     </div>
     <div data-reveal style="--d:120ms">
       <h2 class="h-section" style="margin:0 0 16px;color:var(--navy)">Suspension vehicles &amp; sweetening agents</h2>
-      <p class="lede">Every product in the offer. Buffered, preserved, ready to use — and available in sugar-free options for paediatric, diabetic and enteral-feed patients.</p>
+      <p class="lede">Every product in the offer. Buffered, preserved, ready to use, and available in sugar-free options for paediatric, diabetic and enteral-feed patients.</p>
       <div class="pill-row">
         <span class="pill" style="--tint:var(--sku-plus)"><i class="tint-dot"></i>ORA-Plus®</span>
         <span class="pill" style="--tint:var(--sku-sweet)"><i class="tint-dot"></i>ORA-Sweet®</span>
@@ -1536,14 +1807,13 @@ body.has-product-modal{overflow:hidden}
 <!-- ========== Why ORA ========== -->
 <section id="why" class="shell bay">
   <div class="sec-head is-centered" data-reveal>
-    <span class="eyebrow">The clinical case</span>
     <h2 class="h-section">Why pharmacists specify ORA®</h2>
   </div>
   <div class="stat-grid">
     <div class="stat" data-reveal>
       <div class="stat-n" data-count="150" data-suffix="+" data-dp="0">150+</div>
       <div class="stat-t">Stability studies</div>
-      <p>The most extensively documented oral vehicle range available — peer-reviewed data supporting extemporaneous formulations.</p>
+      <p>The most extensively documented oral vehicle range available, with peer-reviewed data supporting extemporaneous formulations.</p>
     </div>
     <div class="stat" data-reveal style="--d:90ms">
       <div class="stat-n">1st</div>
@@ -1553,7 +1823,7 @@ body.has-product-modal{overflow:hidden}
     <div class="stat" data-reveal style="--d:180ms">
       <div class="stat-n">SF</div>
       <div class="stat-t">Sugar-free options</div>
-      <p>ORA-Sweet® SF and ORA-Blend® SF are sugar-free and dye-free — suitable for paediatric and diabetic dosing.</p>
+      <p>ORA-Sweet® SF and ORA-Blend® SF are sugar-free and dye-free, suitable for paediatric and diabetic dosing.</p>
     </div>
     <div class="stat" data-reveal style="--d:270ms">
       <div class="stat-n">RT</div>
@@ -1583,9 +1853,9 @@ body.has-product-modal{overflow:hidden}
         <li><span class="tick"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg></span> Consistent, reproducible vehicle batch to batch</li>
       </ul>
       <div class="cta-stack" style="margin-top:26px">
-        <a class="btn btn--flame" href="studies.html">
+        <a class="btn btn--flame btn--text-only" href="studies.html">
           <span class="btn-label">Browse the studies</span>
-          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+          <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </a>
       </div>
     </div>
@@ -1593,10 +1863,9 @@ body.has-product-modal{overflow:hidden}
 </section>
 
 <!-- ========== Qualifier ========== -->
-<section class="shell" style="padding-bottom:clamp(40px,5vw,64px)">
+<section class="shell section-space">
   <div class="qual" data-reveal>
     <div class="sec-head is-centered" style="margin-bottom:0">
-      <span class="eyebrow eyebrow--navy">Who this offer is for</span>
       <h2 class="h-sub">If you compound oral liquids, this is the cheapest your ORA® stock will be this year</h2>
     </div>
     <div class="qual-grid">
@@ -1620,9 +1889,8 @@ body.has-product-modal{overflow:hidden}
 </section>
 
 <!-- ========== Comparison ========== -->
-<section class="shell" style="padding-bottom:clamp(40px,5vw,64px)">
+<section class="shell section-space">
   <div class="sec-head is-centered" data-reveal>
-    <span class="eyebrow">Side by side</span>
     <h2 class="h-section">ORA® vs. the alternatives</h2>
   </div>
   <div class="table-wrap" data-reveal>
@@ -1643,7 +1911,7 @@ body.has-product-modal{overflow:hidden}
         </tr>
         <tr>
           <td>Sugar-free option</td>
-          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Yes — SF vehicles</span></td>
+          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Yes, SF vehicles</span></td>
           <td>No</td><td>Varies</td>
         </tr>
         <tr>
@@ -1653,7 +1921,7 @@ body.has-product-modal{overflow:hidden}
         </tr>
         <tr>
           <td>Compounding time</td>
-          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Low — ready to use</span></td>
+          <td class="is-hero"><span class="cell-yes"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg> Low, ready to use</span></td>
           <td>High</td><td>High</td>
         </tr>
         <tr>
@@ -1667,9 +1935,8 @@ body.has-product-modal{overflow:hidden}
 </section>
 
 <!-- ========== The range ========== -->
-<section id="range" class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+<section id="range" class="shell section-space">
   <div class="sec-head" data-reveal>
-    <span class="eyebrow">Deal price $29.99 each when you buy 6</span>
     <h2 class="h-section">The range</h2>
     <p class="lede">Click on product image for more information.</p>
   </div>
@@ -1677,7 +1944,7 @@ body.has-product-modal{overflow:hidden}
 </section>
 
 <!-- ========== Bundle builder ========== -->
-<section id="builder" class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+<section id="builder" class="shell section-space">
   <div class="builder" data-reveal>
     <div class="builder-head">
       <span class="eyebrow eyebrow--light">Mix and match bundle</span>
@@ -1733,11 +2000,13 @@ body.has-product-modal{overflow:hidden}
 
         <button class="btn btn--flame btn--block" id="addBundle" type="button" style="margin-top:16px">
           <span class="btn-label">Continue to checkout</span>
-          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+          <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </button>
+        <div class="checkout-trust" aria-label="Satisfaction guarantee, secure SSL checkout and verified Stripe payment methods">
+          <img src="assets/checkout-trust-badges-hd.png" width="3922" height="1604" alt="100% satisfaction guaranteed, 256-bit SSL secure checkout, verified Stripe payments, and supported payment methods" loading="lazy">
+        </div>
+        <p class="checkout-privacy">We respect your privacy · your details are never sold or shared</p>
         <p class="checkout-status" id="checkoutStatus" role="status" aria-live="polite"></p>
-        <div class="sum-fine" style="margin-top:8px">Stripe securely collects contact, billing, shipping and payment information.</div>
-        <div class="sum-fine">Prices shown in AUD. Product prices exclude GST; the checkout total includes estimated 10% GST.</div>
       </aside>
     </div>
   </div>
@@ -1745,7 +2014,7 @@ body.has-product-modal{overflow:hidden}
 
 <!-- ========== Testimonials ========== -->
 <section class="tint-band">
-  <div class="shell" style="padding-block:clamp(48px,6vw,84px)">
+  <div class="shell testimonial-shell">
   <div class="sec-head is-centered" data-reveal>
     <h2 class="h-section">A commitment to personalised care</h2>
   </div>
@@ -1769,13 +2038,43 @@ body.has-product-modal{overflow:hidden}
         </footer>
       </blockquote>
     </div>
-    <div class="testimonial-controls" aria-label="Testimonial controls">
-      <button class="testimonial-arrow" type="button" aria-label="Previous testimonial" disabled>&larr;</button>
-      <div class="testimonial-indicators" aria-label="Slide 1 of 1"><span class="testimonial-indicator"></span></div>
-      <button class="testimonial-arrow" type="button" aria-label="Next testimonial" disabled>&rarr;</button>
+  </div>
+  </div>
+</section>
+
+<!-- ========== About Padagis / executive team ========== -->
+<section class="team-section" id="about" aria-labelledby="aboutTitle">
+  <header class="team-head" data-reveal>
+    <h2 class="h-section" id="aboutTitle">Meet The Executive Team</h2>
+  </header>
+
+  <div class="team-marquee" aria-label="Padagis executive team">
+    <div class="team-track">
+      <div class="team-set">
+        <article class="team-card"><div class="team-photo"><img src="assets/team/pam-hoffman.jpg" alt="Pam Hoffman" loading="lazy"><div class="team-meta"><h3>Pam Hoffman</h3><p>Chief Executive Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/bryan-reasons.png" alt="Bryan Reasons" loading="lazy"><div class="team-meta"><h3>Bryan Reasons</h3><p>Executive Vice President and Chief Financial Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/sujeet-singh.png" alt="Sujeet Singh" loading="lazy"><div class="team-meta"><h3>Sujeet Singh</h3><p>Executive Vice President and Chief Growth Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/chris-bonny.png" alt="Chris Bonny" loading="lazy"><div class="team-meta"><h3>Chris Bonny</h3><p>Executive Vice President and Chief Commercial Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/ofir-seva.jpg" alt="Ofir Seva" loading="lazy"><div class="team-meta"><h3>Ofir Seva</h3><p>Executive Vice President and Chief Operating Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/erin-ascher.jpg" alt="Erin Ascher" loading="lazy"><div class="team-meta"><h3>Erin Ascher</h3><p>Executive Vice President and Chief Human Resources Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/shlomi-leibovich.png" alt="Shlomi Leibovich" loading="lazy"><div class="team-meta"><h3>Shlomi Leibovich</h3><p>Executive Vice President, International Markets</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/landon-clark.png" alt="Landon Clark" loading="lazy"><div class="team-meta"><h3>Landon Clark</h3><p>Senior Vice President and General Counsel</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/vishal-gupta.png" alt="Vishal Gupta" loading="lazy"><div class="team-meta"><h3>Vishal Gupta</h3><p>Executive Vice President and Chief Scientific Officer</p></div></div></article>
+      </div>
+      <div class="team-set" aria-hidden="true">
+        <article class="team-card"><div class="team-photo"><img src="assets/team/pam-hoffman.jpg" alt="" loading="lazy"><div class="team-meta"><h3>Pam Hoffman</h3><p>Chief Executive Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/bryan-reasons.png" alt="" loading="lazy"><div class="team-meta"><h3>Bryan Reasons</h3><p>Executive Vice President and Chief Financial Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/sujeet-singh.png" alt="" loading="lazy"><div class="team-meta"><h3>Sujeet Singh</h3><p>Executive Vice President and Chief Growth Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/chris-bonny.png" alt="" loading="lazy"><div class="team-meta"><h3>Chris Bonny</h3><p>Executive Vice President and Chief Commercial Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/ofir-seva.jpg" alt="" loading="lazy"><div class="team-meta"><h3>Ofir Seva</h3><p>Executive Vice President and Chief Operating Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/erin-ascher.jpg" alt="" loading="lazy"><div class="team-meta"><h3>Erin Ascher</h3><p>Executive Vice President and Chief Human Resources Officer</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/shlomi-leibovich.png" alt="" loading="lazy"><div class="team-meta"><h3>Shlomi Leibovich</h3><p>Executive Vice President, International Markets</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/landon-clark.png" alt="" loading="lazy"><div class="team-meta"><h3>Landon Clark</h3><p>Senior Vice President and General Counsel</p></div></div></article>
+        <article class="team-card"><div class="team-photo"><img src="assets/team/vishal-gupta.png" alt="" loading="lazy"><div class="team-meta"><h3>Vishal Gupta</h3><p>Executive Vice President and Chief Scientific Officer</p></div></div></article>
+      </div>
     </div>
   </div>
-  </div>
+
 </section>
 
 <!-- ========== Product detail modal ========== -->
@@ -1797,46 +2096,44 @@ body.has-product-modal{overflow:hidden}
 </section>
 
 <!-- ========== FAQ ========== -->
-<section id="faq" class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+<section id="faq" class="shell section-space">
   <div class="sec-head" data-reveal>
-    <span class="eyebrow">Before you order</span>
     <h2 class="h-section">FAQ</h2>
   </div>
   <div class="acc" id="faqAcc" data-reveal></div>
 </section>
 
 <!-- ========== Assurance ========== -->
-<section class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+<section class="shell section-space">
   <div class="assure" data-reveal>
     <div class="assure-seal"><svg viewBox="0 0 20 20"><use href="#i-shield"/></svg></div>
     <div>
       <h3>Not sure which vehicle your formulation needs? Ask before you buy.</h3>
-      <p>Call the order desk and describe what you're compounding. If ORA® is the right vehicle, we'll tell you which one and send the stability references that cover it. If it isn't, we'll tell you that too — a bottle sitting unopened on your shelf does neither of us any good.</p>
+      <p>Call the order desk and describe what you're compounding. If ORA® is the right vehicle, we'll tell you which one and send the stability references that cover it. If it isn't, we'll tell you that too, a bottle sitting unopened on your shelf does neither of us any good.</p>
     </div>
   </div>
 </section>
 
 <!-- ========== Three ways to order ========== -->
-<section class="shell" style="padding-bottom:clamp(48px,6vw,80px)">
+<section class="shell section-space">
   <div class="sec-head is-centered" data-reveal>
-    <span class="eyebrow">However suits you</span>
     <h2 class="h-section">3 fast ways to order</h2>
   </div>
   <div class="routes">
     <div class="route" data-reveal>
       <span class="route-n">1</span>
       <h3>Order online</h3>
-      <a class="btn btn--flame btn--sm" href="#builder">
-        <span class="btn-label">Bundle your 6 + 1 free!</span>
-        <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+      <a class="btn btn--flame btn--sm btn--text-only" href="#builder">
+        <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
+        <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
       </a>
-      <p class="m">Build your mix in under a minute — the seventh bottle is added automatically.</p>
+      <p class="m">Build your mix in under a minute, the seventh bottle is added automatically.</p>
     </div>
     <div class="route" data-reveal style="--d:100ms">
       <span class="route-n">2</span>
       <h3>Email us</h3>
       <a class="v" href="mailto:info@medicalfs.com.au">info@medicalfs.com.au</a>
-      <p class="m">Send your list and a PO number — we'll confirm pricing and stock the same business day.</p>
+      <p class="m">Send your list and a PO number, we'll confirm pricing and stock the same business day.</p>
     </div>
     <div class="route" data-reveal style="--d:200ms">
       <span class="route-n">3</span>
@@ -1848,11 +2145,11 @@ body.has-product-modal{overflow:hidden}
 </section>
 
 <!-- ========== Closer ========== -->
-<section class="shell" style="padding-bottom:clamp(20px,3vw,36px)">
+<section class="shell section-space">
   <div class="closer" data-reveal>
     <div class="closer-row">
       <div>
-        <h2>Offer ends 31 Aug 2026 —<br>lock in your allocation</h2>
+        <h2>Offer ends 31 Aug 2026,<br>lock in your allocation</h2>
         <div class="cd-strip">
           <div class="cd-box"><div class="n" data-cd="d">--</div><div class="l">Days</div></div>
           <div class="cd-box"><div class="n" data-cd="h">--</div><div class="l">Hours</div></div>
@@ -1861,15 +2158,15 @@ body.has-product-modal{overflow:hidden}
         </div>
       </div>
       <div class="cta-stack">
-        <a class="btn btn--on-dark" href="#builder">
-          <span class="btn-label">Bundle your 6 + 1 free!</span>
-          <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+        <a class="btn btn--navy btn--text-only" href="#builder">
+          <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
+          <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </a>
       </div>
     </div>
   </div>
   <div class="ps" data-reveal>
-    <b>P.S.</b> — Orders of one to five bottles remain at the regular $32.99 price. Select any six before 31 August and the paid price becomes $29.99 each, with a seventh bottle supplied free. <b>P.P.S.</b> — Buy twelve paid bottles and we supply three bonus bottles, so fifteen bottles ship for $359.88 ex GST.
+    <b>P.S.</b>, Orders of one to five bottles remain at the regular $32.99 price. Select any six before 31 August and the paid price becomes $29.99 each, with a seventh bottle supplied free. <b>P.P.S.</b>, Buy twelve paid bottles and we supply three bonus bottles, so fifteen bottles ship for $359.88 ex GST.
   </div>
 </section>
 
@@ -1881,7 +2178,7 @@ body.has-product-modal{overflow:hidden}
     <div class="foot-grid">
       <div>
         <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
-        <p><strong style="color:#fff">MFS P/L — Medical Flavouring Systems</strong></p>
+        <p><strong style="color:#fff">MFS P/L, Medical Flavouring Systems</strong></p>
         <p>P.O. Box 270, Brunswick East, Victoria 3057, Australia</p>
       </div>
       <div>
@@ -1895,10 +2192,12 @@ body.has-product-modal{overflow:hidden}
       <div>
         <h4>Quick links</h4>
         <ul>
-          <li><a href="#range">The range</a></li>
-          <li><a href="studies.html">Stability studies</a></li>
-          <li><a href="#builder">Build 6 + 1</a></li>
-          <li><a href="https://www.medicalfs.com.au">www.medicalfs.com.au</a></li>
+          <li><a href="#top">Home</a></li>
+          <li><a href="#why">Why ORA®</a></li>
+          <li><a href="studies.html">Studies</a></li>
+          <li><a href="#range">Range</a></li>
+          <li><a href="#builder">Bundle 1 on 6</a></li>
+          <li><a href="#about">Team</a></li>
         </ul>
       </div>
     </div>
@@ -1908,7 +2207,6 @@ body.has-product-modal{overflow:hidden}
       <span>Ships in 24–48 hours from Brunswick East, VIC</span>
     </div>
     <div class="foot-legal">
-      <div>Prices are AUD, exclude GST and are per 473 mL bottle. Orders of 1–5 bottles are $32.99 each. Orders of 6 or more paid bottles are $29.99 each; 6 paid bottles include 1 bonus bottle, while 12 paid bottles include 3 bonus bottles. Any ORA® product combination qualifies. Offer available while stocks last and closes 31 August 2026. Product information: www.padagis.com. ORA-Plus®, ORA-Sweet® and ORA-Blend® are registered trademarks of Padagis. Images supplied by the manufacturer.</div>
       <nav class="footer-policy-links" aria-label="Legal">
         <a href="privacy.html">Privacy Policy</a>
         <a href="terms.html">Terms of Use</a>
@@ -1927,9 +2225,9 @@ body.has-product-modal{overflow:hidden}
       <i class="ob-rule"></i>
       <div class="ob-item"><span class="k">Total ex GST</span><span class="v" id="obTotal">$0.00</span></div>
     </div>
-    <a class="btn btn--flame btn--sm" href="#builder" id="obCta">
-      <span class="btn-label">Build my 6 + 1</span>
-      <span class="btn-orb"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+    <a class="btn btn--flame btn--sm btn--text-only" href="#builder" id="obCta">
+      <span class="btn-label">BUILD YOUR FREE 1 ON 6</span>
+      <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
     </a>
   </div>
 </div>
@@ -1954,7 +2252,7 @@ var SKUS = [
     specs:['White, viscous liquid','4.0 – 4.5','No sweeteners','Very bland'], pdf:'assets/product-info/ora-plus.pdf',
     contains:'Purified water, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate, citric acid and sodium phosphate as buffers, and dimethicone antifoam emulsion. Preserved with methylparaben and potassium sorbate.' },
   { key:'sweet', tint:'var(--sku-sweet)', name:'ORA-Sweet®', sub:'Syrup vehicle', img:'assets/ora-sweet-1.png',
-    short:'Sucrose-sweetened citrus-berry syrup vehicle — the modern version of simple syrup.',
+    short:'Sucrose-sweetened citrus-berry syrup vehicle, the modern version of simple syrup.',
     desc:'A syrup vehicle that simplifies flavouring and sweetening extemporaneous oral preparations. It is a modern version of simple syrup with a highly palatable citrus-berry flavour.',
     specs:['Translucent yellow syrup','4.0 – 4.5','Sucrose','Sweet citrus-berry'], pdf:'assets/product-info/ora-sweet.pdf',
     contains:'Purified water, sucrose, glycerin, sorbitol and berry citrus flavour. Buffered with citric acid and sodium phosphate. Preserved with methylparaben and potassium sorbate.' },
@@ -1964,7 +2262,7 @@ var SKUS = [
     specs:['Clear, syrupy liquid','4.0 – 4.4','Sodium saccharin','Sweet citrus-berry'], pdf:'assets/product-info/ora-sweet-sf.pdf',
     contains:'Purified water, glycerin, sorbitol, sodium saccharin, xanthan gum and berry citrus flavour. Buffered with citric acid and sodium citrate. Preserved with methylparaben (0.03%), propylparaben (0.008%) and potassium sorbate (0.1%).' },
   { key:'blend', tint:'var(--sku-blend)', name:'ORA-Blend®', sub:'Flavoured suspending vehicle', img:'assets/ora-blend-1.png',
-    short:'Ready-blended suspending and flavouring vehicle — ORA-Plus® and ORA-Sweet® in one bottle.',
+    short:'Ready-blended suspending and flavouring vehicle, ORA-Plus® and ORA-Sweet® in one bottle.',
     desc:'A flavoured oral suspending vehicle combining the suspending properties of ORA-Plus® with the flavouring agents of ORA-Sweet®. Medicated powder can be incorporated to form elegant, uniform and physically stable suspensions.',
     specs:['Cloudy liquid','4.0 – 4.5','Sucrose','Sweet citrus-berry'], pdf:'assets/product-info/ora-blend.pdf',
     contains:'Purified water, sucrose, glycerin, sorbitol, berry citrus flavour, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate, citric acid and sodium phosphate as buffers, dimethicone antifoam emulsion. Preserved with methylparaben and potassium sorbate.' },
@@ -2015,7 +2313,7 @@ var EXTRA = {
 
 var FAQ = [
   { q:'Can I mix products to reach my six?', a:'Yes. Any combination of ORA-Plus®, ORA-Sweet®, ORA-Sweet® SF, ORA-Blend® and ORA-Blend® SF counts. Orders of 1–5 bottles are $32.99 each. At six paid bottles, the price becomes $29.99 each and one bonus bottle is included free.' },
-  { q:'Do I need a trade account?', a:'Retail pharmacies can order directly. Hospital pharmacy departments and compounding laboratories ordering on contract pricing need a trade account — the order desk can set one up on the same call.' },
+  { q:'Do I need a trade account?', a:'Retail pharmacies can order directly. Hospital pharmacy departments and compounding laboratories ordering on contract pricing need a trade account, the order desk can set one up on the same call.' },
   { q:'How do I support a beyond-use date?', a:'Over 150 published stability studies cover ORA® vehicles across common extemporaneous formulations. Ask the order desk for the study list relevant to your formulation and we will send the references.' },
   { q:'Which products are sugar-free?', a:'ORA-Sweet® SF and ORA-Blend® SF are sugar-free and dye-free, suitable for paediatric, diabetic and enteral-feed patients.' },
   { q:'What happens when I buy twelve bottles?', a:'The 12-bottle boost replaces the standard two bonuses with three: twelve paid bottles at $29.99 each ship as fifteen bottles. For larger trade orders, each complete block of twelve earns three bonus bottles and a remaining block of six earns one.' },
@@ -2230,8 +2528,8 @@ function render(){
     var q = state.qty[s.key] || 0;
     if(q > 0) lines += '<div class="stack-line"><span class="k">'+q+' × '+s.name+'</span><span class="v">'+moneyCents(q*t.unitCents)+'</span></div>';
   });
-  if(t.bonusCount > 0) lines += '<div class="stack-line is-free"><span class="k">'+t.bonusCount+' × bonus bottle'+(t.bonusCount===1?'':'s')+' — yours free</span><span class="v">'+moneyCents(t.bonusCount*RULES.listUnitCents)+' → $0.00</span></div>';
-  if(!lines) lines = '<div class="stack-line"><span class="k">Nothing selected yet</span><span class="v">—</span></div>';
+  if(t.bonusCount > 0) lines += '<div class="stack-line is-free"><span class="k">'+t.bonusCount+' × bonus bottle'+(t.bonusCount===1?'':'s')+', yours free</span><span class="v">'+moneyCents(t.bonusCount*RULES.listUnitCents)+' → $0.00</span></div>';
+  if(!lines) lines = '<div class="stack-line"><span class="k">Nothing selected yet</span><span class="v">0</span></div>';
   $('#stackLines').innerHTML = lines;
   $('#stackSaved').textContent = moneyCents(t.savingsCents);
   $('#cartCount').textContent=t.shippedCount;
@@ -2243,7 +2541,7 @@ function render(){
   $('#obFree').textContent = t.bonusCount;
   $('#obTotal').textContent = moneyCents(t.subtotalCents);
   $('#obCta .btn-label').textContent = t.paidCount === 0
-    ? 'Build my 6 + 1'
+    ? 'BUILD YOUR FREE 1 ON 6'
     : (t.paidCount<RULES.dealThreshold?t.toNextThreshold+' more for the deal':'Continue to checkout');
 }
 
@@ -2456,8 +2754,16 @@ if('IntersectionObserver' in window && !reduced){
 /* ============================================================
    Header tuck + sticky order bar
    ============================================================ */
-var head = $('#siteHead'), bar = $('#orderBar');
+var head = $('#siteHead'), bar = $('#orderBar'), hero = $('.hero');
 var lastY = window.scrollY, ticking = false;
+function updateHeroParallax(){
+  if(!hero || reduced) return;
+  var rect = hero.getBoundingClientRect();
+  if(rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+  var maxShift = window.innerWidth <= 720 ? 78 : 128;
+  var shift = Math.max(0, Math.min(maxShift, -rect.top * .3));
+  hero.style.setProperty('--hero-parallax-y', shift.toFixed(2) + 'px');
+}
 function onScroll(){
   var y = window.scrollY;
   head.classList.toggle('is-stuck', y > 8);
@@ -2466,10 +2772,14 @@ function onScroll(){
   var foot = document.querySelector('.site-foot');
   var nearFoot = foot.getBoundingClientRect().top < window.innerHeight - 40;
   bar.classList.toggle('is-up', y > 700 && !nearFoot);
+  updateHeroParallax();
   lastY = y;
   ticking = false;
 }
 window.addEventListener('scroll', function(){
+  if(!ticking){ requestAnimationFrame(onScroll); ticking = true; }
+}, { passive:true });
+window.addEventListener('resize', function(){
   if(!ticking){ requestAnimationFrame(onScroll); ticking = true; }
 }, { passive:true });
 
