@@ -393,12 +393,12 @@ p{text-wrap:pretty}
   position:relative; z-index:2;
   display:grid; grid-template-columns:1.06fr .94fr; gap:clamp(28px,4vw,56px);
   align-items:start;
-  padding-block:96px;
+  padding-block:144px 96px;
 }
 .hero-tag{
   display:inline-flex; align-items:center;
   padding:0;
-  font-family:var(--display); font-size:clamp(19px,2vw,27px); font-weight:800;
+  font-family:var(--display); font-size:clamp(16px,1.55vw,22px); font-weight:800;
   letter-spacing:-.035em; line-height:1.15; color:#fff;
   margin-bottom:22px;
 }
@@ -425,7 +425,7 @@ p{text-wrap:pretty}
 @keyframes draw{to{stroke-dashoffset:0}}
 .hero .lede{margin:16px 0 0; max-width:54ch;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.28)}
 .hero .lede strong{color:#fff; font-weight:700}
-.hero-cta{margin-top:22px}
+.hero-cta{margin-top:12px}
 
 /* ---- Hero stage: six bottles you buy, plus the seventh ---- */
 .hero-stage{position:relative;display:flex;flex-direction:column;gap:6px;margin-top:-18px}
@@ -1767,7 +1767,7 @@ body.has-product-modal{overflow:hidden}
       <h1 class="h-display" data-reveal style="--d:60ms">
         Buy 6 bottles,<br><span class="nowrap">get the 7th <span class="free">free<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M6 13 C 70 4, 150 4, 294 11"/></svg></span></span>
       </h1>
-      <p class="lede" data-reveal style="--d:140ms">The complete ORA® suspension vehicle and sweetening agent range. Mix and match <strong>any combination</strong> of ORA® products to make up your six. Backed by <strong>over 150 published stability studies</strong>, so you can compound with confidence and defend your beyond-use dates.</p>
+      <p class="lede" data-reveal style="--d:140ms">The complete ORA® suspension vehicle and sweetening agent range. Mix and match <strong>any combination</strong> of ORA® products to make up your six.</p>
 
       <div class="cta-stack hero-cta" data-reveal style="--d:260ms">
         <a class="btn btn--flame" href="#builder">
