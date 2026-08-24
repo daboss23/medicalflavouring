@@ -103,13 +103,14 @@ button{color:inherit}
 .hero{position:relative;overflow:hidden;background:var(--navy-deep);color:#fff}
 .hero::before{content:'';position:absolute;width:700px;aspect-ratio:1;left:-250px;top:-420px;border-radius:50%;background:radial-gradient(circle,rgba(238,60,19,.28),rgba(238,60,19,0) 66%)}
 .hero::after{content:'';position:absolute;width:620px;aspect-ratio:1;right:-210px;bottom:-430px;border-radius:50%;background:radial-gradient(circle,rgba(65,140,225,.24),rgba(65,140,225,0) 66%)}
-.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:50px;padding-block:var(--section-space)}
+.hero-grid{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(30px,4.5vw,52px);padding-block:calc(var(--section-space) + 12px)}
+.hero-lead{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:900px}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#f0a68e;font-family:var(--mono);font-size:11.5px;font-weight:550;letter-spacing:.2em;text-transform:uppercase}
 .eyebrow::before{content:'';width:18px;height:1.5px;background:currentColor;opacity:.7}
-h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weight:820;line-height:.98;letter-spacing:-.045em;text-wrap:balance}
+h1{max-width:900px;margin:0 auto;font-size:clamp(46px,6.5vw,80px);font-weight:820;line-height:1.04;letter-spacing:-.045em;text-wrap:balance}
 .serif{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0;color:#ff9a78}
-.hero-copy{max-width:70ch;margin:0;color:#cad7e6;font-size:clamp(17px,1.4vw,20px);line-height:1.65;text-wrap:pretty}
-.hero-proof{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:10px;min-width:min(100%,460px)}
+.hero-copy{max-width:62ch;margin:0 auto;color:#cad7e6;font-size:clamp(17px,1.4vw,20px);line-height:1.65;text-wrap:pretty}
+.hero-proof{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:12px;width:100%;max-width:600px;margin-inline:auto}
 .proof{padding:22px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(255,255,255,.065);backdrop-filter:blur(8px)}
 .proof strong{display:block;color:#fff;font-size:32px;line-height:1;font-weight:800;letter-spacing:-.04em}
 .proof span{display:block;margin-top:9px;color:#9fb4ca;font-family:var(--mono);font-size:9.5px;line-height:1.45;letter-spacing:.13em;text-transform:uppercase}
@@ -203,7 +204,6 @@ h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weig
 
 @media (max-width:1080px){
   .head-nav{display:none}
-  .hero-grid{grid-template-columns:1fr;align-items:start}
   .hero-proof{max-width:520px}
   .library-head{grid-template-columns:1fr}
   .archive-head{grid-template-columns:1fr}
@@ -315,8 +315,7 @@ h1{max-width:800px;margin:18px 0 22px;font-size:clamp(46px,6.5vw,80px);font-weig
 <main>
   <section class="hero">
     <div class="shell hero-grid">
-      <div>
-        <span class="eyebrow">ORA® evidence library</span>
+      <div class="hero-lead">
         <h1>Stability studies,<br><span class="serif">all in one place.</span></h1>
         <p class="hero-copy">Browse the stability-study bibliography and the complete <em>Secundum Artem</em> archive of practical compounding publications. Open any linked drug synopsis or archive issue directly from Padagis.</p>
       </div>
