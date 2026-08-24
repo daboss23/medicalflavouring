@@ -61,7 +61,10 @@
   /* Rhythm */
   --gutter:clamp(18px,4vw,32px);
   --shell:1220px;
-  --section-space:48px;
+  /* Plain sections stack, so adjacent ones sum to one full gap. */
+  --section-space:clamp(46px,2.6vw + 30px,78px);
+  /* Self-contained bands (own background) carry the gap alone, so they run larger. */
+  --band-space:clamp(58px,3.2vw + 36px,98px);
   --bay:var(--section-space);
 }
 
@@ -546,7 +549,7 @@ p{text-wrap:pretty}
 }
 .range-grid{
   display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(32px,4.6vw,64px); align-items:center;
-  padding-block:var(--section-space);
+  padding-block:var(--band-space);
 }
 .bottle-row{display:flex; align-items:flex-end; justify-content:center; gap:2px}
 .bottle-row img{
@@ -614,7 +617,7 @@ p{text-wrap:pretty}
   position:relative;
   display:grid; grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr); gap:clamp(32px,4vw,60px);
   align-items:center;
-  padding-block:var(--section-space);
+  padding-block:var(--band-space);
 }
 .panel-art{position:relative; display:grid; place-items:center; min-height:280px}
 /* fine lab-grid texture behind standalone product art */
@@ -695,7 +698,7 @@ p{text-wrap:pretty}
 /* ---- Proof marquee ---- */
 .marquee{
   overflow:hidden; background:var(--navy); color:#fff;
-  padding-block:15px;
+  padding-block:clamp(16px,1.5vw,22px);
   --edge:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
   mask-image:var(--edge); -webkit-mask-image:var(--edge);
 }
@@ -1045,7 +1048,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
 /* ============================================================
    Testimonials
    ============================================================ */
-.testimonial-shell{padding-block:var(--section-space)}
+.testimonial-shell{padding-block:var(--band-space)}
 .testimonial-carousel{width:min(100%,780px); margin-inline:auto}
 .testimonial-viewport{min-height:340px; display:grid}
 .testimonial-slide{
@@ -1083,7 +1086,7 @@ tbody tr:hover td.is-hero{background:rgba(18,58,107,.075)}
    About Padagis / executive team
    ============================================================ */
 .team-section{
-  position:relative; isolation:isolate; overflow:hidden; padding-block:var(--section-space);
+  position:relative; isolation:isolate; overflow:hidden; padding-block:var(--band-space);
   background:
     radial-gradient(circle at 14% 18%,rgba(238,60,19,.065),transparent 24%),
     linear-gradient(180deg,#fff 0%,#fbfcfe 100%);
@@ -1377,7 +1380,7 @@ body.has-product-modal{overflow:hidden}
 .site-foot{background:var(--navy-deep); color:#c3d2e4; margin-top:0}
 .foot-grid{
   display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:clamp(24px,3vw,44px);
-  padding-block:var(--section-space) 34px;
+  padding-block:var(--band-space) clamp(30px,3vw,42px);
 }
 .foot-grid img{height:46px; width:auto; margin-bottom:18px; filter:brightness(0) invert(1); opacity:.92}
 .foot-grid h4{
@@ -1396,7 +1399,7 @@ body.has-product-modal{overflow:hidden}
 }
 .foot-legal{
   border-top:1px solid rgba(255,255,255,.10);
-  padding-block:22px var(--section-space);
+  padding-block:clamp(20px,2vw,28px) var(--band-space);
   font-size:12px; line-height:1.65; color:#7b90a9; max-width:100ch;
 }
 .footer-policy-links{display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:0}
@@ -1462,7 +1465,7 @@ body.has-product-modal{overflow:hidden}
   .head-nav{display:none}
 }
 @media (max-width:720px){
-  :root{--gutter:20px;--section-space:48px;--bay:var(--section-space);--r-xl:24px;--r-lg:18px}
+  :root{--gutter:20px;--section-space:44px;--band-space:56px;--bay:var(--section-space);--r-xl:24px;--r-lg:18px}
   body{font-size:16px;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
   html{scroll-padding-top:128px}
   .head-row{flex-wrap:wrap;padding-block:11px 0;gap:10px 14px}
@@ -1475,7 +1478,7 @@ body.has-product-modal{overflow:hidden}
   .head-nav a::after{left:11px;right:11px}
   .cart-chip{order:2;margin-left:auto;min-height:44px;padding:8px 12px;gap:8px}
   .card-grid,.stat-grid,.spec-grid{grid-template-columns:repeat(2,1fr)}
-  .foot-grid{grid-template-columns:1fr;gap:28px;padding-block:var(--section-space) 28px}
+  .foot-grid{grid-template-columns:1fr;gap:28px;padding-block:var(--band-space) 28px}
   .assure{grid-template-columns:1fr; text-align:center; justify-items:center}
   .assure-seal{width:82px;height:82px;margin:0 auto}
   .assure-seal svg{width:36px;height:36px}
@@ -1510,7 +1513,7 @@ body.has-product-modal{overflow:hidden}
   .free-flag{top:0;padding:8px 12px;font-size:11px;border-radius:8px}
   .lineup-note{top:calc(100% + 10px);gap:7px;font-size:9.5px;letter-spacing:.13em}
   .lineup-note::before,.lineup-note::after{width:18px}
-  .range-grid{gap:28px;padding-block:var(--section-space)}
+  .range-grid{gap:28px;padding-block:var(--band-space)}
   .pill-row{gap:8px;margin-top:22px}
   .pill{flex:1 1 calc(50% - 4px);justify-content:center;padding:10px 12px;font-size:13.5px;text-align:center}
   .stat-grid{gap:12px}
@@ -1518,7 +1521,7 @@ body.has-product-modal{overflow:hidden}
   .stat-n{font-size:38px}
   .stat-t{font-size:15px;margin:10px 0 7px}
   .stat p{font-size:13.5px;line-height:1.5}
-  .panel{padding-block:var(--section-space);gap:28px}
+  .panel{padding-block:var(--band-space);gap:28px}
   .panel-copy p{font-size:15.5px}
   .tick-list{gap:11px}
   .tick-list li{gap:11px;font-size:15px}
@@ -1567,7 +1570,7 @@ body.has-product-modal{overflow:hidden}
   .bump-copy .t{font-size:13.5px}
   .testimonial-slide{padding:30px 22px;gap:17px}
   .testimonial-copy{font-size:20px;line-height:1.48}
-  .team-section{padding-block:var(--section-space)}
+  .team-section{padding-block:var(--band-space)}
   .team-head{margin-bottom:34px}
   .team-marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
   .team-set{gap:14px;padding-right:14px}
@@ -1616,7 +1619,7 @@ body.has-product-modal{overflow:hidden}
   .ps{margin-top:18px;padding:18px;border-radius:16px;font-size:14.5px}
   .site-foot{margin-top:0}
   .foot-note{gap:7px 14px;font-size:9.5px;line-height:1.55}
-  .foot-legal{padding-block:20px var(--section-space);font-size:11.5px}
+  .foot-legal{padding-block:20px var(--band-space);font-size:11.5px}
 }
 @media (max-width:420px){
   :root{--gutter:16px}
