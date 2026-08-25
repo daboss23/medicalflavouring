@@ -9,6 +9,7 @@ Sales page for the Padagis ORA® compounding vehicle range (Medical Flavouring S
 | `index.html` | The page. Single file, no build step, no dependencies. Loads fonts from Google Fonts and bottle images from `assets/`. |
 | `studies.html` | Searchable, branded A–Z bibliography of ORA® stability studies. |
 | `studies-data.js` | The 107 Padagis study citations, available synopsis links, and 70-issue Secundum Artem archive. |
+| `DESIGN.md` | The design system. Tokens, type scale, spacing, components, motion and depth strategy for both surfaces. Read it before any UI change. |
 | `thank-you.html` | Order confirmation page. Stripe returns the buyer here after payment; the order populates itself from the Checkout Session. |
 | `privacy.html` | Branded MFS privacy policy covering website, order and hosted Stripe Checkout data. |
 | `terms.html` | Branded MFS website and ordering Terms of Use. |
