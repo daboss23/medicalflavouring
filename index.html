@@ -402,12 +402,19 @@ p{text-wrap:pretty}
   letter-spacing:-.035em; line-height:1.15; color:#fff;
   margin-bottom:22px;
 }
+/* Brush-stroke pre-headline: real text over a transparent stroke, so it
+   stays crisp and readable at any size. */
+.hero-tag{gap:.62em .34em; flex-wrap:wrap}
 .hero-tag-mark{
-  padding:0 .2em; color:#fff;
-  background:linear-gradient(transparent 8%,var(--flame) 8%,var(--flame) 92%,transparent 92%);
-  box-decoration-break:clone; -webkit-box-decoration-break:clone;
-  text-shadow:0 2px 8px rgba(105,16,2,.28);
+  position:relative; display:inline-block; padding:.22em .62em; color:#fff;
+  text-shadow:0 1px 3px rgba(91,14,2,.5);
 }
+.hero-tag-mark::before{
+  content:''; position:absolute; z-index:-1; inset:-.30em -.10em -.30em -.10em;
+  background:url('assets/limited-time-brush.png') center/100% 100% no-repeat;
+  filter:drop-shadow(0 5px 14px rgba(238,60,19,.34));
+}
+.hero-tag-plain{color:#fff; text-shadow:0 2px 10px rgba(4,18,35,.55)}
 .hero h1{color:#fff;text-shadow:0 3px 24px rgba(0,0,0,.24)}
 .nowrap{white-space:nowrap}
 .hero h1 .free{
@@ -1762,7 +1769,7 @@ body.has-product-modal{overflow:hidden}
   <div class="shell hero-grid">
     <div style="margin-top:-26px">
       <div class="hero-tag" data-reveal>
-        <span class="hero-tag-mark">LIMITED-TIME 1 ON 6 SPECIAL BONUS OFFER</span>
+        <span class="hero-tag-plain">LIMITED-TIME</span><span class="hero-tag-mark">1 ON 6 SPECIAL BONUS</span><span class="hero-tag-plain">OFFER</span>
       </div>
       <h1 class="h-display" data-reveal style="--d:60ms">
         Buy 6 bottles,<br><span class="nowrap">get the 7th <span class="free">free<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M6 13 C 70 4, 150 4, 294 11"/></svg></span></span>
