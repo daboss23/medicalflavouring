@@ -978,7 +978,7 @@ p{text-wrap:pretty}
   isolation:isolate; position:relative; overflow:hidden;
   width:100%; text-align:left; margin-top:20px;
   display:block; padding:0; border:0; border-radius:14px;
-  background:#fffdf2; color:var(--ink);
+  background:#f4f9ff; color:var(--ink);
   box-shadow:0 18px 40px -22px rgba(6,25,50,.6);
   transition:transform .35s var(--ease),box-shadow .35s var(--ease);
 }
@@ -997,7 +997,7 @@ p{text-wrap:pretty}
 }
 .bump::after{
   content:'';position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
-  background:radial-gradient(120% 70% at 50% 0%,rgba(238,60,19,.07),transparent 62%);
+  background:radial-gradient(120% 70% at 50% 0%,rgba(28,77,134,.07),transparent 62%);
 }
 @keyframes bumpMarch{
   to{background-position:26px 0,-26px 100%,0 -26px,100% 26px}
@@ -1011,7 +1011,7 @@ p{text-wrap:pretty}
   position:relative;z-index:2;
   display:flex;align-items:center;justify-content:center;gap:12px;
   padding:13px 18px; cursor:pointer;
-  background:linear-gradient(180deg,#fff9c4,#ffef9e);
+  background:linear-gradient(180deg,#dbeafb,#c3ddf6);
   border-bottom:2px dashed rgba(238,60,19,.45);
 }
 .bump-check{
@@ -1032,33 +1032,26 @@ p{text-wrap:pretty}
 
 /* body */
 .bump-body{position:relative;z-index:2;padding:16px 18px 18px}
-.bump-lead{margin:0;font-size:13.5px;line-height:1.55;color:var(--ink-2)}
+.bump-lead{margin:0;font-family:var(--body);font-size:14.5px;line-height:1.55;color:var(--ink-2)}
 .bump-lead .ot{
   font-weight:800;color:var(--flame-deep);text-transform:uppercase;letter-spacing:.01em;
   text-decoration:underline;text-underline-offset:2px;
 }
 .bump-lead b{font-weight:800;color:var(--ink)}
 .bump-title{
-  margin:15px 0 4px;text-align:center;
+  margin:15px 0 14px;text-align:center;
   font-family:var(--display);font-size:clamp(27px,4.4vw,35px);font-weight:850;
   letter-spacing:-.035em;line-height:1;color:var(--flame);text-transform:uppercase;
   text-shadow:0 2px 0 rgba(155,30,6,.16);
 }
-.bump-sub{
-  margin:0 0 14px;text-align:center;
-  font-family:var(--display);font-size:13px;font-weight:750;line-height:1.35;
-  letter-spacing:-.01em;color:var(--navy-deep);text-transform:uppercase;
-}
-.bump-sub b{color:var(--flame-deep);font-weight:850}
 .bump-shot{
   display:block;width:100%;height:auto;margin:0 auto 14px;
-  border-radius:10px;background:#fff;
-  box-shadow:inset 0 0 0 1px rgba(14,20,32,.10),0 10px 24px -18px rgba(6,25,50,.7);
+  background:transparent;
 }
 .bump-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
 .bump-list li{
   display:flex;align-items:flex-start;gap:10px;
-  font-size:13.5px;line-height:1.45;color:var(--ink-2);
+  font-family:var(--body);font-size:14.5px;line-height:1.45;color:var(--ink-2);
 }
 .bump-list .ic{
   flex:none;width:17px;height:17px;margin-top:1px;display:grid;place-items:center;
@@ -2096,7 +2089,6 @@ body.has-product-modal{overflow:hidden}
           <div class="bump-body">
             <p class="bump-lead"><span class="ot">One time offer &mdash; Unlock <span id="bumpFreeA">3</span> Free Bottles:</span> Buy <span id="bumpPaid">12</span> and receive <b><span id="bumpFreeB">3</span> extra free bottles!</b> Check YES above to add this special offer to your order now and <b>save <span id="bumpSave">$98.97</span></b>.</p>
             <p class="bump-title">Offer Upgrade</p>
-            <p class="bump-sub">One-time opportunity to get<br><b><span id="bumpFreeC">3</span> free bottles instead of <span id="bumpFreeNow">1</span></b></p>
             <img class="bump-shot" src="assets/twelve-bottle-lineup.png" alt="Twelve ORA bottles supplied with three free bonus bottles" loading="lazy" width="1800" height="607">
             <ul class="bump-list">
               <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span><b><span id="bumpFreeD">3</span> free bottles</b> instead of the standard <span id="bumpFreeNow2">1</span></span></li>
@@ -2638,9 +2630,7 @@ function render(){
     var saveCents=(boostFree-currentFree)*RULES.listUnitCents;     // value of the extra free bottles
     $('#bumpFreeA').textContent=boostFree;
     $('#bumpFreeB').textContent=boostFree-currentFree;
-    $('#bumpFreeC').textContent=boostFree;
     $('#bumpFreeD').textContent=boostFree;
-    $('#bumpFreeNow').textContent=currentFree;
     $('#bumpFreeNow2').textContent=currentFree;
     $('#bumpPaid').textContent=RULES.boostedThreshold;
     $('#bumpPaid2').textContent=RULES.boostedThreshold;
