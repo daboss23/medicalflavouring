@@ -14,7 +14,7 @@ Sales page for the Padagis ORA® compounding vehicle range (Medical Flavouring S
 | `legal.css` | Shared responsive design system for the Privacy Policy and Terms of Use pages. |
 | `pricing.js` | Shared, integer-cent pricing engine used by the page and Stripe checkout endpoint. |
 | `api/create-checkout-session.js` | Stripe-ready Vercel endpoint that validates product choices and recalculates every charge server-side. |
-| `assets/` | Product photography and logo, supplied by the manufacturer. |
+| `assets/` | Product photography and logo, supplied by the manufacturer, served as WebP. |
 | `dist/mfs-ora-sales-page.html` | Self-contained build — images inlined as data URIs, no `<html>`/`<head>` wrapper. Used for the shared preview. Regenerate with `build.py`. |
 | `build.py` | Inlines `assets/` into `dist/` (re-encoded to WebP) and swaps the SEO `<title>` for the short preview name. Needs Pillow. |
 
@@ -45,6 +45,14 @@ so the two SF variants share their parent's colour — a pharmacist scanning the
 sees family first and sugar-free second. The colour appears as the rule above each
 product card, the dot beside its name, the bar on an active bundle row, and the tick
 under each product-detail swatch. Selection state stays flame; identity stays tinted.
+
+## Image assets
+
+Everything under `assets/` is WebP. Source photography was supplied as PNG/JPEG and
+re-encoded once for delivery; the originals live in git history if a master is ever
+needed again. Keep new artwork close to its displayed size — the trust-badge strip
+was originally a 3922 px, 4.4 MB PNG rendered at roughly 350 px, which put a
+multi-megabyte download directly in front of the checkout button.
 
 ## Placeholders to replace before launch
 

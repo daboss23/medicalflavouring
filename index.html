@@ -83,7 +83,9 @@
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:104px}
+/* scroll-padding keeps anchor jumps and scrollIntoView clear of the two fixed
+   chrome elements: the sticky header at the top, the order bar at the bottom. */
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:104px; scroll-padding-bottom:96px}
 body{
   margin:0;
   background:var(--paper);
@@ -375,7 +377,7 @@ p{text-wrap:pretty}
 }
 .hero::before{
   content:''; position:absolute; z-index:0; pointer-events:none; inset:-22% 0;
-  background-image:url('assets/medical-team-hero.jpg');
+  background-image:url('assets/medical-team-hero.webp');
   background-size:cover;
   background-position:center 48%;
   background-repeat:no-repeat;
@@ -411,7 +413,7 @@ p{text-wrap:pretty}
 }
 .hero-tag-mark::before{
   content:''; position:absolute; z-index:-1; inset:-.30em -.10em -.30em -.10em;
-  background:url('assets/limited-time-brush.png') center/100% 100% no-repeat;
+  background:url('assets/limited-time-brush.webp') center/100% 100% no-repeat;
   filter:drop-shadow(0 5px 14px rgba(238,60,19,.34));
 }
 .hero-tag-plain{color:#fff; text-shadow:0 2px 10px rgba(4,18,35,.55)}
@@ -1533,6 +1535,16 @@ body.has-product-modal{overflow:hidden}
   .cta-stack .btn{justify-content:space-between; width:100%}
   .cta-stack .btn--text-only{justify-content:center}
   .btn{min-height:54px;padding-left:20px;font-size:15px}
+  /* Long CTA labels are nowrap by default. On a narrow screen that min-content
+     width pushes the whole column past the viewport, and because body clips
+     overflow-x the copy is silently cut off mid-word rather than scrolling.
+     Below 720px the label wraps instead. */
+  .btn{min-width:0}
+  .btn-label{white-space:normal; text-wrap:balance}
+  .btn--text-only .btn-label{text-align:center}
+  /* Grid and flex children default to min-width:auto, so any nowrap descendant
+     props the track open. Let the tracks shrink to the viewport. */
+  .hero-grid>*,.route,.routes>*,.closer-row>*,.qual-card,.stat{min-width:0}
   .btn--flame{font-size:clamp(14px,4.1vw,16.5px);letter-spacing:.015em}
   .btn--flame.btn--sm{font-size:14px}
   .ticker-inner{gap:6px 12px;font-size:9px;line-height:1.35;letter-spacing:.08em;padding:8px var(--gutter)}
@@ -1551,6 +1563,9 @@ body.has-product-modal{overflow:hidden}
   .sec-head{gap:12px;margin-bottom:30px}
   .hero-tag{font-size:18px;line-height:1.3;letter-spacing:-.03em;padding:0;margin-bottom:19px}
   .hero .lede{margin-top:14px;font-size:16.5px;line-height:1.58}
+  /* The lede's hard breaks are tuned for the desktop measure; at phone width
+     they strand two-word orphan lines. Let the copy reflow instead. */
+  .hero .lede br{display:none}
   .hero-cta{margin-top:18px}
   .lineup{gap:10px;padding:34px 0 30px}
   .lineup img{height:clamp(118px,34vw,144px);margin-left:clamp(-21px,-5vw,-15px)}
@@ -1662,6 +1677,14 @@ body.has-product-modal{overflow:hidden}
 }
 @media (max-width:420px){
   :root{--gutter:16px}
+  /* .ob-facts shrinks but its nowrap children do not, so below ~380px the
+     figures spill out of the flex box and collide with the CTA. Drop the
+     remaining divider and tighten the labels to buy the room back. */
+  .ob-facts .ob-rule{display:none}
+  .ob-facts{gap:14px}
+  .ob-item .k{font-size:9px;letter-spacing:.08em}
+  .ob-item .v{font-size:15.5px}
+  .order-bar .btn{padding:6px 10px}
   .spec-grid{grid-template-columns:1fr}
   .stat-grid{grid-template-columns:1fr}
   .ticker-inner{font-size:8.5px}
@@ -1670,7 +1693,9 @@ body.has-product-modal{overflow:hidden}
   .cart-chip{padding-inline:13px}
   .h-display{font-size:clamp(38px,11.5vw,46px)}
   .lineup img{height:clamp(108px,33vw,132px);margin-left:-18px}
-  .lineup-free img{height:clamp(121px,37vw,148px)}
+  /* Same specificity as the rule above, so it has to restate margin-left or the
+     free bottle inherits the overlap pull and collides with the paid six. */
+  .lineup-free img{height:clamp(121px,37vw,148px);margin-left:0}
   .card-art img{height:clamp(164px,48vw,190px)}
   .testimonial-author{align-items:flex-start}
   .testimonial-copy{font-size:19px}
@@ -1681,6 +1706,11 @@ body.has-product-modal{overflow:hidden}
   .sum-line.is-total .v{font-size:22px}
   .closer h2{font-size:28px}
   .closer .cd-box .n{font-size:21px}
+}
+@media (max-width:360px){
+  /* Not enough room for two figures beside the CTA; the running total is the
+     one that matters at a glance. */
+  .ob-facts .ob-item:nth-child(1){display:none}
 }
 @media (max-width:350px){
   .card-grid{grid-template-columns:1fr}
@@ -1744,7 +1774,7 @@ body.has-product-modal{overflow:hidden}
 <header class="site-head" id="siteHead">
   <div class="head-row">
     <a class="brand" href="#top" aria-label="MFS Medical Flavouring Systems, home">
-      <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+      <img width="208" height="70" src="assets/mfs-logo.webp" alt="MFS Medical Flavouring Systems">
     </a>
     <div class="head-actions">
       <nav class="head-nav" aria-label="Primary">
@@ -1775,11 +1805,11 @@ body.has-product-modal{overflow:hidden}
       <h1 class="h-display" data-reveal style="--d:60ms">
         Buy 6 bottles,<br><span class="nowrap">get the 7th <span class="free">free<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M6 13 C 70 4, 150 4, 294 11"/></svg></span></span>
       </h1>
-      <p class="lede" data-reveal style="--d:140ms">The complete ORA® suspension vehicle and sweetening<br>agent range. Mix and match <strong>any combination</strong> of ORA®<br>products to make up your six.</p>
+      <p class="lede" data-reveal style="--d:140ms">The complete ORA® suspension vehicle and sweetening <br>agent range. Mix and match <strong>any combination</strong> of ORA® <br>products to make up your six.</p>
 
       <div class="cta-stack hero-cta" data-reveal style="--d:260ms">
         <a class="btn btn--flame" href="#builder">
-          <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
+          <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
           <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </a>
       </div>
@@ -1789,18 +1819,18 @@ body.has-product-modal{overflow:hidden}
       <div class="lineup">
         <div class="lineup-six">
           <div class="six-row">
-            <img src="assets/ora-plus-1.png" alt="" aria-hidden="true">
-            <img src="assets/ora-sweet-1.png" alt="" aria-hidden="true">
-            <img src="assets/ora-sweet-sf-1.png" alt="" aria-hidden="true">
-            <img src="assets/ora-blend-1.png" alt="" aria-hidden="true">
-            <img src="assets/ora-blend-sf-1.png" alt="" aria-hidden="true">
-            <img src="assets/ora-plus-1.png" alt="Six ORA bottles" aria-hidden="true">
+            <img width="330" height="1085" src="assets/ora-plus-1.webp" alt="" aria-hidden="true">
+            <img width="330" height="1085" src="assets/ora-sweet-1.webp" alt="" aria-hidden="true">
+            <img width="330" height="1085" src="assets/ora-sweet-sf-1.webp" alt="" aria-hidden="true">
+            <img width="330" height="1085" src="assets/ora-blend-1.webp" alt="" aria-hidden="true">
+            <img width="330" height="1085" src="assets/ora-blend-sf-1.webp" alt="" aria-hidden="true">
+            <img width="330" height="1085" src="assets/ora-plus-1.webp" alt="Six ORA bottles" aria-hidden="true">
           </div>
           <div class="lineup-note">Any six ORA® products</div>
         </div>
         <div class="lineup-free">
           <span class="free-flag">7th bottle free!<span class="free-arrows" aria-hidden="true"><i></i><i></i><i></i></span></span>
-          <img src="assets/ora-blend-1.png" alt="Buy any six ORA products and the seventh bottle is free">
+          <img width="330" height="1085" src="assets/ora-blend-1.webp" alt="Buy any six ORA products and the seventh bottle is free">
         </div>
       </div>
     </div>
@@ -1811,11 +1841,11 @@ body.has-product-modal{overflow:hidden}
 <section class="range-strip">
   <div class="shell range-grid">
     <div class="bottle-row" data-reveal>
-      <img src="assets/ora-plus-1.png" alt="ORA-Plus" loading="lazy">
-      <img src="assets/ora-sweet-1.png" alt="ORA-Sweet" loading="lazy">
-      <img src="assets/ora-sweet-sf-1.png" alt="ORA-Sweet SF" loading="lazy">
-      <img src="assets/ora-blend-1.png" alt="ORA-Blend" loading="lazy">
-      <img src="assets/ora-blend-sf-1.png" alt="ORA-Blend SF" loading="lazy">
+      <img width="330" height="1085" src="assets/ora-plus-1.webp" alt="ORA-Plus" loading="lazy">
+      <img width="330" height="1085" src="assets/ora-sweet-1.webp" alt="ORA-Sweet" loading="lazy">
+      <img width="330" height="1085" src="assets/ora-sweet-sf-1.webp" alt="ORA-Sweet SF" loading="lazy">
+      <img width="330" height="1085" src="assets/ora-blend-1.webp" alt="ORA-Blend" loading="lazy">
+      <img width="330" height="1085" src="assets/ora-blend-sf-1.webp" alt="ORA-Blend SF" loading="lazy">
     </div>
     <div data-reveal style="--d:120ms">
       <h2 class="h-section" style="margin:0 0 16px;color:var(--navy)">Suspension vehicles &amp; sweetening agents</h2>
@@ -1873,7 +1903,7 @@ body.has-product-modal{overflow:hidden}
         <span class="n">150+</span>
         <span class="l">Published<br>studies</span>
       </div>
-      <img src="assets/ora-blend-lab-team.jpg" alt="Pharmacy professionals working in a laboratory with an ORA-Blend bottle in the foreground" loading="lazy">
+      <img width="1254" height="1254" src="assets/ora-blend-lab-team.webp" alt="Pharmacy professionals working in a laboratory with an ORA-Blend bottle in the foreground" loading="lazy">
     </div>
     <div class="panel-copy">
       <span class="eyebrow eyebrow--light">Stability &amp; beyond-use dating</span>
@@ -2033,7 +2063,7 @@ body.has-product-modal{overflow:hidden}
           <div class="bump-body">
             <p class="bump-lead"><span class="ot">One time offer &mdash; Unlock <span id="bumpFreeA">3</span> Free Bottles:</span> Buy <span id="bumpPaid">12</span> and receive <b><span id="bumpFreeB">3</span> extra free bottles!</b> Check YES above to add this special offer to your order now and <b>save <span id="bumpSave">$98.97</span></b>.</p>
             <p class="bump-title">Offer Upgrade</p>
-            <img class="bump-shot" src="assets/twelve-bottle-lineup.png" alt="Twelve ORA bottles supplied with three free bonus bottles" loading="lazy" width="1800" height="607">
+            <img class="bump-shot" src="assets/twelve-bottle-lineup.webp" alt="Twelve ORA bottles supplied with three free bonus bottles" loading="lazy" width="1400" height="472">
             <ul class="bump-list">
               <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span><b><span id="bumpFreeD">3</span> free bottles</b> instead of the standard <span id="bumpFreeNow2">1</span></span></li>
               <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span><span id="bumpShipped">15</span> bottles shipped for the price of <span id="bumpPaid2">12</span></span></li>
@@ -2050,7 +2080,7 @@ body.has-product-modal{overflow:hidden}
           <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </button>
         <div class="checkout-trust" aria-label="Satisfaction guarantee, secure SSL checkout and verified Stripe payment methods">
-          <img src="assets/checkout-trust-badges-hd.png" width="3922" height="1604" alt="100% satisfaction guaranteed, 256-bit SSL secure checkout, verified Stripe payments, and supported payment methods" loading="lazy">
+          <img src="assets/checkout-trust-badges-hd.webp" width="1400" height="573" alt="100% satisfaction guaranteed, 256-bit SSL secure checkout, verified Stripe payments, and supported payment methods" loading="lazy">
         </div>
         <p class="checkout-privacy">We respect your privacy · your details are never sold or shared</p>
         <p class="checkout-status" id="checkoutStatus" role="status" aria-live="polite"></p>
@@ -2096,13 +2126,13 @@ body.has-product-modal{overflow:hidden}
     <button class="product-modal-close" type="button" data-close-product aria-label="Close product information">&times;</button>
     <div class="product-doc">
       <div class="product-doc-head">
-        <img class="product-doc-bottle" id="pdpBottle" src="assets/ora-blend-1.png" alt="ORA-Blend bottle">
+        <img class="product-doc-bottle" id="pdpBottle" width="330" height="1085" src="assets/ora-blend-1.webp" alt="ORA-Blend bottle">
         <div class="product-doc-title">
           <h2 class="h-sub" id="pdpName">ORA-Blend®</h2>
           <p><span id="pdpSub">Flavoured suspending vehicle</span> · Official Padagis product sheet</p>
         </div>
       </div>
-      <iframe class="product-pdf-frame" id="pdpPdfFrame" src="assets/product-info/ora-blend.pdf" title="ORA-Blend product information PDF"></iframe>
+      <iframe class="product-pdf-frame" id="pdpPdfFrame" title="ORA-Blend® product information PDF" loading="lazy"></iframe>
     </div>
   </div>
 </section>
@@ -2136,7 +2166,7 @@ body.has-product-modal{overflow:hidden}
       <span class="route-n">1</span>
       <h3>Order online</h3>
       <a class="btn btn--flame btn--sm btn--text-only" href="#builder">
-        <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
+        <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
         <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
       </a>
       <p class="m">Build your mix in under a minute, the seventh bottle is added automatically.</p>
@@ -2171,7 +2201,7 @@ body.has-product-modal{overflow:hidden}
       </div>
       <div class="cta-stack">
         <a class="btn btn--navy btn--text-only" href="#builder">
-          <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
+          <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
           <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </a>
       </div>
@@ -2189,7 +2219,7 @@ body.has-product-modal{overflow:hidden}
   <div class="shell">
     <div class="foot-grid">
       <div>
-        <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+        <img width="208" height="70" src="assets/mfs-logo.webp" alt="MFS Medical Flavouring Systems">
         <p><strong style="color:#fff">MFS P/L, Medical Flavouring Systems</strong></p>
         <p>P.O. Box 270, Brunswick East, Victoria 3057, Australia</p>
       </div>
@@ -2237,7 +2267,7 @@ body.has-product-modal{overflow:hidden}
       <div class="ob-item"><span class="k">Total ex GST</span><span class="v" id="obTotal">$0.00</span></div>
     </div>
     <a class="btn btn--flame btn--sm btn--text-only" href="#builder" id="obCta">
-      <span class="btn-label">BUILD YOUR FREE 1 ON 6</span>
+      <span class="btn-label">BUILD YOUR FREE 1 ON 6</span>
       <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
     </a>
   </div>
@@ -2257,27 +2287,27 @@ var RULES = PRICING.RULES;
 var DEADLINE = new Date('2026-08-31T23:59:59+10:00').getTime();
 
 var SKUS = [
-  { key:'plus', tint:'var(--sku-plus)', name:'ORA-Plus®', sub:'Suspending vehicle', img:'assets/ora-plus-1.png',
+  { key:'plus', tint:'var(--sku-plus)', name:'ORA-Plus®', sub:'Suspending vehicle', img:'assets/ora-plus-1.webp',
     short:'Buffered, bland, unsweetened suspending vehicle for oral, non-soluble aqueous dosage forms.',
     desc:'A unique aqueous suspending vehicle that simplifies extemporaneous compounding. Medicated powder can be incorporated to form elegant, uniform and physically stable oral suspensions.',
     specs:['White, viscous liquid','4.0 – 4.5','No sweeteners','Very bland'], pdf:'assets/product-info/ora-plus.pdf',
     contains:'Purified water, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate, citric acid and sodium phosphate as buffers, and dimethicone antifoam emulsion. Preserved with methylparaben and potassium sorbate.' },
-  { key:'sweet', tint:'var(--sku-sweet)', name:'ORA-Sweet®', sub:'Syrup vehicle', img:'assets/ora-sweet-1.png',
+  { key:'sweet', tint:'var(--sku-sweet)', name:'ORA-Sweet®', sub:'Syrup vehicle', img:'assets/ora-sweet-1.webp',
     short:'Sucrose-sweetened citrus-berry syrup vehicle, the modern version of simple syrup.',
     desc:'A syrup vehicle that simplifies flavouring and sweetening extemporaneous oral preparations. It is a modern version of simple syrup with a highly palatable citrus-berry flavour.',
     specs:['Translucent yellow syrup','4.0 – 4.5','Sucrose','Sweet citrus-berry'], pdf:'assets/product-info/ora-sweet.pdf',
     contains:'Purified water, sucrose, glycerin, sorbitol and berry citrus flavour. Buffered with citric acid and sodium phosphate. Preserved with methylparaben and potassium sorbate.' },
-  { key:'sweetsf', tint:'var(--sku-sweet)', name:'ORA-Sweet® SF', sub:'Sugar-free syrup vehicle', img:'assets/ora-sweet-sf-1.png',
+  { key:'sweetsf', tint:'var(--sku-sweet)', name:'ORA-Sweet® SF', sub:'Sugar-free syrup vehicle', img:'assets/ora-sweet-sf-1.webp',
     short:'Sugar-free, alcohol-free syrup vehicle for sweetening sugar-free oral preparations.',
     desc:'A sugar-free, alcohol-free syrup vehicle that simplifies flavouring and sweetening extemporaneous sugar-free oral preparations, with a highly palatable citrus-berry flavour.',
     specs:['Clear, syrupy liquid','4.0 – 4.4','Sodium saccharin','Sweet citrus-berry'], pdf:'assets/product-info/ora-sweet-sf.pdf',
     contains:'Purified water, glycerin, sorbitol, sodium saccharin, xanthan gum and berry citrus flavour. Buffered with citric acid and sodium citrate. Preserved with methylparaben (0.03%), propylparaben (0.008%) and potassium sorbate (0.1%).' },
-  { key:'blend', tint:'var(--sku-blend)', name:'ORA-Blend®', sub:'Flavoured suspending vehicle', img:'assets/ora-blend-1.png',
+  { key:'blend', tint:'var(--sku-blend)', name:'ORA-Blend®', sub:'Flavoured suspending vehicle', img:'assets/ora-blend-1.webp',
     short:'Ready-blended suspending and flavouring vehicle, ORA-Plus® and ORA-Sweet® in one bottle.',
     desc:'A flavoured oral suspending vehicle combining the suspending properties of ORA-Plus® with the flavouring agents of ORA-Sweet®. Medicated powder can be incorporated to form elegant, uniform and physically stable suspensions.',
     specs:['Cloudy liquid','4.0 – 4.5','Sucrose','Sweet citrus-berry'], pdf:'assets/product-info/ora-blend.pdf',
     contains:'Purified water, sucrose, glycerin, sorbitol, berry citrus flavour, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate, citric acid and sodium phosphate as buffers, dimethicone antifoam emulsion. Preserved with methylparaben and potassium sorbate.' },
-  { key:'blendsf', tint:'var(--sku-blend)', name:'ORA-Blend® SF', sub:'Sugar-free suspending vehicle', img:'assets/ora-blend-sf-1.png',
+  { key:'blendsf', tint:'var(--sku-blend)', name:'ORA-Blend® SF', sub:'Sugar-free suspending vehicle', img:'assets/ora-blend-sf-1.webp',
     short:'Buffered, sweetened, sugar-free suspending vehicle with antifoam agent and preservatives.',
     desc:'A flavoured sugar-free oral suspending vehicle that combines ORA-Plus® suspending properties with ORA-Sweet® SF flavouring agents. It forms elegant, uniform and physically stable suspensions.',
     specs:['Cloudy liquid','4.0 – 4.5','Sodium saccharin','Sweet citrus-berry'], pdf:'assets/product-info/ora-blend-sf.pdf',
@@ -2364,7 +2394,7 @@ var state = {
 var cardGrid = $('#cardGrid');
 cardGrid.innerHTML = SKUS.map(function(s,i){
   return '<button class="card" type="button" data-card="'+s.key+'" data-view="'+s.key+'" data-reveal aria-label="View information for '+s.name+'" style="--tint:'+s.tint+';--d:'+(i*70)+'ms">'+
-    '<span class="card-art"><span class="card-expand">Click to expand</span><img src="'+s.img+'" alt="'+s.name+' bottle" loading="lazy"><span class="card-label">'+s.name+'</span></span>'+
+    '<span class="card-art"><span class="card-expand">Click to expand</span><img width="330" height="1085" src="'+s.img+'" alt="'+s.name+' bottle" loading="lazy"><span class="card-label">'+s.name+'</span></span>'+
   '</button>';
 }).join('');
 
@@ -2374,7 +2404,7 @@ cardGrid.innerHTML = SKUS.map(function(s,i){
 var skuList = $('#skuList');
 skuList.innerHTML = SKUS.map(function(s){
   return '<div class="sku" data-sku="'+s.key+'" style="--tint:'+s.tint+'">'+
-    '<div class="sku-thumb"><img src="'+s.img+'" alt="" loading="lazy"></div>'+
+    '<div class="sku-thumb"><img width="330" height="1085" src="'+s.img+'" alt="" loading="lazy"></div>'+
     '<div class="sku-meta">'+
       '<div class="sku-name">'+s.name+'</div>'+
       '<div class="sku-sub">'+s.sub+' · 473 mL</div>'+
@@ -2426,7 +2456,7 @@ document.addEventListener('click', function(e){
   var view = e.target.closest('[data-view]');
   if(inc){ bumpQty(inc.getAttribute('data-inc'), 1); }
   else if(dec){ bumpQty(dec.getAttribute('data-dec'), -1); }
-  else if(view){ showPdp(view.getAttribute('data-view'), true); }
+  else if(view){ showPdp(view.getAttribute('data-view'), true, view); }
 });
 
 function bumpQty(key, delta){
@@ -2570,7 +2600,7 @@ function render(){
   $('#obFree').textContent = t.bonusCount;
   $('#obTotal').textContent = moneyCents(t.subtotalCents);
   $('#obCta .btn-label').textContent = t.paidCount === 0
-    ? 'BUILD YOUR FREE 1 ON 6'
+    ? 'BUILD YOUR FREE 1 ON 6'
     : (t.paidCount<RULES.dealThreshold?t.toNextThreshold+' more for the deal':'Continue to checkout');
 }
 
@@ -2669,7 +2699,7 @@ window.MFSCheckout={pricing:PRICING,buildPayload:checkoutPayload};
 /* ============================================================
    Product detail panel
    ============================================================ */
-function showPdp(key, scroll){
+function showPdp(key, scroll, trigger){
   var s = SKUS.filter(function(x){ return x.key === key; })[0];
   if(!s) return;
   state.pdp = key;
@@ -2678,21 +2708,26 @@ function showPdp(key, scroll){
   $('#pdpBottle').alt = s.name + ' bottle';
   $('#pdpName').textContent = s.name;
   $('#pdpSub').textContent = s.sub;
-  $('#pdpPdfFrame').src = s.pdf;
   $('#pdpPdfFrame').title = s.name + ' product information PDF';
 
-  render();
-
   if(scroll){
-    openProductModal();
+    openProductModal(trigger);
   }
 }
 
 var productModal = $('#product');
 var productModalTrigger = null;
 
-function openProductModal(){
-  productModalTrigger = document.activeElement;
+function openProductModal(trigger){
+  productModalTrigger = trigger || document.activeElement;
+  /* The sheet is ~200 kB per product, so it is fetched on open, not at boot,
+     and only when the product actually changes. */
+  var sheet = SKUS.filter(function(x){ return x.key === state.pdp; })[0];
+  var frame = $('#pdpPdfFrame');
+  if(sheet && frame.getAttribute('data-loaded') !== sheet.key){
+    frame.src = sheet.pdf;
+    frame.setAttribute('data-loaded', sheet.key);
+  }
   productModal.classList.add('is-open');
   productModal.setAttribute('aria-hidden','false');
   document.body.classList.add('has-product-modal');
@@ -2714,12 +2749,44 @@ document.addEventListener('click', function(e){
 });
 
 document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape' && productModal.classList.contains('is-open')) closeProductModal();
+  if(!productModal.classList.contains('is-open')) return;
+  if(e.key === 'Escape'){ closeProductModal(); return; }
+  if(e.key !== 'Tab') return;
+
+  /* Keep Tab inside the dialog while it is open. */
+  var stops = [productModal.querySelector('.product-modal-close'), $('#pdpPdfFrame')].filter(Boolean);
+  if(!stops.length) return;
+  var first = stops[0], last = stops[stops.length - 1];
+  var at = stops.indexOf(document.activeElement);
+  if(e.shiftKey && (document.activeElement === first || at === -1)){
+    e.preventDefault(); last.focus();
+  }else if(!e.shiftKey && document.activeElement === last){
+    e.preventDefault(); first.focus();
+  }
+});
+
+/* The browser's own PDF viewer swallows key events, so Escape pressed while
+   the sheet has focus never reaches this document. Bind inside the frame too
+   where the browser allows it, and hand focus back so Escape works again. */
+$('#pdpPdfFrame').addEventListener('load', function(){
+  try{
+    var doc = this.contentDocument;
+    if(doc) doc.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeProductModal();
+    });
+  }catch(err){ /* cross-origin or plugin document — nothing to bind */ }
 });
 
 /* ============================================================
    Countdown — a real deadline, counted honestly
    ============================================================ */
+var cdCells = {
+  d: document.querySelectorAll('[data-cd="d"]'),
+  h: document.querySelectorAll('[data-cd="h"]'),
+  m: document.querySelectorAll('[data-cd="m"]'),
+  s: document.querySelectorAll('[data-cd="s"]')
+};
+var cdTimer = null;
 function tickClock(){
   var left = Math.max(0, DEADLINE - Date.now());
   var s = Math.floor(left/1000);
@@ -2731,13 +2798,15 @@ function tickClock(){
   };
   Object.keys(parts).forEach(function(k){
     var v = String(parts[k]).padStart(2,'0');
-    document.querySelectorAll('[data-cd="'+k+'"]').forEach(function(el){
+    cdCells[k].forEach(function(el){
       if(el.textContent !== v) el.textContent = v;
     });
   });
+  /* Nothing left to count - stop waking the main thread every second. */
+  if(left === 0 && cdTimer){ window.clearInterval(cdTimer); cdTimer = null; }
 }
 tickClock();
-window.setInterval(tickClock, 1000);
+if(DEADLINE > Date.now()) cdTimer = window.setInterval(tickClock, 1000);
 
 /* ============================================================
    Scroll reveal
@@ -2783,7 +2852,8 @@ if('IntersectionObserver' in window && !reduced){
 /* ============================================================
    Header tuck + sticky order bar
    ============================================================ */
-var head = $('#siteHead'), bar = $('#orderBar'), hero = $('.hero');
+var head = $('#siteHead'), bar = $('#orderBar'), hero = $('.hero'), foot = $('.site-foot');
+var checkoutBtn = $('#addBundle');
 var lastY = window.scrollY, ticking = false;
 function updateHeroParallax(){
   if(!hero || reduced) return;
@@ -2798,9 +2868,12 @@ function onScroll(){
   head.classList.toggle('is-stuck', y > 8);
   if(y > 420 && y > lastY + 6){ head.classList.add('is-tucked'); }
   else if(y < lastY - 6){ head.classList.remove('is-tucked'); }
-  var foot = document.querySelector('.site-foot');
   var nearFoot = foot.getBoundingClientRect().top < window.innerHeight - 40;
-  bar.classList.toggle('is-up', y > 700 && !nearFoot);
+  /* The bar is a shortcut to the builder, so it stands down once the real
+     checkout button is on screen - otherwise it parks on top of it. */
+  var ctaBox = checkoutBtn.getBoundingClientRect();
+  var checkoutInView = ctaBox.bottom > 0 && ctaBox.top < window.innerHeight;
+  bar.classList.toggle('is-up', y > 700 && !nearFoot && !checkoutInView);
   updateHeroParallax();
   lastY = y;
   ticking = false;
