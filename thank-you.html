@@ -52,7 +52,7 @@ a:hover{color:var(--navy)}
   display:flex; flex-direction:column; align-items:center; justify-content:center;
 }
 .brand-logo{position:absolute; top:104px; left:0; right:0; text-align:center}
-.brand-logo img{width:310px; max-width:70%; margin:0 auto}
+.brand-logo img{width:310px; max-width:70%; height:auto; margin:0 auto}
 .lineup{
   margin:0; min-height:336px; display:flex; align-items:flex-end; justify-content:center; gap:6px;
 }
@@ -130,8 +130,8 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
   body{padding:0; display:block}
   .card{flex-direction:column; max-width:none; border-radius:0; box-shadow:none}
   .brand{width:100%; padding:56px 14px 34px; border-radius:0 0 26px 26px; justify-content:flex-start}
-  .brand-logo{position:static; margin-bottom:46px}
-  .brand-logo img{width:196px}
+  .brand-logo{position:static; width:100%; margin-bottom:46px}
+  .brand-logo img{width:196px; height:auto}
   .lineup{min-height:0}
   .lineup img{width:62px; filter:drop-shadow(0 14px 20px rgba(3,16,34,.55))}
   .qty{top:-9px; right:-4px; min-width:24px; height:24px; padding:0 6px; font-size:13px; line-height:24px}
