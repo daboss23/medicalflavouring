@@ -72,6 +72,10 @@ async function run(){
     // sweet has no configured id -> inline product_data still present
     assert.equal(params.get('line_items[1][price_data][product]'),null);
     assert.equal(params.get('line_items[1][price_data][product_data][name]'),'ORA-Sweet®');
+    // bonus line keeps its label even though plus has a product id configured
+    assert.equal(params.get('line_items[4][price_data][product]'),null);
+    assert.equal(params.get('line_items[4][price_data][product_data][name]'),'Bonus: ORA-Plus®');
+    assert.equal(params.get('line_items[4][price_data][product_data][metadata][promotional_bonus]'),'true');
 
     const invalidRes=response();
     await handler({...req,body:{...req.body,bonusChoices:[]}},invalidRes);

@@ -37,7 +37,9 @@ function addLineItem(params,index,name,unitCents,quantity,sku,bonus){
   params.set(`${base}[price_data][unit_amount]`,String(unitCents));
   params.set(`${base}[price_data][tax_behavior]`,'exclusive');
   const productId=productIdFor(sku);
-  if(productId){
+  // Bonus lines keep inline data so they always read "Bonus: <name>" on the
+  // order and invoice; only paid lines reference the catalog product.
+  if(productId&&!bonus){
     params.set(`${base}[price_data][product]`,productId);
   }else{
     params.set(`${base}[price_data][product_data][name]`,bonus?`Bonus: ${name}`:name);
