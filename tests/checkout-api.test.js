@@ -18,6 +18,7 @@ async function run(){
   let request;
 
   process.env.STRIPE_SECRET_KEY='sk_test_checkout_contract';
+  process.env.STRIPE_PRODUCT_PLUS='prod_test_plus';
   global.fetch=async function(url,options){
     request={url:url,options:options};
     return {
@@ -65,6 +66,13 @@ async function run(){
     assert.equal(params.get('line_items[4][price_data][unit_amount]'),'0');
     assert.equal(params.get('line_items[4][quantity]'),'1');
 
+    // plus has a configured product id -> reference it, drop inline product_data
+    assert.equal(params.get('line_items[0][price_data][product]'),'prod_test_plus');
+    assert.equal(params.get('line_items[0][price_data][product_data][name]'),null);
+    // sweet has no configured id -> inline product_data still present
+    assert.equal(params.get('line_items[1][price_data][product]'),null);
+    assert.equal(params.get('line_items[1][price_data][product_data][name]'),'ORA-Sweet®');
+
     const invalidRes=response();
     await handler({...req,body:{...req.body,bonusChoices:[]}},invalidRes);
     assert.equal(invalidRes.statusCode,400);
@@ -73,6 +81,7 @@ async function run(){
     if(originalSecret===undefined) delete process.env.STRIPE_SECRET_KEY;
     else process.env.STRIPE_SECRET_KEY=originalSecret;
     global.fetch=originalFetch;
+    delete process.env.STRIPE_PRODUCT_PLUS;
   }
 
   console.log('checkout API tests passed');

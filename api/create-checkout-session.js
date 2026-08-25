@@ -10,6 +10,14 @@ const PRODUCTS={
   blendsf:'ORA-Blend® SF'
 };
 
+/* Optional Stripe Product IDs, one per SKU. When set (e.g. STRIPE_PRODUCT_PLUS),
+   line items reference the catalog product so every order rolls up to the same
+   five products instead of minting a duplicate product on each checkout. When a
+   SKU has no ID configured, the line falls back to inline product data. */
+function productIdFor(sku){
+  return process.env['STRIPE_PRODUCT_'+sku.toUpperCase()];
+}
+
 function send(res,status,payload){
   res.statusCode=status;
   res.setHeader('Content-Type','application/json; charset=utf-8');
@@ -28,10 +36,15 @@ function addLineItem(params,index,name,unitCents,quantity,sku,bonus){
   params.set(`${base}[price_data][currency]`,Pricing.RULES.currency);
   params.set(`${base}[price_data][unit_amount]`,String(unitCents));
   params.set(`${base}[price_data][tax_behavior]`,'exclusive');
-  params.set(`${base}[price_data][product_data][name]`,bonus?`Bonus: ${name}`:name);
-  params.set(`${base}[price_data][product_data][description]`,bonus?'Promotional bonus bottle · 473 mL':'ORA® compounding vehicle · 473 mL');
-  params.set(`${base}[price_data][product_data][metadata][sku]`,sku);
-  params.set(`${base}[price_data][product_data][metadata][promotional_bonus]`,bonus?'true':'false');
+  const productId=productIdFor(sku);
+  if(productId){
+    params.set(`${base}[price_data][product]`,productId);
+  }else{
+    params.set(`${base}[price_data][product_data][name]`,bonus?`Bonus: ${name}`:name);
+    params.set(`${base}[price_data][product_data][description]`,bonus?'Promotional bonus bottle · 473 mL':'ORA® compounding vehicle · 473 mL');
+    params.set(`${base}[price_data][product_data][metadata][sku]`,sku);
+    params.set(`${base}[price_data][product_data][metadata][promotional_bonus]`,bonus?'true':'false');
+  }
   params.set(`${base}[quantity]`,String(quantity));
 }
 
