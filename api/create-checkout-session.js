@@ -59,7 +59,7 @@ module.exports=async function handler(req,res){
     const params=new URLSearchParams();
     const origin=requestOrigin(req);
     params.set('mode','payment');
-    params.set('success_url',`${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`);
+    params.set('success_url',`${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`);
     params.set('cancel_url',`${origin}/#builder`);
     params.set('billing_address_collection','required');
     params.set('shipping_address_collection[allowed_countries][0]','AU');

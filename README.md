@@ -9,11 +9,13 @@ Sales page for the Padagis ORA® compounding vehicle range (Medical Flavouring S
 | `index.html` | The page. Single file, no build step, no dependencies. Loads fonts from Google Fonts and bottle images from `assets/`. |
 | `studies.html` | Searchable, branded A–Z bibliography of ORA® stability studies. |
 | `studies-data.js` | The 107 Padagis study citations, available synopsis links, and 70-issue Secundum Artem archive. |
+| `thank-you.html` | Post-checkout thank-you page. Reads the real order back from Stripe via `api/checkout-session.js` and renders it; `success_url` points here. |
 | `privacy.html` | Branded MFS privacy policy covering website, order and hosted Stripe Checkout data. |
 | `terms.html` | Branded MFS website and ordering Terms of Use. |
 | `legal.css` | Shared responsive design system for the Privacy Policy and Terms of Use pages. |
 | `pricing.js` | Shared, integer-cent pricing engine used by the page and Stripe checkout endpoint. |
 | `api/create-checkout-session.js` | Stripe-ready Vercel endpoint that validates product choices and recalculates every charge server-side. |
+| `api/checkout-session.js` | Reads one paid Checkout Session back from Stripe for the thank-you page, returning a whitelisted subset of the order. |
 | `assets/` | Product photography and logo, supplied by the manufacturer. |
 | `dist/mfs-ora-sales-page.html` | Self-contained build — images inlined as data URIs, no `<html>`/`<head>` wrapper. Used for the shared preview. Regenerate with `build.py`. |
 | `build.py` | Inlines `assets/` into `dist/` (re-encoded to WebP) and swaps the SEO `<title>` for the short preview name. Needs Pillow. |
@@ -31,9 +33,14 @@ The commercial rules live in `pricing.js` and use integer cents to avoid floatin
 - 12 paid bottles: $29.99 each and 3 free; $359.88 ex GST for 15 shipped, displayed as $23.99 effective per bottle.
 - Larger orders repeat the same pattern: each complete 12 earns 3 bonus bottles and a remaining block of 6 earns 1.
 
-Run `node tests/pricing.test.js` and `node tests/checkout-api.test.js` after changing any pricing or checkout rule.
+Run `node tests/pricing.test.js`, `node tests/checkout-api.test.js` and `node tests/thank-you-api.test.js` after changing any pricing or checkout rule.
 
 The page sends product quantities and bonus selections directly to hosted Stripe Checkout. Stripe then collects the customer and business names, email, phone, billing address, Australian shipping address, optional purchase order number, order notes and payment details. On Vercel, `api/create-checkout-session.js` creates the Checkout Session when `STRIPE_SECRET_KEY` is configured (and uses `SITE_URL` for return links when supplied). The endpoint accepts product choices—not browser-calculated prices—and recalculates the quote with the shared pricing engine before sending integer-cent line items to Stripe. Stripe Automatic Tax is enabled with exclusive product prices; the Stripe account must have its Australian tax registration and default product tax code configured before live payments are enabled.
+
+After payment Stripe returns the buyer to `thank-you.html?session_id={CHECKOUT_SESSION_ID}`. That page holds no order data
+of its own: it calls `api/checkout-session.js`, which retrieves the session from Stripe with the secret key and returns only
+the fields the page renders. The endpoint rejects anything that is not a well-formed `cs_…` reference before it calls Stripe,
+and a session that is not yet paid returns a `pending` state rather than a receipt.
 
 Product copy, specs and FAQ entries are the `SKUS`, `EXTRA` and `FAQ` arrays in the same script block.
 
