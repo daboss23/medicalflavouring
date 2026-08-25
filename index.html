@@ -2094,15 +2094,15 @@ body.has-product-modal{overflow:hidden}
             <span class="bump-yes">Yes! Upgrade My Order</span>
           </label>
           <div class="bump-body">
-            <p class="bump-lead"><span class="ot">One time offer &mdash; Unlock 3 Free Bottles:</span> Buy 12 and receive <b>3 extra free bottles!</b> Check YES above to add this special offer to your order now and <b>save $125</b>.</p>
+            <p class="bump-lead"><span class="ot">One time offer &mdash; Unlock <span id="bumpFreeA">3</span> Free Bottles:</span> Buy <span id="bumpPaid">12</span> and receive <b><span id="bumpFreeB">3</span> extra free bottles!</b> Check YES above to add this special offer to your order now and <b>save <span id="bumpSave">$98.97</span></b>.</p>
             <p class="bump-title">Offer Upgrade</p>
-            <p class="bump-sub">One-time opportunity to get<br><b>3 free bottles instead of 2</b></p>
+            <p class="bump-sub">One-time opportunity to get<br><b><span id="bumpFreeC">3</span> free bottles instead of <span id="bumpFreeNow">1</span></b></p>
             <img class="bump-shot" src="assets/twelve-bottle-lineup.png" alt="Twelve ORA bottles supplied with three free bonus bottles" loading="lazy" width="1800" height="607">
             <ul class="bump-list">
-              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span><b>3 free bottles</b> instead of the standard 2</span></li>
-              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span>15 bottles shipped for the price of 12</span></li>
+              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span><b><span id="bumpFreeD">3</span> free bottles</b> instead of the standard <span id="bumpFreeNow2">1</span></span></li>
+              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span><span id="bumpShipped">15</span> bottles shipped for the price of <span id="bumpPaid2">12</span></span></li>
               <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span>Mix any ORA&reg; products across your order</span></li>
-              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span>Locked at <b>$29.99</b> per bottle, ex GST</span></li>
+              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span>Locked at <b><span id="bumpUnit">$29.99</span></b> per bottle, ex GST</span></li>
             </ul>
             <p class="bump-status" id="twelveBumpText">Tick to add 6 more bottles using your current product mix.</p>
             <p class="bump-fine">(This offer is not available at ANY other time or place)</p>
@@ -2631,6 +2631,23 @@ function render(){
       ? t.paidCount-Object.keys(state.twelveBoost.additions).reduce(function(total,key){ return total+(state.twelveBoost.additions[key]||0); },0)
       : t.paidCount;
     var needed=RULES.boostedThreshold-basePaid;
+
+    /* Offer-upgrade copy, driven by the live pricing rules */
+    var boostFree=PRICING.bonusCount(RULES.boostedThreshold);      // free bottles at 12 paid
+    var currentFree=PRICING.bonusCount(basePaid);                  // free bottles without the upgrade
+    var saveCents=(boostFree-currentFree)*RULES.listUnitCents;     // value of the extra free bottles
+    $('#bumpFreeA').textContent=boostFree;
+    $('#bumpFreeB').textContent=boostFree-currentFree;
+    $('#bumpFreeC').textContent=boostFree;
+    $('#bumpFreeD').textContent=boostFree;
+    $('#bumpFreeNow').textContent=currentFree;
+    $('#bumpFreeNow2').textContent=currentFree;
+    $('#bumpPaid').textContent=RULES.boostedThreshold;
+    $('#bumpPaid2').textContent=RULES.boostedThreshold;
+    $('#bumpShipped').textContent=RULES.boostedThreshold+boostFree;
+    $('#bumpUnit').textContent=moneyCents(RULES.dealUnitCents);
+    $('#bumpSave').textContent=moneyCents(saveCents);
+
     $('#twelveBumpText').textContent=state.twelveBoost.active
       ? 'Added to your order. Untick to remove the extra '+needed+' bottle'+(needed===1?'':'s')+' and return to your original selection.'
       : 'Tick to add '+needed+' more bottle'+(needed===1?'':'s')+' using your current product mix.';
