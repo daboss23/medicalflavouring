@@ -1116,6 +1116,7 @@ p{text-wrap:pretty}
 .bonus-choices[hidden]{display:none}
 .bonus-choices.is-popped{animation:badgePop .6s var(--ease-spring)}
 .bonus-title{margin:0 0 8px;color:#fff;font-size:16px;font-weight:800;line-height:1.3;text-align:center;white-space:nowrap}
+.bonus-title .hl{color:var(--flame-lift)}
 .bonus-field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .bonus-field > span{color:#aebed0;font-family:var(--mono);font-size:8.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
 .bonus-field select{
@@ -2594,7 +2595,7 @@ function renderBonusChoices(t){
     var existing=state.bonusChoices[index];
     return SKUS.some(function(s){ return s.key===existing; })?existing:fallback;
   });
-  wrap.innerHTML='<p class="bonus-title">Choose your '+t.bonusCount+' free bottle'+(t.bonusCount===1?'':'s')+'</p>'+state.bonusChoices.map(function(choice,index){
+  wrap.innerHTML='<p class="bonus-title">Choose your <span class="hl">'+t.bonusCount+' free</span> bottle'+(t.bonusCount===1?'':'s')+'</p>'+state.bonusChoices.map(function(choice,index){
     var options=SKUS.map(function(s){
       return '<option value="'+s.key+'"'+(s.key===choice?' selected':'')+'>'+s.name+'</option>';
     }).join('');
