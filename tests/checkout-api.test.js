@@ -51,6 +51,14 @@ async function run(){
 
     const params=new URLSearchParams(request.options.body);
     assert.equal(params.get('automatic_tax[enabled]'),'true');
+    // Automatic Tax needs the collected address to reach the Customer.
+    assert.equal(params.get('customer_update[shipping]'),'auto');
+    assert.equal(params.get('customer_update[address]'),'auto');
+    // ABN capture and a hosted tax invoice for trade buyers.
+    assert.equal(params.get('tax_id_collection[enabled]'),'true');
+    assert.equal(params.get('invoice_creation[enabled]'),'true');
+    // A repeated click must not open a second Checkout Session.
+    assert.ok(request.options.headers['Idempotency-Key']);
     assert.equal(params.get('billing_address_collection'),'required');
     assert.equal(params.get('shipping_address_collection[allowed_countries][0]'),'AU');
     assert.equal(params.get('phone_number_collection[enabled]'),'true');
