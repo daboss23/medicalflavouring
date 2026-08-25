@@ -18,7 +18,13 @@ Sales page for the Padagis ORA® compounding vehicle range (Medical Flavouring S
 | `api/checkout-session.js` | Reads one paid Checkout Session back from Stripe for the thank-you page, returning a whitelisted subset of the order. |
 | `assets/` | Product photography and logo, supplied by the manufacturer. |
 | `dist/mfs-ora-sales-page.html` | Self-contained build — images inlined as data URIs, no `<html>`/`<head>` wrapper. Used for the shared preview. Regenerate with `build.py`. |
+| `dev-server.js` | Local sandbox: serves the site and routes `/api/*` to the real handlers so the whole purchase flow can be tested in Stripe test mode. See `TESTING.md`. |
 | `build.py` | Inlines `assets/` into `dist/` (re-encoded to WebP) and swaps the SEO `<title>` for the short preview name. Needs Pillow. |
+
+## Testing a purchase
+
+`TESTING.md` walks through running the full checkout and thank-you flow against Stripe test mode,
+including test card numbers and what to verify at each step.
 
 ## Deploying
 
