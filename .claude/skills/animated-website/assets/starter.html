@@ -1,0 +1,1172 @@
+<!doctype html>
+<!--
+  PRECISION EDITORIAL STARTER
+  Replace the project identity, palette, typography, chapters, timings, CTA,
+  contact-sheet frames, alt text, FRAME_COUNT, and frame paths for every site.
+  Keep the loading, canvas, dwell-remap, fallback, responsive, and reduced-motion
+  logic unless the footage requires a deliberate engine change.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080a09">
+  <meta name="description" content="A scroll-driven film experience.">
+  <title>Object 001 — Motion Index</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --carbon: #080a09;
+      --carbon-soft: #111411;
+      --paper: #f1f0e9;
+      --alloy: #a8aca8;
+      --track: #414541;
+      --heritage: #d1ad67;
+      --signal: #e23b2f;
+      --petrol: #12372d;
+      --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+      --data: "IBM Plex Mono", ui-monospace, monospace;
+      --gutter: clamp(20px, 4.2vw, 72px);
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      --line: rgba(241, 240, 233, .17);
+      --frame-progress: 0;
+      --title-wdth: 82;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      background: var(--carbon);
+      color: var(--paper);
+      font-family: var(--display);
+      scroll-behavior: auto;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--carbon);
+      color: var(--paper);
+      overflow-x: clip;
+    }
+
+    body.is-loading { overflow: hidden; }
+
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 2px solid var(--heritage); outline-offset: 5px; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: max(24px, env(safe-area-inset-top)) var(--gutter) max(24px, env(safe-area-inset-bottom));
+      background: var(--carbon);
+      transition: clip-path 900ms var(--ease-out), visibility 900ms;
+      clip-path: inset(0 0 0 0);
+    }
+
+    .loader.is-done {
+      clip-path: inset(0 0 100% 0);
+      visibility: hidden;
+    }
+
+    .loader__mark {
+      align-self: center;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+    }
+
+    .loader__number {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(92px, 22vw, 340px);
+      font-weight: 780;
+      font-variation-settings: "wdth" 78;
+      letter-spacing: -.075em;
+      line-height: .68;
+    }
+
+    .loader__meta,
+    .micro {
+      font-family: var(--data);
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1.5;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .loader__meta { text-align: right; color: var(--alloy); }
+
+    .loader__foot {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 18px;
+      padding-top: 22px;
+    }
+
+    .loader__track,
+    .telemetry__track {
+      position: relative;
+      height: 1px;
+      overflow: hidden;
+      background: rgba(241, 240, 233, .24);
+    }
+
+    .loader__fill,
+    .telemetry__fill {
+      position: absolute;
+      inset: 0;
+      background: var(--heritage);
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 90;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+      min-height: 70px;
+      padding: max(16px, env(safe-area-inset-top)) var(--gutter) 12px;
+      mix-blend-mode: difference;
+      pointer-events: none;
+    }
+
+    .site-header__brand {
+      justify-self: start;
+      font-size: 13px;
+      font-weight: 720;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+    }
+
+    .site-header__center { color: rgba(241, 240, 233, .72); }
+    .site-header__end { justify-self: end; text-align: right; color: rgba(241, 240, 233, .72); }
+
+    .sequence {
+      position: relative;
+      height: 700vh;
+      background: var(--carbon);
+    }
+
+    .stage {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100svh;
+      overflow: hidden;
+      background: var(--carbon);
+      isolation: isolate;
+    }
+
+    #film-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .stage__scrim {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(8, 10, 9, .70) 0%, rgba(8, 10, 9, .16) 35%, transparent 61%),
+        linear-gradient(0deg, rgba(8, 10, 9, .72) 0%, transparent 36%);
+      opacity: var(--scrim-opacity, .78);
+      transition: opacity 500ms ease;
+      pointer-events: none;
+    }
+
+    .stage__grid {
+      position: absolute;
+      inset: 0 var(--gutter);
+      z-index: 2;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent calc(8.333% - 1px),
+        rgba(241, 240, 233, .07) calc(8.333% - 1px),
+        rgba(241, 240, 233, .07) 8.333%
+      );
+      mask-image: linear-gradient(180deg, transparent, black 14%, black 82%, transparent);
+      opacity: .56;
+      pointer-events: none;
+    }
+
+    .mobile-aperture { display: none; }
+
+    .chapters {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .chapter {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-content: center;
+      column-gap: clamp(10px, 1.2vw, 20px);
+      padding: 96px var(--gutter) 104px;
+      visibility: hidden;
+    }
+
+    .chapter.is-visible { visibility: visible; }
+
+    .chapter__copy {
+      position: relative;
+      align-self: center;
+    }
+
+    .chapter__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 22px;
+      color: var(--paper);
+    }
+
+    .chapter__eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 2px;
+      background: var(--heritage);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 650ms 100ms var(--ease-out);
+    }
+
+    .chapter.is-visible .chapter__eyebrow::before { transform: scaleX(1); }
+
+    .reveal {
+      overflow: hidden;
+      padding-bottom: .08em;
+    }
+
+    .reveal > span {
+      display: block;
+      transform: translateY(112%);
+      transition: transform 760ms var(--ease-out);
+    }
+
+    .reveal:nth-child(3) > span { transition-delay: 90ms; }
+    .reveal:nth-child(4) > span { transition-delay: 160ms; }
+    .chapter.is-visible .reveal > span { transform: translateY(0); }
+
+    .chapter__title {
+      margin: 0;
+      font-size: clamp(54px, 8.2vw, 132px);
+      font-weight: 760;
+      font-variation-settings: "wdth" var(--title-wdth);
+      letter-spacing: -.068em;
+      line-height: .82;
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+
+    .chapter__deck {
+      max-width: 32rem;
+      margin: 26px 0 0;
+      font-size: clamp(17px, 1.55vw, 24px);
+      font-weight: 450;
+      line-height: 1.25;
+      letter-spacing: -.025em;
+      text-wrap: balance;
+    }
+
+    .chapter__fact {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: baseline;
+      margin-top: 32px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      color: var(--alloy);
+      max-width: 30rem;
+    }
+
+    .chapter--hero { align-content: end; }
+    .chapter--hero .chapter__copy { grid-column: 1 / 10; padding-bottom: 4vh; }
+    .chapter--hero .chapter__title { font-size: clamp(110px, 19vw, 300px); line-height: .68; }
+    .chapter--hero .chapter__deck { margin-left: .52vw; max-width: 25rem; }
+
+    .chapter--right .chapter__copy { grid-column: 8 / 13; }
+    .chapter--left .chapter__copy { grid-column: 1 / 6; }
+
+    .chapter--index { align-content: center; }
+    .chapter--index .chapter__copy { grid-column: 8 / 13; z-index: 2; }
+    .chapter__giant-index {
+      position: absolute;
+      z-index: -1;
+      left: var(--gutter);
+      top: 50%;
+      color: transparent;
+      font-size: clamp(260px, 47vw, 720px);
+      font-weight: 800;
+      font-variation-settings: "wdth" 78;
+      letter-spacing: -.09em;
+      line-height: .7;
+      -webkit-text-stroke: 1px rgba(241, 240, 233, .26);
+      transform: translateY(-48%);
+      opacity: 0;
+      transition: opacity 600ms ease, font-variation-settings 1000ms var(--ease-out);
+    }
+
+    .chapter.is-visible .chapter__giant-index {
+      opacity: 1;
+      font-variation-settings: "wdth" 105;
+    }
+
+    .chapter--split { align-content: start; padding-top: 17vh; }
+    .chapter--split .chapter__copy {
+      grid-column: 1 / 13;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+
+    .chapter--split .split-end { text-align: right; }
+    .chapter--split .chapter__title { font-size: clamp(70px, 11vw, 176px); }
+    .chapter--split .chapter__deck { grid-column: 2; justify-self: end; text-align: right; }
+
+    .chapter--final {
+      align-content: end;
+      background: linear-gradient(0deg, rgba(8, 10, 9, .88), rgba(8, 10, 9, 0) 64%);
+    }
+
+    .chapter--final .chapter__copy {
+      grid-column: 1 / 13;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 32px;
+      padding-bottom: 3vh;
+    }
+
+    .chapter--final .chapter__title { max-width: 9ch; }
+
+    .cta {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      min-width: min(100%, 280px);
+      min-height: 54px;
+      padding: 0 18px;
+      border: 1px solid rgba(241, 240, 233, .56);
+      background: rgba(8, 10, 9, .18);
+      color: var(--paper);
+      font-family: var(--data);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 250ms ease, background 250ms ease, border-color 250ms ease;
+    }
+
+    .cta::after { content: "↗"; font-size: 16px; }
+    .cta:hover { background: var(--paper); border-color: var(--paper); color: var(--carbon); }
+
+    .telemetry {
+      position: absolute;
+      inset: auto var(--gutter) max(18px, env(safe-area-inset-bottom));
+      z-index: 8;
+      display: grid;
+      grid-template-columns: auto minmax(100px, 1fr) auto auto;
+      align-items: center;
+      gap: 18px;
+      pointer-events: none;
+    }
+
+    .telemetry__fill {
+      transform: scaleX(var(--frame-progress));
+      will-change: transform;
+    }
+
+    .telemetry__chapter { min-width: 13ch; }
+    .telemetry__frame { color: var(--alloy); }
+
+    .scroll-cue {
+      display: inline-grid;
+      grid-template-columns: auto 18px;
+      align-items: center;
+      gap: 9px;
+      color: var(--paper);
+    }
+
+    .scroll-cue::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      border-right: 1px solid currentColor;
+      border-bottom: 1px solid currentColor;
+      transform: rotate(45deg) translate(-3px, 3px);
+      animation: cue 1.8s ease-in-out infinite;
+    }
+
+    @keyframes cue {
+      0%, 100% { transform: rotate(45deg) translate(-3px, 3px); opacity: .35; }
+      50% { transform: rotate(45deg) translate(1px, 7px); opacity: 1; }
+    }
+
+    .editorial {
+      position: relative;
+      z-index: 10;
+      padding: clamp(100px, 13vw, 190px) var(--gutter);
+      background: var(--paper);
+      color: var(--carbon);
+    }
+
+    .editorial__head {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      align-items: end;
+      gap: 40px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(8, 10, 9, .26);
+    }
+
+    .editorial__title {
+      max-width: 9ch;
+      margin: 0;
+      font-size: clamp(58px, 9.8vw, 156px);
+      font-weight: 790;
+      font-variation-settings: "wdth" 86;
+      letter-spacing: -.075em;
+      line-height: .82;
+      text-transform: uppercase;
+    }
+
+    .editorial__aside {
+      justify-self: end;
+      max-width: 30rem;
+      margin: 0;
+      font-size: clamp(17px, 1.5vw, 23px);
+      line-height: 1.35;
+      letter-spacing: -.025em;
+    }
+
+    .contact-sheet {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: clamp(10px, 1.2vw, 20px);
+      margin-top: clamp(48px, 7vw, 104px);
+    }
+
+    .shot {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      background: var(--carbon-soft);
+    }
+
+    .shot--lead { grid-column: 1 / 9; }
+    .shot--top { grid-column: 9 / 13; align-self: start; margin-top: 10vw; }
+    .shot--low { grid-column: 3 / 7; margin-top: 2vw; }
+    .shot--end { grid-column: 7 / 13; margin-top: 8vw; }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: saturate(.82) contrast(1.03);
+      transition: transform 900ms var(--ease-out), filter 500ms ease;
+    }
+
+    .shot:hover img { transform: scale(1.018); filter: saturate(1); }
+
+    .shot figcaption {
+      position: absolute;
+      inset: auto 0 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: rgba(8, 10, 9, .78);
+      color: var(--paper);
+    }
+
+    .editorial__note {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: clamp(80px, 12vw, 170px);
+      padding-top: 24px;
+      border-top: 1px solid rgba(8, 10, 9, .26);
+    }
+
+    .editorial__note strong {
+      max-width: 10ch;
+      font-size: clamp(36px, 5vw, 76px);
+      font-weight: 730;
+      font-variation-settings: "wdth" 90;
+      letter-spacing: -.055em;
+      line-height: .92;
+      text-transform: uppercase;
+    }
+
+    .editorial__note p {
+      justify-self: end;
+      max-width: 34rem;
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .site-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      padding: 44px var(--gutter) max(44px, env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(241, 240, 233, .14);
+      background: var(--carbon);
+      color: var(--alloy);
+    }
+
+    .site-footer p { margin: 0; max-width: 50rem; }
+    .site-footer a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      text-underline-offset: 4px;
+    }
+
+    @media (max-width: 780px) {
+      :root { --gutter: 20px; }
+
+      .site-header {
+        grid-template-columns: 1fr auto;
+        min-height: 58px;
+      }
+
+      .site-header__center { display: none; }
+      .sequence { height: 620vh; }
+
+      .stage__scrim {
+        background:
+          linear-gradient(180deg, rgba(8, 10, 9, .52), transparent 21%),
+          linear-gradient(0deg, rgba(8, 10, 9, .88), transparent 29%);
+      }
+
+      .stage__grid { opacity: .32; }
+
+      .mobile-aperture {
+        position: absolute;
+        z-index: 3;
+        top: calc(45% - 28.125vw);
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 56.25vw;
+        border-top: 1px solid rgba(241, 240, 233, .22);
+        border-bottom: 1px solid rgba(241, 240, 233, .22);
+        pointer-events: none;
+      }
+
+      .chapter {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        align-content: end;
+        padding: 76px var(--gutter) 100px;
+      }
+
+      .chapter__copy,
+      .chapter--hero .chapter__copy,
+      .chapter--right .chapter__copy,
+      .chapter--left .chapter__copy,
+      .chapter--index .chapter__copy,
+      .chapter--final .chapter__copy {
+        grid-column: 1 / 7;
+      }
+
+      .chapter__eyebrow { margin-bottom: 14px; }
+      .chapter__title { font-size: clamp(52px, 16vw, 82px); line-height: .84; }
+      .chapter__deck { max-width: 24rem; margin-top: 14px; font-size: 17px; }
+      .chapter__fact { margin-top: 16px; }
+
+      .chapter--hero { align-content: start; padding-top: 16vh; }
+      .chapter--hero .chapter__copy { padding-bottom: 0; }
+      .chapter--hero .chapter__title { font-size: clamp(100px, 37vw, 160px); }
+      .chapter--hero .chapter__deck { margin-left: 0; max-width: 17rem; }
+
+      .chapter--split { align-content: end; padding-top: 76px; }
+      .chapter--split .chapter__copy { display: block; }
+      .chapter--split .split-end { text-align: left; }
+      .chapter--split .chapter__deck { grid-column: auto; text-align: left; }
+
+      .chapter__giant-index {
+        left: auto;
+        right: -5vw;
+        top: 12vh;
+        font-size: 62vw;
+        transform: none;
+      }
+
+      .chapter--final { align-content: end; }
+      .chapter--final .chapter__copy { display: block; }
+      .chapter--final .chapter__title { max-width: 7ch; }
+      .chapter--final .cta { margin-top: 22px; }
+
+      .telemetry {
+        grid-template-columns: auto 1fr auto;
+        gap: 12px;
+      }
+
+      .telemetry__chapter { min-width: 9ch; }
+      .scroll-cue { display: none; }
+
+      .loader__mark { display: block; }
+      .loader__number { font-size: 40vw; }
+      .loader__meta { margin-top: 22px; text-align: left; }
+
+      .editorial { padding-top: 100px; padding-bottom: 100px; }
+      .editorial__head { grid-template-columns: 1fr; }
+      .editorial__title { font-size: 18vw; }
+      .editorial__aside { justify-self: start; }
+      .contact-sheet { grid-template-columns: repeat(6, 1fr); gap: 10px; }
+      .shot--lead { grid-column: 1 / 7; }
+      .shot--top { grid-column: 3 / 7; margin-top: 12vw; }
+      .shot--low { grid-column: 1 / 5; margin-top: 0; }
+      .shot--end { grid-column: 1 / 7; margin-top: 12vw; }
+      .editorial__note { grid-template-columns: 1fr; gap: 32px; }
+      .editorial__note p { justify-self: start; }
+      .site-footer { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .sequence { height: 100svh; }
+      .chapter:not(.chapter--hero) { display: none; }
+      .chapter--hero { visibility: visible; }
+      .chapter--hero .reveal > span { transform: translateY(0); }
+      .chapter--hero .chapter__eyebrow::before { transform: scaleX(1); }
+      .telemetry { display: none; }
+    }
+  </style>
+</head>
+<body class="is-loading">
+  <div class="loader" id="loader" aria-label="Loading the image sequence">
+    <div class="loader__mark">
+      <p class="loader__number" aria-hidden="true">01</p>
+      <div class="loader__meta">Object 001<br>Film sequence<br>12.00 seconds</div>
+    </div>
+    <div class="loader__foot">
+      <span class="micro" id="loader-label">Preparing film</span>
+      <div class="loader__track" aria-hidden="true"><span class="loader__fill" id="loader-fill"></span></div>
+      <span class="micro" id="loader-count">000%</span>
+    </div>
+  </div>
+
+  <header class="site-header" aria-label="Project information">
+    <div class="site-header__brand">Object / Film 001</div>
+    <div class="site-header__center micro">A design study in motion</div>
+    <div class="site-header__end micro">12.00 sec<br>120 frames</div>
+  </header>
+
+  <main>
+    <section class="sequence" id="sequence" aria-label="Scroll-controlled product film">
+      <div class="stage" id="stage">
+        <canvas id="film-canvas" role="img" aria-label="The product moves as the page scrolls"></canvas>
+        <div class="stage__scrim" aria-hidden="true"></div>
+        <div class="stage__grid" aria-hidden="true"></div>
+        <div class="mobile-aperture" aria-hidden="true"></div>
+
+        <div class="chapters" aria-live="off">
+          <article class="chapter chapter--hero" data-center="0.045" data-window="0.082" data-label="The object">
+            <div class="chapter__copy">
+              <p class="chapter__eyebrow micro">Film 001 / The object</p>
+              <h1 class="chapter__title reveal"><span>Form</span></h1>
+              <p class="chapter__deck reveal"><span>Built to move.</span></p>
+            </div>
+          </article>
+
+          <article class="chapter chapter--right" data-center="0.215" data-window="0.068" data-label="Origin">
+            <div class="chapter__copy">
+              <p class="chapter__eyebrow micro">Origin / The first idea</p>
+              <h2 class="chapter__title reveal"><span>It began</span></h2>
+              <p class="chapter__deck reveal"><span>Start with the reason this object exists.</span></p>
+              <div class="chapter__fact micro"><span>01</span><span>Add one verified detail</span></div>
+            </div>
+          </article>
+
+          <article class="chapter chapter--split" data-center="0.39" data-window="0.066" data-label="Motion">
+            <div class="chapter__copy">
+              <div>
+                <p class="chapter__eyebrow micro">Motion / Identity</p>
+                <h2 class="chapter__title reveal"><span>Clear</span></h2>
+              </div>
+              <div class="split-end">
+                <h2 class="chapter__title reveal"><span>intent</span></h2>
+                <p class="chapter__deck reveal"><span>One sequence. One idea.</span></p>
+              </div>
+            </div>
+          </article>
+
+          <article class="chapter chapter--index" data-center="0.565" data-window="0.068" data-label="The index">
+            <div class="chapter__giant-index" aria-hidden="true">4</div>
+            <div class="chapter__copy">
+              <p class="chapter__eyebrow micro">Index / Four moments</p>
+              <h2 class="chapter__title reveal"><span>One clear thread</span></h2>
+              <p class="chapter__deck reveal"><span>Let each view add to the story.</span></p>
+            </div>
+          </article>
+
+          <article class="chapter chapter--left" data-center="0.742" data-window="0.068" data-label="The detail">
+            <div class="chapter__copy">
+              <p class="chapter__eyebrow micro">Detail / Purpose</p>
+              <h2 class="chapter__title reveal"><span>Show the proof</span></h2>
+              <p class="chapter__deck reveal"><span>Name the detail that matters.</span></p>
+              <div class="chapter__fact micro"><span>02</span><span>Add one useful fact</span></div>
+            </div>
+          </article>
+
+          <article class="chapter chapter--final" data-center="0.925" data-window="0.072" data-label="Explore">
+            <div class="chapter__copy">
+              <div>
+                <p class="chapter__eyebrow micro">The story keeps moving</p>
+                <h2 class="chapter__title reveal"><span>Keep going</span></h2>
+              </div>
+              <a class="cta" href="#contact-title">Explore the object</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="telemetry" aria-hidden="true">
+          <span class="telemetry__chapter micro" id="telemetry-chapter">The object</span>
+          <div class="telemetry__track"><span class="telemetry__fill"></span></div>
+          <span class="telemetry__frame micro" id="telemetry-frame">F 0001 / 0120</span>
+          <span class="scroll-cue micro">Scroll to drive</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="editorial" aria-labelledby="contact-title">
+      <div class="editorial__head">
+        <h2 class="editorial__title" id="contact-title">A form in time.</h2>
+        <p class="editorial__aside">Twelve seconds become 120 moments. Each view adds to one clear idea.</p>
+      </div>
+
+      <div class="contact-sheet">
+        <figure class="shot shot--lead">
+          <img src="frames/desktop/frame-0008.webp" alt="Opening view of the object" loading="lazy">
+          <figcaption class="micro"><span>Opening study</span><span>F 0008</span></figcaption>
+        </figure>
+        <figure class="shot shot--top">
+          <img src="frames/desktop/frame-0038.webp" alt="Second view of the object" loading="lazy">
+          <figcaption class="micro"><span>Turn 01</span><span>F 0038</span></figcaption>
+        </figure>
+        <figure class="shot shot--low">
+          <img src="frames/desktop/frame-0068.webp" alt="Profile view of the object" loading="lazy">
+          <figcaption class="micro"><span>Profile study</span><span>F 0068</span></figcaption>
+        </figure>
+        <figure class="shot shot--end">
+          <img src="frames/desktop/frame-0108.webp" alt="Closing view of the object" loading="lazy">
+          <figcaption class="micro"><span>Turn 02</span><span>F 0108</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="editorial__note">
+        <strong>Built with purpose. Shown with care.</strong>
+        <p>Close with one short thought. Give the viewer one clear next step.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer micro">
+    <p>Project note or rights statement.</p>
+    <a href="#contact-title">Project source ↗</a>
+  </footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const FRAME_COUNT = 120;
+      const FRAME_PAD = 4;
+      const LERP_FACTOR = 0.115;
+      const DWELL_WIDTH = 0.038;
+      const DWELL_PEAK = 2.75;
+      const LUT_SIZE = 2400;
+      const MOBILE_QUERY = "(max-width: 780px)";
+      const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
+      const DWELL_CENTERS = [0.045, 0.215, 0.39, 0.565, 0.742, 0.925];
+
+      const sequence = document.getElementById("sequence");
+      const stage = document.getElementById("stage");
+      const canvas = document.getElementById("film-canvas");
+      const ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
+      const loader = document.getElementById("loader");
+      const loaderFill = document.getElementById("loader-fill");
+      const loaderCount = document.getElementById("loader-count");
+      const loaderLabel = document.getElementById("loader-label");
+      const telemetryChapter = document.getElementById("telemetry-chapter");
+      const telemetryFrame = document.getElementById("telemetry-frame");
+      const chapters = Array.from(document.querySelectorAll(".chapter"));
+      const reducedMotion = window.matchMedia(REDUCED_QUERY).matches;
+      const mobileMedia = window.matchMedia(MOBILE_QUERY);
+      const frameStores = {
+        desktop: createFrameStore("frames/desktop"),
+        mobile: createFrameStore("frames/mobile")
+      };
+      const chapterVisibility = new WeakMap();
+      let useMobileFrames = mobileMedia.matches;
+      let activeStore = useMobileFrames ? frameStores.mobile : frameStores.desktop;
+      let currentFrame = 0;
+      let targetFrame = 0;
+      let lastDrawn = -1;
+      let pageVisible = true;
+      let rafId = 0;
+      let sequenceTop = 0;
+      let sequenceDistance = 1;
+
+      function createFrameStore(directory) {
+        return {
+          directory,
+          images: new Array(FRAME_COUNT),
+          loaded: new Uint8Array(FRAME_COUNT),
+          promises: new Array(FRAME_COUNT)
+        };
+      }
+
+      function frameUrl(index, store = activeStore) {
+        return `${store.directory}/frame-${String(index + 1).padStart(FRAME_PAD, "0")}.webp`;
+      }
+
+      function setLoaderProgress(ratio) {
+        const safeRatio = Math.max(0, Math.min(1, ratio));
+        loaderFill.style.transform = `scaleX(${safeRatio})`;
+        loaderCount.textContent = `${String(Math.round(safeRatio * 100)).padStart(3, "0")}%`;
+      }
+
+      function loadFrame(index, store = activeStore, retries = 1) {
+        if (store.loaded[index]) return Promise.resolve(store.images[index]);
+        if (store.promises[index]) return store.promises[index];
+
+        store.promises[index] = new Promise((resolve) => {
+          const attempt = (remaining) => {
+            const image = new Image();
+            store.images[index] = image;
+            image.decoding = "async";
+            image.onload = () => {
+              store.loaded[index] = 1;
+              resolve(image);
+            };
+            image.onerror = () => {
+              if (remaining > 0) {
+                window.setTimeout(() => attempt(remaining - 1), 140);
+              } else {
+                store.images[index] = null;
+                store.promises[index] = null;
+                resolve(null);
+              }
+            };
+            image.src = frameUrl(index, store);
+          };
+          attempt(retries);
+        });
+        return store.promises[index];
+      }
+
+      async function loadInBatches(indices, size = 8, store = activeStore) {
+        for (let start = 0; start < indices.length; start += size) {
+          const batch = indices.slice(start, start + size);
+          await Promise.all(batch.map((index) => loadFrame(index, store)));
+        }
+      }
+
+      function nearestLoaded(index, store = activeStore) {
+        if (store.loaded[index]) return index;
+        for (let distance = 1; distance < FRAME_COUNT; distance += 1) {
+          const before = index - distance;
+          const after = index + distance;
+          if (before >= 0 && store.loaded[before]) return before;
+          if (after < FRAME_COUNT && store.loaded[after]) return after;
+        }
+        return -1;
+      }
+
+      function resizeCanvas() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const width = Math.round(stage.clientWidth * dpr);
+        const height = Math.round(stage.clientHeight * dpr);
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
+          lastDrawn = -1;
+        }
+      }
+
+      function updateSequenceMetrics() {
+        const rect = sequence.getBoundingClientRect();
+        sequenceTop = window.scrollY + rect.top;
+        sequenceDistance = Math.max(1, rect.height - window.innerHeight);
+      }
+
+      function drawFrame(index) {
+        const resolved = nearestLoaded(Math.max(0, Math.min(FRAME_COUNT - 1, index)));
+        if (resolved < 0 || resolved === lastDrawn) return;
+        const image = activeStore.images[resolved];
+        if (!image || !image.naturalWidth) return;
+
+        const width = canvas.width;
+        const height = canvas.height;
+        ctx.fillStyle = "#080a09";
+        ctx.fillRect(0, 0, width, height);
+
+        let scale;
+        let drawWidth;
+        let drawHeight;
+        let x;
+        let y;
+
+        if (useMobileFrames) {
+          scale = width / image.naturalWidth;
+          drawWidth = width;
+          drawHeight = image.naturalHeight * scale;
+          x = 0;
+          y = height * 0.45 - drawHeight / 2;
+        } else {
+          scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+          drawWidth = image.naturalWidth * scale;
+          drawHeight = image.naturalHeight * scale;
+          x = (width - drawWidth) / 2;
+          y = (height - drawHeight) / 2;
+        }
+
+        ctx.drawImage(image, x, y, drawWidth, drawHeight);
+        lastDrawn = resolved;
+      }
+
+      const rawAtEffective = new Float64Array(LUT_SIZE + 1);
+
+      function buildDwellLut() {
+        let total = 0;
+        const density = new Float64Array(LUT_SIZE + 1);
+        for (let i = 0; i <= LUT_SIZE; i += 1) {
+          const effective = i / LUT_SIZE;
+          let value = 1;
+          for (const center of DWELL_CENTERS) {
+            const delta = (effective - center) / DWELL_WIDTH;
+            value += DWELL_PEAK * Math.exp(-0.5 * delta * delta);
+          }
+          density[i] = value;
+          if (i > 0) total += (density[i - 1] + value) * 0.5;
+          rawAtEffective[i] = total;
+        }
+        for (let i = 0; i <= LUT_SIZE; i += 1) rawAtEffective[i] /= total;
+      }
+
+      function remapProgress(raw) {
+        let low = 0;
+        let high = LUT_SIZE;
+        while (low < high) {
+          const mid = (low + high) >> 1;
+          if (rawAtEffective[mid] < raw) low = mid + 1;
+          else high = mid;
+        }
+        const index = Math.max(1, low);
+        const leftRaw = rawAtEffective[index - 1];
+        const rightRaw = rawAtEffective[index];
+        const span = rightRaw - leftRaw || 1;
+        const mix = (raw - leftRaw) / span;
+        return Math.max(0, Math.min(1, (index - 1 + mix) / LUT_SIZE));
+      }
+
+      function rawScrollProgress() {
+        return Math.max(0, Math.min(1, (window.scrollY - sequenceTop) / sequenceDistance));
+      }
+
+      function updateChapters(effective) {
+        let active = chapters[0];
+        let nearest = Infinity;
+        for (const chapter of chapters) {
+          const center = Number(chapter.dataset.center);
+          const windowSize = Number(chapter.dataset.window);
+          const distance = Math.abs(effective - center);
+          const visible = distance <= windowSize;
+          if (chapterVisibility.get(chapter) !== visible) {
+            chapterVisibility.set(chapter, visible);
+            chapter.classList.toggle("is-visible", visible);
+            chapter.setAttribute("aria-hidden", String(!visible));
+          }
+          if (distance < nearest) {
+            nearest = distance;
+            active = chapter;
+          }
+        }
+        if (telemetryChapter.textContent !== active.dataset.label) {
+          telemetryChapter.textContent = active.dataset.label;
+        }
+      }
+
+      function updateInterface(raw, effective, frame) {
+        document.documentElement.style.setProperty("--frame-progress", raw.toFixed(4));
+        document.documentElement.style.setProperty("--title-wdth", String(Math.round(78 + effective * 24)));
+        telemetryFrame.textContent = `F ${String(frame + 1).padStart(4, "0")} / ${String(FRAME_COUNT).padStart(4, "0")}`;
+        const edge = Math.min(effective, 1 - effective) / 0.08;
+        stage.style.setProperty("--scrim-opacity", String(Math.min(0.82, 0.5 + edge * 0.23)));
+      }
+
+      function dismissLoader() {
+        setLoaderProgress(1);
+        loader.classList.add("is-done");
+        document.body.classList.remove("is-loading");
+        window.setTimeout(() => loader.remove(), 1000);
+      }
+
+      function showLoadError() {
+        loaderLabel.textContent = "Frames unavailable — reload the page";
+        loaderCount.textContent = "ERROR";
+        loaderCount.style.color = "var(--signal)";
+        loader.setAttribute("aria-label", "The film frames could not be loaded. Reload the page to try again.");
+      }
+
+      function renderReducedPoster(frame) {
+        currentFrame = frame;
+        targetFrame = frame;
+        drawFrame(frame);
+        chapters.forEach((chapter, index) => {
+          const visible = index === 0;
+          chapterVisibility.set(chapter, visible);
+          chapter.classList.toggle("is-visible", visible);
+          chapter.setAttribute("aria-hidden", String(!visible));
+        });
+      }
+
+      function tick() {
+        if (!pageVisible || reducedMotion) return;
+        const raw = rawScrollProgress();
+        const effective = remapProgress(raw);
+        targetFrame = Math.round(effective * (FRAME_COUNT - 1));
+        currentFrame += (targetFrame - currentFrame) * LERP_FACTOR;
+        const frame = Math.round(currentFrame);
+        drawFrame(frame);
+        updateChapters(effective);
+        updateInterface(raw, effective, frame);
+        rafId = requestAnimationFrame(tick);
+      }
+
+      async function init() {
+        buildDwellLut();
+        resizeCanvas();
+        updateSequenceMetrics();
+        setLoaderProgress(0.06);
+
+        if (reducedMotion) {
+          const posterFrame = Math.round(0.48 * (FRAME_COUNT - 1));
+          const poster = await loadFrame(posterFrame);
+          if (!poster) {
+            showLoadError();
+            return;
+          }
+          renderReducedPoster(posterFrame);
+          dismissLoader();
+          return;
+        }
+
+        const critical = Array.from(new Set([
+          0,
+          ...DWELL_CENTERS.map((center) => Math.round(center * (FRAME_COUNT - 1))),
+          FRAME_COUNT - 1
+        ])).sort((a, b) => a - b);
+
+        const firstFrame = await loadFrame(0);
+        if (firstFrame) {
+          drawFrame(0);
+          setLoaderProgress(0.28);
+        }
+
+        const criticalTail = critical.filter((index) => index !== 0);
+        let prepared = 0;
+        await Promise.all(criticalTail.map(async (index) => {
+          const image = await loadFrame(index);
+          prepared += 1;
+          setLoaderProgress(0.28 + 0.68 * (prepared / criticalTail.length));
+          return image;
+        }));
+
+        const readyFrame = nearestLoaded(0);
+        if (readyFrame < 0) {
+          showLoadError();
+          return;
+        }
+        drawFrame(readyFrame);
+        dismissLoader();
+        tick();
+
+        const remaining = Array.from({ length: FRAME_COUNT }, (_, index) => index)
+          .filter((index) => !critical.includes(index));
+        loadInBatches(remaining);
+      }
+
+      async function swapFrameSet(event) {
+        useMobileFrames = event.matches;
+        activeStore = useMobileFrames ? frameStores.mobile : frameStores.desktop;
+        lastDrawn = -1;
+        resizeCanvas();
+        updateSequenceMetrics();
+
+        const frame = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(currentFrame)));
+        const image = await loadFrame(frame, activeStore);
+        if (!image) return;
+        drawFrame(frame);
+
+        const byDistance = Array.from({ length: FRAME_COUNT }, (_, index) => index)
+          .sort((a, b) => Math.abs(a - frame) - Math.abs(b - frame));
+        loadInBatches(byDistance, 8, activeStore);
+      }
+
+      window.addEventListener("resize", () => {
+        resizeCanvas();
+        updateSequenceMetrics();
+      }, { passive: true });
+      mobileMedia.addEventListener("change", swapFrameSet);
+      document.addEventListener("visibilitychange", () => {
+        pageVisible = !document.hidden;
+        if (pageVisible && !reducedMotion) {
+          cancelAnimationFrame(rafId);
+          tick();
+        }
+      });
+
+      init();
+    })();
+  </script>
+</body>
+</html>

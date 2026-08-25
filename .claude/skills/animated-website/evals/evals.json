@@ -1,0 +1,45 @@
+{
+  "skill_name": "animated-website",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Update the animated-website skill with a phenomenal new design style, keep the scroll-controlled video effect, and use Porsche Clip.mp4 as the real test film.",
+      "expected_output": "A materially redesigned skill with reusable assets plus a polished Porsche demo. The design should feel like modern automotive editorial work, preserve the smooth scroll-frame engine, load progressively, compose well on desktop and mobile, and avoid the old generic luxury cues.",
+      "files": [
+        "Porsche Clip.mp4"
+      ],
+      "assertions": [
+        {
+          "name": "reusable-skill-assets-exist",
+          "type": "custom",
+          "expected": "The updated skill includes a concise SKILL.md, a reusable starter HTML asset, and a visual-system reference."
+        },
+        {
+          "name": "scroll-frame-engine-preserved",
+          "type": "custom",
+          "expected": "The demo uses a canvas frame sequence tied to scroll progress, LERP smoothing, and dwell-remapped pacing."
+        },
+        {
+          "name": "old-luxury-defaults-removed",
+          "type": "custom",
+          "expected": "The demo does not default to Playfair Display, DM Sans, glass cards, floating particles, gradient glow decoration, film grain, or a trailing custom cursor."
+        },
+        {
+          "name": "porsche-specific-art-direction",
+          "type": "custom",
+          "expected": "The visual system is rooted in the clip through race number 72, track telemetry, frame counters, the green-and-gold palette, and copy placed around the rotating car."
+        },
+        {
+          "name": "progressive-and-resilient-loading",
+          "type": "custom",
+          "expected": "Critical frames load first, remaining frames load in background batches, and nearest-loaded-frame fallback prevents blank flashes."
+        },
+        {
+          "name": "responsive-and-accessible",
+          "type": "custom",
+          "expected": "Desktop and 390px portrait compositions work, reduced motion has a stable poster treatment, focus styles are visible, and the page has no runtime JavaScript errors."
+        }
+      ]
+    }
+  ]
+}
