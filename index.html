@@ -1069,7 +1069,7 @@ p{text-wrap:pretty}
 }
 .bump-fine{
   margin:10px 0 0;text-align:center;
-  font-size:11.5px;font-style:italic;line-height:1.45;color:var(--ink-3);
+  font-size:13.5px;font-style:italic;font-weight:750;line-height:1.45;color:var(--ink-2);
 }
 .bump.is-on{box-shadow:0 20px 44px -20px rgba(238,60,19,.6)}
 .sum-fine{margin-top:14px; font-size:12px; line-height:1.5; color:var(--ink-4); text-align:center}
@@ -1170,57 +1170,6 @@ p{text-wrap:pretty}
 .testimonial-author cite{display:block; color:var(--navy-deep); font-family:var(--display); font-size:15px; font-style:italic; font-weight:760}
 .testimonial-author span{display:block; margin-top:2px; color:var(--ink-4); font-family:var(--mono); font-size:9.5px; letter-spacing:.11em; text-transform:uppercase}
 .testimonial-author .testimonial-avatar{display:grid; margin-top:0; color:#fff}
-/* ============================================================
-   About Padagis / executive team
-   ============================================================ */
-.team-section{
-  position:relative; isolation:isolate; overflow:hidden; padding-block:var(--space);
-  background:
-    radial-gradient(circle at 14% 18%,rgba(238,60,19,.065),transparent 24%),
-    linear-gradient(180deg,#fff 0%,#fbfcfe 100%);
-  border-bottom:1px solid var(--line-soft);
-}
-.team-section::before{
-  content:''; position:absolute; z-index:-1; right:-160px; bottom:-185px; width:520px; aspect-ratio:1;
-  border:38px solid rgba(18,58,107,.055); border-left-color:rgba(238,60,19,.08); border-radius:48% 52% 44% 56%;
-  transform:rotate(-18deg); pointer-events:none;
-}
-.team-head{width:min(100% - (var(--gutter) * 2),840px); margin:0 auto clamp(40px,5vw,64px); text-align:center}
-.team-head .h-section{margin:0}
-.team-marquee{
-  position:relative; width:100%; overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
-  mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
-}
-.team-track{display:flex; width:max-content; will-change:transform; animation:teamScroll 54s linear infinite}
-.team-marquee:hover .team-track,.team-marquee:focus-within .team-track{animation-play-state:paused}
-.team-set{display:flex; gap:24px; padding-right:24px}
-.team-card{width:258px; flex:0 0 258px}
-.team-photo{
-  position:relative; overflow:hidden; aspect-ratio:414 / 454; border-radius:22px;
-  background:#e8edf3; box-shadow:0 22px 48px -34px rgba(18,58,107,.68);
-  transition:transform .45s var(--ease),box-shadow .45s var(--ease);
-}
-.team-photo::after{
-  content:''; position:absolute; inset:0; pointer-events:none;
-  box-shadow:inset 0 0 0 1px rgba(18,58,107,.09),inset 0 -110px 80px -80px rgba(6,25,50,.28);
-  border-radius:inherit;
-}
-.team-photo img{
-  display:block; width:100%; height:100%; object-fit:cover; filter:saturate(1);
-  transition:filter .5s var(--ease),transform .65s var(--ease);
-}
-.team-card:hover .team-photo,.team-card:focus-within .team-photo{transform:translateY(-7px);box-shadow:0 32px 58px -32px rgba(18,58,107,.72)}
-.team-card:hover img,.team-card:focus-within img{filter:saturate(1.06);transform:scale(1.025)}
-.team-meta{
-  position:absolute; z-index:2; left:10px; right:10px; bottom:10px; min-height:58px; padding:8px 13px;
-  display:flex; flex-direction:column; justify-content:center; border:1px solid rgba(255,255,255,.54); border-radius:14px;
-  background:rgba(255,255,255,.88); backdrop-filter:blur(13px); -webkit-backdrop-filter:blur(13px);
-  box-shadow:0 12px 30px -24px rgba(6,25,50,.72);
-}
-.team-meta h3{margin:0; color:var(--navy-deep); font-family:var(--display); font-size:16px; line-height:1.12; letter-spacing:-.015em}
-.team-meta p{margin:3px 0 0; color:var(--ink-3); font-size:10.5px; line-height:1.25}
-@keyframes teamScroll{to{transform:translateX(-50%)}}
 
 /* ============================================================
    Product detail
@@ -1661,15 +1610,6 @@ body.has-product-modal{overflow:hidden}
   .bump-lead,.bump-list li{font-size:13px}
   .testimonial-slide{padding:30px 22px;gap:17px}
   .testimonial-copy{font-size:20px;line-height:1.48}
-  .team-section{padding-block:var(--space)}
-  .team-head{margin-bottom:34px}
-  .team-marquee{-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
-  .team-set{gap:14px;padding-right:14px}
-  .team-card{width:218px;flex-basis:218px}
-  .team-photo{border-radius:18px}
-  .team-meta{left:8px;right:8px;bottom:8px;min-height:56px;padding:8px 11px;border-radius:12px}
-  .team-meta h3{font-size:15px}
-  .team-meta p{font-size:10px;line-height:1.23}
   .ob-facts .ob-item:nth-child(3),.ob-facts .ob-rule:nth-child(4){display:none}
   .ob-facts{gap:13px}
   .ob-item .v{font-size:17px}
@@ -1746,9 +1686,6 @@ body.has-product-modal{overflow:hidden}
   .btn--flame::after,.btn--navy::after{background-position:50% 0}
   .marquee-track{animation:none; width:100%; flex-wrap:wrap; justify-content:center; gap:10px}
   .marquee-track .marq-item:nth-child(n+7){display:none}
-  .team-marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none;padding-inline:var(--gutter)}
-  .team-track{animation:none;width:max-content;will-change:auto}
-  .team-set[aria-hidden="true"]{display:none}
   *,*::before,*::after{
     animation-duration:.001ms !important; animation-iteration-count:1 !important;
     transition-duration:.001ms !important;
@@ -1808,7 +1745,6 @@ body.has-product-modal{overflow:hidden}
         <a href="studies.html">Studies</a>
         <a href="#range">Range</a>
         <a href="#builder">Bundle 1 on 6</a>
-        <a href="#about">Team</a>
       </nav>
       <a class="btn btn--navy btn--sm cart-chip" href="#builder" id="cartChip">
         <svg viewBox="0 0 20 20"><use href="#i-cart"/></svg>
@@ -2145,41 +2081,6 @@ body.has-product-modal{overflow:hidden}
   </div>
 </section>
 
-<!-- ========== About Padagis / executive team ========== -->
-<section class="team-section" id="about" aria-labelledby="aboutTitle">
-  <header class="team-head" data-reveal>
-    <h2 class="h-section" id="aboutTitle">Meet The Executive Team</h2>
-  </header>
-
-  <div class="team-marquee" aria-label="Padagis executive team">
-    <div class="team-track">
-      <div class="team-set">
-        <article class="team-card"><div class="team-photo"><img src="assets/team/pam-hoffman.jpg" alt="Pam Hoffman" loading="lazy"><div class="team-meta"><h3>Pam Hoffman</h3><p>Chief Executive Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/bryan-reasons.png" alt="Bryan Reasons" loading="lazy"><div class="team-meta"><h3>Bryan Reasons</h3><p>Executive Vice President and Chief Financial Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/sujeet-singh.png" alt="Sujeet Singh" loading="lazy"><div class="team-meta"><h3>Sujeet Singh</h3><p>Executive Vice President and Chief Growth Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/chris-bonny.png" alt="Chris Bonny" loading="lazy"><div class="team-meta"><h3>Chris Bonny</h3><p>Executive Vice President and Chief Commercial Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/ofir-seva.jpg" alt="Ofir Seva" loading="lazy"><div class="team-meta"><h3>Ofir Seva</h3><p>Executive Vice President and Chief Operating Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/erin-ascher.jpg" alt="Erin Ascher" loading="lazy"><div class="team-meta"><h3>Erin Ascher</h3><p>Executive Vice President and Chief Human Resources Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/shlomi-leibovich.png" alt="Shlomi Leibovich" loading="lazy"><div class="team-meta"><h3>Shlomi Leibovich</h3><p>Executive Vice President, International Markets</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/landon-clark.png" alt="Landon Clark" loading="lazy"><div class="team-meta"><h3>Landon Clark</h3><p>Senior Vice President and General Counsel</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/vishal-gupta.png" alt="Vishal Gupta" loading="lazy"><div class="team-meta"><h3>Vishal Gupta</h3><p>Executive Vice President and Chief Scientific Officer</p></div></div></article>
-      </div>
-      <div class="team-set" aria-hidden="true">
-        <article class="team-card"><div class="team-photo"><img src="assets/team/pam-hoffman.jpg" alt="" loading="lazy"><div class="team-meta"><h3>Pam Hoffman</h3><p>Chief Executive Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/bryan-reasons.png" alt="" loading="lazy"><div class="team-meta"><h3>Bryan Reasons</h3><p>Executive Vice President and Chief Financial Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/sujeet-singh.png" alt="" loading="lazy"><div class="team-meta"><h3>Sujeet Singh</h3><p>Executive Vice President and Chief Growth Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/chris-bonny.png" alt="" loading="lazy"><div class="team-meta"><h3>Chris Bonny</h3><p>Executive Vice President and Chief Commercial Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/ofir-seva.jpg" alt="" loading="lazy"><div class="team-meta"><h3>Ofir Seva</h3><p>Executive Vice President and Chief Operating Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/erin-ascher.jpg" alt="" loading="lazy"><div class="team-meta"><h3>Erin Ascher</h3><p>Executive Vice President and Chief Human Resources Officer</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/shlomi-leibovich.png" alt="" loading="lazy"><div class="team-meta"><h3>Shlomi Leibovich</h3><p>Executive Vice President, International Markets</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/landon-clark.png" alt="" loading="lazy"><div class="team-meta"><h3>Landon Clark</h3><p>Senior Vice President and General Counsel</p></div></div></article>
-        <article class="team-card"><div class="team-photo"><img src="assets/team/vishal-gupta.png" alt="" loading="lazy"><div class="team-meta"><h3>Vishal Gupta</h3><p>Executive Vice President and Chief Scientific Officer</p></div></div></article>
-      </div>
-    </div>
-  </div>
-
-</section>
-
 <!-- ========== Product detail modal ========== -->
 <section id="product" class="product-modal" aria-hidden="true">
   <button class="product-modal-backdrop" type="button" data-close-product aria-label="Close product information"></button>
@@ -2300,7 +2201,6 @@ body.has-product-modal{overflow:hidden}
           <li><a href="studies.html">Studies</a></li>
           <li><a href="#range">Range</a></li>
           <li><a href="#builder">Bundle 1 on 6</a></li>
-          <li><a href="#about">Team</a></li>
         </ul>
       </div>
     </div>
