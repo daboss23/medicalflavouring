@@ -2571,7 +2571,7 @@ function render(){
   $('#obTotal').textContent = moneyCents(t.subtotalCents);
   $('#obCta .btn-label').textContent = t.paidCount === 0
     ? 'BUILD YOUR FREE 1 ON 6'
-    : (t.paidCount<RULES.dealThreshold?t.toNextThreshold+' more for the deal':'Continue to checkout');
+    : 'Continue to checkout';
 }
 
 /* ============================================================
@@ -2669,10 +2669,10 @@ async function startCheckout(){
 
 $('#addBundle').addEventListener('click',startCheckout);
 
-/* The sticky order bar turns into a checkout button once the deal is
-   unlocked; below that it stays a jump link to the builder. */
+/* The sticky order bar checks out as soon as there is anything to buy. With an
+   empty cart there is nothing to check out, so it stays a jump to the builder. */
 $('#obCta').addEventListener('click',function(e){
-  if(totals().paidCount<RULES.dealThreshold) return;
+  if(totals().paidCount===0) return;
   e.preventDefault();
   startCheckout();
 });
