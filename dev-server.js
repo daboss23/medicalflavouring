@@ -110,6 +110,16 @@ if(key.startsWith('sk_live_')){
   process.exit(1);
 }
 
+/* The embedded checkout page needs the publishable key to mount card fields.
+   Without one it still works — it falls back to hosted Stripe Checkout — so this
+   is a note, not a refusal. */
+const publishable=process.env.STRIPE_PUBLISHABLE_KEY||'';
+if(publishable.startsWith('pk_live_')){
+  console.error('\n  That is a LIVE publishable key. Use the test key from');
+  console.error('  https://dashboard.stripe.com/test/apikeys\n');
+  process.exit(1);
+}
+
 http.createServer(function(req,res){
   const url=new URL(req.url,'http://localhost');
   const api=/^\/api\/([A-Za-z0-9-]+)$/.exec(url.pathname);
@@ -120,7 +130,14 @@ http.createServer(function(req,res){
   console.log('\n  ORA sandbox running in Stripe TEST mode');
   console.log('  ------------------------------------------------');
   console.log('  Shop            http://localhost:'+PORT+'/');
+  console.log('  Checkout        http://localhost:'+PORT+'/checkout.html');
   console.log('  Thank-you page  reached automatically after paying');
+  if(!publishable){
+    console.log('');
+    console.log('  No STRIPE_PUBLISHABLE_KEY set, so the checkout page will hand');
+    console.log('  over to hosted Stripe Checkout instead of taking the card itself.');
+    console.log('  Add pk_test_... to .env.local to test the embedded card fields.');
+  }
   console.log('');
   console.log('  Test card  4242 4242 4242 4242 — any future expiry, any CVC');
   console.log('  Declined   4000 0000 0000 0002');

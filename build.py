@@ -42,11 +42,14 @@ def file_data_uri(path):
 def main():
     src = open(SRC, encoding='utf-8').read()
 
-    pricing_path = os.path.join(ROOT, 'pricing.js')
-    pricing_tag = '<script src="pricing.js"></script>'
-    if pricing_tag in src:
-        with open(pricing_path, encoding='utf-8') as f:
-            src = src.replace(pricing_tag, '<script>\n' + f.read() + '</script>')
+    # The page's own scripts — pricing, catalogue, cart — are inlined so the
+    # preview is one file with no fetches of its own.
+    for name in re.findall(r'<script src="([A-Za-z0-9_.-]+\.js)"></script>', src):
+        path = os.path.join(ROOT, name)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding='utf-8') as f:
+            src = src.replace('<script src="%s"></script>' % name, '<script>\n' + f.read() + '</script>')
 
     assets_root = os.path.join(ROOT, 'assets')
     for folder, _, names in os.walk(assets_root):

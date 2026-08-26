@@ -6,30 +6,9 @@
    endpoint validates its shape, talks to Stripe with the secret key server-side,
    and returns a small whitelist of fields — never the raw session. */
 
+const {send,orderReference,cardLabel,itemView}=require('./order-fields.js');
+
 const SESSION_ID=/^cs_[A-Za-z0-9_]{16,255}$/;
-
-const SKU_IMAGES={
-  plus:'assets/ora-plus-1.png',
-  sweet:'assets/ora-sweet-1.png',
-  sweetsf:'assets/ora-sweet-sf-1.png',
-  blend:'assets/ora-blend-1.png',
-  blendsf:'assets/ora-blend-sf-1.png'
-};
-
-const SKU_TINTS={
-  plus:'#d8291b',
-  sweet:'#e0842a',
-  sweetsf:'#e0842a',
-  blend:'#1683be',
-  blendsf:'#1683be'
-};
-
-function send(res,status,payload){
-  res.statusCode=status;
-  res.setHeader('Content-Type','application/json; charset=utf-8');
-  res.setHeader('Cache-Control','no-store');
-  res.end(JSON.stringify(payload));
-}
 
 function sessionIdFrom(req){
   const raw=req.query&&req.query.session_id
@@ -38,24 +17,14 @@ function sessionIdFrom(req){
   return typeof raw==='string'?raw.trim():'';
 }
 
-/* A short, human-quotable reference. Stripe has no order numbers of its own, so
-   this is derived from the PaymentIntent (stable for the life of the order) and
-   is what a customer reads out when they call about their delivery. */
 function orderNumber(session){
   const intent=session.payment_intent;
-  const source=(intent&&intent.id?intent.id:session.id).replace(/^(cs|pi)_(live|test)_/,'');
-  return 'ORA-'+source.slice(-8).toUpperCase();
+  return orderReference(intent&&intent.id?intent.id:session.id);
 }
 
 function paymentLabel(session){
   const intent=session.payment_intent;
-  const method=intent&&intent.payment_method;
-  if(!method||typeof method!=='object') return '';
-  if(method.type==='card'&&method.card){
-    const brand=String(method.card.brand||'card').replace(/(^|\s)\w/g,c=>c.toUpperCase());
-    return method.card.last4?`${brand} •••• ${method.card.last4}`:brand;
-  }
-  return String(method.type||'').replace(/_/g,' ');
+  return cardLabel(intent&&intent.payment_method);
 }
 
 function lineItems(session){
@@ -66,15 +35,7 @@ function lineItems(session){
     const sku=typeof metadata.sku==='string'?metadata.sku:'';
     const bonus=metadata.promotional_bonus==='true'||item.amount_total===0;
     const name=String(item.description||(product&&product.name)||'').replace(/^Bonus:\s*/,'');
-    return {
-      name:name,
-      sku:sku,
-      tint:SKU_TINTS[sku]||'#123a6b',
-      image:SKU_IMAGES[sku]||'',
-      quantity:item.quantity||0,
-      amountTotal:item.amount_total||0,
-      bonus:bonus
-    };
+    return itemView(sku,name,item.quantity||0,item.amount_total||0,bonus);
   });
 }
 

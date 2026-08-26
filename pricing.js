@@ -58,14 +58,19 @@
     return paid+(RULES.boostedThreshold-remainder);
   }
 
-  function boostAdditions(input,allowedKeys){
+  /* Bottles to add to reach `target` paid bottles, spread across what is
+     already in the basket in the same proportions — someone who picked four
+     ORA-Plus® and two ORA-Sweet® is topped up with more of both, not with a
+     product they did not choose. Whole bottles only, with the leftovers going
+     to the largest fractions first so the total lands exactly on target. */
+  function additionsTo(input,allowedKeys,target){
     var keys=Array.isArray(allowedKeys)?allowedKeys:Object.keys(input||{});
     var quantities=normalizeQuantities(input,keys);
     var paid=paidCount(quantities);
     var additions=keys.reduce(function(result,key){ result[key]=0; return result; },{});
-    if(paid<RULES.dealThreshold||paid>=RULES.boostedThreshold) return additions;
+    var needed=cleanQuantity(target)-paid;
+    if(paid<1||needed<1) return additions;
 
-    var needed=RULES.boostedThreshold-paid;
     var allocated=0;
     var remainders=keys.map(function(key,index){
       var exact=(quantities[key]/paid)*needed;
@@ -76,6 +81,16 @@
     }).sort(function(a,b){ return b.fraction-a.fraction||a.index-b.index; });
     for(var count=allocated;count<needed;count+=1) additions[remainders[count-allocated].key]+=1;
     return additions;
+  }
+
+  function boostAdditions(input,allowedKeys){
+    var keys=Array.isArray(allowedKeys)?allowedKeys:Object.keys(input||{});
+    var quantities=normalizeQuantities(input,keys);
+    var paid=paidCount(quantities);
+    if(paid<RULES.dealThreshold||paid>=RULES.boostedThreshold){
+      return keys.reduce(function(result,key){ result[key]=0; return result; },{});
+    }
+    return additionsTo(quantities,keys,RULES.boostedThreshold);
   }
 
   function quote(quantities){
@@ -125,6 +140,8 @@
     normalizeQuantities:normalizeQuantities,
     paidCount:paidCount,
     bonusCount:bonusCount,
+    nextThreshold:nextThreshold,
+    additionsTo:additionsTo,
     boostAdditions:boostAdditions,
     quote:quote
   });

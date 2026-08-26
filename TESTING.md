@@ -27,6 +27,16 @@ No deploy needed, and you can edit and re-test immediately.
    ```
 
    Git ignores this file, so the key cannot be committed by accident.
+   To test the embedded card fields on `checkout.html` as well, add your test
+   publishable key (`pk_test_…`, from the same page) beside it:
+
+   ```
+   STRIPE_SECRET_KEY=sk_test_your_key_here
+   STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
+   ```
+
+   Without the publishable key the checkout page hands over to hosted Stripe
+   Checkout instead — worth testing once too, since that is the live fallback.
 3. Run:
 
    ```
@@ -68,7 +78,18 @@ Full list: <https://docs.stripe.com/testing>
 - Adding six bottles triggers the deal price and offers a free seventh.
 - The running total matches $29.99 a bottle at six or more, $32.99 below that.
 
-**On Stripe Checkout**
+**On the checkout page** (`/checkout.html`)
+
+- The bottles, free bottles and totals match what the shop page showed.
+- Ticking the order bump also selects the upgrade price option, and unticking either clears both.
+- The total, the pay button and the Stripe amount all move together when you switch options.
+- Submitting an empty form marks the first missing field, focuses it and explains what is wrong.
+- A declined card leaves you on the page with the reason, and paying again reuses the same
+  PaymentIntent — check the Stripe dashboard shows one payment, not two.
+- With `STRIPE_PUBLISHABLE_KEY` removed, the page hides the card field and hands over to hosted
+  Stripe Checkout instead.
+
+**On Stripe Checkout** (the hosted fallback)
 
 - Prices, quantities and the free bottle at $0.00 all match the shop page.
 - GST appears as a separate line at 10% (this is what the tax setup above fixed).
@@ -95,7 +116,8 @@ Full list: <https://docs.stripe.com/testing>
 
 <https://dashboard.stripe.com/test/payments> lists every test payment. Open one to see the
 line items, the customer details, the GST Stripe calculated, and the metadata the site sent
-(`pricing_version`, `paid_bottles`, `bonus_bottles`).
+(`pricing_version`, `paid_bottles`, `bonus_bottles`). Orders taken on the embedded checkout page appear
+under Payments too, with `checkout: embedded` and the bottles in `items` metadata.
 
 ## Going live later
 

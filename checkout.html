@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Secure checkout | MFS ORA® range</title>
+<meta name="description" content="Complete your ORA® compounding vehicle order. Secure Stripe payment, GST invoice emailed, ships in 24–48 hours from Brunswick East.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#123a6b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://js.stripe.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MFS · ORA® secure checkout
+   Same design system as the sales page, tuned for a form:
+   quieter surfaces, one accent, nothing that competes with
+   the field the customer is filling in.
+   ============================================================ */
+:root{
+  color-scheme: light;
+
+  --flame:#ee3c13;
+  --flame-lift:#ff5a2b;
+  --flame-deep:#c72d09;
+  --navy:#123a6b;
+  --navy-deep:#0b2444;
+  --navy-soft:#1c4d86;
+
+  --ink:#0e1420;
+  --ink-2:#39414f;
+  --ink-3:#626c7d;
+  --ink-4:#8b95a4;
+  --paper:#ffffff;
+  --cream:#f7f4ef;
+  --mist:#f3f6fa;
+  --line:rgba(14,20,32,.10);
+  --line-soft:rgba(14,20,32,.06);
+  --line-strong:rgba(14,20,32,.16);
+  --good:#0f7a4a;
+  --bad:#c0261a;
+
+  --display:'Geist','Plus Jakarta Sans','Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --body:'Geist','Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono','JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+
+  --sku-plus:#d8291b;
+  --sku-sweet:#e0842a;
+  --sku-blend:#1683be;
+
+  --lift-1:0 1px 2px rgba(14,20,32,.04), 0 8px 20px -12px rgba(14,20,32,.14);
+  --lift-2:0 1px 2px rgba(14,20,32,.04), 0 18px 44px -18px rgba(14,20,32,.20);
+  --lift-flame:0 12px 28px -10px rgba(238,60,19,.48), 0 2px 6px rgba(238,60,19,.20);
+
+  --ease:cubic-bezier(.22,1,.36,1);
+  --r-sm:10px; --r-md:14px; --r-lg:20px; --r-pill:999px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+/* A `display` rule on a class beats the browser's own [hidden] styling, so say
+   it once here — every hidden panel on this page stays hidden. */
+[hidden]{display:none !important}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--mist);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+img{max-width:100%; display:block}
+h1,h2,h3{font-family:var(--display); margin:0; letter-spacing:-.02em; text-wrap:balance}
+a{color:var(--flame); text-decoration:none}
+a:hover{color:var(--navy)}
+svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+:focus-visible{outline:2.5px solid var(--flame); outline-offset:2px; border-radius:4px}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.skip{position:absolute; left:-999px; top:8px; background:var(--navy); color:#fff; padding:10px 16px; border-radius:8px; z-index:20}
+.skip:focus{left:8px; color:#fff}
+
+/* ============================================================
+   Header + progress
+   ============================================================ */
+.co-head{background:var(--paper); border-bottom:1px solid var(--line)}
+.co-head-row{
+  max-width:1180px; margin:0 auto; padding:14px clamp(16px,4vw,28px);
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.co-brand img{height:38px; width:auto}
+.co-secure{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:11.5px; font-weight:550; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--good);
+}
+.co-secure svg{width:15px; height:15px}
+.co-help{font-size:13.5px; color:var(--ink-3); margin:0; white-space:nowrap}
+.co-help a{font-weight:600}
+/* On a phone the lock badge takes its own line rather than squeezing the logo
+   and the order desk number into an unreadable row. */
+@media (max-width:600px){
+  .co-head-row{flex-wrap:wrap; gap:10px}
+  .co-brand img{height:32px}
+  .co-secure{order:3; width:100%; justify-content:center; padding-top:9px; border-top:1px solid var(--line-soft)}
+}
+
+.co-steps{background:var(--paper); border-bottom:1px solid var(--line)}
+.co-steps ol{
+  max-width:1180px; margin:0 auto; padding:0 clamp(16px,4vw,28px);
+  list-style:none; display:flex; align-items:center; justify-content:center; gap:clamp(10px,3vw,34px);
+  min-height:58px; flex-wrap:wrap;
+}
+.co-steps li{
+  display:inline-flex; align-items:center; gap:9px;
+  font-size:13.5px; font-weight:600; color:var(--ink-4); letter-spacing:-.01em;
+}
+.co-steps .n{
+  width:24px; height:24px; border-radius:var(--r-pill);
+  display:grid; place-items:center;
+  background:var(--mist); color:var(--ink-4);
+  font-family:var(--mono); font-size:12px; font-weight:600;
+  border:1px solid var(--line);
+}
+.co-steps li.is-current{color:var(--ink)}
+.co-steps li.is-current .n{
+  background:linear-gradient(168deg,var(--flame-lift),var(--flame) 55%,var(--flame-deep));
+  color:#fff; border-color:transparent; box-shadow:var(--lift-flame);
+}
+.co-steps li+li::before{
+  content:''; width:clamp(14px,4vw,44px); height:1px; background:var(--line-strong); margin-right:9px;
+}
+@media (max-width:600px){
+  .co-steps ol{gap:6px 12px; padding-block:10px}
+  .co-steps li{font-size:12.5px}
+  .co-steps li+li::before{width:10px; margin-right:6px}
+}
+
+/* ============================================================
+   Two-column shell
+   ============================================================ */
+.co-grid{
+  max-width:1180px; margin:0 auto;
+  padding:clamp(20px,3.2vw,38px) clamp(16px,4vw,28px) 64px;
+  display:grid; gap:clamp(18px,2.4vw,30px);
+  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  align-items:start;
+}
+@media (max-width:940px){
+  .co-grid{grid-template-columns:minmax(0,1fr)}
+  .co-offer{order:-1}
+}
+
+.co-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  padding:clamp(18px,2.4vw,26px);
+  box-shadow:var(--lift-1);
+  margin-bottom:clamp(14px,1.8vw,20px);
+}
+.co-h{
+  display:flex; align-items:center; gap:10px;
+  font-size:15px; font-weight:700; letter-spacing:-.015em;
+  margin-bottom:16px; color:var(--ink);
+}
+.co-h svg{width:17px; height:17px; color:var(--flame); flex:none}
+.co-h .co-h-note{margin-left:auto; font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-4)}
+
+/* ============================================================
+   Fields
+   ============================================================ */
+.co-fields{display:grid; gap:14px; grid-template-columns:1fr 1fr}
+.co-field{display:flex; flex-direction:column; gap:6px; min-width:0}
+.co-field--wide{grid-column:1/-1}
+.co-field label{font-size:13px; font-weight:600; color:var(--ink-2); letter-spacing:-.005em}
+.co-field label .opt{font-weight:450; color:var(--ink-4)}
+.co-field input,.co-field select{
+  width:100%; font:inherit; font-size:15.5px; color:var(--ink);
+  background:var(--paper);
+  border:1.5px solid var(--line-strong); border-radius:var(--r-sm);
+  padding:12px 13px; min-height:48px;
+  transition:border-color .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease);
+}
+.co-field select{
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23626c7d' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center; background-size:16px;
+  padding-right:38px;
+}
+.co-field input::placeholder{color:var(--ink-4)}
+.co-field input:hover,.co-field select:hover{border-color:rgba(14,20,32,.28)}
+.co-field input:focus,.co-field select:focus{
+  outline:none; border-color:var(--flame);
+  box-shadow:0 0 0 3.5px rgba(238,60,19,.14);
+}
+.co-field input[readonly]{background:var(--mist); color:var(--ink-3)}
+.co-field.is-bad input,.co-field.is-bad select{border-color:var(--bad); box-shadow:0 0 0 3.5px rgba(192,38,26,.10)}
+.co-err{font-size:12.5px; font-weight:550; color:var(--bad); min-height:0}
+.co-field:not(.is-bad) .co-err{display:none}
+@media (max-width:560px){ .co-fields{grid-template-columns:1fr} }
+
+.co-check{
+  display:flex; align-items:flex-start; gap:11px; cursor:pointer;
+  font-size:14.5px; color:var(--ink-2); user-select:none;
+}
+.co-check input{
+  appearance:none; flex:none; width:21px; height:21px; margin:1px 0 0;
+  border:1.5px solid var(--line-strong); border-radius:6px; background:var(--paper);
+  cursor:pointer; transition:all .18s var(--ease);
+}
+.co-check input:checked{
+  background:var(--flame) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 10.5l4 4 8-9'/%3E%3C/svg%3E") center/15px no-repeat;
+  border-color:var(--flame);
+}
+.co-check input:focus-visible{outline:2.5px solid var(--flame); outline-offset:2px}
+
+/* ============================================================
+   Price options — the tier chooser
+   ============================================================ */
+.co-options{display:grid; gap:12px}
+.co-option{
+  position:relative; display:grid; gap:2px;
+  grid-template-columns:auto 1fr auto; align-items:center;
+  padding:15px 16px; border:1.5px solid var(--line-strong); border-radius:var(--r-md);
+  cursor:pointer; background:var(--paper);
+  transition:border-color .2s var(--ease), background .2s var(--ease), box-shadow .2s var(--ease);
+}
+.co-option:hover{border-color:rgba(14,20,32,.28)}
+.co-option.is-on{border-color:var(--flame); background:linear-gradient(180deg,rgba(238,60,19,.045),rgba(238,60,19,.02)); box-shadow:0 0 0 3px rgba(238,60,19,.09)}
+.co-option input{
+  appearance:none; grid-column:1; grid-row:1/3; align-self:center; flex:none;
+  width:21px; height:21px; margin:0 13px 0 0; border-radius:50%;
+  border:1.5px solid var(--line-strong); background:var(--paper); cursor:pointer;
+  transition:all .18s var(--ease);
+}
+.co-option input:checked{border:6.5px solid var(--flame)}
+.co-option input:focus-visible{outline:2.5px solid var(--flame); outline-offset:2px}
+.co-option .t{grid-column:2; grid-row:1; font-size:15px; font-weight:650; letter-spacing:-.015em; color:var(--ink)}
+.co-option .s{grid-column:2; grid-row:2; font-size:13px; color:var(--ink-3)}
+.co-option .p{grid-column:3; grid-row:1/3; text-align:right; white-space:nowrap; padding-left:14px; align-self:center}
+@media (max-width:420px){
+  .co-option{grid-template-columns:auto 1fr}
+  .co-option .p{grid-column:2; grid-row:3; text-align:left; padding:6px 0 0}
+  .co-option .was{display:inline; margin-right:8px}
+  .co-option .now{display:inline}
+}
+.co-option .was{
+  display:block; font-family:var(--mono); font-size:11.5px; color:var(--ink-4);
+  text-decoration:line-through; text-decoration-color:var(--flame);
+}
+.co-option .now{display:block; font-family:var(--display); font-size:16px; font-weight:750; color:var(--ink)}
+.co-option .now.is-add{color:var(--flame)}
+
+.co-bonus{margin-top:16px; padding-top:16px; border-top:1px dashed var(--line-strong)}
+.co-bonus-h{font-size:13.5px; font-weight:650; color:var(--ink); margin-bottom:10px; display:flex; align-items:center; gap:8px}
+.co-bonus-h .free-tag{
+  font-family:var(--mono); font-size:10.5px; font-weight:600; letter-spacing:.12em;
+  background:var(--flame); color:#fff; padding:3px 7px; border-radius:5px;
+}
+
+/* ============================================================
+   Payment
+   ============================================================ */
+.co-pay-brands{display:flex; align-items:center; gap:7px; margin-left:auto}
+.co-pay-brands img{height:19px; width:auto}
+#paymentElement{min-height:44px}
+.co-payment-loading{
+  display:grid; gap:10px;
+}
+.co-skel{height:48px; border-radius:var(--r-sm); background:linear-gradient(100deg,var(--mist) 30%,#e9eef5 50%,var(--mist) 70%); background-size:220% 100%; animation:shimmer 1.4s infinite}
+@keyframes shimmer{from{background-position:120% 0}to{background-position:-20% 0}}
+@media (prefers-reduced-motion:reduce){ .co-skel{animation:none} }
+
+.co-hosted-note{
+  display:none; gap:12px; align-items:flex-start;
+  background:var(--mist); border:1px solid var(--line); border-radius:var(--r-md);
+  padding:14px 16px; font-size:14px; color:var(--ink-2);
+}
+.co-hosted-note svg{width:18px; height:18px; color:var(--navy); flex:none; margin-top:2px}
+body.is-hosted .co-hosted-note{display:flex}
+body.is-hosted .co-collect{display:none}
+body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
+
+.co-submit{
+  width:100%; border:0; cursor:pointer; color:#fff;
+  font-family:var(--display); font-size:clamp(15px,1.5vw,17.5px); font-weight:800;
+  letter-spacing:-.01em; text-transform:uppercase;
+  padding:19px 22px; border-radius:var(--r-md);
+  background:linear-gradient(174deg,#ff7652 0%,var(--flame-lift) 16%,var(--flame) 52%,#c92508 100%);
+  box-shadow:var(--lift-flame);
+  transition:transform .18s var(--ease), box-shadow .18s var(--ease), filter .18s var(--ease);
+  display:flex; align-items:center; justify-content:center; gap:10px;
+}
+.co-submit:hover:not(:disabled){transform:translateY(-1.5px); box-shadow:0 18px 34px -12px rgba(238,60,19,.55)}
+.co-submit:active:not(:disabled){transform:translateY(0)}
+.co-submit:disabled{filter:grayscale(.35) brightness(.94); cursor:not-allowed; box-shadow:none}
+.co-submit svg{width:18px; height:18px; stroke-width:2.2}
+.co-spin{width:17px; height:17px; border:2.2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.co-submit.is-busy .co-spin{display:block}
+.co-submit.is-busy svg{display:none}
+
+.co-status{
+  margin:14px 0 0; padding:0; font-size:14.5px; font-weight:550; color:var(--bad);
+  min-height:0; text-wrap:pretty;
+}
+.co-status:empty{display:none}
+.co-status.is-ok{color:var(--good)}
+
+.co-assure{
+  display:flex; flex-wrap:wrap; gap:10px 20px; justify-content:center;
+  margin-top:16px; font-size:12.5px; color:var(--ink-3);
+}
+.co-assure span{display:inline-flex; align-items:center; gap:6px}
+.co-assure svg{width:14px; height:14px; color:var(--good)}
+.co-badges{margin:18px auto 0; width:100%; max-width:430px; opacity:.94}
+.co-fine{margin:16px 0 0; font-size:12.5px; line-height:1.55; color:var(--ink-4); text-align:center}
+
+/* ============================================================
+   Offer column
+   ============================================================ */
+.co-offer{position:sticky; top:18px}
+@media (max-width:940px){ .co-offer{position:static} }
+.co-offer-head{
+  background:linear-gradient(158deg,var(--navy-soft),var(--navy) 55%,var(--navy-deep));
+  color:#fff; border-radius:var(--r-lg) var(--r-lg) 0 0;
+  padding:clamp(20px,2.6vw,26px);
+}
+.co-offer-head h1{
+  font-size:clamp(19px,2.1vw,24px); font-weight:800; line-height:1.2; color:#fff;
+}
+.co-offer-head .eyebrow{
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.2em;
+  text-transform:uppercase; color:#ffb69c; margin-bottom:9px;
+}
+.co-offer-head p{margin:10px 0 0; font-size:14px; color:rgba(255,255,255,.78)}
+.co-offer-body{
+  background:var(--paper); border:1px solid var(--line); border-top:0;
+  border-radius:0 0 var(--r-lg) var(--r-lg);
+  padding:clamp(18px,2.4vw,24px);
+  box-shadow:var(--lift-2);
+}
+.co-hero{
+  margin:-8px 0 16px; border-radius:var(--r-md); overflow:hidden; background:var(--cream);
+}
+.co-hero img{width:100%; height:auto}
+
+.co-sub{
+  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink-4); margin:0 0 12px;
+}
+.co-lines{display:grid; gap:12px; margin:0 0 18px; padding:0; list-style:none}
+.co-line{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center}
+.co-line .thumb{
+  width:44px; height:44px; border-radius:10px; background:var(--cream);
+  display:grid; place-items:center; overflow:hidden; position:relative; flex:none;
+  border:1px solid var(--line-soft);
+}
+.co-line .thumb img{width:auto; height:38px; object-fit:contain}
+.co-line .thumb::after{content:''; position:absolute; inset:auto 0 0 0; height:3px; background:var(--tint,var(--navy))}
+.co-line .n{font-size:14.5px; font-weight:620; letter-spacing:-.012em; color:var(--ink)}
+.co-line .m{font-size:12.5px; color:var(--ink-3)}
+.co-line .v{font-family:var(--mono); font-size:13.5px; font-variant-numeric:tabular-nums; color:var(--ink-2)}
+.co-line .v.free{color:var(--flame); font-weight:600; letter-spacing:.06em}
+.co-line.is-free .n::after{
+  content:'FREE'; margin-left:8px; font-family:var(--mono); font-size:9.5px; font-weight:700;
+  letter-spacing:.14em; background:var(--flame); color:#fff; padding:2px 6px; border-radius:4px;
+  vertical-align:2px;
+}
+
+.co-getting{list-style:none; margin:0 0 18px; padding:0; display:grid; gap:9px}
+.co-getting li{display:grid; grid-template-columns:auto 1fr; gap:10px; font-size:14px; color:var(--ink-2); line-height:1.45}
+.co-getting svg{width:17px; height:17px; color:var(--good); margin-top:2px}
+.co-getting b{color:var(--ink); font-weight:650}
+
+/* Order bump — the upgrade, mirrored from the price options */
+.co-bump{
+  position:relative; margin:20px 0; padding:16px 16px 15px;
+  border:2px dashed var(--flame); border-radius:var(--r-md);
+  background:linear-gradient(180deg,rgba(238,60,19,.05),rgba(238,60,19,.015));
+  transition:background .2s var(--ease), box-shadow .2s var(--ease);
+}
+.co-bump.is-on{background:linear-gradient(180deg,rgba(238,60,19,.11),rgba(238,60,19,.04)); box-shadow:0 0 0 3px rgba(238,60,19,.10)}
+.co-bump-flag{
+  position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  white-space:nowrap;
+  background:linear-gradient(96deg,var(--flame-deep),var(--flame) 45%,var(--flame-lift));
+  color:#fff; font-family:var(--mono); font-size:10px; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase; padding:5px 12px; border-radius:var(--r-pill);
+  box-shadow:var(--lift-flame);
+}
+.co-bump-label{display:flex; align-items:flex-start; gap:11px; cursor:pointer; margin-top:5px}
+.co-bump-label .txt{font-size:14px; font-weight:700; line-height:1.35; color:var(--ink); letter-spacing:-.012em}
+.co-bump-label .txt em{font-style:normal; color:var(--flame)}
+.co-bump ul{list-style:none; margin:11px 0 0; padding:0 0 0 32px; display:grid; gap:7px}
+.co-bump li{display:grid; grid-template-columns:auto 1fr; gap:9px; font-size:13.5px; color:var(--ink-2); line-height:1.4}
+.co-bump li svg{width:15px; height:15px; color:var(--flame); margin-top:2px}
+.co-bump-foot{margin:12px 0 0 32px; font-size:12.5px; color:var(--ink-3)}
+
+/* Summary */
+.co-sums{border-top:1px solid var(--line); margin-top:18px; padding-top:16px; display:grid; gap:9px}
+.co-sum{display:flex; align-items:baseline; justify-content:space-between; gap:16px; font-size:14.5px; color:var(--ink-2)}
+.co-sum .v{font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--ink)}
+.co-sum--total{
+  border-top:1px solid var(--line); margin-top:5px; padding-top:13px;
+  font-family:var(--display); font-size:17px; font-weight:750; color:var(--ink); letter-spacing:-.02em;
+}
+.co-sum--total .v{font-family:var(--display); font-size:26px; font-weight:820; letter-spacing:-.03em}
+.co-saving{
+  margin-top:12px; padding:11px 13px; border-radius:var(--r-sm);
+  background:rgba(15,122,74,.08); color:#0b5c38;
+  font-size:13.5px; font-weight:600; display:flex; align-items:center; gap:9px;
+}
+.co-saving svg{width:16px; height:16px; flex:none}
+.co-saving:empty{display:none}
+
+.co-guarantee{
+  margin-top:18px; padding-top:16px; border-top:1px solid var(--line);
+  font-size:13px; color:var(--ink-3); line-height:1.5;
+}
+.co-guarantee b{color:var(--ink-2)}
+.co-edit{
+  display:inline-flex; align-items:center; gap:6px; margin-top:14px;
+  font-size:13.5px; font-weight:600;
+}
+.co-edit svg{width:14px; height:14px}
+
+/* Mobile: the summary leads, the detail folds away */
+.co-fold{border:0; padding:0; margin:0}
+.co-fold > summary{display:none}
+@media (max-width:940px){
+  .co-hero{display:none}
+  .co-fold > summary{
+    display:flex; align-items:center; gap:8px; cursor:pointer; list-style:none;
+    font-size:13.5px; font-weight:650; color:var(--flame); padding:4px 0 12px;
+  }
+  .co-fold > summary::-webkit-details-marker{display:none}
+  .co-fold > summary svg{width:15px; height:15px; transition:transform .2s var(--ease)}
+  .co-fold[open] > summary svg{transform:rotate(180deg)}
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.co-foot{
+  border-top:1px solid var(--line); background:var(--paper);
+  padding:22px clamp(16px,4vw,28px);
+  text-align:center; font-size:12.5px; color:var(--ink-4); line-height:1.7;
+}
+.co-foot a{color:var(--ink-3); font-weight:550}
+.co-foot a:hover{color:var(--flame)}
+</style>
+</head>
+<body>
+<a class="skip" href="#customerInfo">Skip to the checkout form</a>
+
+<header class="co-head">
+  <div class="co-head-row">
+    <a class="co-brand" href="index.html" aria-label="MFS Medical Flavouring Systems, back to the shop">
+      <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems" width="220" height="60">
+    </a>
+    <div class="co-secure">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>
+      256-bit SSL · Stripe secured
+    </div>
+    <p class="co-help">Order desk <a href="tel:+61393870427">(03) 9387 0427</a></p>
+  </div>
+</header>
+
+<nav class="co-steps" aria-label="Checkout progress">
+  <ol>
+    <li class="is-current" aria-current="step"><span class="n">1</span> Checkout</li>
+    <li><span class="n">2</span> Order confirmation</li>
+    <li><span class="n">3</span> Dispatch in 24–48 hrs</li>
+  </ol>
+</nav>
+
+<main class="co-grid">
+
+  <!-- ================= LEFT: the form ================= -->
+  <form class="co-form" id="checkoutForm" novalidate>
+
+    <section class="co-card co-collect" id="customerInfo">
+      <h2 class="co-h">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="6.5" r="3"/><path d="M4 16.5c0-3 2.7-4.5 6-4.5s6 1.5 6 4.5"/></svg>
+        Customer information
+      </h2>
+      <div class="co-fields">
+        <div class="co-field" data-field="firstName">
+          <label for="firstName">First name</label>
+          <input id="firstName" name="given-name" type="text" autocomplete="given-name" required>
+          <p class="co-err" id="firstName-err"></p>
+        </div>
+        <div class="co-field" data-field="lastName">
+          <label for="lastName">Last name</label>
+          <input id="lastName" name="family-name" type="text" autocomplete="family-name" required>
+          <p class="co-err" id="lastName-err"></p>
+        </div>
+        <div class="co-field co-field--wide" data-field="email">
+          <label for="email">Email address <span class="opt">— your tax invoice is sent here</span></label>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required>
+          <p class="co-err" id="email-err"></p>
+        </div>
+        <div class="co-field" data-field="phone">
+          <label for="phone">Phone</label>
+          <input id="phone" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(03) 9387 0427" required>
+          <p class="co-err" id="phone-err"></p>
+        </div>
+        <div class="co-field" data-field="business">
+          <label for="business">Pharmacy or practice <span class="opt">— optional</span></label>
+          <input id="business" name="organization" type="text" autocomplete="organization">
+          <p class="co-err" id="business-err"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="co-card">
+      <h2 class="co-h">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8.5V4.5a1.5 1.5 0 0 1 1.5-1.5h4L17 11.5a1.5 1.5 0 0 1 0 2l-3.5 3.5a1.5 1.5 0 0 1-2 0L3 8.5Z"/><circle cx="6.5" cy="6.5" r="1"/></svg>
+        Choose your price option
+        <span class="co-h-note" id="offerNote">1 on 6 offer</span>
+      </h2>
+      <div class="co-options" id="optionList"></div>
+      <div class="co-bonus" id="bonusPicker" hidden>
+        <p class="co-bonus-h"><span class="free-tag">FREE</span> <span id="bonusPickerTitle">Choose your free bottles</span></p>
+        <div class="co-fields" id="bonusFields"></div>
+      </div>
+    </section>
+
+    <section class="co-card co-collect">
+      <h2 class="co-h">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h9v8H2z"/><path d="M11 9h3.5L18 12v2h-7"/><circle cx="5.5" cy="15" r="1.5"/><circle cx="14.5" cy="15" r="1.5"/></svg>
+        Delivery address
+        <span class="co-h-note">Australia only</span>
+      </h2>
+      <div class="co-fields">
+        <div class="co-field co-field--wide" data-field="shippingLine1">
+          <label for="shippingLine1">Street address</label>
+          <input id="shippingLine1" type="text" autocomplete="shipping address-line1" placeholder="Number and street" required>
+          <p class="co-err" id="shippingLine1-err"></p>
+        </div>
+        <div class="co-field co-field--wide" data-field="shippingLine2">
+          <label for="shippingLine2">Unit, level or dispensary <span class="opt">— optional</span></label>
+          <input id="shippingLine2" type="text" autocomplete="shipping address-line2">
+          <p class="co-err" id="shippingLine2-err"></p>
+        </div>
+        <div class="co-field" data-field="shippingCity">
+          <label for="shippingCity">Suburb or town</label>
+          <input id="shippingCity" type="text" autocomplete="shipping address-level2" required>
+          <p class="co-err" id="shippingCity-err"></p>
+        </div>
+        <div class="co-field" data-field="shippingState">
+          <label for="shippingState">State</label>
+          <select id="shippingState" autocomplete="shipping address-level1" required>
+            <option value="">Choose…</option>
+            <option>ACT</option><option>NSW</option><option>NT</option><option>QLD</option>
+            <option>SA</option><option>TAS</option><option>VIC</option><option>WA</option>
+          </select>
+          <p class="co-err" id="shippingState-err"></p>
+        </div>
+        <div class="co-field" data-field="shippingPostcode">
+          <label for="shippingPostcode">Postcode</label>
+          <input id="shippingPostcode" type="text" inputmode="numeric" maxlength="4" autocomplete="shipping postal-code" required>
+          <p class="co-err" id="shippingPostcode-err"></p>
+        </div>
+        <div class="co-field" data-field="shippingCountry">
+          <label for="shippingCountry">Country</label>
+          <input id="shippingCountry" type="text" value="Australia" readonly tabindex="-1" aria-readonly="true">
+          <p class="co-err" id="shippingCountry-err"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="co-card co-collect">
+      <h2 class="co-h">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M2.5 8.5h15"/></svg>
+        Billing address
+      </h2>
+      <label class="co-check">
+        <input type="checkbox" id="billingSame" checked>
+        <span>Billing address is the same as my delivery address</span>
+      </label>
+      <div id="billingFields" hidden style="margin-top:16px">
+        <div class="co-fields">
+          <div class="co-field co-field--wide" data-field="billingLine1">
+            <label for="billingLine1">Street address</label>
+            <input id="billingLine1" type="text" autocomplete="billing address-line1">
+            <p class="co-err" id="billingLine1-err"></p>
+          </div>
+          <div class="co-field co-field--wide" data-field="billingLine2">
+            <label for="billingLine2">Unit or level <span class="opt">— optional</span></label>
+            <input id="billingLine2" type="text" autocomplete="billing address-line2">
+            <p class="co-err" id="billingLine2-err"></p>
+          </div>
+          <div class="co-field" data-field="billingCity">
+            <label for="billingCity">Suburb or town</label>
+            <input id="billingCity" type="text" autocomplete="billing address-level2">
+            <p class="co-err" id="billingCity-err"></p>
+          </div>
+          <div class="co-field" data-field="billingState">
+            <label for="billingState">State</label>
+            <select id="billingState" autocomplete="billing address-level1">
+              <option value="">Choose…</option>
+              <option>ACT</option><option>NSW</option><option>NT</option><option>QLD</option>
+              <option>SA</option><option>TAS</option><option>VIC</option><option>WA</option>
+            </select>
+            <p class="co-err" id="billingState-err"></p>
+          </div>
+          <div class="co-field" data-field="billingPostcode">
+            <label for="billingPostcode">Postcode</label>
+            <input id="billingPostcode" type="text" inputmode="numeric" maxlength="4" autocomplete="billing postal-code">
+            <p class="co-err" id="billingPostcode-err"></p>
+          </div>
+          <div class="co-field" data-field="billingCountry">
+            <label for="billingCountry">Country</label>
+            <input id="billingCountry" type="text" value="Australia" readonly tabindex="-1" aria-readonly="true">
+            <p class="co-err" id="billingCountry-err"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="co-card">
+      <h2 class="co-h">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M2.5 8.5h15"/><path d="M5.5 12.5h3"/></svg>
+        Payment
+        <span class="co-h-note">Card · Apple Pay · Google Pay</span>
+      </h2>
+      <div class="co-hosted-note">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>
+        <span id="hostedNote">Card details are entered on Stripe's own secure page. Your order, address and delivery details carry across — nothing is re-typed.</span>
+      </div>
+      <div class="co-payment-loading" id="paymentLoading" aria-hidden="true">
+        <div class="co-skel"></div>
+        <div class="co-skel" style="width:60%"></div>
+      </div>
+      <div id="paymentElement"></div>
+      <p class="co-err" id="payment-err" style="margin-top:8px"></p>
+    </section>
+
+    <button type="submit" class="co-submit" id="payButton">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>
+      <span class="co-spin" aria-hidden="true"></span>
+      <span id="payLabel">Complete my order</span>
+    </button>
+    <p class="co-status" id="status" role="status" aria-live="polite"></p>
+
+    <div class="co-assure">
+      <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg> Ships in 24–48 hours</span>
+      <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg> GST tax invoice emailed</span>
+      <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg> Australian Padagis supplier</span>
+    </div>
+    <img class="co-badges" src="assets/checkout-trust-badges.png" alt="100% satisfaction guaranteed, 256-bit SSL secure checkout, verified Stripe payments, and supported card brands" loading="lazy">
+    <p class="co-fine">
+      By completing this order you agree to our <a href="terms.html">Terms of Use</a> and
+      <a href="privacy.html">Privacy Policy</a>. Card details are handled by Stripe and never touch our servers.
+    </p>
+  </form>
+
+  <!-- ================= RIGHT: the offer ================= -->
+  <aside class="co-offer" aria-label="Order summary">
+    <div class="co-offer-head">
+      <p class="eyebrow">Your order</p>
+      <h1 id="offerHeadline">Yes — send my ORA® bundle with my free bottles</h1>
+      <p id="offerSubline">The complete Padagis ORA® range, ready to use, direct from the Australian supplier.</p>
+    </div>
+    <div class="co-offer-body">
+      <div class="co-hero">
+        <img src="assets/twelve-bottle-lineup.png" alt="The ORA® range of 473 mL compounding vehicles" width="1200" height="700" loading="lazy">
+      </div>
+
+      <details class="co-fold" id="offerFold">
+        <summary>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+          <span>Show what is in this order</span>
+        </summary>
+        <p class="co-sub">In this order</p>
+        <ul class="co-lines" id="orderLines"></ul>
+
+        <p class="co-sub">Here is what you are getting</p>
+        <ul class="co-getting">
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span><b id="gettingCount">Bottles</b> of genuine Padagis ORA® vehicle, 473 mL each, in date and ready to dispense.</span></li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span><b>Bonus stock included free</b> under the 1 on 6 offer — never a discount code you have to remember.</span></li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span><b>150+ published stability studies</b> to support your beyond-use dating, sent on request.</span></li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span><b>Dispatch in 24–48 hours</b> from Brunswick East, Victoria, with a GST tax invoice by email.</span></li>
+        </ul>
+      </details>
+
+      <div class="co-bump" id="bump" hidden>
+        <span class="co-bump-flag">Most popular upgrade</span>
+        <label class="co-bump-label">
+          <input type="checkbox" class="co-check-box" id="bumpToggle">
+          <span class="txt" id="bumpTitle"></span>
+        </label>
+        <ul id="bumpPoints"></ul>
+        <p class="co-bump-foot" id="bumpFoot"></p>
+      </div>
+
+      <div class="co-sums">
+        <div class="co-sum"><span id="subtotalLabel">Bottles ex GST</span><span class="v" id="sumSubtotal">$0.00</span></div>
+        <div class="co-sum"><span>Freight (flat rate, ex GST)</span><span class="v" id="sumFreight">$0.00</span></div>
+        <div class="co-sum"><span>GST (10%)</span><span class="v" id="sumGst">$0.00</span></div>
+        <div class="co-sum co-sum--total"><span>Total inc GST</span><span class="v" id="sumTotal">$0.00</span></div>
+      </div>
+      <p class="co-saving" id="saving"></p>
+
+      <p class="co-guarantee">
+        <b>Ordering with confidence.</b> Every bottle is genuine Padagis stock supplied by Medical Flavouring Systems,
+        P.O. Box 270, Brunswick East VIC 3057. Questions before you pay? Call the order desk on
+        <a href="tel:+61393870427">(03) 9387 0427</a> or email <a href="mailto:info@medicalfs.com.au">info@medicalfs.com.au</a>.
+      </p>
+      <a class="co-edit" href="index.html#builder" id="editLink">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4.5l3 3L8 15H5v-3l7.5-7.5Z"/></svg>
+        Change my bottles
+      </a>
+    </div>
+  </aside>
+</main>
+
+<footer class="co-foot">
+  <p>© <span id="year">2026</span> Medical Flavouring Systems · P.O. Box 270, Brunswick East VIC 3057 · ORA® is a registered trademark of Padagis.</p>
+  <p><a href="index.html">Back to the shop</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="studies.html">Stability studies</a></p>
+</footer>
+
+<script src="pricing.js"></script>
+<script src="catalog.js"></script>
+<script src="cart.js"></script>
+<script src="checkout.js"></script>
+</body>
+</html>
