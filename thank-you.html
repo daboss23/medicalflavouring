@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thank you for your order | MFS</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#123a6b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --flame:#ee3c13;
+  --flame-lift:#ff5a2b;
+  --navy:#123a6b;
+  --ink:#0e1420;
+  --ink-2:#39414f;
+  --ink-3:#626c7d;
+  --ink-4:#8b95a4;
+  --paper:#ffffff;
+  --display:'Geist','Plus Jakarta Sans','Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --body:'Geist','Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono','JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--navy); color:var(--ink);
+  font-family:var(--body); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  padding:clamp(16px,4vw,130px);
+}
+img{max-width:100%; display:block}
+h1{font-family:var(--display); margin:0}
+a{color:var(--flame); text-decoration:none}
+a:hover{color:var(--navy)}
+:focus-visible{outline:2.5px solid var(--flame); outline-offset:3px; border-radius:4px}
+
+.card{
+  width:100%; max-width:1400px; display:flex; border-radius:26px; overflow:hidden;
+  box-shadow:0 4px 10px rgba(4,14,30,.20), 0 30px 60px -20px rgba(4,14,30,.55), 0 70px 120px -40px rgba(4,14,30,.75);
+}
+
+/* ---- left: brand panel ---- */
+.brand{
+  width:50%; flex:none; position:relative; background:var(--navy);
+  padding:190px 44px 96px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.brand-logo{position:absolute; top:104px; left:0; right:0; text-align:center}
+.brand-logo img{width:310px; max-width:70%; height:auto; margin:0 auto}
+.lineup{
+  margin:0; min-height:336px; display:flex; align-items:flex-end; justify-content:center; gap:6px;
+}
+.lineup figure{position:relative; margin:0; display:flex; flex-direction:column; align-items:center}
+.lineup img{width:116px; filter:drop-shadow(0 22px 30px rgba(3,16,34,.55))}
+.qty{
+  position:absolute; top:-13px; right:-5px; min-width:34px; height:34px; padding:0 9px;
+  border-radius:999px; background:#fff; color:var(--navy);
+  font-size:17px; font-weight:800; line-height:34px; text-align:center;
+  box-shadow:0 4px 12px rgba(3,16,34,.55);
+}
+.tagline{
+  margin:44px 0 0; text-align:center;
+  font-size:42px; font-weight:800; letter-spacing:-.03em; line-height:1.1; color:#fff;
+}
+.bonus{
+  margin:26px 0 0; display:inline-flex; align-items:center; gap:11px;
+  padding:12px 24px 12px 19px; border-radius:999px;
+  border:1px solid rgba(255,128,86,.92);
+  background:linear-gradient(174deg,#ff7652 0%,var(--flame-lift) 16%,var(--flame) 52%,#c92508 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.68), inset 0 -3px 0 rgba(117,18,4,.48),
+             0 14px 30px -8px rgba(238,60,19,.72), 0 0 26px rgba(238,60,19,.34);
+  font-size:19px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#fff;
+  text-shadow:0 1px 2px rgba(91,14,2,.4);
+}
+.placed{
+  position:absolute; left:0; right:0; bottom:36px; text-align:center;
+  font-family:var(--mono); font-size:15px; font-weight:500; letter-spacing:.1em;
+  color:rgba(255,255,255,.66);
+}
+
+/* ---- right: order detail ---- */
+.detail{width:50%; flex:none; min-width:0; background:var(--paper); padding:58px 56px 50px; display:flex; flex-direction:column}
+.eyebrow{display:inline-flex; align-items:center; gap:13px; color:var(--flame-lift)}
+.eyebrow span{
+  font-family:var(--mono); font-size:16px; font-weight:650; letter-spacing:.24em;
+  text-transform:uppercase; text-shadow:0 0 14px rgba(238,60,19,.24);
+}
+.eyebrow i{width:34px; height:3px; flex:none; background:currentColor; font-style:normal}
+.eyebrow i:first-child{clip-path:polygon(0 44%,100% 0,100% 100%,0 56%)}
+.eyebrow i:last-child{clip-path:polygon(0 0,100% 44%,100% 56%,0 100%)}
+h1{margin:20px 0 0; font-size:74px; font-weight:800; letter-spacing:-.04em; line-height:.98; color:var(--navy)}
+h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spacing:.005em; color:var(--flame)}
+.lede{margin:22px 0 0; font-size:22px; font-weight:500; line-height:1.5; color:var(--ink-2); max-width:42ch}
+.items{margin-top:36px; display:flex; flex-direction:column}
+.item{display:flex; align-items:center; gap:16px; padding:15px 0; border-bottom:1px solid rgba(14,20,32,.10)}
+.dot{width:10px; height:10px; flex:none; border-radius:999px}
+.item-name{flex-grow:1; min-width:0; font-size:22px; font-weight:750; letter-spacing:-.018em; color:var(--ink)}
+.free{
+  margin-left:11px; padding:3px 11px; border-radius:999px; background:var(--flame); color:#fff;
+  font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; vertical-align:middle;
+}
+.item-qty{flex:none; font-family:var(--mono); font-size:19px; font-weight:550; color:var(--ink-2)}
+.item-price{flex:none; min-width:112px; text-align:right; font-size:22px; font-weight:750; color:var(--ink)}
+.item-price.is-free{color:var(--flame)}
+.total{
+  margin-top:28px; padding-top:26px; border-top:2px solid rgba(14,20,32,.16);
+  display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+}
+.total dt{font-size:26px; font-weight:750; letter-spacing:-.02em; color:var(--ink)}
+.total dd{margin:0; font-size:32px; font-weight:800; letter-spacing:-.024em; line-height:1; color:var(--flame)}
+.facts{margin:36px 0 0; padding-top:32px; border-top:1px solid rgba(14,20,32,.10); display:flex; flex-direction:column; gap:24px}
+.facts>div{display:block}
+.facts dt{font-family:var(--mono); font-size:14px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-4)}
+.facts dd{margin:6px 0 0; font-size:22px; font-weight:700; color:var(--ink); overflow-wrap:break-word}
+.facts dd.mono{font-family:var(--mono); font-weight:600}
+.footnote{margin:auto 0 0; padding-top:26px; font-size:17px; font-weight:500; line-height:1.55; color:var(--ink-3)}
+.footnote a{font-weight:650}
+
+.state{padding:40px 0; font-size:20px; color:var(--ink-2)}
+.state strong{display:block; font-size:24px; color:var(--navy); margin-bottom:8px}
+[hidden]{display:none !important}
+
+@media (max-width:900px){
+  body{padding:0; display:block}
+  .card{flex-direction:column; max-width:none; border-radius:0; box-shadow:none}
+  .brand{width:100%; padding:56px 14px 34px; border-radius:0 0 26px 26px; justify-content:flex-start}
+  .brand-logo{position:static; width:100%; margin-bottom:46px}
+  .brand-logo img{width:196px; height:auto}
+  .lineup{min-height:0}
+  .lineup img{width:62px; filter:drop-shadow(0 14px 20px rgba(3,16,34,.55))}
+  .qty{top:-9px; right:-4px; min-width:24px; height:24px; padding:0 6px; font-size:13px; line-height:24px}
+  .tagline{margin-top:26px; font-size:27px; letter-spacing:-.028em; line-height:1.12}
+  .bonus{margin-top:18px; padding:9px 17px 9px 13px; font-size:15px; gap:8px}
+  .placed{position:static; margin-top:26px; text-align:left; font-size:12px; color:var(--ink-4)}
+  .detail{width:100%; padding:32px 24px 38px}
+  .eyebrow span{font-size:12.5px; letter-spacing:.22em}
+  .eyebrow i{width:24px}
+  h1{font-size:42px; letter-spacing:-.036em; line-height:1}
+  .lede{margin-top:18px; font-size:19px}
+  .item{gap:12px; padding:13px 0; flex-wrap:wrap}
+  .item-name{font-size:19px}
+  .item-qty{order:3; flex-basis:100%; margin-left:22px; font-size:15px; font-weight:500; color:var(--ink-3)}
+  .item-price{font-size:19px; min-width:0}
+  .total{margin-top:24px; padding-top:22px}
+  .total dt{font-size:21px}
+  .total dd{font-size:28px}
+  .facts{margin-top:30px; padding-top:26px; gap:18px}
+  .facts dt{font-size:13px}
+  .facts dd{font-size:19px}
+  .footnote{font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<main class="card">
+  <section class="brand">
+    <div class="brand-logo">
+      <img src="assets/mfs-logo-reversed.png" alt="Medical Flavouring Systems" width="720" height="140">
+    </div>
+    <div class="lineup" id="lineup"></div>
+    <p class="tagline">Buffered, preserved,<br>ready to use.</p>
+    <p class="bonus" id="bonus" hidden></p>
+    <p class="placed" id="placed"></p>
+  </section>
+
+  <section class="detail">
+    <p class="eyebrow"><i></i><span id="eyebrow">Order confirmed</span><i></i></p>
+    <h1 id="heading">Thank you.</h1>
+    <p class="lede" id="lede">Loading your order…</p>
+
+    <div id="order" hidden>
+      <div class="items" id="items"></div>
+      <dl class="total">
+        <dt>Total:</dt>
+        <dd id="total"></dd>
+      </dl>
+      <dl class="facts" id="facts"></dl>
+    </div>
+
+    <p class="state" id="state" hidden></p>
+
+    <p class="footnote">Questions about this order? Reply to your confirmation email or contact
+      <a href="mailto:info@medicalfs.com.au">Medical Flavouring Systems</a>, Brunswick East VIC.</p>
+  </section>
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  var $=function(id){ return document.getElementById(id); };
+  var text=function(node,value){ node.textContent=value; };
+
+  function money(cents,currency){
+    return new Intl.NumberFormat('en-AU',{style:'currency',currency:currency||'AUD'})
+      .format((cents||0)/100);
+  }
+
+  function placedLabel(iso){
+    if(!iso) return '';
+    var when=new Date(iso);
+    if(isNaN(when)) return '';
+    return new Intl.DateTimeFormat('en-AU',{
+      day:'numeric',month:'long',year:'numeric',
+      hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,
+      timeZone:'Australia/Melbourne',timeZoneName:'short'
+    }).format(when).toUpperCase().replace(' AT ',' · ');
+  }
+
+  function firstName(full){
+    var parts=String(full||'').trim().split(/\s+/);
+    return parts[0]||'';
+  }
+
+  /* One bottle per distinct product, badged with how many of it shipped. */
+  function renderLineup(items){
+    var order=[],counts={},images={};
+    items.forEach(function(item){
+      if(!item.image) return;
+      if(!counts[item.sku]){ counts[item.sku]=0; images[item.sku]=item.image; order.push(item.sku); }
+      counts[item.sku]+=item.quantity;
+    });
+    var host=$('lineup');
+    host.innerHTML='';
+    order.forEach(function(sku){
+      var figure=document.createElement('figure');
+      var img=document.createElement('img');
+      img.src=images[sku];
+      img.alt='';
+      var badge=document.createElement('span');
+      badge.className='qty';
+      badge.textContent=counts[sku];
+      figure.appendChild(img);
+      figure.appendChild(badge);
+      host.appendChild(figure);
+    });
+  }
+
+  function renderItems(items,currency){
+    var host=$('items');
+    host.innerHTML='';
+    items.forEach(function(item){
+      var row=document.createElement('div');
+      row.className='item';
+
+      var dot=document.createElement('span');
+      dot.className='dot';
+      dot.style.background=item.tint;
+
+      var name=document.createElement('span');
+      name.className='item-name';
+      name.textContent=item.name;
+      if(item.bonus){
+        var tag=document.createElement('span');
+        tag.className='free';
+        tag.textContent='Free';
+        name.appendChild(tag);
+      }
+
+      var qty=document.createElement('span');
+      qty.className='item-qty';
+      qty.textContent='× '+item.quantity;
+
+      var price=document.createElement('span');
+      price.className='item-price'+(item.bonus?' is-free':'');
+      price.textContent=money(item.amountTotal,currency);
+
+      row.appendChild(dot); row.appendChild(name); row.appendChild(qty); row.appendChild(price);
+      host.appendChild(row);
+    });
+  }
+
+  function renderFacts(order){
+    var facts=[
+      ['Order number',order.orderNumber,true],
+      ['Confirmation sent to',order.email,false],
+      ['Payment method',order.payment,false],
+      ['Purchase order',order.purchaseOrder,true]
+    ];
+    var host=$('facts');
+    host.innerHTML='';
+    facts.forEach(function(entry){
+      if(!entry[1]) return;
+      var pair=document.createElement('div');
+      var dt=document.createElement('dt');
+      dt.textContent=entry[0];
+      var dd=document.createElement('dd');
+      dd.textContent=entry[1];
+      if(entry[2]) dd.className='mono';
+      pair.appendChild(dt);
+      pair.appendChild(dd);
+      host.appendChild(pair);
+    });
+  }
+
+  function showState(heading,message){
+    text($('heading'),heading);
+    $('lede').hidden=true;
+    $('order').hidden=true;
+    var state=$('state');
+    state.hidden=false;
+    state.textContent=message;
+  }
+
+  function render(order){
+    var name=firstName(order.customerName);
+    $('heading').innerHTML=name
+      ? 'Thank you,<br><em></em>.'
+      : 'Thank you for<br>your order.';
+    if(name) $('heading').querySelector('em').textContent=name;
+
+    text($('lede'),'Your order is confirmed. We’ll email a tracking link the moment it ships.');
+
+    var bonusCount=order.items.reduce(function(total,item){
+      return total+(item.bonus?item.quantity:0);
+    },0);
+    if(bonusCount>0){
+      var bonus=$('bonus');
+      bonus.hidden=false;
+      bonus.textContent=bonusCount+(bonusCount===1?' bottle free':' bottles free');
+    }
+
+    renderLineup(order.items);
+    renderItems(order.items,order.currency);
+    text($('total'),money(order.amountTotal,order.currency));
+    renderFacts(order);
+    text($('placed'),placedLabel(order.placedAt));
+    $('order').hidden=false;
+  }
+
+  var sessionId=new URLSearchParams(window.location.search).get('session_id');
+  if(!sessionId){
+    showState('Thank you.','We could not find an order reference in this link. If you have just paid, check your email for the confirmation.');
+    return;
+  }
+
+  fetch('/api/checkout-session?session_id='+encodeURIComponent(sessionId),{headers:{Accept:'application/json'}})
+    .then(function(response){
+      return response.json().then(function(body){ return {ok:response.ok,body:body}; });
+    })
+    .then(function(result){
+      if(!result.ok){
+        showState('Thank you.',(result.body&&result.body.error)||'We could not load this order right now.');
+        return;
+      }
+      if(result.body.status==='pending'){
+        showState('Almost there.','Your payment is still being processed. We will email your confirmation as soon as it clears.');
+        return;
+      }
+      render(result.body);
+    })
+    .catch(function(){
+      showState('Thank you.','Your payment went through, but we could not load the order details here. Your emailed confirmation has everything.');
+    });
+})();
+</script>
+</body>
+</html>
