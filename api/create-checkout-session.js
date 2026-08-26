@@ -64,22 +64,11 @@ module.exports=async function handler(req,res){
     params.set('billing_address_collection','required');
     params.set('shipping_address_collection[allowed_countries][0]','AU');
     params.set('phone_number_collection[enabled]','true');
-    params.set('name_collection[individual][enabled]','true');
-    params.set('name_collection[individual][optional]','false');
+    /* The shipping address block already collects the buyer's name, so asking
+       for it again under Contact details just made customers type it twice.
+       The pharmacy name stays, but optional — plenty of orders are personal. */
     params.set('name_collection[business][enabled]','true');
-    params.set('name_collection[business][optional]','false');
-    params.set('custom_fields[0][key]','purchase_order');
-    params.set('custom_fields[0][label][type]','custom');
-    params.set('custom_fields[0][label][custom]','Purchase order number');
-    params.set('custom_fields[0][type]','text');
-    params.set('custom_fields[0][optional]','true');
-    params.set('custom_fields[0][text][maximum_length]','100');
-    params.set('custom_fields[1][key]','order_notes');
-    params.set('custom_fields[1][label][type]','custom');
-    params.set('custom_fields[1][label][custom]','Order notes or delivery instructions');
-    params.set('custom_fields[1][type]','text');
-    params.set('custom_fields[1][optional]','true');
-    params.set('custom_fields[1][text][maximum_length]','200');
+    params.set('name_collection[business][optional]','true');
     params.set('custom_text[shipping_address][message]','Enter the Australian delivery address for this ORA® order.');
     params.set('automatic_tax[enabled]','true');
     params.set('customer_creation','always');

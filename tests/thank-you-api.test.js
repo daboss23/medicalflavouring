@@ -23,8 +23,6 @@ function paidSession(){
     total_details:{amount_tax:1799},
     customer_details:{name:'Harold Lewis',email:'harold@northcoterx.com.au'},
     custom_fields:[
-      {key:'purchase_order',text:{value:'PO-88214'}},
-      {key:'order_notes',text:{value:'Leave at the dispensary'}}
     ],
     payment_intent:{
       id:'pi_test_9z8y7x6w5v4u3t2s',
@@ -63,7 +61,6 @@ async function run(){
     assert.equal(res.body.payment,'Visa •••• 4242');
     assert.equal(res.body.amountTotal,19793);
     assert.equal(res.body.amountTax,1799);
-    assert.equal(res.body.purchaseOrder,'PO-88214');
     assert.equal(res.body.items.length,2);
     assert.equal(res.body.items[0].name,'ORA-Plus®');
     assert.equal(res.body.items[0].image,'assets/ora-plus-1.png');
@@ -109,6 +106,32 @@ async function run(){
     res=response();
     await handler({method:'POST',url:'/api/checkout-session?session_id=cs_test_a1b2c3d4e5f6g7h8'},res);
     assert.equal(res.statusCode,405);
+
+    // --- the greeting uses the person, not the pharmacy ---------------------
+    global.fetch=async function(){
+      const session=paidSession();
+      session.customer_details={
+        name:'Floral Pharmacy',
+        business_name:'Floral Pharmacy',
+        individual_name:'Joshua James',
+        email:'joshua@floralpharmacy.com.au'
+      };
+      return {ok:true,status:200,json:async function(){ return session; }};
+    };
+    res=response();
+    await handler({method:'GET',url:'/api/checkout-session?session_id=cs_test_a1b2c3d4e5f6g7h8'},res);
+    assert.equal(res.body.customerName,'Joshua James');
+
+    // --- falling back to the shipping name when no individual name is given --
+    global.fetch=async function(){
+      const session=paidSession();
+      session.customer_details={name:'Floral Pharmacy',business_name:'Floral Pharmacy',email:'j@x.com'};
+      session.collected_information={shipping_details:{name:'Joshua James'}};
+      return {ok:true,status:200,json:async function(){ return session; }};
+    };
+    res=response();
+    await handler({method:'GET',url:'/api/checkout-session?session_id=cs_test_a1b2c3d4e5f6g7h8'},res);
+    assert.equal(res.body.customerName,'Joshua James');
 
     // --- no key configured --------------------------------------------------
     delete process.env.STRIPE_SECRET_KEY;

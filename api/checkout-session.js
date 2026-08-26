@@ -115,14 +115,17 @@ module.exports=async function handler(req,res){
     }
 
     const details=session.customer_details||{};
-    const custom=Array.isArray(session.custom_fields)?session.custom_fields:[];
-    const po=custom.filter(function(field){ return field.key==='purchase_order'; })[0];
-    const notes=custom.filter(function(field){ return field.key==='order_notes'; })[0];
+    const collected=session.collected_information||{};
+    const shipping=collected.shipping_details||{};
+    /* Greet the person, never the pharmacy. `customer_details.name` can carry
+       the business name when one was given, so take the individual name first
+       and fall back to whoever the parcel is addressed to. */
+    const buyerName=details.individual_name||collected.individual_name||shipping.name||details.name||'';
 
     return send(res,200,{
       status:'paid',
       orderNumber:orderNumber(session),
-      customerName:details.name||'',
+      customerName:buyerName,
       email:details.email||'',
       payment:paymentLabel(session),
       currency:(session.currency||'aud').toUpperCase(),
@@ -130,8 +133,6 @@ module.exports=async function handler(req,res){
       amountTax:session.total_details&&session.total_details.amount_tax||0,
       amountTotal:session.amount_total||0,
       placedAt:session.created?new Date(session.created*1000).toISOString():'',
-      purchaseOrder:po&&po.text&&po.text.value?po.text.value:'',
-      orderNotes:notes&&notes.text&&notes.text.value?notes.text.value:'',
       items:lineItems(session)
     });
   }catch(error){

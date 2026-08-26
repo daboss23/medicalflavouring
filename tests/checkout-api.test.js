@@ -54,11 +54,11 @@ async function run(){
     assert.equal(params.get('billing_address_collection'),'required');
     assert.equal(params.get('shipping_address_collection[allowed_countries][0]'),'AU');
     assert.equal(params.get('phone_number_collection[enabled]'),'true');
-    assert.equal(params.get('name_collection[individual][enabled]'),'true');
+    /* One name field only — the shipping address collects the buyer's name. */
+    assert.equal(params.get('name_collection[individual][enabled]'),null);
     assert.equal(params.get('name_collection[business][enabled]'),'true');
-    assert.equal(params.get('custom_fields[0][key]'),'purchase_order');
-    assert.equal(params.get('custom_fields[0][optional]'),'true');
-    assert.equal(params.get('custom_fields[1][key]'),'order_notes');
+    assert.equal(params.get('name_collection[business][optional]'),'true');
+    assert.equal(params.get('custom_fields[0][key]'),null);
     assert.equal(params.get('metadata[unit_price_cents]'),'2999');
     assert.equal(params.get('metadata[subtotal_ex_gst_cents]'),'17994');
     assert.equal(params.get('line_items[0][price_data][unit_amount]'),'2999');
