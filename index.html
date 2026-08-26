@@ -2621,9 +2621,12 @@ function showCheckoutMessage(message,ok){
   var status=$('#checkoutStatus');
   status.classList.toggle('is-ok',Boolean(ok));
   status.textContent=message;
+  /* The status line sits below the trust badges, so a failure can land off
+     screen and read as "the button did nothing". Bring it into view. */
+  if(message) status.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
-$('#addBundle').addEventListener('click',async function(){
+async function startCheckout(){
   var t=totals();
   if(t.paidCount===0){
     document.querySelector('#skuList .sku').scrollIntoView({behavior:'smooth',block:'center'});
@@ -2662,9 +2665,19 @@ $('#addBundle').addEventListener('click',async function(){
     submit.disabled=false;
     label.textContent=original;
   }
+}
+
+$('#addBundle').addEventListener('click',startCheckout);
+
+/* The sticky order bar turns into a checkout button once the deal is
+   unlocked; below that it stays a jump link to the builder. */
+$('#obCta').addEventListener('click',function(e){
+  if(totals().paidCount<RULES.dealThreshold) return;
+  e.preventDefault();
+  startCheckout();
 });
 
-window.MFSCheckout={pricing:PRICING,buildPayload:checkoutPayload};
+window.MFSCheckout={pricing:PRICING,buildPayload:checkoutPayload,startCheckout:startCheckout};
 
 /* ============================================================
    Product detail panel
