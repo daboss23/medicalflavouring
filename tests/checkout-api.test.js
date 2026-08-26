@@ -63,14 +63,13 @@ async function run(){
     assert.equal(params.get('custom_fields[0][key]'),null);
     assert.equal(params.get('metadata[unit_price_cents]'),'2999');
     assert.equal(params.get('metadata[subtotal_ex_gst_cents]'),'17994');
-    assert.equal(params.get('metadata[freight_inc_gst_cents]'),String(Pricing.RULES.freightCents));
-    /* Flat freight rides as a shipping rate, GST-inclusive, so the card is
-       charged the flat fee exactly and Automatic Tax breaks the GST out of it
-       rather than adding it on top. */
+    assert.equal(params.get('metadata[freight_ex_gst_cents]'),String(Pricing.RULES.freightCents));
+    /* Flat freight rides as a shipping rate, quoted ex GST, so Automatic Tax
+       adds its GST on top alongside the GST on the bottles. */
     assert.equal(params.get('shipping_options[0][shipping_rate_data][type]'),'fixed_amount');
     assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][amount]'),String(Pricing.RULES.freightCents));
     assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][currency]'),'aud');
-    assert.equal(params.get('shipping_options[0][shipping_rate_data][tax_behavior]'),'inclusive');
+    assert.equal(params.get('shipping_options[0][shipping_rate_data][tax_behavior]'),'exclusive');
     assert.equal(params.get('shipping_options[0][shipping_rate_data][display_name]'),'Flat rate freight');
     /* One freight charge only, never one per bottle. */
     assert.equal(params.get('shipping_options[1][shipping_rate_data][type]'),null);

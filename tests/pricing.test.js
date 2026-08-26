@@ -16,12 +16,12 @@ for(let paid=1;paid<=5;paid+=1){
 
 assert.deepEqual(
   (({unitCents,subtotalCents,freightCents,freightGstCents,bonusCount,shippedCount,effectiveUnitCents,gstCents,totalIncGstCents})=>({unitCents,subtotalCents,freightCents,freightGstCents,bonusCount,shippedCount,effectiveUnitCents,gstCents,totalIncGstCents}))(quote(6)),
-  {unitCents:2999,subtotalCents:17994,freightCents:3000,freightGstCents:273,bonusCount:1,shippedCount:7,effectiveUnitCents:2570,gstCents:1799,totalIncGstCents:22793}
+  {unitCents:2999,subtotalCents:17994,freightCents:3000,freightGstCents:300,bonusCount:1,shippedCount:7,effectiveUnitCents:2570,gstCents:2099,totalIncGstCents:23093}
 );
 
 assert.deepEqual(
   (({unitCents,subtotalCents,freightCents,freightGstCents,bonusCount,shippedCount,effectiveUnitCents,gstCents,totalIncGstCents})=>({unitCents,subtotalCents,freightCents,freightGstCents,bonusCount,shippedCount,effectiveUnitCents,gstCents,totalIncGstCents}))(quote(12)),
-  {unitCents:2999,subtotalCents:35988,freightCents:3000,freightGstCents:273,bonusCount:3,shippedCount:15,effectiveUnitCents:2399,gstCents:3599,totalIncGstCents:42587}
+  {unitCents:2999,subtotalCents:35988,freightCents:3000,freightGstCents:300,bonusCount:3,shippedCount:15,effectiveUnitCents:2399,gstCents:3899,totalIncGstCents:42887}
 );
 
 /* Freight is flat: one charge per order, none on an empty builder, and never
@@ -30,10 +30,11 @@ assert.equal(quote(0).freightCents,0);
 assert.equal(quote(0).totalIncGstCents,0);
 assert.equal(quote(1).freightCents,Pricing.RULES.freightCents);
 assert.equal(quote(48).freightCents,Pricing.RULES.freightCents);
-/* Freight is GST-inclusive: the flat fee lands on the card to the cent, and
-   its GST is the portion already inside it rather than an amount added on top. */
-assert.equal(quote(3).totalIncGstCents,3*3299+Math.round(3*3299*0.1)+3000);
-assert.equal(quote(3).freightGstCents+Math.round(3000/1.1),3000);
+/* Freight is quoted ex GST: GST is added on top of the flat fee, and the
+   single GST figure covers the bottles and the freight together. */
+assert.equal(quote(3).totalIncGstCents,3*3299+3000+Math.round((3*3299+3000)*0.1));
+assert.equal(quote(3).freightGstCents,300);
+assert.equal(quote(3).gstCents,Math.round(3*3299*0.1)+300);
 
 assert.equal(quote(18).bonusCount,4);
 assert.equal(quote(24).bonusCount,6);
