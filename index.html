@@ -198,6 +198,14 @@ p{text-wrap:pretty}
 .btn-arrow svg{width:22px;height:22px;transition:transform .55s var(--ease)}
 .btn:hover .btn-arrow svg{transform:translateX(3px)}
 .btn-label{white-space:nowrap}
+/* The sticky bar keeps the deal counter as its headline — it is the incentive —
+   and says what the button actually does in a quieter line underneath. */
+.btn-stack{display:flex; flex-direction:column; align-items:center; gap:2px; line-height:1.12}
+.btn-sub{
+  font-size:11px; font-weight:600; letter-spacing:.045em;
+  text-transform:none; text-shadow:none; opacity:.85; white-space:nowrap;
+}
+.btn-sub[hidden]{display:none}
 
 .btn--flame{
   --btn-bg:var(--flame);
@@ -2237,7 +2245,10 @@ body.has-product-modal{overflow:hidden}
       <div class="ob-item"><span class="k">Total ex GST</span><span class="v" id="obTotal">$0.00</span></div>
     </div>
     <a class="btn btn--flame btn--sm btn--text-only" href="#builder" id="obCta">
-      <span class="btn-label">BUILD YOUR FREE 1 ON 6</span>
+      <span class="btn-stack">
+        <span class="btn-label">BUILD YOUR FREE 1 ON 6</span>
+        <span class="btn-sub" id="obCtaSub" hidden>Continue to checkout</span>
+      </span>
       <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
     </a>
   </div>
@@ -2569,9 +2580,11 @@ function render(){
   $('#obBottles').textContent = t.paidCount;
   $('#obFree').textContent = t.bonusCount;
   $('#obTotal').textContent = moneyCents(t.subtotalCents);
+  var chasingDeal = t.paidCount > 0 && t.paidCount < RULES.dealThreshold;
   $('#obCta .btn-label').textContent = t.paidCount === 0
     ? 'BUILD YOUR FREE 1 ON 6'
-    : 'Continue to checkout';
+    : (chasingDeal ? t.toNextThreshold + ' more for the deal' : 'Continue to checkout');
+  $('#obCtaSub').hidden = !chasingDeal;
 }
 
 /* ============================================================
