@@ -24,7 +24,7 @@ async function run(){
     return {
       ok:true,
       status:200,
-      json:async function(){ return {url:'https://checkout.stripe.test/session'}; }
+      json:async function(){ return {client_secret:'cs_test_a1b2c3d4e5f6g7h8_secret_xyz'}; }
     };
   };
 
@@ -44,7 +44,9 @@ async function run(){
     await handler(req,res);
 
     assert.equal(res.statusCode,200);
-    assert.equal(res.body.url,'https://checkout.stripe.test/session');
+    assert.equal(res.body.clientSecret,'cs_test_a1b2c3d4e5f6g7h8_secret_xyz');
+    /* Embedded Checkout replaces the hosted redirect, so no URL is handed back. */
+    assert.equal(res.body.url,undefined);
     assert.equal(res.body.quote.paidCount,6);
     assert.equal(res.body.quote.bonusCount,1);
     assert.equal(res.body.quote.subtotalCents,17994);
@@ -52,6 +54,12 @@ async function run(){
     assert.equal(request.url,'https://api.stripe.com/v1/checkout/sessions');
 
     const params=new URLSearchParams(request.options.body);
+    /* The form mounts on our own page, so the session is embedded and returns
+       to the branded thank-you page rather than using success/cancel URLs. */
+    assert.equal(params.get('ui_mode'),'embedded');
+    assert.equal(params.get('return_url'),'https://example.test/thank-you.html?session_id={CHECKOUT_SESSION_ID}');
+    assert.equal(params.get('success_url'),null);
+    assert.equal(params.get('cancel_url'),null);
     assert.equal(params.get('automatic_tax[enabled]'),'true');
     assert.equal(params.get('billing_address_collection'),'required');
     assert.equal(params.get('shipping_address_collection[allowed_countries][0]'),'AU');
@@ -63,13 +71,14 @@ async function run(){
     assert.equal(params.get('custom_fields[0][key]'),null);
     assert.equal(params.get('metadata[unit_price_cents]'),'2999');
     assert.equal(params.get('metadata[subtotal_ex_gst_cents]'),'17994');
-    assert.equal(params.get('metadata[freight_ex_gst_cents]'),String(Pricing.RULES.freightCents));
-    /* Flat freight rides as a shipping rate, ex GST, so Automatic Tax charges
-       the same GST on it that the builder quoted. */
+    assert.equal(params.get('metadata[freight_inc_gst_cents]'),String(Pricing.RULES.freightCents));
+    /* Flat freight rides as a shipping rate, GST-inclusive, so the card is
+       charged the flat fee exactly and Automatic Tax breaks the GST out of it
+       rather than adding it on top. */
     assert.equal(params.get('shipping_options[0][shipping_rate_data][type]'),'fixed_amount');
     assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][amount]'),String(Pricing.RULES.freightCents));
     assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][currency]'),'aud');
-    assert.equal(params.get('shipping_options[0][shipping_rate_data][tax_behavior]'),'exclusive');
+    assert.equal(params.get('shipping_options[0][shipping_rate_data][tax_behavior]'),'inclusive');
     assert.equal(params.get('shipping_options[0][shipping_rate_data][display_name]'),'Flat rate freight');
     /* One freight charge only, never one per bottle. */
     assert.equal(params.get('shipping_options[1][shipping_rate_data][type]'),null);

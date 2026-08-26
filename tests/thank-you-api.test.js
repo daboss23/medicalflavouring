@@ -19,8 +19,8 @@ function paidSession(){
     currency:'aud',
     created:1756100732,
     amount_subtotal:17994,
-    amount_total:21988,
-    total_details:{amount_tax:1999,amount_shipping:1995},
+    amount_total:22793,
+    total_details:{amount_tax:2072,amount_shipping:2727},
     customer_details:{name:'Harold Lewis',email:'harold@northcoterx.com.au'},
     custom_fields:[
     ],
@@ -59,10 +59,10 @@ async function run(){
     assert.equal(res.body.customerName,'Harold Lewis');
     assert.equal(res.body.email,'harold@northcoterx.com.au');
     assert.equal(res.body.payment,'Visa •••• 4242');
-    assert.equal(res.body.amountTotal,21988);
-    assert.equal(res.body.amountTax,1999);
+    assert.equal(res.body.amountTotal,22793);
+    assert.equal(res.body.amountTax,2072);
     /* Freight comes back as its own figure so the receipt can itemise it. */
-    assert.equal(res.body.amountShipping,1995);
+    assert.equal(res.body.amountShipping,2727);
     assert.equal(res.body.items.length,2);
     assert.equal(res.body.items[0].name,'ORA-Plus®');
     assert.equal(res.body.items[0].image,'assets/ora-plus-1.png');

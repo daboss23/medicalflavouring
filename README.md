@@ -39,11 +39,13 @@ The commercial rules live in `pricing.js` and use integer cents to avoid floatin
 - 12 paid bottles: $29.99 each and 3 free; $359.88 ex GST for 15 shipped, displayed as $23.99 effective per bottle.
 - Larger orders repeat the same pattern: each complete 12 earns 3 bonus bottles and a remaining block of 6 earns 1.
 
-A flat freight charge of $19.95 ex GST is added once per order — never per bottle, and never on an empty
-builder. It lives in `pricing.js` as `RULES.freightCents`, so the on-page summary, the Stripe Checkout total
-and the thank-you receipt all read the same number. Stripe receives it as an inline `shipping_options`
-fixed-amount rate with `tax_behavior: exclusive` and the shipping tax code, so Automatic Tax charges GST on
-freight exactly as the builder quotes it, and the amount comes back in `total_details.amount_shipping`.
+A flat freight charge of $30.00 is added once per order — never per bottle, and never on an empty builder.
+Unlike the bottle prices it is GST-inclusive, so $30.00 is what lands on the card; the GST inside it is
+broken out as `freightGstCents`. It lives in `pricing.js` as `RULES.freightCents`, so the on-page summary,
+the Stripe Checkout total and the thank-you receipt all read the same number. Stripe receives it as an
+inline `shipping_options` fixed-amount rate with `tax_behavior: inclusive` and the shipping tax code, so
+Automatic Tax breaks the GST out of the flat fee rather than adding it on top, and the amount comes back in
+`total_details.amount_shipping`.
 Changing the freight price means changing that one constant (and the expectations in `tests/pricing.test.js`).
 
 Run `node tests/pricing.test.js`, `node tests/checkout-api.test.js` and `node tests/thank-you-api.test.js` after changing any pricing or checkout rule.

@@ -1,0 +1,384 @@
+/* Shared site chrome — design tokens, base typography, the button system and
+   the header/footer used by checkout.html.
+
+   These rules are lifted verbatim from the inline <style> in index.html so the
+   checkout page is the same header and footer rather than a lookalike. index.html
+   still carries its own copy inline; changing the chrome there means changing it
+   here too, until that stylesheet is extracted from the sales page as well. */
+
+/* ============================================================
+   MFS · ORA® range sales page
+   Design system tokens
+   ============================================================ */
+:root{
+  color-scheme: light;
+
+  /* Brand */
+  --flame:#ee3c13;
+  --flame-lift:#ff5a2b;
+  --flame-deep:#c72d09;
+  --navy:#123a6b;
+  --navy-deep:#0b2444;
+  --navy-soft:#1c4d86;
+
+  /* Neutrals */
+  --ink:#0e1420;
+  --ink-2:#39414f;
+  --ink-3:#626c7d;
+  --ink-4:#8b95a4;
+  --paper:#ffffff;
+  --cream:#f7f4ef;
+  --mist:#f3f6fa;
+  --line:rgba(14,20,32,.10);
+  --line-soft:rgba(14,20,32,.06);
+  --line-strong:rgba(14,20,32,.16);
+
+  /* Type */
+  --display:'Geist','Plus Jakarta Sans','Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --body:'Geist','Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono','JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+
+  /* Elevation — soft, diffused, never harsh */
+  --lift-1:0 1px 2px rgba(14,20,32,.04), 0 8px 20px -12px rgba(14,20,32,.14);
+  --lift-2:0 1px 2px rgba(14,20,32,.04), 0 18px 44px -18px rgba(14,20,32,.20);
+  --lift-3:0 2px 4px rgba(14,20,32,.05), 0 40px 80px -28px rgba(18,58,107,.32);
+  --lift-flame:0 12px 28px -10px rgba(238,60,19,.48), 0 2px 6px rgba(238,60,19,.20);
+
+  /* Motion */
+  --ease:cubic-bezier(.22,1,.36,1);
+  --ease-soft:cubic-bezier(.32,.72,0,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+
+  /* Radii */
+  --r-xs:8px; --r-sm:12px; --r-md:16px; --r-lg:22px; --r-xl:30px; --r-pill:999px;
+  --r-btn:12px; --r-orb:6px;   /* rectangular CTA geometry */
+
+  /* Product identity — sampled from the printed label stripes.
+     Colour marks the family; the SF variants share their parent's colour. */
+  --sku-plus:#d8291b;
+  --sku-sweet:#e0842a;
+  --sku-blend:#1683be;
+  --padagis:#0048a8;
+
+  /* Rhythm */
+  --gutter:clamp(18px,4vw,32px);
+  --shell:1220px;
+  /* Two scales, because they do different jobs.
+     --space is what a PLAIN section contributes per side; two of them meet at
+     a join, so a join is always 2x this and never more - that is what used to
+     grow down the page.
+     --band-space is the INTERIOR of a filled band. Its edge is the visual
+     boundary, so this is internal air, not a join, and it runs generous.
+     --panel-pad is the interior of any panel that paints its own box. */
+  --space:clamp(40px,2.2vw + 26px,72px);
+  --band-space:clamp(56px,3.6vw + 38px,104px);
+  --panel-pad:clamp(30px,3.8vw,54px);
+  --section-space:var(--space);
+  --bay:var(--space);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:104px}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.6;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+img{max-width:100%; display:block}
+
+a{color:var(--flame); text-decoration:none; transition:color .3s var(--ease)}
+
+a:hover{color:var(--navy)}
+
+button{font:inherit; color:inherit}
+
+h1,h2,h3,h4{font-family:var(--display); margin:0; text-wrap:balance}
+
+p{text-wrap:pretty}
+
+::selection{background:var(--flame); color:#fff}
+
+:focus-visible{outline:2.5px solid var(--flame); outline-offset:3px; border-radius:4px}
+
+/* ============================================================
+   Buttons — nested "island" architecture
+   ============================================================ */
+.btn{
+  --btn-bg:var(--navy);
+  --btn-fg:#fff;
+  --cta-cycle:3s;
+  position:relative;
+  display:inline-flex; align-items:center; gap:14px;
+  padding:7px 20px 7px 26px;
+  min-height:56px;
+  border:0; border-radius:var(--r-btn);
+  background:var(--btn-bg); color:var(--btn-fg);
+  font-family:var(--display);
+  font-size:15.5px; font-weight:650; letter-spacing:-.005em;
+  cursor:pointer;
+  isolation:isolate;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), background-color .4s var(--ease);
+  will-change:transform;
+}
+
+.btn::before{
+  content:''; position:absolute; inset:0; border-radius:inherit; z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 52%);
+  opacity:.9;
+}
+
+.btn:hover{color:#fff;transform:translateY(-2.5px)}
+
+.btn:hover .btn-label,.btn:hover .btn-arrow{color:#fff}
+
+.btn:active{transform:translateY(0) scale(.985); transition-duration:.12s}
+
+.btn-arrow{position:relative;z-index:1;flex:none;width:24px;height:24px;display:grid;place-items:center;color:#fff}
+
+.btn-arrow svg{width:22px;height:22px;transition:transform .55s var(--ease)}
+
+.btn:hover .btn-arrow svg{transform:translateX(3px)}
+
+.btn-label{white-space:nowrap}
+
+/* The sticky bar keeps the deal counter as its headline — it is the incentive —
+   and says what the button actually does in a quieter line underneath. */
+.btn-stack{display:flex; flex-direction:column; align-items:center; gap:2px; line-height:1.12}
+
+.btn-sub{
+  font-size:11px; font-weight:600; letter-spacing:.045em;
+  text-transform:none; text-shadow:none; opacity:.85; white-space:nowrap;
+}
+
+.btn-sub[hidden]{display:none}
+
+.btn--flame{
+  --btn-bg:var(--flame);
+  --cta-glow:rgba(255,74,27,.28);
+  border:1px solid rgba(255,128,86,.92);
+  background:linear-gradient(174deg,#ff7652 0%,var(--flame-lift) 16%,var(--flame) 52%,#c92508 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.68),
+    inset 0 -4px 0 rgba(117,18,4,.48),
+    inset 0 0 0 1px rgba(130,20,4,.34),
+    0 13px 28px -10px rgba(238,60,19,.58),
+    0 0 18px rgba(238,60,19,.18);
+  font-size:17px; font-weight:750;
+  letter-spacing:.025em; text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(91,14,2,.34);
+  animation:ctaGlow var(--cta-cycle) ease-in-out infinite;
+}
+
+.btn--flame:hover{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.76),
+    inset 0 -4px 0 rgba(117,18,4,.5),
+    inset 0 0 0 1px rgba(130,20,4,.3),
+    0 20px 42px -11px rgba(238,60,19,.72),
+    0 0 28px rgba(255,78,32,.3);
+}
+
+.btn--flame .btn-label,.btn--navy .btn-label{position:relative;z-index:1}
+
+/* One restrained, synchronized sheen and glow cycle for every CTA. */
+.btn--flame::after,.btn--navy::after{
+  content:''; position:absolute; inset:1px; border-radius:calc(var(--r-btn) - 2px); z-index:0; pointer-events:none;
+  background:linear-gradient(105deg,transparent 39%,rgba(255,255,255,.04) 45%,rgba(255,255,255,.3) 50%,rgba(255,255,255,.05) 55%,transparent 61%);
+  background-size:280% 100%; background-position:180% 0; opacity:0;
+  animation:ctaShine var(--cta-cycle) linear infinite;
+}
+
+.btn--navy{
+  --btn-bg:var(--navy);
+  --cta-glow:rgba(35,91,151,.28);
+  border:1px solid rgba(55,102,155,.9);
+  background:linear-gradient(174deg,#2c5d92 0%,#1d4a7d 16%,var(--navy) 52%,#071f3c 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.48),
+    inset 0 -4px 0 rgba(3,18,35,.62),
+    inset 0 0 0 1px rgba(3,18,35,.35),
+    0 13px 28px -10px rgba(18,58,107,.62),
+    0 0 18px rgba(18,58,107,.2);
+  font-size:17px; font-weight:750;
+  letter-spacing:.025em; text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(3,18,35,.48);
+  animation:ctaGlow var(--cta-cycle) ease-in-out infinite;
+}
+
+.btn--navy:hover{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.56),
+    inset 0 -4px 0 rgba(3,18,35,.66),
+    inset 0 0 0 1px rgba(3,18,35,.3),
+    0 20px 42px -11px rgba(18,58,107,.76),
+    0 0 28px rgba(29,74,125,.34);
+}
+
+.btn--sm{min-height:46px; font-size:14px; padding:5px 16px 5px 20px}
+
+.btn--flame.btn--sm,.btn--navy.btn--sm{font-size:15.5px}
+
+.btn--sm{border-radius:10px}
+
+.btn--block{display:flex; width:100%; justify-content:space-between}
+
+.btn--text-only{justify-content:center;padding-inline:26px}
+
+@keyframes chipPop{0%{transform:scale(1)}38%{transform:scale(1.14)}100%{transform:scale(1)}}
+
+@media (max-width:720px){
+.btn{min-height:54px;padding-left:20px;font-size:15px}
+.btn--flame{font-size:clamp(14px,4.1vw,16.5px);letter-spacing:.015em}
+.btn--flame.btn--sm{font-size:14px}
+}
+
+@media (prefers-reduced-motion:reduce){
+.btn--flame,.btn--flame::after,.btn--navy,.btn--navy::after{animation:none!important}
+.btn--flame::after,.btn--navy::after{background-position:50% 0}
+}
+
+.shell{max-width:var(--shell); margin:0 auto; padding-inline:var(--gutter)}
+
+/* ============================================================
+   Header — glass, hides on scroll down
+   ============================================================ */
+.site-head{
+  position:sticky; top:0; z-index:60;
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid var(--line-soft);
+  transition:transform .55s var(--ease), box-shadow .4s var(--ease);
+  will-change:transform;
+}
+
+.site-head.is-tucked{transform:translateY(-100%)}
+
+.site-head.is-stuck{box-shadow:0 12px 30px -22px rgba(14,20,32,.5)}
+
+.head-row{
+  max-width:var(--shell); min-height:74px; margin:0 auto; padding:0 var(--gutter);
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
+}
+
+.brand{display:flex; align-items:center; gap:14px}
+
+.brand img{
+  display:block;height:44px;width:auto;object-fit:contain;
+  image-rendering:-webkit-optimize-contrast;
+  filter:contrast(1.1) saturate(1.06);
+}
+
+.head-nav{display:flex; align-items:center; gap:4px}
+
+.head-nav a{
+  position:relative; padding:9px 13px; border-radius:8px;
+  font-size:14.5px; font-weight:520; color:var(--ink-2);
+  transition:color .3s var(--ease), background-color .3s var(--ease);
+}
+
+.head-nav a::after{
+  content:''; position:absolute; left:13px; right:13px; bottom:5px; height:1.5px;
+  background:var(--flame); border-radius:2px;
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .45s var(--ease);
+}
+
+.head-nav a:hover{color:var(--ink); background:rgba(14,20,32,.035)}
+
+.head-nav a:hover::after{transform:scaleX(1)}
+
+.head-actions{display:flex; align-items:center; gap:12px}
+
+.cart-chip{
+  gap:9px; padding:5px 7px 5px 14px; border-radius:10px;
+  color:#fff; font-size:14px; font-weight:750; letter-spacing:.02em;
+}
+
+.cart-chip:hover{color:#fff}
+
+.cart-chip>svg,.cart-chip>span{position:relative;z-index:1}
+
+.cart-chip svg{width:16px; height:16px}
+
+.cart-chip .n{
+  font-family:var(--mono); font-variant-numeric:tabular-nums;
+  min-width:20px; padding:1px 6px; border-radius:5px;
+  background:var(--flame); font-size:12px; text-align:center;
+}
+
+.cart-chip.is-bumped{animation:chipPop .55s var(--ease-spring)}
+
+.site-foot{background:var(--navy-deep); color:#c3d2e4; margin-top:0}
+
+.foot-grid{
+  display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:clamp(24px,3vw,44px);
+  padding-block:clamp(40px,2.4vw + 24px,64px) clamp(24px,2.4vw,34px);
+}
+
+.foot-grid img{height:46px; width:auto; margin-bottom:18px; filter:brightness(0) invert(1); opacity:.92}
+
+.foot-grid h4{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; text-transform:uppercase;
+  color:#7e94ae; font-weight:500; margin-bottom:14px;
+}
+
+.foot-grid p, .foot-grid li{font-size:14.5px; line-height:1.65; margin:0 0 6px}
+
+.foot-grid ul{list-style:none; margin:0; padding:0}
+
+.foot-grid a{color:#dce7f4}
+
+.foot-grid a:hover{color:var(--flame-lift)}
+
+.foot-note{
+  border-top:1px solid rgba(255,255,255,.10);
+  padding-block:18px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:#8fa5bd;
+  display:flex; flex-wrap:wrap; gap:8px 22px;
+}
+
+.foot-legal{
+  border-top:1px solid rgba(255,255,255,.10);
+  padding-block:clamp(18px,1.6vw,24px) clamp(34px,3vw,52px);
+  font-size:12px; line-height:1.65; color:#7b90a9; max-width:100ch;
+}
+
+.footer-policy-links{display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:0}
+
+.footer-policy-links a{color:#e3edf7; font-weight:700; text-decoration:underline; text-decoration-color:rgba(255,255,255,.3); text-underline-offset:4px}
+
+.footer-policy-links a:hover{color:var(--flame-lift); text-decoration-color:currentColor}
+
+@media (max-width:720px){
+.head-row{flex-wrap:wrap;padding-block:11px 0;gap:10px 14px}
+.brand{order:1}
+.brand img{height:44px}
+.head-actions{display:contents}
+.head-nav{order:3;display:flex;width:calc(100% + (var(--gutter) * 2));margin-inline:calc(var(--gutter) * -1);padding:7px var(--gutter) 9px;gap:4px;overflow-x:auto;overscroll-behavior-inline:contain;border-top:1px solid var(--line-soft);scrollbar-width:none}
+.head-nav::-webkit-scrollbar{display:none}
+.head-nav a{flex:none;min-height:44px;display:flex;align-items:center;padding:8px 11px;font-size:13.5px}
+.head-nav a::after{left:11px;right:11px}
+.cart-chip{order:2;margin-left:auto;min-height:44px;padding:8px 12px;gap:8px}
+.foot-grid{grid-template-columns:1fr;gap:28px;padding-block:var(--band-space) 28px}
+.site-foot{margin-top:0}
+.foot-note{gap:7px 14px;font-size:9.5px;line-height:1.55}
+.foot-legal{padding-block:20px var(--band-space);font-size:11.5px}
+}
+
+@media (max-width:420px){
+.cart-chip>span:not(.n){display:none}
+.cart-chip{padding-inline:13px}
+}

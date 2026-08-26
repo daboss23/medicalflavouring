@@ -59,8 +59,12 @@ module.exports=async function handler(req,res){
     const params=new URLSearchParams();
     const origin=requestOrigin(req);
     params.set('mode','payment');
-    params.set('success_url',`${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`);
-    params.set('cancel_url',`${origin}/#builder`);
+    /* Embedded Checkout: the payment form mounts inside checkout.html on this
+       site rather than sending the buyer to checkout.stripe.com, so there is no
+       success_url/cancel_url pair — Stripe redirects to `return_url` once the
+       payment completes, and cancelling is just the buyer navigating away. */
+    params.set('ui_mode','embedded');
+    params.set('return_url',`${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`);
     params.set('billing_address_collection','required');
     params.set('shipping_address_collection[allowed_countries][0]','AU');
     params.set('phone_number_collection[enabled]','true');
@@ -74,14 +78,15 @@ module.exports=async function handler(req,res){
     /* Flat freight as a Stripe shipping rate rather than a line item: it shows
        under its own "Freight" heading at checkout, stays out of the bottle
        count, and lands in `total_details.amount_shipping` for the thank-you
-       page. Quoted ex GST with the shipping tax code so Automatic Tax adds the
-       same GST the builder quoted. Defined inline — no Dashboard object to keep
-       in sync with `pricing.js`. */
+       page. Quoted GST-inclusive with the shipping tax code, so Automatic Tax
+       breaks the GST out of the $30 rather than adding it on top and the card
+       is charged the flat fee exactly. Defined inline — no Dashboard object to
+       keep in sync with `pricing.js`. */
     params.set('shipping_options[0][shipping_rate_data][type]','fixed_amount');
     params.set('shipping_options[0][shipping_rate_data][display_name]','Flat rate freight');
     params.set('shipping_options[0][shipping_rate_data][fixed_amount][currency]',Pricing.RULES.currency);
     params.set('shipping_options[0][shipping_rate_data][fixed_amount][amount]',String(Pricing.RULES.freightCents));
-    params.set('shipping_options[0][shipping_rate_data][tax_behavior]','exclusive');
+    params.set('shipping_options[0][shipping_rate_data][tax_behavior]','inclusive');
     params.set('shipping_options[0][shipping_rate_data][tax_code]','txcd_92010001');
     params.set('customer_creation','always');
 
@@ -105,7 +110,7 @@ module.exports=async function handler(req,res){
       bonus_bottles:String(quote.bonusCount),
       unit_price_cents:String(quote.unitCents),
       subtotal_ex_gst_cents:String(quote.subtotalCents),
-      freight_ex_gst_cents:String(quote.freightCents)
+      freight_inc_gst_cents:String(quote.freightCents)
     };
     Object.keys(metadata).forEach(key=>params.set(`metadata[${key}]`,metadata[key]));
 
@@ -122,7 +127,9 @@ module.exports=async function handler(req,res){
     if(!stripeResponse.ok){
       return send(res,stripeResponse.status,{error:session.error&&session.error.message?session.error.message:'Unable to create checkout session'});
     }
-    return send(res,200,{url:session.url,quote:quote});
+    /* The client secret is what mounts the form; it is scoped to this one
+       session and is useless without it, unlike the secret key it replaces. */
+    return send(res,200,{clientSecret:session.client_secret,quote:quote});
   }catch(error){
     return send(res,400,{error:error&&error.message?error.message:'Invalid checkout request'});
   }

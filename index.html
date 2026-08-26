@@ -2028,7 +2028,7 @@ body.has-product-modal{overflow:hidden}
         <div class="sum-line"><span class="k">Bottles shipped</span><span class="v" id="shipCount">0</span></div>
         <div class="sum-line" id="effectiveLine" hidden><span class="k">Effective per shipped bottle</span><span class="v" id="effectivePrice">$0.00</span></div>
         <div class="sum-line"><span class="k">Subtotal ex GST</span><span class="v" id="orderSubtotal">$0.00</span></div>
-        <div class="sum-line"><span class="k">Freight (flat rate)</span><span class="v" id="orderFreight">$0.00</span></div>
+        <div class="sum-line"><span class="k">Freight (flat rate, inc GST)</span><span class="v" id="orderFreight">$0.00</span></div>
         <div class="sum-line"><span class="k">GST (10%)</span><span class="v" id="orderGst">$0.00</span></div>
         <div class="sum-line is-total"><span class="k">Total inc GST</span><span class="v" id="orderTotal">$0.00</span></div>
         <div class="saving-note" id="savingNote">1–5 bottles are $32.99 each.</div>
@@ -2624,6 +2624,9 @@ $('#bonusChoices').addEventListener('change',function(e){
   state.bonusChoices[Number(select.getAttribute('data-bonus-choice'))]=select.value;
 });
 
+/* Shared with checkout.html, which reads the cart back out on the other side. */
+var CART_KEY='mfs.checkout.cart';
+
 function checkoutPayload(){
   return {
     pricingVersion:RULES.version,
@@ -2653,33 +2656,26 @@ async function startCheckout(){
     showCheckoutMessage('Please choose every bonus bottle.',false);
     return;
   }
-  var payload=checkoutPayload();
   var submit=$('#addBundle');
   var label=submit.querySelector('.btn-label');
-  var original=label.textContent;
   submit.disabled=true;
-  label.textContent='Preparing secure checkout…';
+  label.textContent='Opening secure checkout…';
   showCheckoutMessage('',false);
 
+  /* Payment happens on our own /checkout page with Stripe's form embedded in
+     it, so the buyer never leaves the site. The cart travels in sessionStorage
+     rather than the URL — it keeps a long bundle out of the address bar, and it
+     dies with the tab. Prices are never carried across: checkout.html sends the
+     product choices to the API, which recalculates the quote itself. */
   try{
-    var response=await fetch('/api/create-checkout-session',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
-    });
-    var result=await response.json();
-    if(!response.ok||!result.url){
-      showCheckoutMessage(result&&result.error?result.error:'Secure checkout is not available yet.',false);
-      return;
-    }
-    showCheckoutMessage('Redirecting to Stripe secure checkout…',true);
-    window.location.href=result.url;
+    sessionStorage.setItem(CART_KEY,JSON.stringify(checkoutPayload()));
   }catch(error){
-    showCheckoutMessage('Stripe checkout is not connected on this local preview yet.',false);
-  }finally{
     submit.disabled=false;
-    label.textContent=original;
+    label.textContent='Continue to checkout';
+    showCheckoutMessage('Your browser is blocking site storage, which secure checkout needs. Enable it for this site, or call the order desk on (03) 9387 0427.',false);
+    return;
   }
+  window.location.href='checkout.html';
 }
 
 $('#addBundle').addEventListener('click',startCheckout);

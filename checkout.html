@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Secure checkout | MFS</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#123a6b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site-chrome.css">
+<style>
+/* Page-specific layout. Everything brand-level — tokens, header, footer,
+   buttons — comes from site-chrome.css, the same rules the sales page uses. */
+body{background:#f5f7fa}
+main{min-height:60vh}
+.checkout-space{padding-block:clamp(28px,2.6vw,52px) clamp(48px,4vw,88px)}
+
+.checkout-head{margin-bottom:clamp(20px,2vw,32px)}
+.checkout-head .eyebrow{
+  font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--flame); font-weight:600; margin:0 0 8px;
+}
+.checkout-head h1{font-size:clamp(28px,3vw,42px); letter-spacing:-.03em; color:var(--ink)}
+.checkout-head p{margin:8px 0 0; color:var(--ink-3); font-size:15.5px}
+
+.checkout-grid{display:grid; grid-template-columns:minmax(0,1.55fr) minmax(300px,.85fr); gap:clamp(20px,2.4vw,40px); align-items:start}
+
+/* ---- the Stripe form, in a card that matches the site ---- */
+.pay-card{
+  background:#fff; border-radius:20px; padding:clamp(14px,1.6vw,26px);
+  box-shadow:0 1px 2px rgba(14,20,32,.06), 0 18px 44px -26px rgba(14,20,32,.45);
+  min-height:520px;
+}
+#payMount{min-height:480px}
+
+.pay-state{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:14px; min-height:480px; text-align:center; padding:24px;
+}
+.pay-state p{margin:0; color:var(--ink-3); max-width:44ch}
+.pay-state .pay-title{font-family:var(--display); font-size:21px; font-weight:750; color:var(--ink)}
+.spinner{
+  width:30px; height:30px; border-radius:50%;
+  border:3px solid rgba(18,58,107,.16); border-top-color:var(--flame);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spinner{animation-duration:2.4s}}
+
+/* ---- order summary rail ---- */
+.rail{
+  position:sticky; top:96px;
+  background:var(--navy); color:#fff; border-radius:20px; padding:clamp(18px,1.8vw,26px);
+  box-shadow:0 18px 44px -26px rgba(4,14,30,.7);
+}
+.rail h2{
+  font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  color:#9fb6d2; font-weight:500; margin:0 0 16px;
+}
+.rail-lines{display:flex; flex-direction:column; gap:9px; margin-bottom:16px}
+.rail-line{display:flex; justify-content:space-between; gap:14px; font-size:14.5px; line-height:1.45}
+.rail-line .k{color:#dbe6f4}
+.rail-line .v{font-variant-numeric:tabular-nums; font-weight:650; flex:none}
+.rail-line.is-free .k, .rail-line.is-free .v{color:#ff9061}
+.rail-sums{border-top:1px solid rgba(255,255,255,.16); padding-top:14px; display:flex; flex-direction:column; gap:8px}
+.rail-sum{display:flex; justify-content:space-between; gap:14px; font-size:14.5px; color:#c3d2e4}
+.rail-sum .v{font-variant-numeric:tabular-nums; color:#fff; font-weight:650}
+.rail-total{
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px;
+  margin-top:14px; padding-top:14px; border-top:1.5px solid rgba(238,60,19,.45);
+}
+.rail-total .k{font-family:var(--display); font-weight:750; font-size:16px; color:#fff}
+.rail-total .v{font-family:var(--display); font-weight:800; font-size:30px; letter-spacing:-.04em; color:#ff9061; font-variant-numeric:tabular-nums}
+.rail-note{margin:14px 0 0; font-size:12.5px; line-height:1.6; color:#9fb6d2}
+.rail-edit{
+  display:inline-flex; align-items:center; gap:7px; margin-top:14px;
+  font-size:13.5px; font-weight:650; color:#ff9061;
+}
+.rail-edit:hover{color:#fff}
+
+.checkout-trust{margin-top:18px}
+.checkout-trust img{width:100%; height:auto; opacity:.9}
+
+@media (max-width:900px){
+  .checkout-grid{grid-template-columns:1fr}
+  /* Summary first on a phone: buyers want to see what they are paying for
+     before the card fields, and a sticky rail has nowhere to stick. */
+  .rail{position:static; order:-1}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="i-cart"><path d="M2.5 3.5h2l2.2 9.2h8.1l1.7-6.4H5.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="16" r="1.3" fill="currentColor"/><circle cx="14.5" cy="16" r="1.3" fill="currentColor"/></g>
+    <g id="i-arrow"><path d="M4 10h11M10.5 5.5L15 10l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+  </defs>
+</svg>
+
+<header class="site-head" id="siteHead">
+  <div class="head-row">
+    <a class="brand" href="index.html" aria-label="MFS Medical Flavouring Systems, home">
+      <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+    </a>
+    <div class="head-actions">
+      <nav class="head-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="index.html#why">Why ORA®</a>
+        <a href="studies.html">Studies</a>
+        <a href="index.html#range">Range</a>
+        <a href="index.html#builder">Bundle 1 on 6</a>
+      </nav>
+      <a class="btn btn--navy btn--sm cart-chip" href="index.html#builder" id="cartChip">
+        <svg viewBox="0 0 20 20"><use href="#i-cart"/></svg>
+        <span>Cart</span>
+        <span class="n" id="cartCount">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="shell checkout-space">
+    <div class="checkout-head">
+      <p class="eyebrow">Secure checkout</p>
+      <h1>Complete your order</h1>
+      <p>Payment is processed by Stripe. Your card details never touch our servers.</p>
+    </div>
+
+    <div class="checkout-grid">
+      <div class="pay-card">
+        <div class="pay-state" id="payState">
+          <span class="spinner" aria-hidden="true"></span>
+          <span class="pay-title">Preparing secure checkout…</span>
+          <p id="payMessage">One moment while we open a secure payment session with Stripe.</p>
+          <a class="btn btn--flame btn--sm" href="index.html#builder" id="payBack" hidden>
+            <span class="btn-label">Back to the bundle builder</span>
+          </a>
+        </div>
+        <div id="payMount" hidden></div>
+      </div>
+
+      <aside class="rail" id="rail" hidden>
+        <h2>Your order</h2>
+        <div class="rail-lines" id="railLines"></div>
+        <div class="rail-sums">
+          <div class="rail-sum"><span class="k">Subtotal ex GST</span><span class="v" id="railSubtotal">$0.00</span></div>
+          <div class="rail-sum"><span class="k">Freight (flat rate, inc GST)</span><span class="v" id="railFreight">$0.00</span></div>
+          <div class="rail-sum"><span class="k">GST (10%)</span><span class="v" id="railGst">$0.00</span></div>
+        </div>
+        <div class="rail-total"><span class="k">Total</span><span class="v" id="railTotal">$0.00</span></div>
+        <p class="rail-note">Ships in 24–48 hours from Brunswick East, VIC. Australian delivery addresses only.</p>
+        <a class="rail-edit" href="index.html#builder">
+          <svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><use href="#i-arrow"/></svg>
+          Change your bundle
+        </a>
+        <div class="checkout-trust">
+          <img src="assets/checkout-trust-badges-hd.png" width="3922" height="1604" alt="100% satisfaction guaranteed, 256-bit SSL secure checkout, verified Stripe payments, and supported payment methods" loading="lazy">
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="foot-grid">
+      <div>
+        <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+        <p><strong style="color:#fff">MFS P/L, Medical Flavouring Systems</strong></p>
+        <p>P.O. Box 270, Brunswick East, Victoria 3057, Australia</p>
+      </div>
+      <div>
+        <h4>Order desk</h4>
+        <ul>
+          <li>P <a href="tel:+61393870427">(03) 9387 0427</a></li>
+          <li>F (03) 9387 0627</li>
+          <li><a href="mailto:info@medicalfs.com.au">info@medicalfs.com.au</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#why">Why ORA®</a></li>
+          <li><a href="studies.html">Studies</a></li>
+          <li><a href="index.html#range">Range</a></li>
+          <li><a href="index.html#builder">Bundle 1 on 6</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>Trade account required for hospital pricing</span>
+      <span>·</span>
+      <span>Ships in 24–48 hours from Brunswick East, VIC</span>
+    </div>
+    <div class="foot-legal">
+      <nav class="footer-policy-links" aria-label="Legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="pricing.js"></script>
+<script src="https://js.stripe.com/basil/stripe.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  var PRICING=window.MFSPricing;
+  var CART_KEY='mfs.checkout.cart';
+  var PRODUCTS={
+    plus:'ORA-Plus®',
+    sweet:'ORA-Sweet®',
+    sweetsf:'ORA-Sweet® SF',
+    blend:'ORA-Blend®',
+    blendsf:'ORA-Blend® SF'
+  };
+  var KEYS=Object.keys(PRODUCTS);
+
+  var $=function(id){ return document.getElementById(id); };
+
+  function money(cents){
+    return '$'+(cents/100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+  }
+
+  /* The builder hands the cart over in sessionStorage rather than the URL: it
+     keeps a long bundle out of the address bar, and it dies with the tab. */
+  function readCart(){
+    try{
+      var raw=sessionStorage.getItem(CART_KEY);
+      if(!raw) return null;
+      var cart=JSON.parse(raw);
+      var quantities=PRICING.normalizeQuantities(cart&&cart.quantities,KEYS);
+      var bonusChoices=(Array.isArray(cart&&cart.bonusChoices)?cart.bonusChoices:[])
+        .filter(function(key){ return Object.prototype.hasOwnProperty.call(PRODUCTS,key); });
+      var quote=PRICING.quote(quantities);
+      if(quote.paidCount<1||bonusChoices.length!==quote.bonusCount) return null;
+      return {quantities:quantities,bonusChoices:bonusChoices,quote:quote};
+    }catch(error){
+      return null;
+    }
+  }
+
+  /* The rail is a readout of the same pricing engine the server recalculates
+     with, never a second opinion about the price. */
+  function renderRail(cart){
+    var quote=cart.quote;
+    var lines='';
+    KEYS.forEach(function(key){
+      var qty=cart.quantities[key];
+      if(!qty) return;
+      lines+='<div class="rail-line"><span class="k">'+qty+' × '+PRODUCTS[key]+'</span>'+
+             '<span class="v">'+money(qty*quote.unitCents)+'</span></div>';
+    });
+    var bonusBySku={};
+    cart.bonusChoices.forEach(function(key){ bonusBySku[key]=(bonusBySku[key]||0)+1; });
+    Object.keys(bonusBySku).forEach(function(key){
+      lines+='<div class="rail-line is-free"><span class="k">'+bonusBySku[key]+' × '+PRODUCTS[key]+', free</span>'+
+             '<span class="v">$0.00</span></div>';
+    });
+    $('railLines').innerHTML=lines;
+    $('railSubtotal').textContent=money(quote.subtotalCents);
+    $('railFreight').textContent=money(quote.freightCents);
+    $('railGst').textContent=money(quote.gstCents);
+    $('railTotal').textContent=money(quote.totalIncGstCents);
+    $('cartCount').textContent=quote.shippedCount;
+    $('rail').hidden=false;
+  }
+
+  function fail(title,message){
+    $('payState').querySelector('.spinner').hidden=true;
+    $('payState').querySelector('.pay-title').textContent=title;
+    $('payMessage').textContent=message;
+    $('payBack').hidden=false;
+  }
+
+  async function start(){
+    if(!PRICING||typeof Stripe!=='function'){
+      return fail('Checkout could not load','We could not reach Stripe from this browser. Please refresh, or call the order desk on (03) 9387 0427.');
+    }
+
+    var cart=readCart();
+    if(!cart){
+      return fail('Your bundle is empty','We could not find an order to pay for. Head back to the builder and choose your bottles.');
+    }
+    renderRail(cart);
+
+    try{
+      var configResponse=await fetch('/api/config',{headers:{Accept:'application/json'}});
+      var config=await configResponse.json();
+      if(!configResponse.ok||!config.publishableKey){
+        return fail('Checkout is not connected yet','Secure payments are not switched on for this site yet. Please call the order desk on (03) 9387 0427 to place this order.');
+      }
+
+      var sessionResponse=await fetch('/api/create-checkout-session',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          pricingVersion:PRICING.RULES.version,
+          quantities:cart.quantities,
+          bonusChoices:cart.bonusChoices
+        })
+      });
+      var result=await sessionResponse.json();
+      if(!sessionResponse.ok||!result.clientSecret){
+        return fail('We could not open checkout',result&&result.error?result.error:'Secure checkout is not available right now. Please try again in a moment.');
+      }
+
+      /* The server recalculated the price from the product choices alone. If it
+         disagrees with the rail, the rail is the one that is wrong — show the
+         server's figures rather than a total the buyer will not be charged. */
+      if(result.quote&&result.quote.totalIncGstCents!==cart.quote.totalIncGstCents){
+        cart.quote=result.quote;
+        renderRail(cart);
+      }
+
+      var stripe=Stripe(config.publishableKey);
+      var embedded=await stripe.initEmbeddedCheckout({clientSecret:result.clientSecret});
+      $('payState').hidden=true;
+      $('payMount').hidden=false;
+      embedded.mount('#payMount');
+
+      /* Stripe redirects to the thank-you page itself once payment completes,
+         so the cart has done its job and should not survive a back button. */
+      sessionStorage.removeItem(CART_KEY);
+    }catch(error){
+      fail('Checkout could not load','Something went wrong opening the payment form. Please refresh the page, or call the order desk on (03) 9387 0427.');
+    }
+  }
+
+  start();
+})();
+</script>
+</body>
+</html>
