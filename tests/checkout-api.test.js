@@ -2,6 +2,7 @@
 
 const assert=require('node:assert/strict');
 const handler=require('../api/create-checkout-session.js');
+const Pricing=require('../pricing.js');
 
 function response(){
   return {
@@ -47,6 +48,7 @@ async function run(){
     assert.equal(res.body.quote.paidCount,6);
     assert.equal(res.body.quote.bonusCount,1);
     assert.equal(res.body.quote.subtotalCents,17994);
+    assert.equal(res.body.quote.freightCents,Pricing.RULES.freightCents);
     assert.equal(request.url,'https://api.stripe.com/v1/checkout/sessions');
 
     const params=new URLSearchParams(request.options.body);
@@ -61,6 +63,16 @@ async function run(){
     assert.equal(params.get('custom_fields[0][key]'),null);
     assert.equal(params.get('metadata[unit_price_cents]'),'2999');
     assert.equal(params.get('metadata[subtotal_ex_gst_cents]'),'17994');
+    assert.equal(params.get('metadata[freight_ex_gst_cents]'),String(Pricing.RULES.freightCents));
+    /* Flat freight rides as a shipping rate, ex GST, so Automatic Tax charges
+       the same GST on it that the builder quoted. */
+    assert.equal(params.get('shipping_options[0][shipping_rate_data][type]'),'fixed_amount');
+    assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][amount]'),String(Pricing.RULES.freightCents));
+    assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][currency]'),'aud');
+    assert.equal(params.get('shipping_options[0][shipping_rate_data][tax_behavior]'),'exclusive');
+    assert.equal(params.get('shipping_options[0][shipping_rate_data][display_name]'),'Flat rate freight');
+    /* One freight charge only, never one per bottle. */
+    assert.equal(params.get('shipping_options[1][shipping_rate_data][type]'),null);
     assert.equal(params.get('line_items[0][price_data][unit_amount]'),'2999');
     assert.equal(params.get('line_items[4][price_data][unit_amount]'),'0');
     assert.equal(params.get('line_items[4][quantity]'),'1');

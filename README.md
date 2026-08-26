@@ -39,6 +39,13 @@ The commercial rules live in `pricing.js` and use integer cents to avoid floatin
 - 12 paid bottles: $29.99 each and 3 free; $359.88 ex GST for 15 shipped, displayed as $23.99 effective per bottle.
 - Larger orders repeat the same pattern: each complete 12 earns 3 bonus bottles and a remaining block of 6 earns 1.
 
+A flat freight charge of $19.95 ex GST is added once per order — never per bottle, and never on an empty
+builder. It lives in `pricing.js` as `RULES.freightCents`, so the on-page summary, the Stripe Checkout total
+and the thank-you receipt all read the same number. Stripe receives it as an inline `shipping_options`
+fixed-amount rate with `tax_behavior: exclusive` and the shipping tax code, so Automatic Tax charges GST on
+freight exactly as the builder quotes it, and the amount comes back in `total_details.amount_shipping`.
+Changing the freight price means changing that one constant (and the expectations in `tests/pricing.test.js`).
+
 Run `node tests/pricing.test.js`, `node tests/checkout-api.test.js` and `node tests/thank-you-api.test.js` after changing any pricing or checkout rule.
 
 The page sends product quantities and bonus selections directly to hosted Stripe Checkout. Stripe then collects the customer and business names, email, phone, billing address, Australian shipping address, optional purchase order number, order notes and payment details. On Vercel, `api/create-checkout-session.js` creates the Checkout Session when `STRIPE_SECRET_KEY` is configured (and uses `SITE_URL` for return links when supplied). The endpoint accepts product choices—not browser-calculated prices—and recalculates the quote with the shared pricing engine before sending integer-cent line items to Stripe. Stripe Automatic Tax is enabled with exclusive product prices; the Stripe account must have its Australian tax registration and default product tax code configured before live payments are enabled.

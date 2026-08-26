@@ -6,13 +6,17 @@
   'use strict';
 
   var RULES=Object.freeze({
-    version:'ora-offer-2026-08-v2',
+    version:'ora-offer-2026-08-v3',
     currency:'aud',
     listUnitCents:3299,
     dealUnitCents:2999,
     dealThreshold:6,
     boostedThreshold:12,
-    gstRate:0.10
+    gstRate:0.10,
+    /* Flat freight, charged once per order regardless of how many bottles ship.
+       GST applies to freight on taxable goods, so it is quoted ex GST here and
+       sent to Stripe as an exclusive-tax shipping rate. */
+    freightCents:1995
   });
 
   function cleanQuantity(value){
@@ -80,8 +84,10 @@
     var bonus=bonusCount(paid);
     var shipped=paid+bonus;
     var subtotalCents=paid*unitCents;
-    var gstCents=Math.round(subtotalCents*RULES.gstRate);
-    var totalIncGstCents=subtotalCents+gstCents;
+    /* No bottles, no delivery: an empty builder must not show a freight charge. */
+    var freightCents=paid>0?RULES.freightCents:0;
+    var gstCents=Math.round((subtotalCents+freightCents)*RULES.gstRate);
+    var totalIncGstCents=subtotalCents+freightCents+gstCents;
     var effectiveUnitCents=shipped?Math.floor(subtotalCents/shipped):0;
     var listValueCents=shipped*RULES.listUnitCents;
     var savingsCents=Math.max(0,listValueCents-subtotalCents);
@@ -95,6 +101,7 @@
       shippedCount:shipped,
       unitCents:unitCents,
       subtotalCents:subtotalCents,
+      freightCents:freightCents,
       gstCents:gstCents,
       totalIncGstCents:totalIncGstCents,
       effectiveUnitCents:effectiveUnitCents,

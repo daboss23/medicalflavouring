@@ -19,8 +19,8 @@ function paidSession(){
     currency:'aud',
     created:1756100732,
     amount_subtotal:17994,
-    amount_total:19793,
-    total_details:{amount_tax:1799},
+    amount_total:21988,
+    total_details:{amount_tax:1999,amount_shipping:1995},
     customer_details:{name:'Harold Lewis',email:'harold@northcoterx.com.au'},
     custom_fields:[
     ],
@@ -59,8 +59,10 @@ async function run(){
     assert.equal(res.body.customerName,'Harold Lewis');
     assert.equal(res.body.email,'harold@northcoterx.com.au');
     assert.equal(res.body.payment,'Visa •••• 4242');
-    assert.equal(res.body.amountTotal,19793);
-    assert.equal(res.body.amountTax,1799);
+    assert.equal(res.body.amountTotal,21988);
+    assert.equal(res.body.amountTax,1999);
+    /* Freight comes back as its own figure so the receipt can itemise it. */
+    assert.equal(res.body.amountShipping,1995);
     assert.equal(res.body.items.length,2);
     assert.equal(res.body.items[0].name,'ORA-Plus®');
     assert.equal(res.body.items[0].image,'assets/ora-plus-1.png');
@@ -71,6 +73,16 @@ async function run(){
     assert.match(requested,/^https:\/\/api\.stripe\.com\/v1\/checkout\/sessions\/cs_test_a1b2c3d4e5f6g7h8\?/);
     assert.match(requested,/expand%5B%5D=line_items\.data\.price\.product/);
     assert.equal(res.headers['Cache-Control'],'no-store');
+
+    // --- a session with no freight charged reports zero, not undefined ------
+    global.fetch=async function(){
+      const session=paidSession();
+      session.total_details={amount_tax:1799};
+      return {ok:true,status:200,json:async function(){ return session; }};
+    };
+    res=response();
+    await handler({method:'GET',url:'/api/checkout-session?session_id=cs_test_a1b2c3d4e5f6g7h8'},res);
+    assert.equal(res.body.amountShipping,0);
 
     // --- an unpaid session must never read as a receipt ---------------------
     global.fetch=async function(){
