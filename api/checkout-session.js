@@ -131,6 +131,7 @@ module.exports=async function handler(req,res){
       currency:(session.currency||'aud').toUpperCase(),
       amountSubtotal:session.amount_subtotal||0,
       amountTax:session.total_details&&session.total_details.amount_tax||0,
+      amountShipping:session.total_details&&session.total_details.amount_shipping||0,
       amountTotal:session.amount_total||0,
       placedAt:session.created?new Date(session.created*1000).toISOString():'',
       items:lineItems(session)

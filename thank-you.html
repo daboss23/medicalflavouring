@@ -108,6 +108,10 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
 .item-qty{flex:none; font-family:var(--mono); font-size:19px; font-weight:550; color:var(--ink-2)}
 .item-price{flex:none; min-width:112px; text-align:right; font-size:22px; font-weight:750; color:var(--ink)}
 .item-price.is-free{color:var(--flame)}
+.sums{margin:0; padding-top:14px; display:flex; flex-direction:column; gap:10px}
+.sums>div{display:flex; justify-content:space-between; align-items:baseline; gap:16px}
+.sums dt{font-size:18px; font-weight:600; color:var(--ink-2)}
+.sums dd{margin:0; font-size:18px; font-weight:700; color:var(--ink)}
 .total{
   margin-top:28px; padding-top:26px; border-top:2px solid rgba(14,20,32,.16);
   display:flex; justify-content:space-between; align-items:baseline; gap:16px;
@@ -147,6 +151,7 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
   .item-name{font-size:19px}
   .item-qty{order:3; flex-basis:100%; margin-left:22px; font-size:15px; font-weight:500; color:var(--ink-3)}
   .item-price{font-size:19px; min-width:0}
+  .sums dt,.sums dd{font-size:15.5px}
   .total{margin-top:24px; padding-top:22px}
   .total dt{font-size:21px}
   .total dd{font-size:28px}
@@ -177,6 +182,7 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
 
     <div id="order" hidden>
       <div class="items" id="items"></div>
+      <dl class="sums" id="sums"></dl>
       <dl class="total">
         <dt>Total:</dt>
         <dd id="total"></dd>
@@ -277,6 +283,29 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
     });
   }
 
+  /* Freight and GST are Stripe's own totals, not anything this page computes,
+     so the sum only appears for the components Stripe actually charged. */
+  function renderSums(order){
+    var rows=[
+      ['Subtotal',order.amountSubtotal],
+      ['Freight',order.amountShipping],
+      ['GST',order.amountTax]
+    ];
+    var host=$('sums');
+    host.innerHTML='';
+    rows.forEach(function(entry){
+      if(!entry[1]) return;
+      var pair=document.createElement('div');
+      var dt=document.createElement('dt');
+      dt.textContent=entry[0];
+      var dd=document.createElement('dd');
+      dd.textContent=money(entry[1],order.currency);
+      pair.appendChild(dt);
+      pair.appendChild(dd);
+      host.appendChild(pair);
+    });
+  }
+
   function renderFacts(order){
     var facts=[
       ['Order number',order.orderNumber,true],
@@ -328,6 +357,7 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
 
     renderLineup(order.items);
     renderItems(order.items,order.currency);
+    renderSums(order);
     text($('total'),money(order.amountTotal,order.currency));
     renderFacts(order);
     text($('placed'),placedLabel(order.placedAt));

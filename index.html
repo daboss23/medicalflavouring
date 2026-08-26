@@ -2028,6 +2028,7 @@ body.has-product-modal{overflow:hidden}
         <div class="sum-line"><span class="k">Bottles shipped</span><span class="v" id="shipCount">0</span></div>
         <div class="sum-line" id="effectiveLine" hidden><span class="k">Effective per shipped bottle</span><span class="v" id="effectivePrice">$0.00</span></div>
         <div class="sum-line"><span class="k">Subtotal ex GST</span><span class="v" id="orderSubtotal">$0.00</span></div>
+        <div class="sum-line"><span class="k">Freight (flat rate, inc GST)</span><span class="v" id="orderFreight">$0.00</span></div>
         <div class="sum-line"><span class="k">GST (10%)</span><span class="v" id="orderGst">$0.00</span></div>
         <div class="sum-line is-total"><span class="k">Total inc GST</span><span class="v" id="orderTotal">$0.00</span></div>
         <div class="saving-note" id="savingNote">1–5 bottles are $32.99 each.</div>
@@ -2242,7 +2243,7 @@ body.has-product-modal{overflow:hidden}
       <i class="ob-rule"></i>
       <div class="ob-item"><span class="k">Free</span><span class="v is-free" id="obFree">0</span></div>
       <i class="ob-rule"></i>
-      <div class="ob-item"><span class="k">Total ex GST</span><span class="v" id="obTotal">$0.00</span></div>
+      <div class="ob-item"><span class="k">Bottles ex GST</span><span class="v" id="obTotal">$0.00</span></div>
     </div>
     <a class="btn btn--flame btn--sm btn--text-only" href="#builder" id="obCta">
       <span class="btn-stack">
@@ -2498,6 +2499,7 @@ function render(){
   $('#shipCount').textContent = t.shippedCount;
   $('#unitPrice').textContent = moneyCents(t.unitCents) + ' + GST';
   $('#orderSubtotal').textContent = moneyCents(t.subtotalCents);
+  $('#orderFreight').textContent = moneyCents(t.freightCents);
   $('#orderGst').textContent = moneyCents(t.gstCents);
   $('#orderTotal').textContent = moneyCents(t.totalIncGstCents);
   $('#effectivePrice').textContent = moneyCents(t.effectiveUnitCents) + ' ex GST';
