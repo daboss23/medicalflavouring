@@ -2256,6 +2256,8 @@ body.has-product-modal{overflow:hidden}
 </div>
 
 <script src="pricing.js"></script>
+<script src="catalog.js"></script>
+<script src="cart.js"></script>
 <script>
 (function(){
 'use strict';
@@ -2268,71 +2270,12 @@ if(!PRICING) throw new Error('Pricing engine failed to load');
 var RULES = PRICING.RULES;
 var DEADLINE = new Date('2026-08-31T23:59:59+10:00').getTime();
 
-var SKUS = [
-  { key:'plus', tint:'var(--sku-plus)', name:'ORA-Plus®', sub:'Suspending vehicle', img:'assets/ora-plus-1.png',
-    short:'Buffered, bland, unsweetened suspending vehicle for oral, non-soluble aqueous dosage forms.',
-    desc:'A unique aqueous suspending vehicle that simplifies extemporaneous compounding. Medicated powder can be incorporated to form elegant, uniform and physically stable oral suspensions.',
-    specs:['White, viscous liquid','4.0 – 4.5','No sweeteners','Very bland'], pdf:'assets/product-info/ora-plus.pdf',
-    contains:'Purified water, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate, citric acid and sodium phosphate as buffers, and dimethicone antifoam emulsion. Preserved with methylparaben and potassium sorbate.' },
-  { key:'sweet', tint:'var(--sku-sweet)', name:'ORA-Sweet®', sub:'Syrup vehicle', img:'assets/ora-sweet-1.png',
-    short:'Sucrose-sweetened citrus-berry syrup vehicle, the modern version of simple syrup.',
-    desc:'A syrup vehicle that simplifies flavouring and sweetening extemporaneous oral preparations. It is a modern version of simple syrup with a highly palatable citrus-berry flavour.',
-    specs:['Translucent yellow syrup','4.0 – 4.5','Sucrose','Sweet citrus-berry'], pdf:'assets/product-info/ora-sweet.pdf',
-    contains:'Purified water, sucrose, glycerin, sorbitol and berry citrus flavour. Buffered with citric acid and sodium phosphate. Preserved with methylparaben and potassium sorbate.' },
-  { key:'sweetsf', tint:'var(--sku-sweet)', name:'ORA-Sweet® SF', sub:'Sugar-free syrup vehicle', img:'assets/ora-sweet-sf-1.png',
-    short:'Sugar-free, alcohol-free syrup vehicle for sweetening sugar-free oral preparations.',
-    desc:'A sugar-free, alcohol-free syrup vehicle that simplifies flavouring and sweetening extemporaneous sugar-free oral preparations, with a highly palatable citrus-berry flavour.',
-    specs:['Clear, syrupy liquid','4.0 – 4.4','Sodium saccharin','Sweet citrus-berry'], pdf:'assets/product-info/ora-sweet-sf.pdf',
-    contains:'Purified water, glycerin, sorbitol, sodium saccharin, xanthan gum and berry citrus flavour. Buffered with citric acid and sodium citrate. Preserved with methylparaben (0.03%), propylparaben (0.008%) and potassium sorbate (0.1%).' },
-  { key:'blend', tint:'var(--sku-blend)', name:'ORA-Blend®', sub:'Flavoured suspending vehicle', img:'assets/ora-blend-1.png',
-    short:'Ready-blended suspending and flavouring vehicle, ORA-Plus® and ORA-Sweet® in one bottle.',
-    desc:'A flavoured oral suspending vehicle combining the suspending properties of ORA-Plus® with the flavouring agents of ORA-Sweet®. Medicated powder can be incorporated to form elegant, uniform and physically stable suspensions.',
-    specs:['Cloudy liquid','4.0 – 4.5','Sucrose','Sweet citrus-berry'], pdf:'assets/product-info/ora-blend.pdf',
-    contains:'Purified water, sucrose, glycerin, sorbitol, berry citrus flavour, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate, citric acid and sodium phosphate as buffers, dimethicone antifoam emulsion. Preserved with methylparaben and potassium sorbate.' },
-  { key:'blendsf', tint:'var(--sku-blend)', name:'ORA-Blend® SF', sub:'Sugar-free suspending vehicle', img:'assets/ora-blend-sf-1.png',
-    short:'Buffered, sweetened, sugar-free suspending vehicle with antifoam agent and preservatives.',
-    desc:'A flavoured sugar-free oral suspending vehicle that combines ORA-Plus® suspending properties with ORA-Sweet® SF flavouring agents. It forms elegant, uniform and physically stable suspensions.',
-    specs:['Cloudy liquid','4.0 – 4.5','Sodium saccharin','Sweet citrus-berry'], pdf:'assets/product-info/ora-blend-sf.pdf',
-    contains:'Purified water, sorbitol, glycerin, berry citrus flavour, microcrystalline cellulose, carboxymethylcellulose sodium, xanthan gum, carrageenan, calcium sulfate, trisodium phosphate and sodium saccharin, sodium phosphate, citric acid and sodium citrate as buffers, and dimethicone antifoam emulsion. Preserved with methylparaben, propylparaben and potassium sorbate.' }
-];
-
-var EXTRA = {
-  plus:{ alt:null,
-    applications:'Ideal for paediatric suspensions, geriatric suspensions and nasogastric preparations. It retains its suspending properties when diluted up to 50% with water, flavouring agents, syrups or alcohol.',
-    properties:'Its suspending agents form a structured, gel-like matrix that holds particles with little settling. It is buffered to a slightly acidic pH to help reduce oxidation-related degradation, while an antifoam agent permits vigorous shaking with minimal foam.',
-    usage:'Use with any flavouring syrup, or combine with ORA-Sweet® or ORA-Sweet® SF in a 50/50 ratio. Triturate the powder with a small amount of ORA-Plus® to form a smooth paste, add the remaining ORA-Plus® by geometric dilution, then bring to final volume with the selected ORA-Sweet® vehicle.',
-    metrics:'Viscosity: thixotropic, 400–6700 cps at 25°C (Brookfield). Osmolality: approximately 157 mOsm/kg.',
-    examples:'The product sheet includes baclofen, captopril, diltiazem hydrochloride, dipyridamole, enalapril maleate and flecainide acetate examples, with formulation-specific expiry and storage directions.',
-    contraindications:'Contraindicated in persons who have shown hypersensitivity to any listed ingredient.' },
-  sweet:{ alt:'sweetsf',
-    applications:'Flavouring and sweetening of paediatric and geriatric suspensions. Retains its flavouring properties when diluted up to 50% with water or suspending agents.',
-    properties:'Sucrose provides sweetness, while small amounts of glycerin and sorbitol help prevent the “cap lock” problem common to syrups. The vehicle is buffered to a slightly acidic pH to help diminish oxidation-related degradation.',
-    usage:'May be used alone or with other agents. For an elegant suspension, combine ORA-Sweet® with ORA-Plus® in a 50/50 ratio after the powder has been triturated and geometrically diluted in ORA-Plus®.',
-    metrics:'Osmolality: 4109 mOsm/kg.',
-    examples:'The product sheet includes chloroquine phosphate, ketoconazole, metolazone, metronidazole, procainamide hydrochloride and spironolactone examples, with formulation-specific expiry and storage directions.',
-    contraindications:'Contraindicated in persons who have shown hypersensitivity to any listed ingredient.' },
-  sweetsf:{ alt:'sweet',
-    applications:'Flavouring and sweetening of sugar-free paediatric and geriatric suspensions. Retains its flavouring properties when diluted up to 50% with water or suspending agents.',
-    properties:'Contains no sugar or alcohol. Sodium saccharin provides sweetness, while xanthan gum, glycerin and sorbitol contribute texture and flow. It is buffered to a slightly acidic pH to help diminish oxidation-related degradation.',
-    usage:'May be used alone or with other agents. For an elegant sugar-free suspension, combine ORA-Sweet® SF with ORA-Plus® in a 50/50 ratio after the powder has been triturated and geometrically diluted in ORA-Plus®.',
-    metrics:'Osmolality: approximately 1979 mOsm/kg.',
-    examples:'The product sheet includes alprazolam, hydralazine hydrochloride, labetalol hydrochloride, metoprolol tartrate, spironolactone with hydrochlorothiazide and verapamil hydrochloride examples.',
-    contraindications:'Contraindicated in persons who have shown hypersensitivity to any listed ingredient.' },
-  blend:{ alt:'blendsf',
-    applications:'Paediatric and geriatric oral suspensions where a single ready-blended vehicle is preferred. Medicated powder can be incorporated directly to form elegant, uniform and physically stable suspensions.',
-    properties:'Combines ORA-Plus® suspending properties with ORA-Sweet® flavouring agents. A structured, gel-like matrix suspends particles with little settling; slightly acidic buffering helps reduce oxidation-related degradation, and antifoam permits vigorous shaking with minimal foam.',
-    usage:'Triturate the powder with a small amount of ORA-Blend® to form a thick, smooth paste, then add the remainder by geometric dilution and mix until uniform. Dispense in a tight, light-resistant amber bottle with formulation-appropriate labelling.',
-    metrics:'Viscosity: approximately 700 cps at 25°C (Brookfield). Osmolality: 1665 mOsm/kg.',
-    examples:'The product sheet includes Adderall®, tiagabine, terbinafine hydrochloride and valganciclovir examples, with formulation-specific expiry and storage directions.',
-    contraindications:'Contraindicated in persons who have shown hypersensitivity to any listed ingredient.' },
-  blendsf:{ alt:'blend',
-    applications:'Sugar-free paediatric and geriatric oral suspensions where a single ready-blended vehicle is preferred.',
-    properties:'Combines ORA-Plus® suspending properties with ORA-Sweet® SF flavouring agents. A structured, gel-like matrix suspends particles with little settling; slightly acidic buffering helps reduce oxidation-related degradation, and antifoam permits vigorous shaking with minimal foam.',
-    usage:'Triturate the powder with a small amount of ORA-Blend® SF to form a thick, smooth paste, then add the remainder by geometric dilution and mix until uniform. Dispense in a tight, light-resistant amber bottle with formulation-appropriate labelling.',
-    metrics:'Viscosity: approximately 1000 cps at 25°C (Brookfield). Osmolality: 1027 mOsm/kg.',
-    examples:'The product sheet includes lamotrigine, spironolactone with hydrochlorothiazide, rifampin and verapamil hydrochloride examples, with formulation-specific expiry and storage directions.',
-    contraindications:'Contraindicated in persons who have shown hypersensitivity to any listed ingredient.' }
-};
+/* Products live in `catalog.js` so the sales page, the checkout page and the
+   Stripe endpoints all read one list. */
+var CATALOG = window.MFSCatalog;
+if(!CATALOG) throw new Error('Product catalogue failed to load');
+var SKUS = CATALOG.SKUS;
+var EXTRA = CATALOG.EXTRA;
 
 var FAQ = [
   { q:'Can I mix products to reach my six?', a:'Yes. Any combination of ORA-Plus®, ORA-Sweet®, ORA-Sweet® SF, ORA-Blend® and ORA-Blend® SF counts. Orders of 1–5 bottles are $32.99 each. At six paid bottles, the price becomes $29.99 each and one bonus bottle is included free.' },
@@ -2362,10 +2305,16 @@ function pop(el, cls){
 /* ============================================================
    State
    ============================================================ */
+/* A basket built here travels to the checkout page and back again — someone who
+   presses "change my bottles" returns to the mix they had, not an empty page. */
+var CART = window.MFSCart;
+var CART_KEYS = SKUS.map(function(s){ return s.key; });
+var restoredCart = CART.restore(window.location.search, CART_KEYS);
+
 var state = {
-  qty:{ plus:0, sweet:0, sweetsf:0, blend:0, blendsf:0 },
+  qty:restoredCart.quantities,
   pdp:'blend',
-  bonusChoices:[],
+  bonusChoices:restoredCart.bonusChoices.slice(),
   twelveBoost:{active:false,additions:{}},
   lastFree:0
 };
@@ -2484,6 +2433,7 @@ function totals(){
 
 function render(){
   var t = totals();
+  rememberCart();
 
   SKUS.forEach(function(s){
     var q = state.qty[s.key] || 0;
@@ -2632,6 +2582,12 @@ function checkoutPayload(){
   };
 }
 
+/* Remember the basket for this browser session, so a back button from checkout
+   lands on the mix that was being built rather than on an empty builder. */
+function rememberCart(){
+  CART.save({quantities:state.qty,bonusChoices:state.bonusChoices},CART_KEYS);
+}
+
 function showCheckoutMessage(message,ok){
   var status=$('#checkoutStatus');
   status.classList.toggle('is-ok',Boolean(ok));
@@ -2641,7 +2597,11 @@ function showCheckoutMessage(message,ok){
   if(message) status.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
-async function startCheckout(){
+/* Checkout happens on our own page (`checkout.html`), which carries the MFS
+   branding, this basket and the Stripe card field. It needs no network call to
+   open, so the button works even when the API does not — and the page itself
+   falls back to hosted Stripe Checkout when card fields cannot be mounted. */
+function startCheckout(){
   var t=totals();
   if(t.paidCount===0){
     document.querySelector('#skuList .sku').scrollIntoView({behavior:'smooth',block:'center'});
@@ -2653,33 +2613,15 @@ async function startCheckout(){
     showCheckoutMessage('Please choose every bonus bottle.',false);
     return;
   }
-  var payload=checkoutPayload();
   var submit=$('#addBundle');
   var label=submit.querySelector('.btn-label');
-  var original=label.textContent;
   submit.disabled=true;
-  label.textContent='Preparing secure checkout…';
-  showCheckoutMessage('',false);
-
-  try{
-    var response=await fetch('/api/create-checkout-session',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
-    });
-    var result=await response.json();
-    if(!response.ok||!result.url){
-      showCheckoutMessage(result&&result.error?result.error:'Secure checkout is not available yet.',false);
-      return;
-    }
-    showCheckoutMessage('Redirecting to Stripe secure checkout…',true);
-    window.location.href=result.url;
-  }catch(error){
-    showCheckoutMessage('Stripe checkout is not connected on this local preview yet.',false);
-  }finally{
-    submit.disabled=false;
-    label.textContent=original;
-  }
+  label.textContent='Opening secure checkout…';
+  showCheckoutMessage('Taking you to the secure checkout…',true);
+  window.location.href='checkout.html?'+CART.encode({
+    quantities:state.qty,
+    bonusChoices:state.bonusChoices
+  },CART_KEYS);
 }
 
 $('#addBundle').addEventListener('click',startCheckout);

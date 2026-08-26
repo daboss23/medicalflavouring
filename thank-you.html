@@ -364,13 +364,27 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
     $('order').hidden=false;
   }
 
-  var sessionId=new URLSearchParams(window.location.search).get('session_id');
-  if(!sessionId){
+  /* Two ways in, one receipt. Hosted Stripe Checkout returns a session id;
+     the embedded checkout page returns a PaymentIntent and its client secret,
+     which proves this browser is the one that paid. Both endpoints answer with
+     the same order shape, so everything below is identical either way. */
+  var query=new URLSearchParams(window.location.search);
+  var sessionId=query.get('session_id');
+  var intentId=query.get('payment_intent');
+  var intentSecret=query.get('payment_intent_client_secret');
+  var source='';
+  if(sessionId){
+    source='/api/checkout-session?session_id='+encodeURIComponent(sessionId);
+  }else if(intentId&&intentSecret){
+    source='/api/payment-intent?payment_intent='+encodeURIComponent(intentId)+
+      '&payment_intent_client_secret='+encodeURIComponent(intentSecret);
+  }
+  if(!source){
     showState('Thank you.','We could not find an order reference in this link. If you have just paid, check your email for the confirmation.');
     return;
   }
 
-  fetch('/api/checkout-session?session_id='+encodeURIComponent(sessionId),{headers:{Accept:'application/json'}})
+  fetch(source,{headers:{Accept:'application/json'}})
     .then(function(response){
       return response.json().then(function(body){ return {ok:response.ok,body:body}; });
     })

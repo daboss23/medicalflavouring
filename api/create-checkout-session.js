@@ -1,20 +1,7 @@
 'use strict';
 
 const Pricing=require('../pricing.js');
-
-const PRODUCTS={
-  plus:'ORA-Plus®',
-  sweet:'ORA-Sweet®',
-  sweetsf:'ORA-Sweet® SF',
-  blend:'ORA-Blend®',
-  blendsf:'ORA-Blend® SF'
-};
-
-function send(res,status,payload){
-  res.statusCode=status;
-  res.setHeader('Content-Type','application/json; charset=utf-8');
-  res.end(JSON.stringify(payload));
-}
+const {PRODUCT_NAMES:PRODUCTS,send}=require('./order-fields.js');
 
 function requestOrigin(req){
   if(process.env.SITE_URL) return process.env.SITE_URL.replace(/\/$/,'');
