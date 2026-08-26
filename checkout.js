@@ -170,7 +170,7 @@ function renderOptions(){
     id:'optBase',
     on:!state.upgraded,
     title:bundleTitle(base.paidCount,base.bonusCount),
-    sub:money(base.unitCents)+' each ex GST · '+base.shippedCount+' bottles shipped',
+    sub:money(base.unitCents)+' each ex GST · '+plural(base.shippedCount,'bottle')+' shipped',
     was:base.savingsCents>0?money(listPriceTotal(base.shippedCount)):'',
     now:money(base.totalIncGstCents),
     add:false
@@ -329,10 +329,20 @@ function clearErrors(){
   showStatus('',false);
 }
 
-function showStatus(message,ok){
+/* Status text is plain by default. `html` is opt-in and used only where this
+   file builds the markup itself — never for anything Stripe or the customer
+   typed. */
+function showStatus(message,ok,html){
   var status=$('status');
-  status.textContent=message||'';
+  if(html) status.innerHTML=message||'';
+  else status.textContent=message||'';
   status.classList.toggle('is-ok',Boolean(ok));
+}
+
+function escapeAttribute(value){
+  return String(value==null?'':value)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
 function failField(name,message){
@@ -456,12 +466,20 @@ function loadStripeJs(){
 }
 
 /* No publishable key, or Stripe.js could not load: the order still goes
-   through, on Stripe's own hosted page. Never a dead card field. */
-function useHostedCheckout(note){
+   through, on Stripe's own hosted page. Never a dead card field.
+
+   The customer is told nothing beyond where they will type their card — but
+   whoever is deploying the site needs to know the branded card field was
+   skipped and why, or a missing environment variable looks like a design
+   choice. */
+function useHostedCheckout(reason,note){
   state.hosted=true;
   document.body.classList.add('is-hosted');
   $('paymentLoading').hidden=true;
   if(note) $('hostedNote').textContent=note;
+  if(reason&&window.console&&console.warn){
+    console.warn('[MFS checkout] Embedded card field unavailable — falling back to hosted Stripe Checkout: '+reason);
+  }
   renderSummary();
 }
 
@@ -479,13 +497,19 @@ async function fetchJson(url,options){
 
 async function mountStripe(){
   var config=await fetchJson('/api/checkout-config',{headers:{Accept:'application/json'}});
-  if(!config.ok||!config.body.embedded||!config.body.paymentsConfigured){
-    return useHostedCheckout();
+  if(!config.ok){
+    return useHostedCheckout('/api/checkout-config returned '+config.status);
+  }
+  if(!config.body.paymentsConfigured){
+    return useHostedCheckout('STRIPE_SECRET_KEY is not set in this environment');
+  }
+  if(!config.body.embedded){
+    return useHostedCheckout('STRIPE_PUBLISHABLE_KEY is not set in this environment (add the pk_test_… / pk_live_… key and redeploy)');
   }
   try{
     await loadStripeJs();
   }catch(error){
-    return useHostedCheckout();
+    return useHostedCheckout(error&&error.message||'Stripe.js did not load');
   }
 
   state.stripe=window.Stripe(config.body.publishableKey);
@@ -508,7 +532,9 @@ async function mountStripe(){
   payment.on('change',function(event){
     setFieldError('payment',event.error?event.error.message:'');
   });
-  payment.on('loaderror',function(){ useHostedCheckout(); });
+  payment.on('loaderror',function(event){
+    useHostedCheckout((event&&event.error&&event.error.message)||'the Payment Element failed to load');
+  });
   payment.mount('#paymentElement');
 }
 
@@ -545,7 +571,18 @@ async function payHosted(){
     return;
   }
   showStatus('Taking you to Stripe’s secure payment page…',true);
-  window.location.href=result.body.url;
+
+  /* If the browser has not left this page shortly after the redirect, it is not
+     going to — a blocked navigation, an extension, a preview deployment behind
+     an auth wall. Give the button back and hand over a link they can click
+     themselves rather than leaving them watching a dead spinner. */
+  var url=result.body.url;
+  setTimeout(function(){
+    if(!state.busy) return;
+    busy(false);
+    showStatus('Stripe’s payment page did not open by itself. <a href="'+escapeAttribute(url)+'">Open it here</a>, or call (03) 9387 0427 and we will take the order for you.',false,true);
+  },6000);
+  window.location.href=url;
 }
 
 async function payEmbedded(){
@@ -682,7 +719,7 @@ $('checkoutForm').addEventListener('submit',function(event){
   if(window.matchMedia('(min-width:941px)').matches) $('offerFold').open=true;
 
   render();
-  mountStripe().catch(function(){ useHostedCheckout(); });
+  mountStripe().catch(function(error){ useHostedCheckout(error&&error.message||'Stripe setup threw'); });
 })();
 
 window.MFSCheckoutPage={
