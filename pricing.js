@@ -14,11 +14,9 @@
     boostedThreshold:12,
     gstRate:0.10,
     /* Flat freight, charged once per order regardless of how many bottles ship.
-       Unlike the bottle prices this one is GST-inclusive: the customer is
-       charged exactly $30.00 for delivery, and the GST already inside that
-       figure is broken out as `freightGstCents`. Stripe is sent the same
-       number as an inclusive-tax shipping rate so the card is charged $30.00
-       to the cent. */
+       Quoted ex GST like the bottle prices: $30.00 for delivery plus GST, so
+       the summary's single "GST (10%)" line covers bottles and freight alike.
+       Stripe is sent the same number as an exclusive-tax shipping rate. */
     freightCents:3000
   });
 
@@ -89,13 +87,11 @@
     var subtotalCents=paid*unitCents;
     /* No bottles, no delivery: an empty builder must not show a freight charge. */
     var freightCents=paid>0?RULES.freightCents:0;
-    /* Freight is quoted GST-inclusive, so its GST is the portion already inside
-       the $30 rather than an amount added on top. */
-    var freightGstCents=freightCents-Math.round(freightCents/(1+RULES.gstRate));
-    /* `gstCents` stays the GST on the bottles, which is what the summary's
-       "GST (10%)" line sits beneath; freight carries its own GST inside its
-       displayed price. */
-    var gstCents=Math.round(subtotalCents*RULES.gstRate);
+    /* Freight is quoted ex GST, so its GST is added on top of the $30. */
+    var freightGstCents=Math.round(freightCents*RULES.gstRate);
+    /* `gstCents` is the GST on everything charged — bottles and freight — which
+       is what the summary's "GST (10%)" line sits beneath. */
+    var gstCents=Math.round(subtotalCents*RULES.gstRate)+freightGstCents;
     var totalIncGstCents=subtotalCents+gstCents+freightCents;
     var effectiveUnitCents=shipped?Math.floor(subtotalCents/shipped):0;
     var listValueCents=shipped*RULES.listUnitCents;

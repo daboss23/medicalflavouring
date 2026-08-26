@@ -74,15 +74,14 @@ module.exports=async function handler(req,res){
     /* Flat freight as a Stripe shipping rate rather than a line item: it shows
        under its own "Freight" heading at checkout, stays out of the bottle
        count, and lands in `total_details.amount_shipping` for the thank-you
-       page. Quoted GST-inclusive with the shipping tax code, so Automatic Tax
-       breaks the GST out of the $30 rather than adding it on top and the card
-       is charged the flat fee exactly. Defined inline — no Dashboard object to
+       page. Quoted ex GST with the shipping tax code, so Automatic Tax adds
+       the GST on top of the $30 alongside the GST on the bottles. Defined inline — no Dashboard object to
        keep in sync with `pricing.js`. */
     params.set('shipping_options[0][shipping_rate_data][type]','fixed_amount');
     params.set('shipping_options[0][shipping_rate_data][display_name]','Flat rate freight');
     params.set('shipping_options[0][shipping_rate_data][fixed_amount][currency]',Pricing.RULES.currency);
     params.set('shipping_options[0][shipping_rate_data][fixed_amount][amount]',String(Pricing.RULES.freightCents));
-    params.set('shipping_options[0][shipping_rate_data][tax_behavior]','inclusive');
+    params.set('shipping_options[0][shipping_rate_data][tax_behavior]','exclusive');
     params.set('shipping_options[0][shipping_rate_data][tax_code]','txcd_92010001');
     params.set('customer_creation','always');
 
@@ -106,7 +105,7 @@ module.exports=async function handler(req,res){
       bonus_bottles:String(quote.bonusCount),
       unit_price_cents:String(quote.unitCents),
       subtotal_ex_gst_cents:String(quote.subtotalCents),
-      freight_inc_gst_cents:String(quote.freightCents)
+      freight_ex_gst_cents:String(quote.freightCents)
     };
     Object.keys(metadata).forEach(key=>params.set(`metadata[${key}]`,metadata[key]));
 
