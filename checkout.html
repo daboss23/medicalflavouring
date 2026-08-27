@@ -441,13 +441,14 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   font-size:clamp(24px,2.8vw,32px); font-weight:800; line-height:1.16;
   letter-spacing:-.02em; color:#fff; text-wrap:balance;
 }
+/* The order panel's title. It labels the one thing the customer came here to
+   confirm, so it is read as a heading rather than as fine print: larger than a
+   normal eyebrow, and a saturated flame that still clears AA against the navy
+   the panel is painted in. */
 .co-offer-head .eyebrow{
-  font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.2em;
-  text-transform:uppercase; color:#ffb69c; margin-bottom:10px;
-}
-.co-offer-head p{
-  margin:12px auto 0; max-width:38ch;
-  font-size:clamp(15px,1.5vw,16.5px); line-height:1.5; color:rgba(255,255,255,.82);
+  font-family:var(--mono); font-size:clamp(13px,1.5vw,15.5px); font-weight:600;
+  letter-spacing:.22em; text-transform:uppercase; color:#ffad72;
+  margin:0 0 12px;
 }
 .co-offer-body{
   background:var(--paper); border:1px solid var(--line); border-top:0;
@@ -953,8 +954,7 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   <aside class="co-offer" aria-label="Order summary">
     <div class="co-offer-head">
       <p class="eyebrow">Your order</p>
-      <h1 id="offerHeadline">Yes — send my ORA® bundle with my free bottles</h1>
-      <p id="offerSubline">The complete Padagis ORA® range, ready to use, direct from the Australian supplier.</p>
+      <h1 id="offerHeadline">YES! SEND MY 6 BOTTLES + 1 FREE</h1>
     </div>
     <div class="co-offer-body">
       <details class="co-fold" id="offerFold">

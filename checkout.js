@@ -127,26 +127,6 @@ function syncBonusChoices(){
 }
 
 
-/* ============================================================
-   Price options — the tier chooser, mirrored by the order bump
-   ============================================================ */
-function bundleTitle(paid,bonus){
-  return bonus>0
-    ? plural(paid,'bottle')+' + '+bonus+' free'
-    : plural(paid,'bottle');
-}
-
-/* What this many bottles would cost with no offer at all: list price, the same
-   freight, the same GST. It is the only honest thing to strike through next to
-   the price actually being charged. */
-function listPriceTotal(shipped){
-  var subtotal=shipped*RULES.listUnitCents;
-  var gst=Math.round(subtotal*RULES.gstRate)+Math.round(RULES.freightCents*RULES.gstRate);
-  return subtotal+RULES.freightCents+gst;
-}
-
-
-
 function renderBump(){
   var up=upgrade();
   var bump=$('bump');
@@ -210,6 +190,14 @@ function lineRow(sku,count,value,free){
     '</li>';
 }
 
+/* "YES! SEND MY 9 BOTTLES + 1 FREE" — paid bottles and bonus bottles counted
+   separately, because that is the deal: 9 bought, 1 given, 10 in the box. */
+function orderHeadline(paid,bonus){
+  if(paid<1) return 'YES! SEND MY ORA\u00ae ORDER';
+  var line='YES! SEND MY '+plural(paid,'bottle').toUpperCase();
+  return bonus>0?line+' + '+bonus+' FREE':line;
+}
+
 function renderSummary(){
   var t=quote();
   $('sumSubtotal').textContent=money(t.subtotalCents);
@@ -228,15 +216,10 @@ function renderSummary(){
     saving.innerHTML='';
   }
 
-  var headline=t.bonusCount>0
-    ? 'Yes — send my '+t.shippedCount+' bottles, including '+plural(t.bonusCount,'free bottle')
-    : 'Yes — send my '+plural(t.paidCount,'ORA® bottle');
-  $('offerHeadline').textContent=headline;
-  /* No pitch here — the customer came to this page to pay, and the upgrade
-     panel below is where the offer is made. This line only confirms what they
-     are paying and when it ships. */
-  $('offerSubline').textContent=(t.dealUnlocked?'Locked at ':'')+
-    money(t.unitCents)+' a bottle ex GST, dispatched in 24–48 hours from Brunswick East.';
+  /* The customer's own order, said back to them as the yes they are giving:
+     the bottles they are paying for, then the free ones on top — never the two
+     added together, which reads like they are paying for the bonus stock. */
+  $('offerHeadline').textContent=orderHeadline(t.paidCount,t.bonusCount);
 
   $('editLink').href='index.html?'+CART.encode({quantities:quantities(),bonusChoices:state.bonusChoices},KEYS)+'#builder';
 }
@@ -509,7 +492,7 @@ function renderModal(){
     : '<span class="c'+(ready?' is-ready':'')+'">'+paid+' of '+modal.target+' chosen</span>'+
       '<span class="m">'+(ready?'Ready to continue':
         remaining>0?plural(remaining,'bottle')+' to go':
-        Math.abs(remaining)+' too many)')+'</span>';
+        plural(Math.abs(remaining),'bottle')+' too many')+'</span>';
 
   $('ouBack').hidden=!onStep2;
   $('ouNext').disabled=!onStep2&&!ready;
