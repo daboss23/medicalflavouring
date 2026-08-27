@@ -62,6 +62,10 @@ async function run(){
     assert.notEqual(params.get('amount'),'1');
     assert.equal(params.get('currency'),'aud');
     assert.equal(params.get('automatic_payment_methods[enabled]'),'true');
+    /* Must match the captureMethod Elements is built with in checkout.js.
+       Disagree and Stripe rejects the confirmation, so every payment fails at
+       the final step with nothing wrong upstream of it. */
+    assert.equal(params.get('capture_method'),'automatic');
     assert.equal(params.get('receipt_email'),'harold@northcoterx.com.au');
     assert.equal(params.get('shipping[address][line1]'),'12 Separation St');
     assert.equal(params.get('shipping[address][state]'),'VIC','a lower-case state is normalised');

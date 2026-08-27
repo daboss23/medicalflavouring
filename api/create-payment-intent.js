@@ -128,6 +128,12 @@ module.exports=async function handler(req,res){
     const params=new URLSearchParams();
     params.set('amount',String(quote.totalIncGstCents));
     params.set('currency',Pricing.RULES.currency);
+    /* Elements is built with captureMethod 'automatic' and Stripe refuses to
+       confirm an intent whose capture method disagrees with it. Left unset this
+       follows the account's API-version default — which is automatic_async on
+       current versions — so the two silently drift apart and every payment
+       fails at the last step. Say it, so the pair is one decision. */
+    params.set('capture_method','automatic');
     params.set('description',orderSummary(quote,quantities,productKeys,bonuses));
     params.set('receipt_email',customer.email);
     params.set('shipping[name]',customer.business||fullName);
