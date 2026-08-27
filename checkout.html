@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://js.stripe.com">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    MFS · ORA® secure checkout
@@ -56,6 +56,7 @@
 
   --ease:cubic-bezier(.22,1,.36,1);
   --r-sm:10px; --r-md:14px; --r-lg:20px; --r-pill:999px;
+  --r-btn:12px;                /* rectangular CTA geometry, as on the sales page */
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -174,16 +175,20 @@ svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; str
 /* ============================================================
    Fields
    ============================================================ */
-.co-fields{display:grid; gap:14px; grid-template-columns:1fr 1fr}
-.co-field{position:relative; display:flex; flex-direction:column; min-width:0}
+/* Twelve columns so a pair can be split unevenly — the email address needs the
+   room, a purchase order number does not. */
+.co-fields{display:grid; gap:14px; grid-template-columns:repeat(12,1fr)}
+.co-field{position:relative; display:flex; flex-direction:column; min-width:0; grid-column:span 6}
 .co-field--wide{grid-column:1/-1}
+.co-field--major{grid-column:span 7}
+.co-field--minor{grid-column:span 5}
 
 /* Inline labels: the label sits inside its own box and lifts out of the way
    once there is something to read under it. The control keeps the room for it
    at all times, so nothing shifts when it moves. */
 .co-field label{
   position:absolute; left:14px; top:16px; z-index:1; pointer-events:none;
-  font-size:14.5px; font-weight:500; color:var(--ink-3); letter-spacing:-.005em;
+  font-size:13.5px; font-weight:500; color:var(--ink-3); letter-spacing:-.008em;
   /* One line, always: a wrapped label drops its second line onto the value
      underneath. At rest it is clipped by the box; floated it has room. */
   right:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
@@ -205,7 +210,7 @@ svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; str
 .co-field select:focus ~ label{color:var(--flame)}
 .co-field.is-bad label{color:var(--bad)}
 
-.co-field label .opt{font-weight:500; color:var(--ink-4)}
+.co-field label .opt{font-size:.82em; font-weight:500; color:var(--ink-4)}
 .co-field input,.co-field select,.co-field textarea{
   width:100%; font:inherit; font-size:15.5px; color:var(--ink);
   background:var(--paper);
@@ -232,7 +237,18 @@ svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; str
 .co-field.is-bad input,.co-field.is-bad select,.co-field.is-bad textarea{border-color:var(--bad); box-shadow:0 0 0 3.5px rgba(192,38,26,.10)}
 .co-err{font-size:12.5px; font-weight:550; color:var(--bad); min-height:0}
 .co-field:not(.is-bad) .co-err{display:none}
-@media (max-width:560px){ .co-fields{grid-template-columns:1fr} }
+/* Between the layout collapsing and the page being comfortably wide, the form
+   column is at its narrowest while still paired two-up. The fields carrying the
+   longest labels take the full width through that band rather than truncating
+   them. */
+@media (min-width:941px) and (max-width:1160px){
+  .co-field--major,.co-field--minor,.co-field[data-field="business"]{grid-column:1/-1}
+}
+
+@media (max-width:560px){
+  .co-fields{grid-template-columns:1fr}
+  .co-field,.co-field--major,.co-field--minor{grid-column:1/-1}
+}
 
 .co-check{
   display:flex; align-items:flex-start; gap:11px; cursor:pointer;
@@ -296,24 +312,93 @@ body.is-hosted .co-hosted-note{display:flex}
 body.is-hosted .co-collect{display:none}
 body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
 
-.co-submit{
-  width:100%; border:0; cursor:pointer; color:#fff;
-  font-family:var(--display); font-size:clamp(15px,1.5vw,17.5px); font-weight:800;
-  letter-spacing:-.01em; text-transform:uppercase;
-  padding:19px 22px; border-radius:var(--r-md);
-  background:linear-gradient(174deg,#ff7652 0%,var(--flame-lift) 16%,var(--flame) 52%,#c92508 100%);
-  box-shadow:var(--lift-flame);
-  transition:transform .18s var(--ease), box-shadow .18s var(--ease), filter .18s var(--ease);
-  display:flex; align-items:center; justify-content:center; gap:10px;
+/* ============================================================
+   Buttons — the sales page's CTA system, verbatim, so every button
+   across the site is the same object.
+   ============================================================ */
+.btn{
+  --btn-bg:var(--navy);
+  --btn-fg:#fff;
+  --cta-cycle:3s;
+  position:relative;
+  display:inline-flex; align-items:center; gap:14px;
+  padding:7px 20px 7px 26px;
+  min-height:56px;
+  border:0; border-radius:var(--r-btn);
+  background:var(--btn-bg); color:var(--btn-fg);
+  font-family:var(--display);
+  font-size:15.5px; font-weight:650; letter-spacing:-.005em;
+  cursor:pointer;
+  isolation:isolate;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), background-color .4s var(--ease);
+  will-change:transform;
 }
-.co-submit:hover:not(:disabled){transform:translateY(-1.5px); box-shadow:0 18px 34px -12px rgba(238,60,19,.55)}
-.co-submit:active:not(:disabled){transform:translateY(0)}
-.co-submit:disabled{filter:grayscale(.35) brightness(.94); cursor:not-allowed; box-shadow:none}
-.co-submit svg{width:18px; height:18px; stroke-width:2.2}
-.co-spin{width:17px; height:17px; border:2.2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; display:none}
+.btn::before{
+  content:''; position:absolute; inset:0; border-radius:inherit; z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 52%);
+  opacity:.9;
+}
+.btn:hover:not(:disabled){color:#fff; transform:translateY(-2.5px)}
+.btn:active:not(:disabled){transform:translateY(0) scale(.985); transition-duration:.12s}
+.btn-label{white-space:nowrap; position:relative; z-index:1}
+.btn--block{display:flex; width:100%; justify-content:center}
+
+.btn--flame{
+  --btn-bg:var(--flame);
+  --cta-glow:rgba(255,74,27,.28);
+  border:1px solid rgba(255,128,86,.92);
+  background:linear-gradient(174deg,#ff7652 0%,var(--flame-lift) 16%,var(--flame) 52%,#c92508 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.68),
+    inset 0 -4px 0 rgba(117,18,4,.48),
+    inset 0 0 0 1px rgba(130,20,4,.34),
+    0 13px 28px -10px rgba(238,60,19,.58),
+    0 0 18px rgba(238,60,19,.18);
+  font-size:17px; font-weight:750;
+  letter-spacing:.025em; text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(91,14,2,.34);
+  animation:ctaGlow var(--cta-cycle) ease-in-out infinite;
+}
+.btn--flame:hover:not(:disabled){
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.76),
+    inset 0 -4px 0 rgba(117,18,4,.5),
+    inset 0 0 0 1px rgba(130,20,4,.3),
+    0 20px 42px -11px rgba(238,60,19,.72),
+    0 0 28px rgba(255,78,32,.3);
+}
+.btn--flame::after{
+  content:''; position:absolute; inset:1px; border-radius:calc(var(--r-btn) - 2px); z-index:0; pointer-events:none;
+  background:linear-gradient(105deg,transparent 39%,rgba(255,255,255,.04) 45%,rgba(255,255,255,.3) 50%,rgba(255,255,255,.05) 55%,transparent 61%);
+  background-size:280% 100%; background-position:180% 0; opacity:0;
+  animation:ctaShine var(--cta-cycle) linear infinite;
+}
+@keyframes ctaShine{
+  0%,10%{background-position:180% 0;opacity:0}
+  20%{opacity:.72}
+  74%{opacity:.72}
+  84%,100%{background-position:-80% 0;opacity:0}
+}
+@keyframes ctaGlow{
+  0%,100%{filter:drop-shadow(0 0 0 transparent)}
+  50%{filter:drop-shadow(0 0 8px var(--cta-glow))}
+}
+@media (prefers-reduced-motion:reduce){
+  .btn--flame{animation:none}
+  .btn--flame::after{animation:none; opacity:0}
+}
+.btn:disabled{filter:grayscale(.5) brightness(.8); cursor:not-allowed; box-shadow:none; animation:none}
+.btn:disabled::after{animation:none; opacity:0}
+.btn svg{position:relative; z-index:1; width:18px; height:18px; flex:none; stroke-width:2.2}
+
+.co-spin{
+  position:relative; z-index:1;
+  width:17px; height:17px; border:2.2px solid rgba(255,255,255,.4); border-top-color:#fff;
+  border-radius:50%; animation:spin .7s linear infinite; display:none;
+}
 @keyframes spin{to{transform:rotate(360deg)}}
-.co-submit.is-busy .co-spin{display:block}
-.co-submit.is-busy svg{display:none}
+.btn.is-busy .co-spin{display:block}
+.btn.is-busy > svg{display:none}
 
 .co-status{
   margin:14px 0 0; padding:0; font-size:14.5px; font-weight:550; color:var(--bad);
@@ -579,16 +664,8 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   font:inherit; font-size:13px; font-weight:700; color:rgba(255,255,255,.72);
 }
 .ou-back:hover{color:#fff; text-decoration:underline}
-.ou-cta{
-  flex:1; border:0; border-radius:12px; cursor:pointer; padding:15px 18px;
-  font-family:var(--display); font-size:16px; font-weight:800; letter-spacing:.02em;
-  text-transform:uppercase; color:#fff;
-  background:linear-gradient(180deg,var(--flame-lift),var(--flame) 55%,var(--flame-deep));
-  box-shadow:0 12px 26px -12px rgba(238,60,19,.85);
-  transition:transform .16s ease, box-shadow .2s ease, filter .2s ease;
-}
-.ou-cta:hover:not(:disabled){transform:translateY(-1px); box-shadow:0 16px 32px -12px rgba(238,60,19,.95)}
-.ou-cta:disabled{filter:grayscale(.65) brightness(.72); cursor:not-allowed; box-shadow:none}
+/* The modal's CTA is the site button; it only needs to fill the row. */
+.ou-actions .btn{flex:1}
 
 @media (max-width:560px){
   .ou{padding:0}
@@ -698,12 +775,12 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
           <label for="lastName">Last name</label>
           <p class="co-err" id="lastName-err"></p>
         </div>
-        <div class="co-field" data-field="email">
+        <div class="co-field co-field--major" data-field="email">
           <input placeholder=" " id="email" name="email" type="email" inputmode="email" autocomplete="email" required>
           <label for="email">Email address</label>
           <p class="co-err" id="email-err"></p>
         </div>
-        <div class="co-field" data-field="purchaseOrder">
+        <div class="co-field co-field--minor" data-field="purchaseOrder">
           <input placeholder=" " id="purchaseOrder" type="text" autocomplete="off" maxlength="60">
           <label for="purchaseOrder">Purchase order # <span class="opt">— optional</span></label>
           <p class="co-err" id="purchaseOrder-err"></p>
@@ -843,10 +920,10 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
       <p class="co-err" id="payment-err" style="margin-top:8px"></p>
     </section>
 
-    <button type="submit" class="co-submit" id="payButton">
-      <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>
+    <button type="submit" class="btn btn--flame btn--block" id="payButton">
+      <svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>
       <span class="co-spin" aria-hidden="true"></span>
-      <span id="payLabel">Complete my order</span>
+      <span class="btn-label" id="payLabel">Complete my order</span>
     </button>
     <p class="co-status" id="status" role="status" aria-live="polite"></p>
 
@@ -960,8 +1037,8 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
       <div class="ou-tally" id="ouTally"></div>
       <div class="ou-actions">
         <button class="ou-back" type="button" id="ouBack" hidden>&larr; Back to bottles</button>
-        <button class="ou-cta" type="button" id="ouNext">
-          <span id="ouNextLabel">Choose my free bottles</span>
+        <button class="btn btn--flame btn--block" type="button" id="ouNext">
+          <span class="btn-label" id="ouNextLabel">Choose my free bottles</span>
         </button>
       </div>
     </footer>
