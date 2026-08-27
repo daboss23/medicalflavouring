@@ -93,6 +93,19 @@
     return additionsTo(quantities,keys,RULES.boostedThreshold);
   }
 
+  /* GST on the bottles, worked out line by line rather than as ten per cent of
+     the subtotal in one go. Stripe rounds the tax on each line item it is sent,
+     so a basket split across products lands a cent or two away from a single
+     rounded 10% of the whole — the page would quote $230.93 and the card would
+     be charged $230.94. Rounding here the way Stripe rounds there keeps the
+     quoted total and the charged total the same number. */
+  function bottleGstCents(quantities,unitCents){
+    return Object.keys(quantities||{}).reduce(function(total,key){
+      var count=cleanQuantity(quantities[key]);
+      return total+(count?Math.round(count*unitCents*RULES.gstRate):0);
+    },0);
+  }
+
   function quote(quantities){
     var paid=paidCount(quantities);
     var dealUnlocked=paid>=RULES.dealThreshold;
@@ -106,7 +119,7 @@
     var freightGstCents=Math.round(freightCents*RULES.gstRate);
     /* `gstCents` is the GST on everything charged — bottles and freight — which
        is what the summary's "GST (10%)" line sits beneath. */
-    var gstCents=Math.round(subtotalCents*RULES.gstRate)+freightGstCents;
+    var gstCents=bottleGstCents(quantities,unitCents)+freightGstCents;
     var totalIncGstCents=subtotalCents+gstCents+freightCents;
     var effectiveUnitCents=shipped?Math.floor(subtotalCents/shipped):0;
     var listValueCents=shipped*RULES.listUnitCents;

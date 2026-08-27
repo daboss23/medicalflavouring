@@ -36,6 +36,25 @@ assert.equal(quote(3).totalIncGstCents,3*3299+3000+Math.round((3*3299+3000)*0.1)
 assert.equal(quote(3).freightGstCents,300);
 assert.equal(quote(3).gstCents,Math.round(3*3299*0.1)+300);
 
+/* GST is rounded line by line, the way Stripe rounds the tax on each line item
+   it is sent, so the total quoted on the page is the total the card is charged.
+   Six of one product and six split across three are both $179.94 of bottles,
+   but their GST differs by a cent — and each matches its own Stripe basket. */
+const split=Pricing.quote({plus:2,sweet:2,sweetsf:0,blend:2,blendsf:0});
+assert.equal(split.subtotalCents,17994);
+assert.equal(split.gstCents,3*Math.round(2*2999*0.1)+300);
+assert.equal(split.gstCents,2100);
+assert.equal(split.totalIncGstCents,split.subtotalCents+split.gstCents+split.freightCents);
+assert.equal(quote(6).gstCents,2099);
+
+/* Whatever the mix, the parts always add up to the total that is charged. */
+for(const basket of [{plus:1,sweet:1},{plus:5,blend:2},{plus:3,sweet:3,blend:3,blendsf:3},{sweetsf:7}]){
+  const result=Pricing.quote(basket);
+  const perLine=Object.keys(basket).reduce((total,key)=>total+Math.round(basket[key]*result.unitCents*0.1),0);
+  assert.equal(result.gstCents,perLine+result.freightGstCents);
+  assert.equal(result.totalIncGstCents,result.subtotalCents+result.gstCents+result.freightCents);
+}
+
 assert.equal(quote(18).bonusCount,4);
 assert.equal(quote(24).bonusCount,6);
 assert.equal(Pricing.quote({plus:2,sweet:2,blend:2}).subtotalCents,17994);
