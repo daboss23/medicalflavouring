@@ -232,9 +232,11 @@ function renderSummary(){
     ? 'Yes — send my '+t.shippedCount+' bottles, including '+plural(t.bonusCount,'free bottle')
     : 'Yes — send my '+plural(t.paidCount,'ORA® bottle');
   $('offerHeadline').textContent=headline;
-  $('offerSubline').textContent=t.dealUnlocked
-    ? 'Locked at '+money(t.unitCents)+' a bottle ex GST, dispatched in 24–48 hours from Brunswick East.'
-    : 'Add '+plural(t.toNextThreshold,'more bottle')+' to unlock '+money(RULES.dealUnitCents)+' pricing and a free bottle.';
+  /* No pitch here — the customer came to this page to pay, and the upgrade
+     panel below is where the offer is made. This line only confirms what they
+     are paying and when it ships. */
+  $('offerSubline').textContent=(t.dealUnlocked?'Locked at ':'')+
+    money(t.unitCents)+' a bottle ex GST, dispatched in 24–48 hours from Brunswick East.';
 
   $('editLink').href='index.html?'+CART.encode({quantities:quantities(),bonusChoices:state.bonusChoices},KEYS)+'#builder';
 }
