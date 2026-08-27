@@ -2354,11 +2354,11 @@ function render(){
     if(named.length){
       named.forEach(function(s){
         var q=bonusTally[s.key];
-        lines += '<div class="stack-line is-free"><span class="k">'+q+' × '+s.name+', yours free</span>'+
+        lines += '<div class="stack-line is-free"><span class="k">'+q+' × Free Bottle - '+s.name+'</span>'+
           '<span class="v">'+moneyCents(q*RULES.listUnitCents)+' → $0.00</span></div>';
       });
     }else{
-      lines += '<div class="stack-line is-free"><span class="k">'+t.bonusCount+' × bonus bottle'+(t.bonusCount===1?'':'s')+', yours free</span><span class="v">'+moneyCents(t.bonusCount*RULES.listUnitCents)+' → $0.00</span></div>';
+      lines += '<div class="stack-line is-free"><span class="k">'+t.bonusCount+' × Free Bottle</span><span class="v">'+moneyCents(t.bonusCount*RULES.listUnitCents)+' → $0.00</span></div>';
     }
   }
   if(!lines) lines = '<div class="stack-line"><span class="k">Nothing selected yet</span><span class="v">0</span></div>';
