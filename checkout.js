@@ -76,7 +76,11 @@ function quote(){
 function upgrade(){
   var basePaid=PRICING.paidCount(state.base);
   if(basePaid<1) return null;
-  var target=PRICING.nextThreshold(basePaid);
+  /* The offer is the twelve-bottle upgrade, whatever is in the basket — one
+     bottle is offered the same twelve as five or as eleven. It is not the next
+     threshold up, which would offer a small basket six. */
+  var target=RULES.boostedThreshold;
+  if(basePaid>=target) return null;
   var additions=PRICING.additionsTo(state.base,KEYS,target);
   var added=KEYS.reduce(function(total,key){ return total+(additions[key]||0); },0);
   if(added<1) return null;
