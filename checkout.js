@@ -264,7 +264,6 @@ function renderLines(){
   });
 
   $('orderLines').innerHTML=paidRows.concat(freeRows).join('');
-  $('gettingCount').textContent=plural(t.shippedCount,'bottle');
   $('subtotalLabel').textContent=plural(t.paidCount,'bottle')+' ex GST';
 }
 
