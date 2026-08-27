@@ -68,16 +68,21 @@ node tests/thank-you-api.test.js
 
 ### The checkout page
 
-`checkout.html` is where an order is completed. The basket travels from the sales page in the URL
+`checkout.html` is where an order is completed, and where the upgrade is offered. The basket travels from the sales page in the URL
 (`checkout.html?q=plus:4,sweet:2&b=blend`), so a checkout link can be quoted, shared or bookmarked, and
 `cart.js` keeps it in `sessionStorage` so a reload or a trip back to the builder does not lose it. Nothing
 about the price travels with it: the page holds no prices of its own, reads every figure from `pricing.js`,
 and the server recalculates the whole quote again before Stripe sees an amount.
 
-- **Price options and the order bump are the same offer, mirrored.** The upgrade is derived from the
-  pricing rules — the next bonus threshold above the current basket, the bottles needed to reach it spread
-  across what is already in the basket, and what the extra free stock is worth. Ticking either control
-  moves the other.
+- **The order bump lives here, not on the sales page.** The sales page sells the 1-on-6 offer only; the
+  12-bottle upgrade is first seen at checkout, after the customer has committed to buying.
+- **Taking the upgrade opens a two-step modal.** Step one builds the paid bottles by hand — any mix across
+  the range, a running tally, and no way forward until it lands exactly on the threshold. Step two chooses
+  the free bottles. ADD TO CART is the only thing that writes to the basket, so backing out at any point
+  leaves the order exactly as it was. Re-opening it shows what was chosen rather than starting over.
+- **An accepted upgrade replaces the basket** with the customer's own selection. Nothing is spread across
+  their existing mix behind their back, and the order summary, the free-bottle pickers and the Stripe
+  amount all repopulate from it.
 - **The card field is a Stripe Payment Element** in deferred-intent mode, so changing the order updates the
   amount without a server round trip and no PaymentIntent is opened for a basket nobody pays for.
 - **One customer, one PaymentIntent.** A declined card or a corrected typo updates the existing intent

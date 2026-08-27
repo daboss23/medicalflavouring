@@ -402,6 +402,196 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
 .co-bump li svg{width:15px; height:15px; color:var(--flame); margin-top:2px}
 .co-bump-foot{margin:12px 0 0 32px; font-size:12.5px; color:var(--ink-3)}
 
+/* The upgrade panel, carrying the sales page's offer treatment onto checkout:
+   marching dashes, the flame headline, the lineup shot. It is the one loud
+   thing on a deliberately quiet page, so it has to earn the noise. */
+.co-bump{
+  position:relative; overflow:hidden;
+  border:0; border-radius:16px; padding:0;
+  background:linear-gradient(180deg,#eef4fd,#ffffff);
+  box-shadow:0 18px 40px -24px rgba(6,25,50,.5);
+}
+.co-bump::before{
+  content:""; position:absolute; inset:0; border-radius:16px; pointer-events:none; z-index:1;
+  border:2.5px dashed var(--flame);
+  background-image:repeating-linear-gradient(90deg,var(--flame) 0 12px,transparent 12px 24px);
+  background-size:24px 2.5px; background-repeat:repeat-x; background-position:0 0;
+  animation:coBumpMarch 1.1s linear infinite;
+}
+@keyframes coBumpMarch{ to{ background-position:24px 0 } }
+@media (prefers-reduced-motion:reduce){ .co-bump::before{animation:none} }
+.co-bump.is-on{box-shadow:0 20px 44px -20px rgba(238,60,19,.55)}
+.co-bump-accept{
+  position:relative; z-index:2; display:flex; align-items:center; justify-content:center; gap:12px;
+  padding:14px 16px; cursor:pointer;
+  background:linear-gradient(180deg,#dce9fb,#cfe0f7);
+  border-bottom:2px dashed rgba(238,60,19,.5);
+}
+.co-bump-input{position:absolute; opacity:0; pointer-events:none}
+.co-bump-check{
+  display:grid; place-items:center; width:26px; height:26px; flex:none;
+  border-radius:7px; background:#fff; box-shadow:inset 0 0 0 2.5px var(--flame);
+  transition:background .2s ease, transform .3s cubic-bezier(.2,1.3,.4,1);
+}
+.co-bump-check svg{
+  width:16px; height:16px; fill:none; stroke:#fff; stroke-width:3;
+  stroke-linecap:round; stroke-linejoin:round;
+  opacity:0; transform:scale(.4); transition:opacity .2s ease, transform .3s cubic-bezier(.2,1.3,.4,1);
+}
+.co-bump-input:checked + .co-bump-check{background:var(--flame); transform:scale(1.06)}
+.co-bump-input:checked + .co-bump-check svg{opacity:1; transform:scale(1)}
+.co-bump-input:focus-visible + .co-bump-check{outline:3px solid var(--navy); outline-offset:3px}
+.co-bump-yes{
+  font-family:var(--display); font-weight:800; font-size:16px; letter-spacing:.01em;
+  text-transform:uppercase; color:var(--flame);
+}
+.co-bump-body{position:relative; z-index:2; padding:16px 18px 18px}
+.co-bump-lead{margin:0; font-size:14px; line-height:1.55; color:var(--ink-2)}
+.co-bump-lead .ot{
+  display:inline; font-weight:800; color:var(--flame);
+  text-transform:uppercase; text-decoration:underline; text-underline-offset:3px;
+}
+.co-bump-lead b{font-weight:800; color:var(--ink)}
+.co-bump-title{
+  margin:12px 0 8px; text-align:center; font-family:var(--display); font-weight:900;
+  font-size:clamp(26px,5.4vw,34px); line-height:1; letter-spacing:-.02em;
+  text-transform:uppercase; color:var(--flame);
+}
+.co-bump-shot{display:block; width:100%; height:auto; margin:0 0 14px}
+.co-bump ul{list-style:none; margin:0; padding:0; display:grid; gap:9px}
+.co-bump li{display:grid; grid-template-columns:auto 1fr; gap:10px; font-size:13.5px; color:var(--ink-2); line-height:1.45}
+.co-bump li svg{width:16px; height:16px; fill:none; stroke:var(--flame); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; margin-top:2px}
+.co-bump li b{color:var(--ink); font-weight:800}
+.co-bump-foot{
+  margin:14px 0 0; padding:11px 13px; border-radius:9px; text-align:center;
+  background:rgba(238,60,19,.08); color:var(--flame); font-size:13px; font-weight:700;
+}
+.co-bump.is-on .co-bump-foot{cursor:pointer; text-decoration:underline; text-underline-offset:3px}
+.co-bump-fine{margin:10px 0 0; text-align:center; font-size:12.5px; font-style:italic; font-weight:700; color:var(--ink-2)}
+
+/* ============================================================
+   Offer-upgrade modal — pick the bottles, then the free ones
+   ============================================================ */
+.ou[hidden]{display:none}
+.ou{position:fixed; inset:0; z-index:90; display:grid; place-items:center; padding:16px}
+.ou-veil{position:absolute; inset:0; background:rgba(6,16,32,.62); backdrop-filter:blur(3px); animation:ouFade .2s ease}
+.ou-panel{
+  position:relative; width:min(680px,100%); max-height:calc(100dvh - 32px);
+  display:flex; flex-direction:column; overflow:hidden;
+  border-radius:18px; background:var(--navy-deep); color:#fff;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.7);
+  animation:ouRise .28s cubic-bezier(.2,.9,.3,1);
+}
+@keyframes ouFade{ from{opacity:0} }
+@keyframes ouRise{ from{opacity:0; transform:translateY(14px) scale(.985)} }
+@media (prefers-reduced-motion:reduce){ .ou-veil,.ou-panel{animation:none} }
+.ou-x{
+  position:absolute; top:12px; right:12px; z-index:3; display:grid; place-items:center;
+  width:34px; height:34px; border:0; border-radius:9px; cursor:pointer;
+  background:rgba(255,255,255,.12); color:#fff;
+}
+.ou-x:hover{background:rgba(255,255,255,.22)}
+.ou-x svg{width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round}
+
+.ou-head{padding:22px 22px 16px; border-bottom:1px solid rgba(255,255,255,.12)}
+.ou-flag{
+  display:inline-block; padding:5px 11px; border-radius:999px; background:var(--flame);
+  font-size:10.5px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+}
+.ou-head h2{margin:10px 0 5px; font-family:var(--display); font-size:clamp(21px,4vw,26px); font-weight:800; letter-spacing:-.02em}
+.ou-head p{margin:0; font-size:13.5px; color:rgba(255,255,255,.72); line-height:1.5}
+.ou-steps{list-style:none; display:flex; gap:8px; margin:14px 0 0; padding:0}
+.ou-steps li{
+  display:flex; align-items:center; gap:7px; padding:6px 12px 6px 7px; border-radius:999px;
+  background:rgba(255,255,255,.07); font-size:12.5px; font-weight:700; color:rgba(255,255,255,.6);
+  transition:background .2s ease, color .2s ease;
+}
+.ou-steps li b{
+  display:grid; place-items:center; width:20px; height:20px; border-radius:50%;
+  background:rgba(255,255,255,.16); font-size:11.5px;
+}
+.ou-steps li.is-on{background:rgba(238,60,19,.9); color:#fff}
+.ou-steps li.is-on b{background:rgba(0,0,0,.25)}
+
+/* The two steps sit side by side and slide; nothing unmounts, so a step back
+   still holds everything that was chosen on it. */
+.ou-rail{display:flex; flex:1; min-height:0; width:200%; transition:transform .34s cubic-bezier(.3,.9,.3,1)}
+.ou-rail.at-2{transform:translateX(-50%)}
+@media (prefers-reduced-motion:reduce){ .ou-rail{transition:none} }
+.ou-step{width:50%; flex:none; overflow-y:auto; padding:18px 22px}
+
+.ou-skus{display:grid; gap:10px}
+.ou-sku{
+  display:grid; grid-template-columns:52px 1fr auto; align-items:center; gap:13px;
+  padding:11px 13px; border-radius:12px;
+  background:rgba(255,255,255,.055); border:1.5px solid rgba(255,255,255,.09);
+  transition:border-color .2s ease, background .2s ease;
+}
+.ou-sku.is-on{border-color:var(--tint,var(--flame)); background:rgba(255,255,255,.1)}
+.ou-sku img{width:52px; height:52px; object-fit:contain; border-radius:8px; background:rgba(255,255,255,.94); padding:4px}
+.ou-sku .n{font-size:14.5px; font-weight:800; letter-spacing:-.01em}
+.ou-sku .s{font-size:11.5px; color:rgba(255,255,255,.6); margin-top:2px}
+.ou-step-ctl{display:flex; align-items:center; gap:2px; background:rgba(0,0,0,.28); border-radius:10px; padding:3px}
+.ou-step-ctl button{
+  width:32px; height:32px; border:0; border-radius:8px; cursor:pointer;
+  background:transparent; color:#fff; font-size:19px; font-weight:700; line-height:1;
+}
+.ou-step-ctl button:hover:not(:disabled){background:rgba(255,255,255,.16)}
+.ou-step-ctl button:disabled{opacity:.28; cursor:not-allowed}
+.ou-step-ctl .q{min-width:34px; text-align:center; font-size:15.5px; font-weight:800; font-variant-numeric:tabular-nums}
+
+.ou-free{display:grid; gap:11px}
+.ou-free-row{display:grid; grid-template-columns:auto 1fr; align-items:center; gap:12px}
+.ou-free-row .lbl{
+  display:grid; place-items:center; width:34px; height:34px; border-radius:50%;
+  background:var(--flame); font-size:13px; font-weight:800;
+}
+.ou-free-row select{
+  width:100%; padding:12px 13px; border-radius:10px; font:inherit; font-size:14.5px; font-weight:600;
+  background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.18); color:#fff;
+  appearance:none; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23ffffff'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 11px center; background-size:17px;
+}
+.ou-free-row select option{background:var(--navy-deep); color:#fff}
+.ou-free-row select:focus{outline:none; border-color:var(--flame); box-shadow:0 0 0 3px rgba(238,60,19,.3)}
+.ou-free-note{margin:14px 0 0; font-size:13px; color:rgba(255,255,255,.62); line-height:1.5}
+
+.ou-foot{
+  padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.22); display:grid; gap:12px;
+}
+.ou-tally{display:flex; align-items:baseline; justify-content:space-between; gap:12px; font-size:13.5px}
+.ou-tally .c{font-weight:800; font-size:15px}
+.ou-tally .c.is-ready{color:#5fe3a1}
+.ou-tally .m{color:rgba(255,255,255,.66)}
+.ou-actions{display:flex; align-items:center; gap:12px}
+.ou-back{
+  border:0; background:none; cursor:pointer; padding:6px 2px; flex:none;
+  font:inherit; font-size:13px; font-weight:700; color:rgba(255,255,255,.72);
+}
+.ou-back:hover{color:#fff; text-decoration:underline}
+.ou-cta{
+  flex:1; border:0; border-radius:12px; cursor:pointer; padding:15px 18px;
+  font-family:var(--display); font-size:16px; font-weight:800; letter-spacing:.02em;
+  text-transform:uppercase; color:#fff;
+  background:linear-gradient(180deg,var(--flame-lift),var(--flame) 55%,var(--flame-deep));
+  box-shadow:0 12px 26px -12px rgba(238,60,19,.85);
+  transition:transform .16s ease, box-shadow .2s ease, filter .2s ease;
+}
+.ou-cta:hover:not(:disabled){transform:translateY(-1px); box-shadow:0 16px 32px -12px rgba(238,60,19,.95)}
+.ou-cta:disabled{filter:grayscale(.65) brightness(.72); cursor:not-allowed; box-shadow:none}
+
+@media (max-width:560px){
+  .ou{padding:0}
+  .ou-panel{width:100%; max-height:100dvh; height:100dvh; border-radius:0}
+  .ou-step{padding:16px}
+  .ou-head{padding:20px 16px 14px}
+  .ou-foot{padding:12px 16px 16px}
+  .ou-sku{grid-template-columns:44px 1fr auto; gap:10px; padding:10px}
+  .ou-sku img{width:44px; height:44px}
+}
+
 /* Summary */
 .co-sums{border-top:1px solid var(--line); margin-top:18px; padding-top:16px; display:grid; gap:9px}
 .co-sum{display:flex; align-items:baseline; justify-content:space-between; gap:16px; font-size:14.5px; color:var(--ink-2)}
@@ -692,13 +882,20 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
       </details>
 
       <div class="co-bump" id="bump" hidden>
-        <span class="co-bump-flag">Most popular upgrade</span>
-        <label class="co-bump-label">
-          <input type="checkbox" class="co-check-box" id="bumpToggle">
-          <span class="txt" id="bumpTitle"></span>
+        <label class="co-bump-accept" for="bumpToggle">
+          <input type="checkbox" class="co-bump-input" id="bumpToggle">
+          <span class="co-bump-check"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg></span>
+          <span class="co-bump-yes">Yes! Upgrade my order</span>
         </label>
-        <ul id="bumpPoints"></ul>
-        <p class="co-bump-foot" id="bumpFoot"></p>
+        <div class="co-bump-body">
+          <p class="co-bump-lead" id="bumpLead"></p>
+          <p class="co-bump-title">Offer Upgrade</p>
+          <img class="co-bump-shot" src="assets/twelve-bottle-lineup.png" width="1800" height="607" loading="lazy"
+               alt="Twelve ORA bottles supplied with three free bonus bottles">
+          <ul id="bumpPoints"></ul>
+          <p class="co-bump-foot" id="bumpFoot"></p>
+          <p class="co-bump-fine">(This offer is not available at ANY other time or place)</p>
+        </div>
       </div>
 
       <div class="co-sums">
@@ -726,6 +923,51 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   <p>© <span id="year">2026</span> Medical Flavouring Systems · P.O. Box 270, Brunswick East VIC 3057 · ORA® is a registered trademark of Padagis.</p>
   <p><a href="index.html">Back to the shop</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="studies.html">Stability studies</a></p>
 </footer>
+
+<!-- ============================================================
+     Offer upgrade — build your 12, then choose your free bottles
+     ============================================================ -->
+<div class="ou" id="upgradeModal" hidden>
+  <div class="ou-veil" data-ou-close></div>
+  <div class="ou-panel" role="dialog" aria-modal="true" aria-labelledby="ouTitle">
+    <button class="ou-x" type="button" data-ou-close aria-label="Close">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+    </button>
+
+    <header class="ou-head">
+      <span class="ou-flag">Offer upgrade</span>
+      <h2 id="ouTitle">Build your <span id="ouTarget">12</span>-bottle order</h2>
+      <p id="ouSub">Mix any ORA&reg; products you like — every bottle at the deal price.</p>
+      <ol class="ou-steps">
+        <li class="is-on" data-step-dot="1"><b>1</b> Your bottles</li>
+        <li data-step-dot="2"><b>2</b> Free bottles</li>
+      </ol>
+    </header>
+
+    <div class="ou-rail" id="ouRail">
+      <!-- Step 1 — choose the paid bottles -->
+      <section class="ou-step" data-step="1">
+        <div class="ou-skus" id="ouSkus"></div>
+      </section>
+
+      <!-- Step 2 — choose the free bottles -->
+      <section class="ou-step" data-step="2">
+        <div class="ou-free" id="ouFree"></div>
+        <p class="ou-free-note" id="ouFreeNote"></p>
+      </section>
+    </div>
+
+    <footer class="ou-foot">
+      <div class="ou-tally" id="ouTally"></div>
+      <div class="ou-actions">
+        <button class="ou-back" type="button" id="ouBack" hidden>&larr; Back to bottles</button>
+        <button class="ou-cta" type="button" id="ouNext">
+          <span id="ouNextLabel">Choose my free bottles</span>
+        </button>
+      </div>
+    </footer>
+  </div>
+</div>
 
 <script src="pricing.js"></script>
 <script src="catalog.js"></script>

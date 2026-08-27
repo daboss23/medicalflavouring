@@ -75,13 +75,20 @@ Full list: <https://docs.stripe.com/testing>
 
 **On the shop page**
 
-- Adding six bottles triggers the deal price and offers a free seventh.
+- Adding six bottles triggers the deal price and offers a free seventh. The 12-bottle upgrade is
+  **not** offered here — it belongs to the checkout page.
 - The running total matches $29.99 a bottle at six or more, $32.99 below that.
 
 **On the checkout page** (`/checkout.html`)
 
 - The bottles, free bottles and totals match what the shop page showed.
-- Ticking the order bump also selects the upgrade price option, and unticking either clears both.
+- Ticking the order bump opens the upgrade modal; the tick only lands once ADD TO CART is pressed.
+- Closing the modal with the X, the veil or Escape leaves the order untouched.
+- The modal will not advance until exactly the threshold number of bottles is chosen, and the
+  free-bottle step offers one row per free bottle.
+- After ADD TO CART the order summary lists exactly the bottles chosen, paid and free, and the
+  total matches. Unticking the bump puts the original basket back.
+- Re-opening the bump (its footer) shows the selection that was made, not a fresh start.
 - The total, the pay button and the Stripe amount all move together when you switch options.
 - Submitting an empty form marks the first missing field, focuses it and explains what is wrong.
 - A declined card leaves you on the page with the reason, and paying again reuses the same

@@ -988,105 +988,6 @@ p{text-wrap:pretty}
   box-shadow:inset 0 0 0 1px rgba(26,157,106,.20);
   font-size:13.5px; font-weight:560; line-height:1.45;
 }
-/* Order bump */
-.bump{
-  isolation:isolate; position:relative; overflow:hidden;
-  width:100%; text-align:left; margin-top:20px;
-  display:block; padding:0; border:0; border-radius:14px;
-  background:#f4f9ff; color:var(--ink);
-  box-shadow:0 18px 40px -22px rgba(6,25,50,.6);
-  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
-}
-/* marching dashed border that travels around the offer */
-.bump::before{
-  content:'';position:absolute;inset:0;z-index:3;border-radius:inherit;pointer-events:none;
-  background-image:
-    repeating-linear-gradient(90deg,var(--flame) 0 14px,transparent 14px 26px),
-    repeating-linear-gradient(90deg,var(--flame) 0 14px,transparent 14px 26px),
-    repeating-linear-gradient(0deg,var(--flame) 0 14px,transparent 14px 26px),
-    repeating-linear-gradient(0deg,var(--flame) 0 14px,transparent 14px 26px);
-  background-size:100% 3px,100% 3px,3px 100%,3px 100%;
-  background-repeat:repeat-x,repeat-x,repeat-y,repeat-y;
-  background-position:0 0,0 100%,0 0,100% 0;
-  animation:bumpMarch 1.1s linear infinite;
-}
-.bump::after{
-  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
-  background:radial-gradient(120% 70% at 50% 0%,rgba(28,77,134,.07),transparent 62%);
-}
-@keyframes bumpMarch{
-  to{background-position:26px 0,-26px 100%,0 -26px,100% 26px}
-}
-.bump:hover{transform:translateY(-2px);box-shadow:0 24px 48px -22px rgba(6,25,50,.75)}
-.bump[hidden]{display:none}
-.bump-input{position:absolute;opacity:0;pointer-events:none}
-
-/* yellow accept bar */
-.bump-accept{
-  position:relative;z-index:2;
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  padding:13px 18px; cursor:pointer;
-  background:linear-gradient(180deg,#dbeafb,#c3ddf6);
-  border-bottom:2px dashed rgba(238,60,19,.45);
-}
-.bump-check{
-  flex:none; width:24px; height:24px; border-radius:5px;
-  display:grid; place-items:center; background:#fff;
-  box-shadow:inset 0 0 0 2px var(--flame);
-  color:#fff;
-  transition:background-color .3s var(--ease),transform .35s var(--ease-spring),box-shadow .3s var(--ease);
-}
-.bump-input:focus-visible + .bump-check{outline:3px solid var(--navy);outline-offset:3px}
-.bump-input:checked + .bump-check{background:var(--flame);box-shadow:inset 0 0 0 2px var(--flame),0 0 0 4px rgba(238,60,19,.22);transform:scale(1.06)}
-.bump-check svg{width:15px;height:15px;opacity:0;transform:scale(.4) rotate(-12deg);transition:opacity .25s var(--ease),transform .35s var(--ease-spring)}
-.bump-input:checked + .bump-check svg{opacity:1;transform:scale(1) rotate(0)}
-.bump-yes{
-  font-family:var(--display); font-size:17px; font-weight:850; letter-spacing:-.01em;
-  color:var(--flame-deep); text-transform:uppercase; line-height:1.2;
-}
-
-/* body */
-.bump-body{position:relative;z-index:2;padding:16px 18px 18px}
-.bump-lead{margin:0;font-family:var(--body);font-size:14.5px;line-height:1.55;color:var(--ink-2)}
-.bump-lead .ot{
-  font-weight:800;color:var(--flame-deep);text-transform:uppercase;letter-spacing:.01em;
-  text-decoration:underline;text-underline-offset:2px;
-}
-.bump-lead b{font-weight:800;color:var(--ink)}
-.bump-title{
-  margin:15px 0 14px;text-align:center;
-  font-family:var(--display);font-size:clamp(27px,4.4vw,35px);font-weight:850;
-  letter-spacing:-.035em;line-height:1;color:var(--flame);text-transform:uppercase;
-  text-shadow:0 2px 0 rgba(155,30,6,.16);
-}
-.bump-shot{
-  display:block;width:100%;height:auto;margin:0 auto 14px;
-  background:transparent;
-}
-.bump-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
-.bump-list li{
-  display:flex;align-items:flex-start;gap:10px;
-  font-family:var(--body);font-size:14.5px;line-height:1.45;color:var(--ink-2);
-}
-.bump-list .ic{
-  flex:none;width:17px;height:17px;margin-top:1px;display:grid;place-items:center;
-  color:#1a9c5b;
-}
-.bump-list .ic svg{width:17px;height:17px}
-.bump-list b{color:var(--ink);font-weight:800}
-.bump-status{
-  margin:13px 0 0;padding:9px 12px;border-radius:8px;text-align:center;
-  background:rgba(238,60,19,.07);box-shadow:inset 0 0 0 1px rgba(238,60,19,.16);
-  font-size:12.5px;font-weight:650;line-height:1.45;color:var(--flame-deep);
-}
-.bump.is-on .bump-status{
-  background:rgba(26,156,91,.09);box-shadow:inset 0 0 0 1px rgba(26,156,91,.24);color:#127a46;
-}
-.bump-fine{
-  margin:10px 0 0;text-align:center;
-  font-size:13.5px;font-style:italic;font-weight:750;line-height:1.45;color:var(--ink-2);
-}
-.bump.is-on{box-shadow:0 20px 44px -20px rgba(238,60,19,.6)}
 .sum-fine{margin-top:14px; font-size:12px; line-height:1.5; color:var(--ink-4); text-align:center}
 
 /* Value stack */
@@ -1619,11 +1520,6 @@ body.has-product-modal{overflow:hidden}
   .bonus-field select{min-height:44px;font-size:14px}
   .sum-line{font-size:13.5px}
   .sum-line.is-total .v{font-size:24px}
-  .bump{border-radius:12px}
-  .bump-accept{padding:12px 14px;gap:10px}
-  .bump-yes{font-size:15px}
-  .bump-body{padding:14px 14px 16px}
-  .bump-lead,.bump-list li{font-size:13px}
   .testimonial-slide{padding:30px 22px;gap:17px}
   .testimonial-copy{font-size:20px;line-height:1.48}
   .ob-facts .ob-item:nth-child(3),.ob-facts .ob-rule:nth-child(4){display:none}
@@ -2033,27 +1929,6 @@ body.has-product-modal{overflow:hidden}
         <div class="sum-line is-total"><span class="k">Total inc GST</span><span class="v" id="orderTotal">$0.00</span></div>
         <div class="saving-note" id="savingNote">1–5 bottles are $32.99 each.</div>
 
-        <div class="bump" id="twelveBump" hidden>
-          <label class="bump-accept" for="twelveBumpToggle">
-            <input class="bump-input" id="twelveBumpToggle" type="checkbox">
-            <span class="bump-check"><svg viewBox="0 0 20 20"><use href="#i-check"/></svg></span>
-            <span class="bump-yes">Yes! Upgrade My Order</span>
-          </label>
-          <div class="bump-body">
-            <p class="bump-lead"><span class="ot">One time offer &mdash; Unlock <span id="bumpFreeA">3</span> Free Bottles:</span> Buy <span id="bumpPaid">12</span> and receive <b><span id="bumpFreeB">3</span> extra free bottles!</b> Check YES above to add this special offer to your order now and <b>save <span id="bumpSave">$98.97</span></b>.</p>
-            <p class="bump-title">Offer Upgrade</p>
-            <img class="bump-shot" src="assets/twelve-bottle-lineup.png" alt="Twelve ORA bottles supplied with three free bonus bottles" loading="lazy" width="1800" height="607">
-            <ul class="bump-list">
-              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span><b><span id="bumpFreeD">3</span> free bottles</b> instead of the standard <span id="bumpFreeNow2">1</span></span></li>
-              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span><span id="bumpShipped">15</span> bottles shipped for the price of <span id="bumpPaid2">12</span></span></li>
-              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span>Mix any ORA&reg; products across your order</span></li>
-              <li><span class="ic"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg></span><span>Locked at <b><span id="bumpUnit">$29.99</span></b> per bottle, ex GST</span></li>
-            </ul>
-            <p class="bump-status" id="twelveBumpText">Tick to add 6 more bottles using your current product mix.</p>
-            <p class="bump-fine">(This offer is not available at ANY other time or place)</p>
-          </div>
-        </div>
-
         <button class="btn btn--flame btn--block" id="addBundle" type="button" style="margin-top:16px">
           <span class="btn-label">Continue to checkout</span>
           <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
@@ -2315,7 +2190,6 @@ var state = {
   qty:restoredCart.quantities,
   pdp:'blend',
   bonusChoices:restoredCart.bonusChoices.slice(),
-  twelveBoost:{active:false,additions:{}},
   lastFree:0
 };
 
@@ -2391,7 +2265,6 @@ document.addEventListener('click', function(e){
 });
 
 function bumpQty(key, delta){
-  if(state.twelveBoost.active) removeTwelveBoost();
   var next = Math.max(0, (state.qty[key]||0) + delta);
   if(next === state.qty[key]) return;
   state.qty[key] = next;
@@ -2399,30 +2272,7 @@ function bumpQty(key, delta){
   document.querySelectorAll('[data-qty="'+key+'"]').forEach(function(el){ pop(el,'is-bumped'); });
 }
 
-function removeTwelveBoost(){
-  if(!state.twelveBoost.active) return;
-  SKUS.forEach(function(s){
-    state.qty[s.key]=Math.max(0,(state.qty[s.key]||0)-(state.twelveBoost.additions[s.key]||0));
-  });
-  state.twelveBoost={active:false,additions:{}};
-}
 
-$('#twelveBumpToggle').addEventListener('change', function(){
-  if(this.checked){
-    var additions=PRICING.boostAdditions(state.qty,SKUS.map(function(s){ return s.key; }));
-    var added=Object.keys(additions).reduce(function(total,key){ return total+additions[key]; },0);
-    if(!added){
-      this.checked=false;
-      return;
-    }
-    Object.keys(additions).forEach(function(key){ state.qty[key]=(state.qty[key]||0)+additions[key]; });
-    state.twelveBoost={active:true,additions:additions};
-    render();
-  }else{
-    removeTwelveBoost();
-    render();
-  }
-});
 
 /* ============================================================
    Totals + render
@@ -2482,36 +2332,6 @@ function render(){
     $('#savingNote').textContent='Full price applies: '+moneyCents(RULES.listUnitCents)+' each until 6 bottles.';
   }else{
     $('#savingNote').textContent='You save '+moneyCents(t.savingsCents)+' versus list value, including bonus stock.';
-  }
-
-  var bump=$('#twelveBump');
-  var showBump=state.twelveBoost.active||(t.paidCount>=RULES.dealThreshold&&t.paidCount<RULES.boostedThreshold);
-  bump.hidden=!showBump;
-  bump.classList.toggle('is-on',state.twelveBoost.active);
-  $('#twelveBumpToggle').checked=state.twelveBoost.active;
-  if(showBump){
-    var basePaid=state.twelveBoost.active
-      ? t.paidCount-Object.keys(state.twelveBoost.additions).reduce(function(total,key){ return total+(state.twelveBoost.additions[key]||0); },0)
-      : t.paidCount;
-    var needed=RULES.boostedThreshold-basePaid;
-
-    /* Offer-upgrade copy, driven by the live pricing rules */
-    var boostFree=PRICING.bonusCount(RULES.boostedThreshold);      // free bottles at 12 paid
-    var currentFree=PRICING.bonusCount(basePaid);                  // free bottles without the upgrade
-    var saveCents=(boostFree-currentFree)*RULES.listUnitCents;     // value of the extra free bottles
-    $('#bumpFreeA').textContent=boostFree;
-    $('#bumpFreeB').textContent=boostFree-currentFree;
-    $('#bumpFreeD').textContent=boostFree;
-    $('#bumpFreeNow2').textContent=currentFree;
-    $('#bumpPaid').textContent=RULES.boostedThreshold;
-    $('#bumpPaid2').textContent=RULES.boostedThreshold;
-    $('#bumpShipped').textContent=RULES.boostedThreshold+boostFree;
-    $('#bumpUnit').textContent=moneyCents(RULES.dealUnitCents);
-    $('#bumpSave').textContent=moneyCents(saveCents);
-
-    $('#twelveBumpText').textContent=state.twelveBoost.active
-      ? 'Added to your order. Untick to remove the extra '+needed+' bottle'+(needed===1?'':'s')+' and return to your original selection.'
-      : 'Tick to add '+needed+' more bottle'+(needed===1?'':'s')+' using your current product mix.';
   }
 
   // Value stack

@@ -22,6 +22,7 @@ var $=function(id){ return document.getElementById(id); };
 var state={
   base:zeroed(),          // the basket as it arrived from the sales page
   upgraded:false,         // the price-option upgrade, mirrored by the order bump
+  upgradeMix:null,        // the bottles chosen in the upgrade modal, when taken
   bonusChoices:[],
   stripe:null,
   elements:null,
@@ -55,11 +56,20 @@ function defaultCart(){
   return {quantities:quantities,bonusChoices:[]};
 }
 
+/* An accepted upgrade replaces the basket outright with what the customer
+   built in the modal — they chose those bottles by hand, so nothing is spread
+   across the old mix behind their back. */
 function quantities(){
-  if(!state.upgraded) return Object.assign({},state.base);
-  var additions=upgrade().additions;
+  if(state.upgraded&&state.upgradeMix) return Object.assign({},state.upgradeMix);
+  return Object.assign({},state.base);
+}
+
+/* Where the modal opens from: the basket already has, topped up to the
+   threshold the way the pricing rules would spread it. A sensible starting
+   point that is already valid, so the customer can accept it as-is. */
+function suggestedMix(offer){
   return KEYS.reduce(function(result,key){
-    result[key]=state.base[key]+(additions[key]||0);
+    result[key]=state.base[key]+(offer.additions[key]||0);
     return result;
   },{});
 }
@@ -80,7 +90,7 @@ function upgrade(){
   var added=KEYS.reduce(function(total,key){ return total+(additions[key]||0); },0);
   if(added<1) return null;
 
-  var upgraded=KEYS.reduce(function(result,key){
+  var upgraded=state.upgradeMix||KEYS.reduce(function(result,key){
     result[key]=state.base[key]+additions[key];
     return result;
   },{});
@@ -214,19 +224,25 @@ function renderBump(){
 
   bump.classList.toggle('is-on',state.upgraded);
   $('bumpToggle').checked=state.upgraded;
-  $('bumpTitle').innerHTML='YES! Upgrade my order to '+up.target+' paid bottles and send '+
-    plural(up.extraFree,'more bottle')+' free <em>('+money(up.valueCents)+' value)</em>';
+
+  $('bumpLead').innerHTML='<span class="ot">One time offer — unlock '+
+    plural(up.after.bonusCount,'free bottle')+':</span> Buy '+up.target+
+    ' and receive <b>'+plural(up.extraFree,'extra free bottle')+'!</b> '+
+    'Check YES above to choose your bottles and <b>save '+money(up.valueCents)+'</b>.';
 
   $('bumpPoints').innerHTML=[
-    '<b>'+up.after.shippedCount+' bottles shipped</b> — '+up.target+' paid, '+up.after.bonusCount+' free',
-    'Every bottle locked at <b>'+money(up.after.unitCents)+' ex GST</b>',
-    'Effective <b>'+money(up.after.effectiveUnitCents)+' a bottle</b> across the whole order',
-    'One flat freight charge, however many bottles ship'
+    '<b>'+plural(up.after.bonusCount,'free bottle')+'</b> instead of the standard '+up.before.bonusCount,
+    '<b>'+up.after.shippedCount+' bottles shipped</b> for the price of '+up.target,
+    'Pick <b>any mix</b> of ORA® products across the order',
+    'Locked at <b>'+money(up.after.unitCents)+'</b> per bottle, ex GST'
   ].map(function(point){
     return '<li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>'+point+'</span></li>';
   }).join('');
 
-  $('bumpFoot').textContent='Adds '+money(up.extraCents)+' to this order.';
+  $('bumpFoot').textContent=state.upgraded
+    ? 'Added — '+plural(up.target,'bottle')+' plus '+plural(up.after.bonusCount,'free bottle')+
+      '. Tick off to remove, or click here to change your selection.'
+    : 'Tick YES to choose your '+up.target+' bottles and '+plural(up.after.bonusCount,'free bottle')+'.';
 }
 
 /* ============================================================
@@ -422,6 +438,190 @@ function readForm(){
     intentId:state.intentId
   };
 }
+
+/* ============================================================
+   Offer-upgrade modal — build the bottles, then the free ones
+
+   The upgrade is no longer a tickbox that silently multiplies the basket. The
+   customer picks every bottle themselves across two steps, and only the ADD TO
+   CART at the end commits any of it, so backing out changes nothing.
+   ============================================================ */
+var modal={
+  open:false,
+  step:1,
+  mix:null,          // working copy — the real basket is untouched until ADD TO CART
+  free:[],
+  target:0,
+  freeCount:0,
+  lastFocus:null
+};
+
+function modalPaid(){
+  return KEYS.reduce(function(total,key){ return total+(modal.mix[key]||0); },0);
+}
+
+function openUpgrade(){
+  var offer=upgrade();
+  if(!offer) return;
+
+  modal.target=offer.target;
+  modal.freeCount=offer.after.bonusCount;
+  /* Re-opening after accepting should show what they chose, not start over. */
+  modal.mix=Object.assign({},state.upgradeMix||suggestedMix(offer));
+  modal.free=state.upgraded&&state.bonusChoices.length===modal.freeCount
+    ? state.bonusChoices.slice()
+    : [];
+  modal.step=1;
+  modal.open=true;
+  modal.lastFocus=document.activeElement;
+
+  $('ouTarget').textContent=String(modal.target);
+  $('upgradeModal').hidden=false;
+  document.body.style.overflow='hidden';
+  renderModal();
+  $('ouNext').focus({preventScroll:true});
+}
+
+function closeUpgrade(){
+  if(!modal.open) return;
+  modal.open=false;
+  $('upgradeModal').hidden=true;
+  document.body.style.overflow='';
+  if(modal.lastFocus&&modal.lastFocus.focus) modal.lastFocus.focus({preventScroll:true});
+  /* The panel's tick only ever reflects a committed upgrade. */
+  $('bumpToggle').checked=state.upgraded;
+}
+
+function renderModalSkus(){
+  var paid=modalPaid();
+  $('ouSkus').innerHTML=CATALOG.SKUS.map(function(sku){
+    var count=modal.mix[sku.key]||0;
+    return ''+
+      '<div class="ou-sku'+(count>0?' is-on':'')+'" style="--tint:'+sku.hex+'">'+
+        '<img src="'+sku.img+'" alt="" loading="lazy">'+
+        '<div><div class="n">'+sku.name+'</div><div class="s">'+sku.sub+'</div></div>'+
+        '<div class="ou-step-ctl">'+
+          '<button type="button" data-mix-down="'+sku.key+'"'+(count<1?' disabled':'')+
+            ' aria-label="One less '+sku.name+'">&minus;</button>'+
+          '<span class="q" aria-live="polite">'+count+'</span>'+
+          '<button type="button" data-mix-up="'+sku.key+'"'+(paid>=modal.target?' disabled':'')+
+            ' aria-label="One more '+sku.name+'">+</button>'+
+        '</div>'+
+      '</div>';
+  }).join('');
+}
+
+function renderModalFree(){
+  var fallback=KEYS.reduce(function(best,key){
+    return (modal.mix[key]||0)>(modal.mix[best]||0)?key:best;
+  },KEYS[0]);
+  while(modal.free.length<modal.freeCount) modal.free.push(fallback);
+  modal.free.length=modal.freeCount;
+
+  $('ouFree').innerHTML=modal.free.map(function(choice,index){
+    var options=CATALOG.SKUS.map(function(sku){
+      return '<option value="'+sku.key+'"'+(sku.key===choice?' selected':'')+'>'+sku.name+'</option>';
+    }).join('');
+    return ''+
+      '<div class="ou-free-row">'+
+        '<span class="lbl">'+(index+1)+'</span>'+
+        '<select data-free="'+index+'" aria-label="Free bottle '+(index+1)+'">'+options+'</select>'+
+      '</div>';
+  }).join('');
+
+  $('ouFreeNote').textContent='These '+modal.freeCount+' bottles ship free with your '+
+    modal.target+' paid bottles — '+(modal.target+modal.freeCount)+' in the box.';
+}
+
+function renderModal(){
+  var paid=modalPaid();
+  var ready=paid===modal.target;
+  var onStep2=modal.step===2;
+
+  $('ouRail').classList.toggle('at-2',onStep2);
+  document.querySelectorAll('[data-step-dot]').forEach(function(dot){
+    dot.classList.toggle('is-on',Number(dot.getAttribute('data-step-dot'))===modal.step);
+  });
+  $('ouSub').textContent=onStep2
+    ? 'Pick any products you like — mix and match across the range.'
+    : 'Mix any ORA\u00ae products you like \u2014 every bottle at the deal price.';
+
+  if(onStep2) renderModalFree();
+  else renderModalSkus();
+
+  var remaining=modal.target-paid;
+  $('ouTally').innerHTML=onStep2
+    ? '<span class="c is-ready">'+plural(modal.freeCount,'free bottle')+' chosen</span>'+
+      '<span class="m">'+plural(modal.target,'paid bottle')+' \u00b7 '+
+      money(upgrade().after.totalIncGstCents)+' inc GST</span>'
+    : '<span class="c'+(ready?' is-ready':'')+'">'+paid+' of '+modal.target+' chosen</span>'+
+      '<span class="m">'+(ready?'Ready to continue':
+        remaining>0?plural(remaining,'bottle')+' to go':
+        Math.abs(remaining)+' too many)')+'</span>';
+
+  $('ouBack').hidden=!onStep2;
+  $('ouNext').disabled=!onStep2&&!ready;
+  $('ouNextLabel').textContent=onStep2?'Add to cart':'Choose my free bottles';
+}
+
+/* Committing: the working mix becomes the basket, and the free choices become
+   the order's bonus bottles. This is the only place the modal writes anything. */
+function acceptUpgrade(){
+  state.upgradeMix=Object.assign({},modal.mix);
+  state.bonusChoices=modal.free.slice();
+  state.upgraded=true;
+  closeUpgrade();
+  render();
+  updateStripeAmount();
+  $('bump').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function dropUpgrade(){
+  state.upgraded=false;
+  state.upgradeMix=null;
+  render();
+  updateStripeAmount();
+}
+
+$('upgradeModal').addEventListener('click',function(event){
+  if(event.target.closest('[data-ou-close]')) closeUpgrade();
+});
+
+$('upgradeModal').addEventListener('change',function(event){
+  var free=event.target.getAttribute&&event.target.getAttribute('data-free');
+  if(free===null||free===undefined) return;
+  modal.free[Number(free)]=event.target.value;
+});
+
+$('ouSkus').addEventListener('click',function(event){
+  var up=event.target.closest('[data-mix-up]');
+  var down=event.target.closest('[data-mix-down]');
+  if(!up&&!down) return;
+  var key=(up||down).getAttribute(up?'data-mix-up':'data-mix-down');
+  var next=(modal.mix[key]||0)+(up?1:-1);
+  if(next<0||(up&&modalPaid()>=modal.target)) return;
+  modal.mix[key]=next;
+  renderModal();
+});
+
+/* Once taken, the panel's footer is the way back in to change the selection. */
+$('bumpFoot').addEventListener('click',function(){ if(state.upgraded) openUpgrade(); });
+
+$('ouBack').addEventListener('click',function(){ modal.step=1; renderModal(); });
+
+$('ouNext').addEventListener('click',function(){
+  if(modal.step===1){
+    if(modalPaid()!==modal.target) return;
+    modal.step=2;
+    renderModal();
+    return;
+  }
+  acceptUpgrade();
+});
+
+document.addEventListener('keydown',function(event){
+  if(event.key==='Escape'&&modal.open) closeUpgrade();
+});
 
 /* ============================================================
    Stripe
@@ -672,13 +872,22 @@ document.addEventListener('change',function(event){
   var target=event.target;
 
   if(target.name==='priceOption'){
-    state.upgraded=target.value==='upgrade';
-    render();
+    if(target.value==='upgrade'){
+      if(!state.upgraded){ target.checked=false; openUpgrade(); }
+    }else{
+      dropUpgrade();
+    }
     return;
   }
   if(target.id==='bumpToggle'){
-    state.upgraded=target.checked;
-    render();
+    /* Ticking is a request to build the order, not the order itself: the box
+       stays clear until the modal is completed. Unticking drops the upgrade. */
+    if(target.checked){
+      target.checked=false;
+      openUpgrade();
+    }else{
+      dropUpgrade();
+    }
     return;
   }
   if(target.hasAttribute&&target.hasAttribute('data-bonus')){
