@@ -150,10 +150,19 @@ function renderBump(){
     return '<li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>'+point+'</span></li>';
   }).join('');
 
-  $('bumpFoot').textContent=state.upgraded
-    ? 'Added — '+plural(up.target,'bottle')+' plus '+plural(up.after.bonusCount,'free bottle')+
-      '. Tick off to remove, or click here to change your selection.'
-    : 'Tick YES to choose your '+up.target+' bottles and '+plural(up.after.bonusCount,'free bottle')+'.';
+  /* Nothing to say before the offer is taken. The lead above already asks for
+     the tick, and the count this line used to quote was the order's total free
+     bottles rather than the ones the upgrade still asks the customer to pick —
+     a basket that already earned one was told to choose three and then asked
+     for two. Once taken, the line confirms what was added and is the way back
+     into the modal. */
+  var foot=$('bumpFoot');
+  foot.hidden=!state.upgraded;
+  if(state.upgraded){
+    foot.textContent='Added — '+plural(up.target,'bottle')+' plus '+
+      plural(up.after.bonusCount,'free bottle')+
+      '. Tick off to remove, or click here to change your selection.';
+  }
 }
 
 /* ============================================================
