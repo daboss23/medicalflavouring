@@ -122,5 +122,20 @@ under Payments too, with `checkout: embedded` and the bottles in `items` metadat
 ## Going live later
 
 1. Set the live-mode head office and add your real ATO GST registration in Stripe.
-2. Put the live key in Vercel's **Production** environment, then redeploy.
-3. Make one small real purchase and refund it, to confirm the live path end to end.
+2. Put **both** live keys in Vercel's **Production** environment, then redeploy:
+
+   ```
+   STRIPE_SECRET_KEY=sk_live_...
+   STRIPE_PUBLISHABLE_KEY=pk_live_...
+   ```
+
+   The secret key alone is not enough. With it set and the publishable key
+   missing, the store still takes money — but `checkout.html` hides its own
+   card field and hands every real customer to Stripe's hosted page instead.
+   Nothing errors, so this is easy to ship without noticing. Load the live
+   checkout page once after deploying and confirm the card field appears on
+   our page; the browser console names the reason if it does not.
+3. Keep the test keys on **Preview** and the live keys on **Production**, scoped
+   separately. Vercel bakes environment variables in at build time, so every key
+   change needs a redeploy before it takes effect.
+4. Make one small real purchase and refund it, to confirm the live path end to end.
