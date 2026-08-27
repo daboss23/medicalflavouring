@@ -48,7 +48,7 @@ a:hover{color:var(--navy)}
 /* ---- left: brand panel ---- */
 .brand{
   width:50%; flex:none; position:relative; background:var(--navy);
-  padding:clamp(26px,2.8vw,38px) clamp(22px,2.6vw,38px) clamp(52px,5.4vw,70px);
+  padding:clamp(78px,8.6vw,118px) clamp(22px,2.6vw,38px) clamp(52px,5.4vw,70px);
   display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
 }
 /* The logo is the masthead, not part of the bottle group: it sits at the top of
@@ -64,11 +64,11 @@ a:hover{color:var(--navy)}
   margin:0; display:flex; align-items:flex-end; justify-content:center; gap:5px;
 }
 .lineup figure{position:relative; margin:0; display:flex; flex-direction:column; align-items:center}
-.lineup img{width:clamp(52px,5.4vw,76px); filter:drop-shadow(0 14px 22px rgba(3,16,34,.55))}
+.lineup img{width:clamp(76px,7.9vw,110px); filter:drop-shadow(0 18px 28px rgba(3,16,34,.55))}
 .qty{
-  position:absolute; top:-11px; right:-4px; min-width:29px; height:29px; padding:0 8px;
+  position:absolute; top:-13px; right:-5px; min-width:33px; height:33px; padding:0 9px;
   border-radius:999px; background:#fff; color:var(--navy);
-  font-size:15px; font-weight:800; line-height:29px; text-align:center;
+  font-size:16.5px; font-weight:800; line-height:33px; text-align:center;
   box-shadow:0 4px 12px rgba(3,16,34,.55);
 }
 .tagline{
@@ -143,10 +143,10 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
    total. */
 @media (min-width:901px) and (max-height:940px){
   body{padding:clamp(10px,1.4vw,20px)}
-  .brand{padding:clamp(20px,2.2vw,28px) clamp(20px,2.4vw,32px) clamp(40px,4.2vw,54px); gap:clamp(10px,1.2vw,16px)}
+  .brand{padding:clamp(70px,7.4vw,100px) clamp(20px,2.4vw,32px) clamp(40px,4.2vw,54px); gap:clamp(10px,1.2vw,16px)}
   .brand-logo{margin-bottom:clamp(16px,2.2vw,26px)}
   .brand-logo img{width:clamp(132px,12.5vw,178px)}
-  .lineup img{width:clamp(46px,4.4vw,62px)}
+  .lineup img{width:clamp(66px,6.6vw,94px)}
   .tagline{font-size:clamp(19px,1.9vw,24px)}
   .bonus{padding:8px 16px 8px 13px; font-size:clamp(13.5px,1.3vw,15px)}
   .detail{padding:clamp(20px,2.2vw,30px) clamp(22px,2.6vw,36px) clamp(18px,2vw,26px)}
@@ -161,10 +161,10 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
 /* Shorter laptops again — 1280x800 and the like. */
 @media (min-width:901px) and (max-height:840px){
   body{padding:8px}
-  .brand{padding:16px 18px 30px; gap:9px}
+  .brand{padding:clamp(56px,6vw,80px) 18px 30px; gap:9px}
   .brand-logo{margin-bottom:clamp(12px,1.8vw,20px)}
   .brand-logo img{width:clamp(118px,11vw,150px)}
-  .lineup img{width:clamp(40px,3.8vw,53px)}
+  .lineup img{width:clamp(56px,5.6vw,80px)}
   .tagline{font-size:clamp(17px,1.7vw,21px)}
   .bonus{padding:7px 14px 7px 11px; font-size:13px}
   .detail{padding:18px 24px 16px}
@@ -184,7 +184,7 @@ h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spaci
   .brand-logo{width:100%; margin:0 0 22px}
   .brand-stack{margin:0; gap:16px}
   .brand-logo img{width:176px; height:auto}
-  .lineup img{width:58px; filter:drop-shadow(0 14px 20px rgba(3,16,34,.55))}
+  .lineup img{width:72px; filter:drop-shadow(0 14px 20px rgba(3,16,34,.55))}
   .qty{top:-9px; right:-4px; min-width:24px; height:24px; padding:0 6px; font-size:13px; line-height:24px}
   .tagline{margin-top:6px; font-size:25px; letter-spacing:-.028em; line-height:1.12}
   .bonus{margin-top:18px; padding:9px 17px 9px 13px; font-size:15px; gap:8px}
