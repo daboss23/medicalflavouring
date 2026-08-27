@@ -31,8 +31,8 @@ body{
   margin:0; background:var(--navy); color:var(--ink);
   font-family:var(--body); font-size:17px; line-height:1.6;
   -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-  min-height:100vh; display:flex; align-items:center; justify-content:center;
-  padding:clamp(16px,4vw,130px);
+  min-height:100dvh; display:flex; align-items:center; justify-content:center;
+  padding:clamp(12px,2vw,34px);
 }
 img{max-width:100%; display:block}
 h1{font-family:var(--display); margin:0}
@@ -41,111 +41,150 @@ a:hover{color:var(--navy)}
 :focus-visible{outline:2.5px solid var(--flame); outline-offset:3px; border-radius:4px}
 
 .card{
-  width:100%; max-width:1400px; display:flex; border-radius:26px; overflow:hidden;
+  width:100%; max-width:1180px; display:flex; border-radius:26px; overflow:hidden;
   box-shadow:0 4px 10px rgba(4,14,30,.20), 0 30px 60px -20px rgba(4,14,30,.55), 0 70px 120px -40px rgba(4,14,30,.75);
 }
 
 /* ---- left: brand panel ---- */
 .brand{
   width:50%; flex:none; position:relative; background:var(--navy);
-  padding:190px 44px 96px;
+  padding:clamp(32px,3.4vw,46px) clamp(22px,2.6vw,38px) clamp(52px,5.4vw,70px);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:clamp(14px,1.8vw,24px);
 }
-.brand-logo{position:absolute; top:104px; left:0; right:0; text-align:center}
-.brand-logo img{width:310px; max-width:70%; height:auto; margin:0 auto}
+.brand-logo{position:static; text-align:center}
+.brand-logo img{width:clamp(150px,15vw,220px); max-width:78%; height:auto; margin:0 auto}
 .lineup{
-  margin:0; min-height:336px; display:flex; align-items:flex-end; justify-content:center; gap:6px;
+  margin:0; display:flex; align-items:flex-end; justify-content:center; gap:5px;
 }
 .lineup figure{position:relative; margin:0; display:flex; flex-direction:column; align-items:center}
-.lineup img{width:116px; filter:drop-shadow(0 22px 30px rgba(3,16,34,.55))}
+.lineup img{width:clamp(52px,5.4vw,76px); filter:drop-shadow(0 14px 22px rgba(3,16,34,.55))}
 .qty{
-  position:absolute; top:-13px; right:-5px; min-width:34px; height:34px; padding:0 9px;
+  position:absolute; top:-11px; right:-4px; min-width:29px; height:29px; padding:0 8px;
   border-radius:999px; background:#fff; color:var(--navy);
-  font-size:17px; font-weight:800; line-height:34px; text-align:center;
+  font-size:15px; font-weight:800; line-height:29px; text-align:center;
   box-shadow:0 4px 12px rgba(3,16,34,.55);
 }
 .tagline{
-  margin:44px 0 0; text-align:center;
-  font-size:42px; font-weight:800; letter-spacing:-.03em; line-height:1.1; color:#fff;
+  margin:clamp(10px,1.4vw,18px) 0 0; text-align:center;
+  font-size:clamp(21px,2.3vw,29px); font-weight:800; letter-spacing:-.03em; line-height:1.12; color:#fff;
 }
 .bonus{
-  margin:26px 0 0; display:inline-flex; align-items:center; gap:11px;
-  padding:12px 24px 12px 19px; border-radius:999px;
+  margin:0; display:inline-flex; align-items:center; gap:10px;
+  padding:10px 20px 10px 16px; border-radius:999px;
   border:1px solid rgba(255,128,86,.92);
   background:linear-gradient(174deg,#ff7652 0%,var(--flame-lift) 16%,var(--flame) 52%,#c92508 100%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.68), inset 0 -3px 0 rgba(117,18,4,.48),
              0 14px 30px -8px rgba(238,60,19,.72), 0 0 26px rgba(238,60,19,.34);
-  font-size:19px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#fff;
+  font-size:clamp(15px,1.5vw,17.5px); font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#fff;
   text-shadow:0 1px 2px rgba(91,14,2,.4);
 }
 .placed{
-  position:absolute; left:0; right:0; bottom:36px; text-align:center;
-  font-family:var(--mono); font-size:15px; font-weight:500; letter-spacing:.1em;
+  position:absolute; left:0; right:0; bottom:clamp(20px,2.4vw,32px); text-align:center;
+  font-family:var(--mono); font-size:clamp(12px,1.2vw,14px); font-weight:500; letter-spacing:.1em;
   color:rgba(255,255,255,.66);
 }
 
 /* ---- right: order detail ---- */
-.detail{width:50%; flex:none; min-width:0; background:var(--paper); padding:58px 56px 50px; display:flex; flex-direction:column}
+.detail{width:50%; flex:none; min-width:0; background:var(--paper); padding:clamp(26px,2.9vw,40px) clamp(24px,3vw,42px) clamp(24px,2.6vw,34px); display:flex; flex-direction:column}
 .eyebrow{display:inline-flex; align-items:center; gap:13px; color:var(--flame-lift)}
 .eyebrow span{
-  font-family:var(--mono); font-size:16px; font-weight:650; letter-spacing:.24em;
+  font-family:var(--mono); font-size:clamp(12px,1.2vw,14.5px); font-weight:650; letter-spacing:.24em;
   text-transform:uppercase; text-shadow:0 0 14px rgba(238,60,19,.24);
 }
 .eyebrow i{width:34px; height:3px; flex:none; background:currentColor; font-style:normal}
 .eyebrow i:first-child{clip-path:polygon(0 44%,100% 0,100% 100%,0 56%)}
 .eyebrow i:last-child{clip-path:polygon(0 0,100% 44%,100% 56%,0 100%)}
-h1{margin:20px 0 0; font-size:74px; font-weight:800; letter-spacing:-.04em; line-height:.98; color:var(--navy)}
+h1{margin:clamp(10px,1.1vw,15px) 0 0; font-size:clamp(31px,3.5vw,46px); font-weight:800; letter-spacing:-.04em; line-height:.98; color:var(--navy)}
 h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spacing:.005em; color:var(--flame)}
-.lede{margin:22px 0 0; font-size:22px; font-weight:500; line-height:1.5; color:var(--ink-2); max-width:42ch}
-.items{margin-top:36px; display:flex; flex-direction:column}
-.item{display:flex; align-items:center; gap:16px; padding:15px 0; border-bottom:1px solid rgba(14,20,32,.10)}
+.lede{margin:clamp(9px,1.1vw,14px) 0 0; font-size:clamp(14px,1.3vw,16px); font-weight:500; line-height:1.5; color:var(--ink-2); max-width:44ch}
+.items{margin-top:clamp(14px,1.7vw,22px); display:flex; flex-direction:column}
+.item{display:flex; align-items:center; gap:12px; padding:clamp(6px,0.7vw,8.5px) 0; border-bottom:1px solid rgba(14,20,32,.10)}
 .dot{width:10px; height:10px; flex:none; border-radius:999px}
-.item-name{flex-grow:1; min-width:0; font-size:22px; font-weight:750; letter-spacing:-.018em; color:var(--ink)}
+.item-name{flex-grow:1; min-width:0; font-size:clamp(14px,1.35vw,16.5px); font-weight:750; letter-spacing:-.018em; color:var(--ink)}
 .free{
   margin-left:11px; padding:3px 11px; border-radius:999px; background:var(--flame); color:#fff;
   font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; vertical-align:middle;
 }
-.item-qty{flex:none; font-family:var(--mono); font-size:19px; font-weight:550; color:var(--ink-2)}
-.item-price{flex:none; min-width:112px; text-align:right; font-size:22px; font-weight:750; color:var(--ink)}
+.item-qty{flex:none; font-family:var(--mono); font-size:clamp(13px,1.35vw,16px); font-weight:550; color:var(--ink-2)}
+.item-price{flex:none; min-width:84px; text-align:right; font-size:clamp(14px,1.35vw,16.5px); font-weight:750; color:var(--ink)}
 .item-price.is-free{color:var(--flame)}
-.sums{margin:0; padding-top:14px; display:flex; flex-direction:column; gap:10px}
+.sums{margin:0; padding-top:10px; display:flex; flex-direction:column; gap:6px}
 .sums>div{display:flex; justify-content:space-between; align-items:baseline; gap:16px}
-.sums dt{font-size:18px; font-weight:600; color:var(--ink-2)}
-.sums dd{margin:0; font-size:18px; font-weight:700; color:var(--ink)}
+.sums dt{font-size:clamp(13.5px,1.35vw,16px); font-weight:600; color:var(--ink-2)}
+.sums dd{margin:0; font-size:clamp(13.5px,1.35vw,16px); font-weight:700; color:var(--ink)}
 .total{
-  margin-top:28px; padding-top:26px; border-top:2px solid rgba(14,20,32,.16);
+  margin-top:clamp(12px,1.4vw,18px); padding-top:clamp(11px,1.3vw,16px); border-top:2px solid rgba(14,20,32,.16);
   display:flex; justify-content:space-between; align-items:baseline; gap:16px;
 }
-.total dt{font-size:26px; font-weight:750; letter-spacing:-.02em; color:var(--ink)}
-.total dd{margin:0; font-size:32px; font-weight:800; letter-spacing:-.024em; line-height:1; color:var(--flame)}
-.facts{margin:36px 0 0; padding-top:32px; border-top:1px solid rgba(14,20,32,.10); display:flex; flex-direction:column; gap:24px}
+.total dt{font-size:clamp(17px,1.9vw,23px); font-weight:750; letter-spacing:-.02em; color:var(--ink)}
+.total dd{margin:0; font-size:clamp(22px,2.5vw,30px); font-weight:800; letter-spacing:-.024em; line-height:1; color:var(--flame)}
+.facts{margin:clamp(11px,1.4vw,18px) 0 0; padding-top:clamp(11px,1.3vw,16px); border-top:1px solid rgba(14,20,32,.10); display:grid; grid-template-columns:1fr 1fr; gap:clamp(9px,1vw,13px) clamp(16px,2vw,26px)}
 .facts>div{display:block}
-.facts dt{font-family:var(--mono); font-size:14px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-4)}
-.facts dd{margin:6px 0 0; font-size:22px; font-weight:700; color:var(--ink); overflow-wrap:break-word}
+.facts dt{font-family:var(--mono); font-size:clamp(11px,1.1vw,13px); font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-4)}
+.facts dd{margin:4px 0 0; font-size:clamp(13.5px,1.3vw,16px); font-weight:700; color:var(--ink); overflow-wrap:break-word}
 .facts dd.mono{font-family:var(--mono); font-weight:600}
-.footnote{margin:auto 0 0; padding-top:26px; font-size:17px; font-weight:500; line-height:1.55; color:var(--ink-3)}
+.footnote{margin:auto 0 0; padding-top:clamp(12px,1.5vw,18px); font-size:clamp(12.5px,1.2vw,14px); font-weight:500; line-height:1.5; color:var(--ink-3)}
 .footnote a{font-weight:650}
 
 .state{padding:40px 0; font-size:20px; color:var(--ink-2)}
 .state strong{display:block; font-size:24px; color:var(--navy); margin-bottom:8px}
 [hidden]{display:none !important}
 
+/* Laptop-height screens: the card is content-sized, and a full order plus the
+   brand panel does not fit 800–900px of viewport at the roomy scale. Trim the
+   air rather than the content, so nothing has to be scrolled past to reach the
+   total. */
+@media (min-width:901px) and (max-height:940px){
+  body{padding:clamp(10px,1.4vw,20px)}
+  .brand{padding:clamp(24px,2.6vw,34px) clamp(20px,2.4vw,32px) clamp(40px,4.2vw,54px); gap:clamp(10px,1.2vw,16px)}
+  .brand-logo img{width:clamp(132px,12.5vw,178px)}
+  .lineup img{width:clamp(46px,4.4vw,62px)}
+  .tagline{font-size:clamp(19px,1.9vw,24px)}
+  .bonus{padding:8px 16px 8px 13px; font-size:clamp(13.5px,1.3vw,15px)}
+  .detail{padding:clamp(20px,2.2vw,30px) clamp(22px,2.6vw,36px) clamp(18px,2vw,26px)}
+  h1{font-size:clamp(27px,2.9vw,38px)}
+  .lede{font-size:clamp(13.5px,1.2vw,15px)}
+  .items{margin-top:clamp(10px,1.2vw,15px)}
+  .item{padding:clamp(5px,0.55vw,7px) 0}
+  .facts{gap:clamp(7px,0.8vw,10px) clamp(14px,1.8vw,22px)}
+  .footnote{padding-top:clamp(9px,1.1vw,13px); font-size:clamp(12px,1.1vw,13px)}
+}
+
+/* Shorter laptops again — 1280x800 and the like. */
+@media (min-width:901px) and (max-height:840px){
+  body{padding:8px}
+  .brand{padding:20px 18px 34px; gap:9px}
+  .brand-logo img{width:clamp(118px,11vw,150px)}
+  .lineup img{width:clamp(40px,3.8vw,53px)}
+  .tagline{font-size:clamp(17px,1.7vw,21px)}
+  .bonus{padding:7px 14px 7px 11px; font-size:13px}
+  .detail{padding:18px 24px 16px}
+  h1{font-size:clamp(24px,2.5vw,32px)}
+  .lede{font-size:13.5px}
+  .items{margin-top:9px}
+  .item{padding:4px 0}
+  .sums{padding-top:7px; gap:4px}
+  .facts{margin-top:10px; padding-top:9px; gap:6px 18px}
+  .footnote{padding-top:8px; font-size:11.5px}
+}
+
 @media (max-width:900px){
   body{padding:0; display:block}
   .card{flex-direction:column; max-width:none; border-radius:0; box-shadow:none}
-  .brand{width:100%; padding:56px 14px 34px; border-radius:0 0 26px 26px; justify-content:flex-start}
-  .brand-logo{position:static; width:100%; margin-bottom:46px}
-  .brand-logo img{width:196px; height:auto}
-  .lineup{min-height:0}
-  .lineup img{width:62px; filter:drop-shadow(0 14px 20px rgba(3,16,34,.55))}
+  .brand{width:100%; padding:40px 14px 30px; border-radius:0 0 26px 26px; justify-content:flex-start; gap:16px}
+  .brand-logo{width:100%; margin-bottom:0}
+  .brand-logo img{width:176px; height:auto}
+  .lineup img{width:58px; filter:drop-shadow(0 14px 20px rgba(3,16,34,.55))}
   .qty{top:-9px; right:-4px; min-width:24px; height:24px; padding:0 6px; font-size:13px; line-height:24px}
-  .tagline{margin-top:26px; font-size:27px; letter-spacing:-.028em; line-height:1.12}
+  .tagline{margin-top:6px; font-size:25px; letter-spacing:-.028em; line-height:1.12}
   .bonus{margin-top:18px; padding:9px 17px 9px 13px; font-size:15px; gap:8px}
   .placed{position:static; margin-top:26px; text-align:left; font-size:12px; color:var(--ink-4)}
   .detail{width:100%; padding:32px 24px 38px}
+  .facts{grid-template-columns:1fr}
   .eyebrow span{font-size:12.5px; letter-spacing:.22em}
   .eyebrow i{width:24px}
-  h1{font-size:42px; letter-spacing:-.036em; line-height:1}
+  h1{font-size:38px; letter-spacing:-.036em; line-height:1}
   .lede{margin-top:18px; font-size:19px}
   .item{gap:12px; padding:13px 0; flex-wrap:wrap}
   .item-name{font-size:19px}

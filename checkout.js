@@ -64,15 +64,6 @@ function quantities(){
   return Object.assign({},state.base);
 }
 
-/* Where the modal opens from: the basket already has, topped up to the
-   threshold the way the pricing rules would spread it. A sensible starting
-   point that is already valid, so the customer can accept it as-is. */
-function suggestedMix(offer){
-  return KEYS.reduce(function(result,key){
-    result[key]=state.base[key]+(offer.additions[key]||0);
-    return result;
-  },{});
-}
 
 function quote(){
   return PRICING.quote(quantities());
@@ -402,8 +393,10 @@ function openUpgrade(){
 
   modal.target=offer.target;
   modal.freeCount=offer.after.bonusCount;
-  /* Re-opening after accepting should show what they chose, not start over. */
-  modal.mix=Object.assign({},state.upgradeMix||suggestedMix(offer));
+  /* Empty to start: these are the customer's bottles to choose, and a mix
+     filled in for them is a decision taken on their behalf. Re-opening after
+     accepting shows what they actually chose rather than starting over. */
+  modal.mix=Object.assign({},state.upgradeMix||zeroed());
   modal.free=state.upgraded&&state.bonusChoices.length===modal.freeCount
     ? state.bonusChoices.slice()
     : [];

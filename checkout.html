@@ -206,7 +206,6 @@ svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; str
 .co-field.is-bad label{color:var(--bad)}
 
 .co-field label .opt{font-weight:500; color:var(--ink-4)}
-.co-hint{margin:5px 0 0; font-size:11.5px; color:var(--ink-4); line-height:1.35}
 .co-field input,.co-field select,.co-field textarea{
   width:100%; font:inherit; font-size:15.5px; color:var(--ink);
   background:var(--paper);
@@ -329,7 +328,13 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
 }
 .co-assure span{display:inline-flex; align-items:center; gap:6px}
 .co-assure svg{width:14px; height:14px; color:var(--good)}
-.co-badges{margin:18px auto 0; width:100%; max-width:430px; opacity:.94}
+.co-badges{
+  display:block; margin:18px auto 0; width:100%; max-width:430px;
+  /* The artwork ships on a near-white plate. Multiplying drops that plate into
+     whatever the page is painted, so the badges sit on the background instead
+     of on a white card of their own. */
+  mix-blend-mode:multiply;
+}
 .co-fine{margin:16px 0 0; font-size:12.5px; line-height:1.55; color:var(--ink-4); text-align:center}
 
 /* ============================================================
@@ -696,7 +701,6 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
         <div class="co-field" data-field="email">
           <input placeholder=" " id="email" name="email" type="email" inputmode="email" autocomplete="email" required>
           <label for="email">Email address</label>
-          <p class="co-hint">your tax invoice is sent here</p>
           <p class="co-err" id="email-err"></p>
         </div>
         <div class="co-field" data-field="purchaseOrder">

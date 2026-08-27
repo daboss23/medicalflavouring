@@ -1041,8 +1041,8 @@ p{text-wrap:pretty}
 #addBundle .btn-label{width:100%;text-align:center}
 #addBundle .btn-arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%)}
 #addBundle:disabled{cursor:wait;opacity:.68;transform:none;box-shadow:none}
-.checkout-trust{margin-top:14px;background:#fff}
-.checkout-trust img{display:block;width:92%;height:auto;margin-inline:auto}
+.checkout-trust{margin-top:14px}
+.checkout-trust img{display:block;width:92%;height:auto;margin-inline:auto;mix-blend-mode:multiply}
 .checkout-privacy{
   margin:10px 0 0; color:var(--ink-4); text-align:center;
   font-family:var(--mono); font-size:clamp(6.5px,1vw,10px); font-weight:600;
@@ -2334,19 +2334,37 @@ function render(){
     $('#savingNote').textContent='You save '+moneyCents(t.savingsCents)+' versus list value, including bonus stock.';
   }
 
+  /* The bonus choices have to be settled before the value stack names them,
+     or the stack renders one change behind. */
+  renderBonusChoices(t);
+  if(bonusIncreased) pop($('#bonusChoices'),'is-popped');
+
   // Value stack
   var lines = '';
   SKUS.forEach(function(s){
     var q = state.qty[s.key] || 0;
     if(q > 0) lines += '<div class="stack-line"><span class="k">'+q+' × '+s.name+'</span><span class="v">'+moneyCents(q*t.unitCents)+'</span></div>';
   });
-  if(t.bonusCount > 0) lines += '<div class="stack-line is-free"><span class="k">'+t.bonusCount+' × bonus bottle'+(t.bonusCount===1?'':'s')+', yours free</span><span class="v">'+moneyCents(t.bonusCount*RULES.listUnitCents)+' → $0.00</span></div>';
+  /* Name the bonus bottles the customer actually picked. Grouped, so three of
+     the same product read as one line rather than three identical ones. */
+  if(t.bonusCount > 0){
+    var bonusTally={};
+    state.bonusChoices.forEach(function(key){ bonusTally[key]=(bonusTally[key]||0)+1; });
+    var named=SKUS.filter(function(s){ return bonusTally[s.key]; });
+    if(named.length){
+      named.forEach(function(s){
+        var q=bonusTally[s.key];
+        lines += '<div class="stack-line is-free"><span class="k">'+q+' × '+s.name+', yours free</span>'+
+          '<span class="v">'+moneyCents(q*RULES.listUnitCents)+' → $0.00</span></div>';
+      });
+    }else{
+      lines += '<div class="stack-line is-free"><span class="k">'+t.bonusCount+' × bonus bottle'+(t.bonusCount===1?'':'s')+', yours free</span><span class="v">'+moneyCents(t.bonusCount*RULES.listUnitCents)+' → $0.00</span></div>';
+    }
+  }
   if(!lines) lines = '<div class="stack-line"><span class="k">Nothing selected yet</span><span class="v">0</span></div>';
   $('#stackLines').innerHTML = lines;
   $('#stackSaved').textContent = moneyCents(t.savingsCents);
   $('#cartCount').textContent=t.shippedCount;
-  renderBonusChoices(t);
-  if(bonusIncreased) pop($('#bonusChoices'),'is-popped');
 
   // Sticky order bar
   $('#obBottles').textContent = t.paidCount;
@@ -2392,6 +2410,9 @@ $('#bonusChoices').addEventListener('change',function(e){
   var select=e.target.closest('[data-bonus-choice]');
   if(!select) return;
   state.bonusChoices[Number(select.getAttribute('data-bonus-choice'))]=select.value;
+  /* The value stack names the chosen bonus bottles, so it has to be redrawn
+     when one changes — before, nothing on the page showed the choice. */
+  render();
 });
 
 function checkoutPayload(){
