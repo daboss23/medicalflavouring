@@ -295,6 +295,10 @@ svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; str
 .co-pay-brands{display:flex; align-items:center; gap:7px; margin-left:auto}
 .co-pay-brands img{height:19px; width:auto}
 #paymentElement{min-height:44px}
+/* The brands the card field actually takes, said once and quietly, directly
+   under the box they apply to. */
+.co-cards{display:block; width:100%; max-width:250px; height:auto; margin:14px auto 2px; opacity:.9}
+body.is-hosted .co-cards{display:none}
 .co-payment-loading{
   display:grid; gap:10px;
 }
@@ -414,7 +418,7 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
 .co-assure span{display:inline-flex; align-items:center; gap:6px}
 .co-assure svg{width:14px; height:14px; color:var(--good)}
 .co-badges{
-  display:block; margin:18px auto 0; width:100%; max-width:430px;
+  display:block; margin:18px auto 0; width:100%; max-width:280px;
   /* The artwork ships on a near-white plate. Multiplying drops that plate into
      whatever the page is painted, so the badges sit on the background instead
      of on a white card of their own. */
@@ -430,16 +434,21 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
 .co-offer-head{
   background:linear-gradient(158deg,var(--navy-soft),var(--navy) 55%,var(--navy-deep));
   color:#fff; border-radius:var(--r-lg) var(--r-lg) 0 0;
-  padding:clamp(20px,2.6vw,26px);
+  padding:clamp(24px,3vw,32px) clamp(20px,2.6vw,28px);
+  text-align:center;
 }
 .co-offer-head h1{
-  font-size:clamp(19px,2.1vw,24px); font-weight:800; line-height:1.2; color:#fff;
+  font-size:clamp(24px,2.8vw,32px); font-weight:800; line-height:1.16;
+  letter-spacing:-.02em; color:#fff; text-wrap:balance;
 }
 .co-offer-head .eyebrow{
-  font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.2em;
-  text-transform:uppercase; color:#ffb69c; margin-bottom:9px;
+  font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.2em;
+  text-transform:uppercase; color:#ffb69c; margin-bottom:10px;
 }
-.co-offer-head p{margin:10px 0 0; font-size:14px; color:rgba(255,255,255,.78)}
+.co-offer-head p{
+  margin:12px auto 0; max-width:38ch;
+  font-size:clamp(15px,1.5vw,16.5px); line-height:1.5; color:rgba(255,255,255,.82);
+}
 .co-offer-body{
   background:var(--paper); border:1px solid var(--line); border-top:0;
   border-radius:0 0 var(--r-lg) var(--r-lg);
@@ -750,7 +759,6 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   <ol>
     <li class="is-current" aria-current="step"><span class="n">1</span> Checkout</li>
     <li><span class="n">2</span> Order confirmation</li>
-    <li><span class="n">3</span> Dispatch in 24–48 hrs</li>
   </ol>
 </nav>
 
@@ -917,6 +925,8 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
         <div class="co-skel" style="width:60%"></div>
       </div>
       <div id="paymentElement"></div>
+      <img class="co-cards" src="assets/card-brands.png" width="560" height="57" loading="lazy"
+           alt="Mastercard, Visa, American Express, Discover and Apple Pay accepted">
       <p class="co-err" id="payment-err" style="margin-top:8px"></p>
     </section>
 
