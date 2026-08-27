@@ -86,7 +86,8 @@ and the server recalculates the whole quote again before Stripe sees an amount.
   12-bottle upgrade is first seen at checkout, after the customer has committed to buying.
 - **Taking the upgrade opens a two-step modal.** Step one builds the paid bottles by hand — any mix across
   the range, a running tally, and no way forward until it lands exactly on the threshold. Step two chooses
-  the free bottles. ADD TO CART is the only thing that writes to the basket, so backing out at any point
+  only the free bottles the upgrade *adds*: a basket that already earned one on the sales page chose it
+  there, so twelve bottles asks for two, not three, and the earlier choice is carried through. ADD TO CART is the only thing that writes to the basket, so backing out at any point
   leaves the order exactly as it was. Re-opening it shows what was chosen rather than starting over.
 - **An accepted upgrade replaces the basket** with the customer's own selection. Nothing is spread across
   their existing mix behind their back, and the order summary, the free-bottle pickers and the Stripe

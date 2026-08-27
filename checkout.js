@@ -379,7 +379,9 @@ var modal={
   mix:null,          // working copy — the real basket is untouched until ADD TO CART
   free:[],
   target:0,
-  freeCount:0,
+  freeCount:0,       // free bottles this upgrade adds — the ones still to pick
+  totalFree:0,       // free bottles the upgraded order ships in total
+  carried:[],        // already chosen on the sales page, not re-asked for
   lastFocus:null
 };
 
@@ -392,13 +394,18 @@ function openUpgrade(){
   if(!offer) return;
 
   modal.target=offer.target;
-  modal.freeCount=offer.after.bonusCount;
+  modal.totalFree=offer.after.bonusCount;
+  /* Only the free bottles the upgrade actually adds are asked for here. The
+     ones the basket already earned were chosen on the sales page, and are
+     carried through untouched rather than put to the customer a second time. */
+  modal.freeCount=offer.extraFree;
+  modal.carried=state.bonusChoices.slice(0,offer.before.bonusCount);
   /* Empty to start: these are the customer's bottles to choose, and a mix
      filled in for them is a decision taken on their behalf. Re-opening after
      accepting shows what they actually chose rather than starting over. */
   modal.mix=Object.assign({},state.upgradeMix||zeroed());
-  modal.free=state.upgraded&&state.bonusChoices.length===modal.freeCount
-    ? state.bonusChoices.slice()
+  modal.free=state.upgraded&&state.bonusChoices.length===modal.totalFree
+    ? state.bonusChoices.slice(offer.before.bonusCount)
     : [];
   modal.step=1;
   modal.open=true;
@@ -458,8 +465,13 @@ function renderModalFree(){
       '</div>';
   }).join('');
 
-  $('ouFreeNote').textContent='These '+modal.freeCount+' bottles ship free with your '+
-    modal.target+' paid bottles — '+(modal.target+modal.freeCount)+' in the box.';
+  var note=plural(modal.freeCount,'extra free bottle')+' on top of the '+
+    modal.carried.length+' you have already chosen. ';
+  if(!modal.carried.length){
+    note=plural(modal.freeCount,'free bottle')+' with your '+plural(modal.target,'paid bottle')+'. ';
+  }
+  $('ouFreeNote').textContent=note+'That is '+plural(modal.target+modal.totalFree,'bottle')+
+    ' in the box — '+modal.target+' paid, '+modal.totalFree+' free.';
 }
 
 function renderModal(){
@@ -472,15 +484,20 @@ function renderModal(){
     dot.classList.toggle('is-on',Number(dot.getAttribute('data-step-dot'))===modal.step);
   });
   $('ouSub').textContent=onStep2
-    ? 'Pick any products you like — mix and match across the range.'
+    ? (modal.carried.length
+        ? 'You already chose '+plural(modal.carried.length,'free bottle')+
+          ' on the shop page — pick the '+modal.freeCount+' the upgrade adds.'
+        : 'Pick any products you like — mix and match across the range.')
     : 'Mix any ORA\u00ae products you like \u2014 every bottle at the deal price.';
+
+  $('ouStep2Label').textContent=modal.carried.length?'Extra free bottles':'Free bottles';
 
   if(onStep2) renderModalFree();
   else renderModalSkus();
 
   var remaining=modal.target-paid;
   $('ouTally').innerHTML=onStep2
-    ? '<span class="c is-ready">'+plural(modal.freeCount,'free bottle')+' chosen</span>'+
+    ? '<span class="c is-ready">'+plural(modal.freeCount,'extra free bottle')+' chosen</span>'+
       '<span class="m">'+plural(modal.target,'paid bottle')+' \u00b7 '+
       money(upgrade().after.totalIncGstCents)+' inc GST</span>'
     : '<span class="c'+(ready?' is-ready':'')+'">'+paid+' of '+modal.target+' chosen</span>'+
@@ -490,14 +507,16 @@ function renderModal(){
 
   $('ouBack').hidden=!onStep2;
   $('ouNext').disabled=!onStep2&&!ready;
-  $('ouNextLabel').textContent=onStep2?'Add to cart':'Choose my free bottles';
+  $('ouNextLabel').textContent=onStep2
+    ?'Add to cart'
+    :'Choose my '+plural(modal.freeCount,'free bottle');
 }
 
 /* Committing: the working mix becomes the basket, and the free choices become
    the order's bonus bottles. This is the only place the modal writes anything. */
 function acceptUpgrade(){
   state.upgradeMix=Object.assign({},modal.mix);
-  state.bonusChoices=modal.free.slice();
+  state.bonusChoices=modal.carried.concat(modal.free);
   state.upgraded=true;
   closeUpgrade();
   render();
