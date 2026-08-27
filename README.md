@@ -74,6 +74,9 @@ node tests/thank-you-api.test.js
 about the price travels with it: the page holds no prices of its own, reads every figure from `pricing.js`,
 and the server recalculates the whole quote again before Stripe sees an amount.
 
+- **Nothing already decided is asked twice.** The bottles and the free-bottle choices are made on the
+  sales page and travel in the URL, so the checkout page shows them in the order summary and never
+  re-asks. The one decision left to make here is the upgrade.
 - **The order bump lives here, not on the sales page.** The sales page sells the 1-on-6 offer only; the
   12-bottle upgrade is first seen at checkout, after the customer has committed to buying.
 - **Taking the upgrade opens a two-step modal.** Step one builds the paid bottles by hand — any mix across

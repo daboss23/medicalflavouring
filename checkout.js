@@ -131,27 +131,6 @@ function syncBonusChoices(){
   });
 }
 
-function renderBonusPicker(){
-  var wanted=state.bonusChoices.length;
-  var wrap=$('bonusPicker');
-  wrap.hidden=wanted===0;
-  if(!wanted){ $('bonusFields').innerHTML=''; return; }
-
-  $('bonusPickerTitle').textContent=wanted===1
-    ?'Choose your free bottle'
-    :'Choose your '+wanted+' free bottles';
-
-  $('bonusFields').innerHTML=state.bonusChoices.map(function(choice,index){
-    var options=CATALOG.SKUS.map(function(sku){
-      return '<option value="'+sku.key+'"'+(sku.key===choice?' selected':'')+'>'+sku.name+'</option>';
-    }).join('');
-    return ''+
-      '<div class="co-field">'+
-        '<label for="bonus'+index+'">Free bottle '+(index+1)+'</label>'+
-        '<select id="bonus'+index+'" data-bonus="'+index+'">'+options+'</select>'+
-      '</div>';
-  }).join('');
-}
 
 /* ============================================================
    Price options — the tier chooser, mirrored by the order bump
@@ -171,50 +150,7 @@ function listPriceTotal(shipped){
   return subtotal+RULES.freightCents+gst;
 }
 
-function renderOptions(){
-  var up=upgrade();
-  var base=PRICING.quote(state.base);
-  var rows=[];
 
-  rows.push(optionRow({
-    id:'optBase',
-    on:!state.upgraded,
-    title:bundleTitle(base.paidCount,base.bonusCount),
-    sub:money(base.unitCents)+' each ex GST · '+plural(base.shippedCount,'bottle')+' shipped',
-    was:base.savingsCents>0?money(listPriceTotal(base.shippedCount)):'',
-    now:money(base.totalIncGstCents),
-    add:false
-  }));
-
-  if(up){
-    rows.push(optionRow({
-      id:'optUpgrade',
-      on:state.upgraded,
-      title:bundleTitle(up.target,up.after.bonusCount),
-      sub:money(up.after.unitCents)+' each ex GST · '+up.after.shippedCount+' shipped · '+
-        plural(up.extraFree,'more bottle')+' free, worth '+money(up.valueCents),
-      was:'',
-      now:'Add '+money(up.extraCents),
-      add:true
-    }));
-  }
-
-  $('optionList').innerHTML=rows.join('');
-  $('offerNote').textContent=up?'Upgrade available':'Best price locked';
-}
-
-function optionRow(row){
-  return ''+
-    '<label class="co-option'+(row.on?' is-on':'')+'" for="'+row.id+'">'+
-      '<input type="radio" name="priceOption" id="'+row.id+'" value="'+(row.add?'upgrade':'base')+'"'+(row.on?' checked':'')+'>'+
-      '<span class="t">'+row.title+'</span>'+
-      '<span class="s">'+row.sub+'</span>'+
-      '<span class="p">'+
-        (row.was?'<span class="was">'+row.was+'</span>':'')+
-        '<span class="now'+(row.add?' is-add':'')+'">'+row.now+'</span>'+
-      '</span>'+
-    '</label>';
-}
 
 function renderBump(){
   var up=upgrade();
@@ -310,8 +246,6 @@ function renderSummary(){
 
 function render(){
   syncBonusChoices();
-  renderOptions();
-  renderBonusPicker();
   renderBump();
   renderLines();
   renderSummary();
@@ -870,14 +804,6 @@ async function payEmbedded(){
 document.addEventListener('change',function(event){
   var target=event.target;
 
-  if(target.name==='priceOption'){
-    if(target.value==='upgrade'){
-      if(!state.upgraded){ target.checked=false; openUpgrade(); }
-    }else{
-      dropUpgrade();
-    }
-    return;
-  }
   if(target.id==='bumpToggle'){
     /* Ticking is a request to build the order, not the order itself: the box
        stays clear until the modal is completed. Unticking drops the upgrade. */
@@ -887,11 +813,6 @@ document.addEventListener('change',function(event){
     }else{
       dropUpgrade();
     }
-    return;
-  }
-  if(target.hasAttribute&&target.hasAttribute('data-bonus')){
-    state.bonusChoices[Number(target.getAttribute('data-bonus'))]=target.value;
-    render();
     return;
   }
   if(target.id==='billingSame'){

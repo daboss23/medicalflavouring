@@ -222,43 +222,23 @@ svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; str
 /* ============================================================
    Price options — the tier chooser
    ============================================================ */
-.co-options{display:grid; gap:12px}
-.co-option{
   position:relative; display:grid; gap:2px;
   grid-template-columns:auto 1fr auto; align-items:center;
   padding:15px 16px; border:1.5px solid var(--line-strong); border-radius:var(--r-md);
   cursor:pointer; background:var(--paper);
   transition:border-color .2s var(--ease), background .2s var(--ease), box-shadow .2s var(--ease);
 }
-.co-option:hover{border-color:rgba(14,20,32,.28)}
-.co-option.is-on{border-color:var(--flame); background:linear-gradient(180deg,rgba(238,60,19,.045),rgba(238,60,19,.02)); box-shadow:0 0 0 3px rgba(238,60,19,.09)}
-.co-option input{
   appearance:none; grid-column:1; grid-row:1/3; align-self:center; flex:none;
   width:21px; height:21px; margin:0 13px 0 0; border-radius:50%;
   border:1.5px solid var(--line-strong); background:var(--paper); cursor:pointer;
   transition:all .18s var(--ease);
 }
-.co-option input:checked{border:6.5px solid var(--flame)}
-.co-option input:focus-visible{outline:2.5px solid var(--flame); outline-offset:2px}
-.co-option .t{grid-column:2; grid-row:1; font-size:15px; font-weight:650; letter-spacing:-.015em; color:var(--ink)}
-.co-option .s{grid-column:2; grid-row:2; font-size:13px; color:var(--ink-3)}
-.co-option .p{grid-column:3; grid-row:1/3; text-align:right; white-space:nowrap; padding-left:14px; align-self:center}
 @media (max-width:420px){
-  .co-option{grid-template-columns:auto 1fr}
-  .co-option .p{grid-column:2; grid-row:3; text-align:left; padding:6px 0 0}
-  .co-option .was{display:inline; margin-right:8px}
-  .co-option .now{display:inline}
 }
-.co-option .was{
   display:block; font-family:var(--mono); font-size:11.5px; color:var(--ink-4);
   text-decoration:line-through; text-decoration-color:var(--flame);
 }
-.co-option .now{display:block; font-family:var(--display); font-size:16px; font-weight:750; color:var(--ink)}
-.co-option .now.is-add{color:var(--flame)}
 
-.co-bonus{margin-top:16px; padding-top:16px; border-top:1px dashed var(--line-strong)}
-.co-bonus-h{font-size:13.5px; font-weight:650; color:var(--ink); margin-bottom:10px; display:flex; align-items:center; gap:8px}
-.co-bonus-h .free-tag{
   font-family:var(--mono); font-size:10.5px; font-weight:600; letter-spacing:.12em;
   background:var(--flame); color:#fff; padding:3px 7px; border-radius:5px;
 }
@@ -705,18 +685,6 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
       </div>
     </section>
 
-    <section class="co-card">
-      <h2 class="co-h">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8.5V4.5a1.5 1.5 0 0 1 1.5-1.5h4L17 11.5a1.5 1.5 0 0 1 0 2l-3.5 3.5a1.5 1.5 0 0 1-2 0L3 8.5Z"/><circle cx="6.5" cy="6.5" r="1"/></svg>
-        Choose your price option
-        <span class="co-h-note" id="offerNote">1 on 6 offer</span>
-      </h2>
-      <div class="co-options" id="optionList"></div>
-      <div class="co-bonus" id="bonusPicker" hidden>
-        <p class="co-bonus-h"><span class="free-tag">FREE</span> <span id="bonusPickerTitle">Choose your free bottles</span></p>
-        <div class="co-fields" id="bonusFields"></div>
-      </div>
-    </section>
 
     <section class="co-card co-collect">
       <h2 class="co-h">

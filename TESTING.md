@@ -81,7 +81,8 @@ Full list: <https://docs.stripe.com/testing>
 
 **On the checkout page** (`/checkout.html`)
 
-- The bottles, free bottles and totals match what the shop page showed.
+- The bottles, free bottles and totals match what the shop page showed, and the page does not
+  ask again for either — the only choice offered here is the upgrade.
 - Ticking the order bump opens the upgrade modal; the tick only lands once ADD TO CART is pressed.
 - Closing the modal with the X, the veil or Escape leaves the order untouched.
 - The modal will not advance until exactly the threshold number of bottles is chosen, and the
