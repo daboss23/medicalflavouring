@@ -175,15 +175,45 @@ svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; str
    Fields
    ============================================================ */
 .co-fields{display:grid; gap:14px; grid-template-columns:1fr 1fr}
-.co-field{display:flex; flex-direction:column; gap:6px; min-width:0}
+.co-field{position:relative; display:flex; flex-direction:column; min-width:0}
 .co-field--wide{grid-column:1/-1}
-.co-field label{font-size:13px; font-weight:600; color:var(--ink-2); letter-spacing:-.005em}
-.co-field label .opt{font-weight:450; color:var(--ink-4)}
-.co-field input,.co-field select{
+
+/* Inline labels: the label sits inside its own box and lifts out of the way
+   once there is something to read under it. The control keeps the room for it
+   at all times, so nothing shifts when it moves. */
+.co-field label{
+  position:absolute; left:14px; top:16px; z-index:1; pointer-events:none;
+  font-size:14.5px; font-weight:500; color:var(--ink-3); letter-spacing:-.005em;
+  /* One line, always: a wrapped label drops its second line onto the value
+     underneath. At rest it is clipped by the box; floated it has room. */
+  right:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  transform-origin:left top;
+  transition:transform .16s var(--ease), color .16s var(--ease);
+}
+.co-field input:focus ~ label,
+.co-field input:not(:placeholder-shown) ~ label,
+.co-field input[readonly] ~ label,
+.co-field textarea:focus ~ label,
+.co-field textarea:not(:placeholder-shown) ~ label,
+.co-field select ~ label{
+  transform:translateY(-9px) scale(.755);
+  font-weight:700; color:var(--ink-3);
+  right:auto; max-width:132%;
+}
+.co-field input:focus ~ label,
+.co-field textarea:focus ~ label,
+.co-field select:focus ~ label{color:var(--flame)}
+.co-field.is-bad label{color:var(--bad)}
+
+.co-field label .opt{font-weight:500; color:var(--ink-4)}
+.co-hint{margin:5px 0 0; font-size:11.5px; color:var(--ink-4); line-height:1.35}
+.co-field input,.co-field select,.co-field textarea{
   width:100%; font:inherit; font-size:15.5px; color:var(--ink);
   background:var(--paper);
   border:1.5px solid var(--line-strong); border-radius:var(--r-sm);
-  padding:12px 13px; min-height:48px;
+  /* Top padding is the label's parking space — it is reserved whether the
+     label is floated or resting, so the text never jumps. */
+  padding:21px 13px 7px; min-height:56px;
   transition:border-color .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease);
 }
 .co-field select{
@@ -192,14 +222,15 @@ svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; str
   background-repeat:no-repeat; background-position:right 12px center; background-size:16px;
   padding-right:38px;
 }
-.co-field input::placeholder{color:var(--ink-4)}
-.co-field input:hover,.co-field select:hover{border-color:rgba(14,20,32,.28)}
-.co-field input:focus,.co-field select:focus{
+.co-field input::placeholder,.co-field textarea::placeholder{color:transparent}
+.co-field input:hover,.co-field select:hover,.co-field textarea:hover{border-color:rgba(14,20,32,.28)}
+.co-field input:focus,.co-field select:focus,.co-field textarea:focus{
   outline:none; border-color:var(--flame);
   box-shadow:0 0 0 3.5px rgba(238,60,19,.14);
 }
 .co-field input[readonly]{background:var(--mist); color:var(--ink-3)}
-.co-field.is-bad input,.co-field.is-bad select{border-color:var(--bad); box-shadow:0 0 0 3.5px rgba(192,38,26,.10)}
+.co-field textarea{min-height:92px; resize:vertical; line-height:1.45; padding-top:23px}
+.co-field.is-bad input,.co-field.is-bad select,.co-field.is-bad textarea{border-color:var(--bad); box-shadow:0 0 0 3.5px rgba(192,38,26,.10)}
 .co-err{font-size:12.5px; font-weight:550; color:var(--bad); min-height:0}
 .co-field:not(.is-bad) .co-err{display:none}
 @media (max-width:560px){ .co-fields{grid-template-columns:1fr} }
@@ -658,28 +689,34 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
       </h2>
       <div class="co-fields">
         <div class="co-field" data-field="firstName">
+          <input placeholder=" " id="firstName" name="given-name" type="text" autocomplete="given-name" required>
           <label for="firstName">First name</label>
-          <input id="firstName" name="given-name" type="text" autocomplete="given-name" required>
           <p class="co-err" id="firstName-err"></p>
         </div>
         <div class="co-field" data-field="lastName">
+          <input placeholder=" " id="lastName" name="family-name" type="text" autocomplete="family-name" required>
           <label for="lastName">Last name</label>
-          <input id="lastName" name="family-name" type="text" autocomplete="family-name" required>
           <p class="co-err" id="lastName-err"></p>
         </div>
-        <div class="co-field co-field--wide" data-field="email">
-          <label for="email">Email address <span class="opt">— your tax invoice is sent here</span></label>
-          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required>
+        <div class="co-field" data-field="email">
+          <input placeholder=" " id="email" name="email" type="email" inputmode="email" autocomplete="email" required>
+          <label for="email">Email address</label>
+          <p class="co-hint">your tax invoice is sent here</p>
           <p class="co-err" id="email-err"></p>
         </div>
+        <div class="co-field" data-field="purchaseOrder">
+          <input placeholder=" " id="purchaseOrder" type="text" autocomplete="off" maxlength="60">
+          <label for="purchaseOrder">Purchase order # <span class="opt">— optional</span></label>
+          <p class="co-err" id="purchaseOrder-err"></p>
+        </div>
         <div class="co-field" data-field="phone">
+          <input id="phone" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder=" " required>
           <label for="phone">Phone</label>
-          <input id="phone" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(03) 9387 0427" required>
           <p class="co-err" id="phone-err"></p>
         </div>
         <div class="co-field" data-field="business">
+          <input placeholder=" " id="business" name="organization" type="text" autocomplete="organization">
           <label for="business">Pharmacy or practice <span class="opt">— optional</span></label>
-          <input id="business" name="organization" type="text" autocomplete="organization">
           <p class="co-err" id="business-err"></p>
         </div>
       </div>
@@ -694,38 +731,48 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
       </h2>
       <div class="co-fields">
         <div class="co-field co-field--wide" data-field="shippingLine1">
-          <label for="shippingLine1">Street address</label>
-          <input id="shippingLine1" type="text" autocomplete="shipping address-line1" placeholder="Number and street" required>
+          <input placeholder=" " id="shippingLine1" type="text" autocomplete="shipping address-line1" required>
+          <label for="shippingLine1">Address 1</label>
           <p class="co-err" id="shippingLine1-err"></p>
         </div>
         <div class="co-field co-field--wide" data-field="shippingLine2">
-          <label for="shippingLine2">Unit, level or dispensary <span class="opt">— optional</span></label>
-          <input id="shippingLine2" type="text" autocomplete="shipping address-line2">
+          <input placeholder=" " id="shippingLine2" type="text" autocomplete="shipping address-line2">
+          <label for="shippingLine2">Address 2 <span class="opt">— optional</span></label>
           <p class="co-err" id="shippingLine2-err"></p>
         </div>
+        <div class="co-field co-field--wide" data-field="shippingLine3">
+          <input placeholder=" " id="shippingLine3" type="text" autocomplete="shipping address-line3">
+          <label for="shippingLine3">Address 3 <span class="opt">— optional</span></label>
+          <p class="co-err" id="shippingLine3-err"></p>
+        </div>
         <div class="co-field" data-field="shippingCity">
+          <input placeholder=" " id="shippingCity" type="text" autocomplete="shipping address-level2" required>
           <label for="shippingCity">Suburb or town</label>
-          <input id="shippingCity" type="text" autocomplete="shipping address-level2" required>
           <p class="co-err" id="shippingCity-err"></p>
         </div>
         <div class="co-field" data-field="shippingState">
-          <label for="shippingState">State</label>
           <select id="shippingState" autocomplete="shipping address-level1" required>
             <option value="">Choose…</option>
             <option>ACT</option><option>NSW</option><option>NT</option><option>QLD</option>
             <option>SA</option><option>TAS</option><option>VIC</option><option>WA</option>
           </select>
+          <label for="shippingState">State</label>
           <p class="co-err" id="shippingState-err"></p>
         </div>
         <div class="co-field" data-field="shippingPostcode">
+          <input placeholder=" " id="shippingPostcode" type="text" inputmode="numeric" maxlength="4" autocomplete="shipping postal-code" required>
           <label for="shippingPostcode">Postcode</label>
-          <input id="shippingPostcode" type="text" inputmode="numeric" maxlength="4" autocomplete="shipping postal-code" required>
           <p class="co-err" id="shippingPostcode-err"></p>
         </div>
         <div class="co-field" data-field="shippingCountry">
+          <input placeholder=" " id="shippingCountry" type="text" value="Australia" readonly tabindex="-1" aria-readonly="true">
           <label for="shippingCountry">Country</label>
-          <input id="shippingCountry" type="text" value="Australia" readonly tabindex="-1" aria-readonly="true">
           <p class="co-err" id="shippingCountry-err"></p>
+        </div>
+        <div class="co-field co-field--wide" data-field="deliveryNotes">
+          <textarea placeholder=" " id="deliveryNotes" rows="3" maxlength="500"></textarea>
+          <label for="deliveryNotes">Delivery instructions <span class="opt">— optional</span></label>
+          <p class="co-err" id="deliveryNotes-err"></p>
         </div>
       </div>
     </section>
@@ -742,37 +789,37 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
       <div id="billingFields" hidden style="margin-top:16px">
         <div class="co-fields">
           <div class="co-field co-field--wide" data-field="billingLine1">
+            <input placeholder=" " id="billingLine1" type="text" autocomplete="billing address-line1">
             <label for="billingLine1">Street address</label>
-            <input id="billingLine1" type="text" autocomplete="billing address-line1">
             <p class="co-err" id="billingLine1-err"></p>
           </div>
           <div class="co-field co-field--wide" data-field="billingLine2">
+            <input placeholder=" " id="billingLine2" type="text" autocomplete="billing address-line2">
             <label for="billingLine2">Unit or level <span class="opt">— optional</span></label>
-            <input id="billingLine2" type="text" autocomplete="billing address-line2">
             <p class="co-err" id="billingLine2-err"></p>
           </div>
           <div class="co-field" data-field="billingCity">
+            <input placeholder=" " id="billingCity" type="text" autocomplete="billing address-level2">
             <label for="billingCity">Suburb or town</label>
-            <input id="billingCity" type="text" autocomplete="billing address-level2">
             <p class="co-err" id="billingCity-err"></p>
           </div>
           <div class="co-field" data-field="billingState">
-            <label for="billingState">State</label>
             <select id="billingState" autocomplete="billing address-level1">
               <option value="">Choose…</option>
               <option>ACT</option><option>NSW</option><option>NT</option><option>QLD</option>
               <option>SA</option><option>TAS</option><option>VIC</option><option>WA</option>
             </select>
+            <label for="billingState">State</label>
             <p class="co-err" id="billingState-err"></p>
           </div>
           <div class="co-field" data-field="billingPostcode">
+            <input placeholder=" " id="billingPostcode" type="text" inputmode="numeric" maxlength="4" autocomplete="billing postal-code">
             <label for="billingPostcode">Postcode</label>
-            <input id="billingPostcode" type="text" inputmode="numeric" maxlength="4" autocomplete="billing postal-code">
             <p class="co-err" id="billingPostcode-err"></p>
           </div>
           <div class="co-field" data-field="billingCountry">
+            <input placeholder=" " id="billingCountry" type="text" value="Australia" readonly tabindex="-1" aria-readonly="true">
             <label for="billingCountry">Country</label>
-            <input id="billingCountry" type="text" value="Australia" readonly tabindex="-1" aria-readonly="true">
             <p class="co-err" id="billingCountry-err"></p>
           </div>
         </div>

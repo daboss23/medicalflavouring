@@ -327,6 +327,7 @@ function readAddress(prefix,label){
   return {
     line1:line1,
     line2:value(prefix+'Line2'),
+    line3:value(prefix+'Line3'),
     city:city,
     state:stateCode,
     postcode:postcode,
@@ -365,6 +366,8 @@ function readForm(){
       phone:phone,
       business:value('business')
     },
+    purchaseOrder:value('purchaseOrder'),
+    deliveryNotes:value('deliveryNotes'),
     shipping:shipping,
     billing:billing,
     billingSameAsShipping:same,

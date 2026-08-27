@@ -51,6 +51,7 @@ function readAddress(source,prefix,label){
   const address={
     line1:text(source&&source.line1,200),
     line2:text(source&&source.line2,200),
+    line3:text(source&&source.line3,200),
     city:text(source&&source.city,80),
     state:text(source&&source.state,20).toUpperCase(),
     postcode:text(source&&source.postcode,10),
@@ -65,7 +66,8 @@ function readAddress(source,prefix,label){
 
 function setAddress(params,base,address){
   params.set(`${base}[line1]`,address.line1);
-  if(address.line2) params.set(`${base}[line2]`,address.line2);
+  const line2=[address.line2,address.line3].filter(Boolean).join(', ');
+  if(line2) params.set(`${base}[line2]`,line2);
   params.set(`${base}[city]`,address.city);
   params.set(`${base}[state]`,address.state);
   params.set(`${base}[postal_code]`,address.postcode);
@@ -157,6 +159,8 @@ module.exports=async function handler(req,res){
       customer_email:customer.email,
       customer_phone:customer.phone,
       business_name:customer.business,
+      purchase_order:text(body.purchaseOrder,60),
+      delivery_notes:text(body.deliveryNotes,500),
       billing_same_as_shipping:billing===shipping?'true':'false'
     };
     Object.keys(metadata).forEach(key=>params.set(`metadata[${key}]`,metadata[key]));

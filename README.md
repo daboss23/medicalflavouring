@@ -23,6 +23,11 @@ Sales page for the Padagis ORA® compounding vehicle range (Medical Flavouring S
 | `api/create-payment-intent.js` | Opens (or updates) the PaymentIntent behind the embedded checkout page, recalculating every cent server-side. |
 | `api/payment-intent.js` | Reads one embedded-checkout order back for the thank-you page, in the same shape `checkout-session.js` returns. |
 | `api/checkout-config.js` | Hands the checkout page the Stripe publishable key, so test and live keys follow the environment. |
+
+Checkout collects a purchase order number and delivery instructions alongside the address, both optional
+and both carried into the payment's Stripe metadata as `purchase_order` and `delivery_notes`. The delivery
+address takes three lines; Stripe's address object holds two, so lines 2 and 3 are joined into its `line2`
+rather than the third being dropped between here and whoever packs the box.
 | `api/order-fields.js` | Shared order shaping for both read endpoints — product names, photography, colours, order references. |
 | `assets/` | Product photography and logo, supplied by the manufacturer. |
 | `dist/mfs-ora-sales-page.html` | Self-contained build — images inlined as data URIs, no `<html>`/`<head>` wrapper. Used for the shared preview. Regenerate with `build.py`. |
