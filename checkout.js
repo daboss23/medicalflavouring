@@ -477,6 +477,17 @@ function renderModal(){
   var ready=paid===modal.target;
   var onStep2=modal.step===2;
 
+  /* The CTA's own state goes first, before any of the DOM work below that
+     could throw. A render error further down must never be able to leave a
+     completed order sitting behind a disabled button — that is a lost sale,
+     and the failure is silent because the rest of the panel still shows the
+     last good pass. */
+  $('ouBack').hidden=!onStep2;
+  $('ouNext').disabled=!onStep2&&!ready;
+  $('ouNextLabel').textContent=onStep2
+    ?'Add to cart'
+    :'Choose my '+plural(modal.freeCount,'free bottle');
+
   $('ouRail').classList.toggle('at-2',onStep2);
   document.querySelectorAll('[data-step-dot]').forEach(function(dot){
     dot.classList.toggle('is-on',Number(dot.getAttribute('data-step-dot'))===modal.step);
@@ -503,11 +514,6 @@ function renderModal(){
         remaining>0?plural(remaining,'bottle')+' to go':
         plural(Math.abs(remaining),'bottle')+' too many')+'</span>';
 
-  $('ouBack').hidden=!onStep2;
-  $('ouNext').disabled=!onStep2&&!ready;
-  $('ouNextLabel').textContent=onStep2
-    ?'Add to cart'
-    :'Choose my '+plural(modal.freeCount,'free bottle');
 }
 
 /* Committing: the working mix becomes the basket, and the free choices become
