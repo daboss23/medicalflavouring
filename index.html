@@ -1495,13 +1495,16 @@ body.has-product-modal{overflow:hidden}
   /* The lineup is the hero image on a phone, so it is sized to fill the
      measure: bottles overlap harder and run near the full gutter width.
      Everything here is driven from one width, never from height with an
-     auto width — an auto width has to be derived from the bitmap's own
-     ratio, and iOS Safari derives it wrong for an image in a flex row,
-     drawing the bottle narrower than its box (worst on the tallest one,
-     the free bottle, which also threw the chevrons off its centre).
-     An explicit width plus `aspect-ratio` leaves nothing to derive, and
-     `object-fit:contain` means a box that is ever wrong letterboxes
-     instead of squashing the artwork. */
+     auto width. That reverse direction leaves the width to be derived
+     from the bitmap's own ratio, and on a phone it came out narrow —
+     worst on the tallest bottle, the free one, which drew squashed and
+     threw the chevrons off its centre. It did not reproduce in Chromium,
+     so which engine gets that derivation wrong is unconfirmed; the point
+     is that no layout here should depend on it. Width with an auto
+     height is the direction every engine has always gotten right,
+     `aspect-ratio` states the ratio outright rather than inferring it,
+     and `object-fit:contain` means a box that is somehow still wrong
+     letterboxes instead of squashing the artwork. */
   .lineup{--bottle:clamp(46px,15vw,74px); --bottle-free:calc(var(--bottle) * 1.115); gap:8px; padding:46px 0 34px}
   .lineup-six{flex:none}
   .lineup img{
