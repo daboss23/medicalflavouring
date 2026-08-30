@@ -1,0 +1,8 @@
+# MFS — Medical Flavouring Systems
+User-agent: *
+Allow: /
+Disallow: /checkout.html
+Disallow: /thank-you.html
+Disallow: /api/
+
+Sitemap: https://www.medicalfs.com.au/sitemap.xml
