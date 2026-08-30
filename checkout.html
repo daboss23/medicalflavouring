@@ -453,13 +453,43 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
 }
 .co-assure span{display:inline-flex; align-items:center; gap:6px}
 .co-assure svg{width:14px; height:14px; color:var(--good)}
+/* Trust badges. Hovering (or focusing) them surfaces the same wording the
+   browser's own padlock panel shows, so the SSL claim printed on the artwork
+   can be read back in the visitor's own words. The wrapper stays z-index:auto
+   so it creates no stacking context — the badge plate below must keep
+   multiplying against the page, not against the wrapper. */
+.co-trust{position:relative; display:block; width:100%; max-width:280px; margin:18px auto 0}
+.co-trust:focus{outline:none}
+.co-trust:focus-visible{outline:2px solid var(--navy); outline-offset:5px; border-radius:var(--r-sm)}
 .co-badges{
-  display:block; margin:18px auto 0; width:100%; max-width:280px;
+  display:block; margin:0 auto; width:100%;
   /* The artwork ships on a near-white plate. Multiplying drops that plate into
      whatever the page is painted, so the badges sit on the background instead
      of on a white card of their own. */
   mix-blend-mode:multiply;
 }
+.co-tip{
+  position:absolute; z-index:3; left:50%; bottom:calc(100% + 9px);
+  width:max-content; max-width:236px;
+  display:grid; padding:10px 12px;
+  background:#3b4049; color:#fff; border-radius:var(--r-sm);
+  font-size:12.5px; line-height:1.45; text-align:left;
+  box-shadow:0 10px 26px -8px rgba(14,20,32,.45);
+  opacity:0; visibility:hidden; pointer-events:none;
+  transform:translate(-50%,4px);
+  transition:opacity .16s var(--ease), transform .16s var(--ease), visibility .16s;
+}
+.co-tip::after{
+  content:""; position:absolute; top:100%; left:50%;
+  border:6px solid transparent; border-top-color:#3b4049; transform:translateX(-50%);
+}
+.co-trust:hover .co-tip,
+.co-trust:focus-visible .co-tip{opacity:1; visibility:visible; transform:translate(-50%,0)}
+.co-tip-lead{display:flex; align-items:flex-start; gap:7px}
+.co-tip-lead svg{width:14px; height:14px; flex:none; margin-top:2px}
+.co-tip-by{margin-top:7px; font-size:11.5px; color:rgba(255,255,255,.62)}
+.co-tip-ca{font-weight:700}
+@media (prefers-reduced-motion:reduce){ .co-tip{transition:none} }
 .co-fine{margin:16px 0 0; font-size:12.5px; line-height:1.55; color:var(--ink-4); text-align:center}
 
 /* ============================================================
@@ -981,7 +1011,17 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
       <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg> GST tax invoice emailed</span>
       <span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg> Australian Padagis supplier</span>
     </div>
-    <img class="co-badges" src="assets/checkout-trust-badges.png" alt="100% satisfaction guaranteed, 256-bit SSL secure checkout, verified Stripe payments, and supported card brands" loading="lazy">
+    <div class="co-trust" tabindex="0" aria-describedby="trustTip">
+      <img class="co-badges" src="assets/checkout-trust-badges.png" alt="100% satisfaction guaranteed, 256-bit SSL secure checkout, and verified Stripe payments" loading="lazy">
+      <span class="co-tip" id="trustTip" role="tooltip">
+        <span class="co-tip-lead">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>
+          You are securely connected to this site.
+        </span>
+        <span class="co-tip-by">Verified by</span>
+        <span class="co-tip-ca">Let’s Encrypt</span>
+      </span>
+    </div>
     <p class="co-fine">
       By completing this order you agree to our <a href="terms.html">Terms of Use</a> and
       <a href="privacy.html">Privacy Policy</a>. Card details are handled by Stripe and never touch our servers.
