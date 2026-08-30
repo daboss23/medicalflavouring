@@ -64,6 +64,11 @@
    it once here — every hidden panel on this page stays hidden. */
 [hidden]{display:none !important}
 html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; overflow-x:hidden}
+/* Double-tap on a control is a zoom gesture by default, so tapping + twice to
+   add two bottles zooms the page instead of adding a bottle. `manipulation`
+   drops the double-tap-zoom (and its 300ms click delay) on controls only —
+   pinch-to-zoom and panning are untouched. */
+button,[role=button],a,label,summary,input,select,textarea{touch-action:manipulation}
 body{
   margin:0;
   background:var(--mist);
@@ -393,6 +398,10 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
    funnel does not change shape between the two.
    ------------------------------------------------------------ */
 @media (max-width:600px){
+  /* iOS Safari zooms the page in whenever a focused field is under 16px, so
+     every field that takes a tap is 16px here. */
+  .co-field input,.co-field select,.co-field textarea{font-size:16px}
+
   /* No CTA label is short enough to survive a 360px line. */
   .btn{padding:13px 18px; min-height:56px; text-align:center}
   .btn-label{white-space:normal; text-wrap:balance; line-height:1.22}
@@ -701,6 +710,8 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   .ou-foot{padding:12px 16px 16px}
   .ou-sku{grid-template-columns:44px 1fr auto; gap:10px; padding:10px}
   .ou-sku img{width:44px; height:44px}
+  /* A button you tap repeatedly earns a full-size target. */
+  .ou-step-ctl button{width:44px; height:44px}
 }
 
 /* Summary */

@@ -84,6 +84,11 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:104px; overflow-x:hidden}
+/* Double-tap on a control is a zoom gesture by default, so tapping + twice to
+   add two bottles zooms the page instead of adding a bottle. `manipulation`
+   drops the double-tap-zoom (and its 300ms click delay) on controls only —
+   pinch-to-zoom and panning are untouched. */
+button,[role=button],a,label,summary,input,select,textarea{touch-action:manipulation}
 body{
   margin:0;
   background:var(--paper);
