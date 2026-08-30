@@ -2438,9 +2438,21 @@ function render(){
   var bonusIncreased=t.bonusCount>state.lastFree;
   state.lastFree = t.bonusCount;
 
-  var progressRatio=t.paidCount<RULES.dealThreshold
-    ? t.paidCount/RULES.dealThreshold
-    : (t.paidCount<RULES.boostedThreshold?t.paidCount/RULES.boostedThreshold:1);
+  /* Below six the bar fills toward the first bonus, then toward the 12-bottle
+     boost. Past twelve it keeps measuring the run to the next threshold rather
+     than sitting pinned at full, so trade orders still see it move. */
+  var progressRatio;
+  if(t.paidCount<RULES.dealThreshold){
+    progressRatio=t.paidCount/RULES.dealThreshold;
+  }else if(t.paidCount<RULES.boostedThreshold){
+    progressRatio=t.paidCount/RULES.boostedThreshold;
+  }else{
+    /* Each further block of six is its own run. Landing exactly on a threshold
+       reads as a full bar (the bonus was just earned) rather than an empty one. */
+    progressRatio=t.toNextThreshold===RULES.dealThreshold
+      ? 1
+      : (RULES.dealThreshold-t.toNextThreshold)/RULES.dealThreshold;
+  }
   $('#progressFill').style.transform = 'scaleX(' + Math.min(1, progressRatio) + ')';
 
   if(t.paidCount===0){
@@ -2454,7 +2466,11 @@ function render(){
   }else if(t.paidCount===RULES.boostedThreshold){
     $('#progressNote').textContent='12-bottle boost unlocked: 12 paid + 3 free = 15 shipped.';
   }else{
-    $('#progressNote').textContent=t.bonusCount+' free bottles unlocked across this trade order.';
+    /* Trade range: say what is already earned and how far the next block of
+       three (or the next single bonus at the half box) still is. */
+    var moreBottles=t.toNextThreshold+' more bottle'+(t.toNextThreshold===1?'':'s');
+    $('#progressNote').textContent=t.bonusCount+' free bottle'+(t.bonusCount===1?'':'s')+
+      ' unlocked. '+moreBottles+' to make it '+PRICING.bonusCount(t.nextThreshold)+' free.';
   }
 
   if(t.paidCount===0){

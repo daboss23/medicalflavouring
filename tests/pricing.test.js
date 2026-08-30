@@ -55,8 +55,21 @@ for(const basket of [{plus:1,sweet:1},{plus:5,blend:2},{plus:3,sweet:3,blend:3,b
   assert.equal(result.totalIncGstCents,result.subtotalCents+result.gstCents+result.freightCents);
 }
 
-assert.equal(quote(18).bonusCount,4);
-assert.equal(quote(24).bonusCount,6);
+/* Every complete box of twelve earns three bonus bottles; a leftover block of
+   six earns one more. Shipped counts follow: 6 -> 7, 12 -> 15, 24 -> 30. */
+for(const [paid,bonus] of [[0,0],[5,0],[6,1],[11,1],[12,3],[17,3],[18,4],[23,4],[24,6],[30,7],[36,9],[48,12]]){
+  assert.equal(quote(paid).bonusCount,bonus,`${paid} paid bottles should earn ${bonus} bonus`);
+  assert.equal(quote(paid).shippedCount,paid+bonus);
+}
+
+/* The next threshold is always the nearest half box above the basket, and
+   reaching it never loses bonus stock. */
+for(const [paid,target] of [[0,6],[5,6],[6,12],[11,12],[12,18],[17,18],[18,24],[24,30],[36,42]]){
+  const result=quote(paid);
+  assert.equal(result.nextThreshold,target);
+  assert.equal(result.toNextThreshold,target-paid);
+  assert.ok(Pricing.bonusCount(target)>result.bonusCount);
+}
 assert.equal(Pricing.quote({plus:2,sweet:2,blend:2}).subtotalCents,17994);
 assert.equal(Pricing.normalizeQuantities({plus:'6',unknown:99},['plus','sweet']).plus,6);
 assert.equal(Pricing.normalizeQuantities({plus:-1},['plus']).plus,0);
