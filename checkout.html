@@ -302,8 +302,6 @@ svg{width:1em; height:1em; fill:none; stroke:currentColor; stroke-width:1.8; str
 #paymentElement{min-height:44px}
 /* The brands the card field actually takes, said once and quietly, directly
    under the box they apply to. */
-.co-cards{display:block; width:100%; max-width:250px; height:auto; margin:14px auto 2px; opacity:.9}
-body.is-hosted .co-cards{display:none}
 .co-payment-loading{
   display:grid; gap:10px;
 }
@@ -964,8 +962,6 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
         <div class="co-skel" style="width:60%"></div>
       </div>
       <div id="paymentElement"></div>
-      <img class="co-cards" src="assets/card-brands.png" width="560" height="57" loading="lazy"
-           alt="Mastercard, Visa, American Express, Discover and Apple Pay accepted">
       <p class="co-err" id="payment-err" style="margin-top:8px"></p>
     </section>
 
