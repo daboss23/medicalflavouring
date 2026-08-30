@@ -1486,10 +1486,26 @@ body.has-product-modal{overflow:hidden}
   .hero .lede{margin-top:14px;font-size:16.5px;line-height:1.58}
   .hero-cta{margin-top:18px}
   /* The lineup is the hero image on a phone, so it is sized to fill the
-     measure: bottles overlap harder and run near the full gutter width. */
-  .lineup{gap:8px;padding:42px 0 34px}
-  .lineup img{height:clamp(150px,47vw,232px);margin-left:clamp(-30px,-4.3vw,-14px)}
-  .lineup-free img{height:clamp(168px,52.6vw,260px);margin-left:0}
+     measure: bottles overlap harder and run near the full gutter width.
+     Everything here is driven from one width, never from height with an
+     auto width. That reverse direction leaves the width to be derived
+     from the bitmap's own ratio, and on a phone it came out narrow —
+     worst on the tallest bottle, the free one, which drew squashed and
+     threw the chevrons off its centre. It did not reproduce in Chromium,
+     so which engine gets that derivation wrong is unconfirmed; the point
+     is that no layout here should depend on it. Width with an auto
+     height is the direction every engine has always gotten right,
+     `aspect-ratio` states the ratio outright rather than inferring it,
+     and `object-fit:contain` means a box that is somehow still wrong
+     letterboxes instead of squashing the artwork. */
+  .lineup{--bottle:clamp(46px,15vw,74px); --bottle-free:calc(var(--bottle) * 1.115); gap:8px; padding:46px 0 34px}
+  .lineup-six{flex:none}
+  .lineup img{
+    width:var(--bottle); height:auto; aspect-ratio:330/1085; object-fit:contain;
+    margin-left:calc(var(--bottle) * -.3);
+  }
+  .lineup-free{width:var(--bottle-free)}
+  .lineup-free img{width:var(--bottle-free); height:auto; margin-left:0}
   .free-flag{top:0;left:auto;right:0;translate:0 -100%;padding:8px 13px;font-size:12px;border-radius:8px}
   .is-lit .free-flag{animation-name:flagDropRight}
   /* The bigger bottle puts the chevrons on its white body, where white
@@ -1651,11 +1667,10 @@ body.has-product-modal{overflow:hidden}
   .pulse-dot{animation:none}
   .price-crown::after{animation:none; opacity:0}
 
-  /* The three chevrons stream downward on desktop. Here they hold the
-     shape that stream makes, so the cue reads without the repaints. */
-  .free-arrows i{animation:none; opacity:.95; transform:translate(-50%,8px) rotate(45deg) scale(1)}
-  .free-arrows i:nth-child(2){opacity:.6; transform:translate(-50%,29px) rotate(45deg) scale(.94)}
-  .free-arrows i:nth-child(3){opacity:.3; transform:translate(-50%,48px) rotate(45deg) scale(.86)}
+  /* The chevrons keep streaming here. They are three 15px elements and
+     the one piece of motion that points at the free bottle — frozen mid
+     -stream they read as a broken image, which costs more than they save.
+     Reduced motion still gets the static stack, below. */
 
   /* A blurred backdrop on a fixed bar is re-blurred every scroll frame.
      Both bars are already almost opaque, so the blur is doing nearly no
@@ -1692,8 +1707,6 @@ body.has-product-modal{overflow:hidden}
   .cart-chip>span:not(.n){display:none}
   .cart-chip{padding-inline:13px}
   .h-display{font-size:clamp(38px,11.5vw,46px)}
-  .lineup img{height:clamp(140px,46vw,196px);margin-left:clamp(-27px,-4.2vw,-13px)}
-  .lineup-free img{height:clamp(157px,51.5vw,219px)}
   .card-art img{height:clamp(164px,48vw,190px)}
   .testimonial-author{align-items:flex-start}
   .testimonial-copy{font-size:19px}
@@ -1722,6 +1735,9 @@ body.has-product-modal{overflow:hidden}
     transition-duration:.001ms !important;
   }
   [data-reveal]{opacity:1; transform:none; filter:none}
+  .free-arrows i{opacity:.95; transform:translate(-50%,8px) rotate(45deg)}
+  .free-arrows i:nth-child(2){opacity:.6; transform:translate(-50%,29px) rotate(45deg) scale(.94)}
+  .free-arrows i:nth-child(3){opacity:.3; transform:translate(-50%,48px) rotate(45deg) scale(.86)}
 }
 </style>
 <div id="top" aria-hidden="true"></div>
