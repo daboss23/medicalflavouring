@@ -416,10 +416,12 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   .btn--flame{animation:none}
   .btn--flame::after{animation:none; opacity:0}
 }
-/* Half-desaturating flame orange lands on bronze, which reads as a broken
-   brand colour rather than an unavailable button. Go fully neutral: grey is
-   unambiguous, and no one mistakes it for the CTA. */
-.btn:disabled{filter:grayscale(1) opacity(.5); cursor:not-allowed; box-shadow:none; animation:none}
+/* A disabled CTA is deliberately a dimmed version of the flame, not a neutral
+   grey: it reads as the same button not yet earned, so when the order hits the
+   target it lights up into the full colour rather than becoming a new button.
+   In the upgrade modal this only ever shows on step 1, while the 12 bottles are
+   still being chosen — step 2 is always enabled, so it is always full flame. */
+.btn:disabled{filter:grayscale(.5) brightness(.8); cursor:not-allowed; box-shadow:none; animation:none}
 .btn:disabled::after{animation:none; opacity:0}
 .btn svg{position:relative; z-index:1; width:18px; height:18px; flex:none; stroke-width:2.2}
 
