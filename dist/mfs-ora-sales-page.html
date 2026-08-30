@@ -76,7 +76,7 @@
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:104px}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:104px; overflow-x:hidden}
 body{
   margin:0;
   background:var(--paper);
@@ -178,6 +178,7 @@ p{text-wrap:pretty}
   isolation:isolate;
   transition:transform .5s var(--ease), box-shadow .5s var(--ease), background-color .4s var(--ease);
   will-change:transform;
+  min-width:0; max-width:100%;
 }
 .btn::before{
   content:''; position:absolute; inset:0; border-radius:inherit; z-index:-1;
@@ -190,7 +191,7 @@ p{text-wrap:pretty}
 .btn-arrow{position:relative;z-index:1;flex:none;width:24px;height:24px;display:grid;place-items:center;color:#fff}
 .btn-arrow svg{width:22px;height:22px;transition:transform .55s var(--ease)}
 .btn:hover .btn-arrow svg{transform:translateX(3px)}
-.btn-label{white-space:nowrap}
+.btn-label{white-space:nowrap; min-width:0}
 /* The sticky bar keeps the deal counter as its headline — it is the incentive —
    and says what the button actually does in a quieter line underneath. */
 .btn-stack{display:flex; flex-direction:column; align-items:center; gap:2px; line-height:1.12}
@@ -1252,6 +1253,7 @@ body.has-product-modal{overflow:hidden}
    Order routes / risk reversal
    ============================================================ */
 .routes{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(14px,1.8vw,22px)}
+.route,.card,.qual-card,.stat{min-width:0}
 .route{
   padding:26px 24px; border-radius:var(--r-lg);
   background:#fff; box-shadow:inset 0 0 0 1px var(--line-soft), var(--lift-1);
@@ -1367,7 +1369,8 @@ body.has-product-modal{overflow:hidden}
   max-width:var(--shell); margin:0 auto;
   display:flex; align-items:center; gap:20px; justify-content:space-between;
 }
-.ob-facts{display:flex; align-items:center; gap:22px; min-width:0}
+.order-bar-inner>.btn{flex:0 1 auto}
+.ob-facts{display:flex; align-items:center; gap:22px; min-width:0; flex:1 1 auto; overflow:hidden}
 .ob-item{display:flex; flex-direction:column; gap:1px; white-space:nowrap}
 .ob-item .k{font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase; color:#93aac5}
 .ob-item .v{font-family:var(--display); font-weight:750; font-size:18px; letter-spacing:-.028em; font-variant-numeric:tabular-nums}
@@ -1550,6 +1553,66 @@ body.has-product-modal{overflow:hidden}
   .foot-note{gap:7px 14px;font-size:9.5px;line-height:1.55}
   .foot-legal{padding-block:20px var(--band-space);font-size:11.5px}
 }
+/* ------------------------------------------------------------
+   Mobile refinement layer
+   Sits after the base ≤720 rules and only corrects what a narrow
+   viewport actually breaks: labels that cannot shrink, tap targets
+   under 44px, and section joins whose air was uneven.
+   ------------------------------------------------------------ */
+@media (max-width:720px){
+  /* A 33-character CTA cannot stay on one line at 360px. Let every
+     button label wrap and centre, and give the box room for two lines. */
+  .btn{padding:13px 18px; min-height:56px; text-align:center}
+  .btn-label{white-space:normal; text-wrap:balance; line-height:1.22}
+  .btn--text-only{justify-content:center}
+  .cta-stack .btn,.route .btn,.closer .btn{justify-content:center; gap:10px}
+  .cta-stack .btn .btn-label,.route .btn .btn-label,.closer .btn .btn-label{flex:0 1 auto}
+
+  /* The scene image drops its radius on mobile, so let it actually
+     reach both edges instead of sitting inside the gutter. */
+  .panel-art--scene{width:100vw; margin-inline:calc(50% - 50vw)}
+
+  /* Every inline link becomes a real 44px target without changing
+     the visual rhythm of the list it sits in. */
+  .foot-grid li{margin:0}
+  .foot-grid li,.foot-grid li a{min-height:44px; display:flex; align-items:center}
+  .foot-grid li a{margin:0}
+  .footer-policy-links{gap:0 22px}
+  .footer-policy-links a{min-height:44px; display:inline-flex; align-items:center}
+  .route .v{min-height:44px; display:inline-flex; align-items:center}
+
+  /* Equal air at every section join: one --space per side, no more. */
+  .sec-head{margin-bottom:26px}
+  .sec-head.is-centered{padding-inline:4px}
+  .shell.section-space+.shell.section-space{padding-top:0}
+  .range-strip+.shell.bay{padding-top:var(--space)}
+
+  /* Hero copy is set for a desktop measure: the hard breaks and the
+     nowrap phrase both have to give way at a phone measure. */
+  .hero .lede br{display:none}
+  .h-display .nowrap{white-space:normal}
+  .h-display{font-size:clamp(35px,10.6vw,46px)}
+
+  /* The sticky bar is the last thing between a reader and checkout, and it
+     has one line of height to work with: the CTA keeps its label on one
+     line and the facts take whatever is left. */
+  .order-bar-inner{gap:12px}
+  .order-bar .btn{flex:none; min-height:48px; padding:8px 13px}
+  .order-bar .btn .btn-label{white-space:nowrap; font-size:11.5px}
+  .order-bar .btn-sub{font-size:10px}
+  .ob-facts{gap:12px; flex:1 1 auto; min-width:0}
+  .ob-item{min-width:0}
+  .ob-item .k{font-size:9px; letter-spacing:.12em}
+  .ob-item .v{font-size:16.5px}
+  .ob-facts .k-long{display:none}
+}
+/* Below ~385px the bar cannot hold both facts and a legible CTA.
+   The count is what drives the offer message, so the running total
+   steps aside — it is still shown in the builder summary. */
+@media (max-width:385px){
+  .ob-facts .ob-item:last-child,.ob-facts .ob-rule{display:none}
+  .order-bar .btn{padding:8px 16px}
+}
 @media (max-width:420px){
   :root{--gutter:16px}
   .spec-grid{grid-template-columns:1fr}
@@ -1663,7 +1726,7 @@ body.has-product-modal{overflow:hidden}
       <h1 class="h-display" data-reveal style="--d:60ms">
         Buy 6 bottles,<br><span class="nowrap">get the 7th <span class="free">free<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M6 13 C 70 4, 150 4, 294 11"/></svg></span></span>
       </h1>
-      <p class="lede" data-reveal style="--d:140ms">The complete ORA® suspension vehicle and sweetening<br>agent range. Mix and match <strong>any combination</strong> of ORA®<br>products to make up your six.</p>
+      <p class="lede" data-reveal style="--d:140ms">The complete ORA® suspension vehicle and sweetening <br>agent range. Mix and match <strong>any combination</strong> of ORA® <br>products to make up your six.</p>
 
       <div class="cta-stack hero-cta" data-reveal style="--d:260ms">
         <a class="btn btn--flame" href="#builder">
@@ -2099,7 +2162,7 @@ body.has-product-modal{overflow:hidden}
       <i class="ob-rule"></i>
       <div class="ob-item"><span class="k">Free</span><span class="v is-free" id="obFree">0</span></div>
       <i class="ob-rule"></i>
-      <div class="ob-item"><span class="k">Bottles ex GST</span><span class="v" id="obTotal">$0.00</span></div>
+      <div class="ob-item"><span class="k"><span class="k-long">Bottles </span>ex GST</span><span class="v" id="obTotal">$0.00</span></div>
     </div>
     <a class="btn btn--flame btn--sm btn--text-only" href="#builder" id="obCta">
       <span class="btn-stack">
