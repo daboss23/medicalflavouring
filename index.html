@@ -1042,8 +1042,35 @@ p{text-wrap:pretty}
 #addBundle .btn-label{width:100%;text-align:center}
 #addBundle .btn-arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%)}
 #addBundle:disabled{cursor:wait;opacity:.68;transform:none;box-shadow:none}
-.checkout-trust{margin-top:14px}
+/* Trust badges. Hover or focus surfaces the same wording the browser's own
+   padlock panel shows, so the SSL claim on the artwork reads back in plain
+   words. The wrapper stays z-index:auto so it creates no stacking context —
+   the badge plate must keep multiplying against the page behind it. */
+.checkout-trust{position:relative;margin-top:14px}
 .checkout-trust img{display:block;width:92%;height:auto;margin-inline:auto;mix-blend-mode:multiply}
+.checkout-trust:focus{outline:none}
+.checkout-trust:focus-visible{outline:2px solid var(--navy);outline-offset:5px;border-radius:var(--r-xs)}
+.trust-tip{
+  position:absolute;z-index:3;left:50%;bottom:calc(100% + 9px);
+  width:max-content;max-width:236px;display:grid;padding:10px 12px;
+  background:#3b4049;color:#fff;border-radius:var(--r-xs);
+  font-size:12.5px;line-height:1.45;text-align:left;
+  box-shadow:0 10px 26px -8px rgba(14,20,32,.45);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translate(-50%,4px);
+  transition:opacity .16s var(--ease),transform .16s var(--ease),visibility .16s;
+}
+.trust-tip::after{
+  content:"";position:absolute;top:100%;left:50%;
+  border:6px solid transparent;border-top-color:#3b4049;transform:translateX(-50%);
+}
+.checkout-trust:hover .trust-tip,
+.checkout-trust:focus-visible .trust-tip{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.trust-tip-lead{display:flex;align-items:flex-start;gap:7px}
+.trust-tip-lead svg{width:14px;height:14px;flex:none;margin-top:2px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.trust-tip-by{margin-top:7px;font-size:11.5px;color:rgba(255,255,255,.62)}
+.trust-tip-ca{font-weight:700}
+@media (prefers-reduced-motion:reduce){ .trust-tip{transition:none} }
 .checkout-privacy{
   margin:10px 0 0; color:var(--ink-4); text-align:center;
   font-family:var(--mono); font-size:clamp(6.5px,1vw,10px); font-weight:600;
@@ -2014,8 +2041,16 @@ body.has-product-modal{overflow:hidden}
           <span class="btn-label">Continue to checkout</span>
           <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
         </button>
-        <div class="checkout-trust" aria-label="Satisfaction guarantee, secure SSL checkout and verified Stripe payment methods">
-          <img src="assets/checkout-trust-badges-hd.png" width="3922" height="1604" alt="100% satisfaction guaranteed, 256-bit SSL secure checkout, verified Stripe payments, and supported payment methods" loading="lazy">
+        <div class="checkout-trust" tabindex="0" aria-describedby="trustTip" aria-label="Satisfaction guarantee, secure SSL checkout and verified Stripe payments">
+          <img src="assets/checkout-trust-badges-hd.png" width="3922" height="1166" alt="100% satisfaction guaranteed, 256-bit SSL secure checkout, and verified Stripe payments" loading="lazy">
+          <span class="trust-tip" id="trustTip" role="tooltip">
+            <span class="trust-tip-lead">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/></svg>
+              You are securely connected to this site.
+            </span>
+            <span class="trust-tip-by">Verified by</span>
+            <span class="trust-tip-ca">Let’s Encrypt</span>
+          </span>
         </div>
         <p class="checkout-privacy">We respect your privacy · your details are never sold or shared</p>
         <p class="checkout-status" id="checkoutStatus" role="status" aria-live="polite"></p>
