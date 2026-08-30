@@ -340,7 +340,6 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   cursor:pointer;
   isolation:isolate;
   transition:transform .5s var(--ease), box-shadow .5s var(--ease), background-color .4s var(--ease);
-  will-change:transform;
   min-width:0; max-width:100%;
 }
 .btn::before{
@@ -406,6 +405,13 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   .btn{padding:13px 18px; min-height:56px; text-align:center}
   .btn-label{white-space:normal; text-wrap:balance; line-height:1.22}
   .btn--block{justify-content:center}
+
+  /* Infinite animations repaint their element every frame for as long as
+     the page is open. These all keep their resting look and lose only the
+     motion, which a phone's battery pays for continuously. */
+  .btn--flame,.btn--navy{animation:none}
+  .btn--flame::after,.btn--navy::after{animation:none; opacity:0}
+  .co-bump::before{animation:none}
 
   /* Real 44px targets on every link and control. */
   .co-edit{min-height:44px}
