@@ -3,8 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ORA® Compounding Vehicles, Buy 6, Get the 7th Free | MFS</title>
-<meta name="description" content="The complete Padagis ORA® suspension vehicle and sweetening agent range at Australia's lowest price. Mix and match any six 473 mL bottles and the seventh is free. Backed by 150+ published stability studies.">
+<title>ORA® Compounding Vehicles Australia — Buy 6, Get the 7th Free | MFS</title>
+<meta name="description" content="Buy the Padagis ORA® compounding vehicle range in Australia: ORA-Plus®, ORA-Sweet®, ORA-Sweet® SF, ORA-Blend® and ORA-Blend® SF in 473 mL bottles. $32.99 each, or $29.99 each on six with a seventh bottle free. Ships in 24–48 hours from Melbourne, backed by 150+ published stability studies.">
+<link rel="canonical" href="https://oraproducts.medicalfs.com.au/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MFS — Medical Flavouring Systems">
+<meta property="og:locale" content="en_AU">
+<meta property="og:url" content="https://oraproducts.medicalfs.com.au/">
+<meta property="og:title" content="ORA® Compounding Vehicles Australia — Buy 6, Get the 7th Free | MFS">
+<meta property="og:description" content="Buy the Padagis ORA® compounding vehicle range in Australia: ORA-Plus®, ORA-Sweet®, ORA-Sweet® SF, ORA-Blend® and ORA-Blend® SF in 473 mL bottles. $32.99 each, or $29.99 each on six with a seventh bottle free. Ships in 24–48 hours from Melbourne, backed by 150+ published stability studies.">
+<meta property="og:image" content="https://oraproducts.medicalfs.com.au/assets/twelve-bottle-lineup-free.png">
+<meta property="og:image:alt" content="The ORA® compounding vehicle range in 473 mL bottles">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ORA® Compounding Vehicles Australia — Buy 6, Get the 7th Free | MFS">
+<meta name="twitter:description" content="Buy the Padagis ORA® compounding vehicle range in Australia: ORA-Plus®, ORA-Sweet®, ORA-Sweet® SF, ORA-Blend® and ORA-Blend® SF in 473 mL bottles. $32.99 each, or $29.99 each on six with a seventh bottle free. Ships in 24–48 hours from Melbourne, backed by 150+ published stability studies.">
+<meta name="twitter:image" content="https://oraproducts.medicalfs.com.au/assets/twelve-bottle-lineup-free.png">
 <meta name="theme-color" content="#123a6b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1048,6 +1062,7 @@ p{text-wrap:pretty}
    words. The wrapper stays z-index:auto so it creates no stacking context —
    the badge plate must keep multiplying against the page behind it. */
 .checkout-trust{position:relative;margin-top:14px}
+.checkout-cards{display:block;width:100%;max-width:250px;height:auto;margin:10px auto 0;opacity:.9}
 .checkout-trust img{display:block;width:92%;height:auto;margin-inline:auto;mix-blend-mode:multiply}
 .checkout-trust:focus{outline:none}
 .checkout-trust:focus-visible{outline:2px solid var(--navy);outline-offset:5px;border-radius:var(--r-xs)}
@@ -1305,7 +1320,12 @@ body.has-product-modal{overflow:hidden}
 .route .v{font-family:var(--display); font-size:19px; font-weight:700; letter-spacing:-.025em; color:var(--flame); word-break:break-word}
 .route .v:hover{color:var(--navy)}
 .route .m{font-size:13.5px; color:var(--ink-3); margin:0}
-.route .btn{align-self:flex-start}
+/* The route card is the narrowest place this 33-character CTA appears. Left
+   to nowrap it runs past the card edge and under its own arrow, so here the
+   button fills the card and the label is allowed to take a second line. */
+.route .btn{align-self:stretch; justify-content:center; padding:11px 46px; gap:0}
+.route .btn .btn-label{white-space:normal; text-wrap:balance; line-height:1.25; width:100%; text-align:center}
+.route .btn .btn-arrow{position:absolute; right:16px; top:50%; transform:translateY(-50%)}
 
 .assure{
   border-radius:var(--r-xl); padding:var(--panel-pad);
@@ -1340,7 +1360,47 @@ body.has-product-modal{overflow:hidden}
   position:relative; display:flex; flex-wrap:wrap; gap:28px;
   align-items:center; justify-content:space-between;
 }
+.closer-copy{flex:1 1 340px; min-width:0}
 .closer h2{font-size:clamp(28px,3.6vw,46px); font-weight:800; letter-spacing:-.035em; line-height:1.05}
+
+/* The closer repeats the hero's picture of the offer — six bottles and the
+   free seventh — so the last thing a reader sees before the button is what
+   the button actually gets them. The bottles and the CTA are one column:
+   the button sits directly under the group and matches its width. */
+.closer-offer{
+  position:relative; flex:0 1 500px; min-width:0;
+  display:flex; flex-direction:column; align-items:center; gap:20px;
+}
+.closer-lineup{
+  display:flex; align-items:flex-end; justify-content:center;
+  gap:clamp(10px,1.5vw,20px); padding-top:30px; width:100%;
+}
+.closer-six{display:flex; align-items:flex-end; min-width:0}
+.closer-lineup img{
+  height:clamp(84px,10vw,124px); width:auto; flex:none;
+  margin-left:clamp(-15px,-1.1vw,-8px);
+  filter:drop-shadow(0 14px 18px rgba(94,17,2,.36));
+}
+.closer-six img:first-child{margin-left:0}
+.closer-free{position:relative; flex:none}
+.closer-free img{margin-left:0; height:clamp(94px,11.1vw,138px)}
+.closer-flag{
+  position:absolute; left:50%; top:-12px; translate:-50% -100%;
+  white-space:nowrap;
+  padding:6px 14px; border-radius:9px;
+  background:linear-gradient(174deg,#2c5d92 0%,#1d4a7d 16%,var(--navy) 52%,#071f3c 100%);
+  color:#fff;
+  border:1px solid rgba(55,102,155,.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.48),
+    inset 0 -3px 0 rgba(3,18,35,.62),
+    0 12px 24px -10px rgba(3,18,35,.5);
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(10.5px,1.05vw,13px); line-height:1.2; letter-spacing:.03em; text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(3,18,35,.48);
+}
+.closer-offer .cta-stack{width:100%}
+.closer-offer .btn{width:100%}
 .closer .cd-strip{
   display:flex; gap:8px; margin-top:20px; flex-wrap:wrap;
 }
@@ -1615,7 +1675,7 @@ body.has-product-modal{overflow:hidden}
   .closer .cd-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:100%}
   .closer .cd-box{min-width:0;padding:9px 5px}
   .closer .cd-box .n{font-size:23px}
-  .closer-row>.cta-stack{width:100%}
+  .closer-row>.cta-stack,.closer-row>.closer-offer{width:100%;max-width:none}
   .site-foot{margin-top:0}
   .foot-note{gap:7px 14px;font-size:9.5px;line-height:1.55}
   .foot-legal{padding-block:20px var(--band-space);font-size:11.5px}
@@ -1747,6 +1807,370 @@ body.has-product-modal{overflow:hidden}
   .free-arrows i:nth-child(3){opacity:.3; transform:translate(-50%,48px) rotate(45deg) scale(.86)}
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://oraproducts.medicalfs.com.au/#organization",
+  "name": "MFS P/L — Medical Flavouring Systems",
+  "alternateName": "MFS",
+  "url": "https://oraproducts.medicalfs.com.au/",
+  "logo": "https://oraproducts.medicalfs.com.au/assets/mfs-logo.png",
+  "description": "Australian supplier of the Padagis ORA\u00ae range of oral compounding vehicles \u2014 ORA-Plus\u00ae, ORA-Sweet\u00ae, ORA-Sweet\u00ae SF, ORA-Blend\u00ae and ORA-Blend\u00ae SF \u2014 to pharmacies, hospital pharmacy departments and compounding laboratories.",
+  "email": "info@medicalfs.com.au",
+  "telephone": "+61-3-9387-0427",
+  "faxNumber": "+61-3-9387-0627",
+  "areaServed": { "@type": "Country", "name": "Australia" },
+  "address": {
+    "@type": "PostalAddress",
+    "postOfficeBoxNumber": "270",
+    "addressLocality": "Brunswick East",
+    "addressRegion": "VIC",
+    "postalCode": "3057",
+    "addressCountry": "AU"
+  },
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "contactType": "sales",
+    "telephone": "+61-3-9387-0427",
+    "email": "info@medicalfs.com.au",
+    "areaServed": "AU",
+    "availableLanguage": "en"
+  }]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://oraproducts.medicalfs.com.au/#website",
+  "url": "https://oraproducts.medicalfs.com.au/",
+  "name": "MFS \u2014 Medical Flavouring Systems",
+  "inLanguage": "en-AU",
+  "publisher": { "@id": "https://oraproducts.medicalfs.com.au/#organization" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://oraproducts.medicalfs.com.au/#webpage",
+  "url": "https://oraproducts.medicalfs.com.au/",
+  "name": "ORA® Compounding Vehicles Australia — Buy 6, Get the 7th Free | MFS",
+  "description": "Buy the Padagis ORA® compounding vehicle range in Australia: ORA-Plus®, ORA-Sweet®, ORA-Sweet® SF, ORA-Blend® and ORA-Blend® SF in 473 mL bottles. $32.99 each, or $29.99 each on six with a seventh bottle free. Ships in 24–48 hours from Melbourne, backed by 150+ published stability studies.",
+  "inLanguage": "en-AU",
+  "isPartOf": {
+    "@id": "https://oraproducts.medicalfs.com.au/#website"
+  },
+  "about": {
+    "@id": "https://oraproducts.medicalfs.com.au/#organization"
+  },
+  "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://oraproducts.medicalfs.com.au/assets/twelve-bottle-lineup-free.png"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": "https://oraproducts.medicalfs.com.au/#range",
+  "name": "ORA® compounding vehicle range",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "Product",
+        "name": "ORA-Plus®",
+        "description": "Buffered, bland, unsweetened aqueous suspending vehicle for oral, non-soluble dosage forms. 473 mL bottle.",
+        "image": "https://oraproducts.medicalfs.com.au/assets/ora-plus-1.png",
+        "brand": {
+          "@type": "Brand",
+          "name": "ORA®"
+        },
+        "manufacturer": {
+          "@type": "Organization",
+          "name": "Padagis"
+        },
+        "size": "473 mL",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://oraproducts.medicalfs.com.au/#builder",
+          "priceCurrency": "AUD",
+          "price": "32.99",
+          "availability": "https://schema.org/InStock",
+          "eligibleRegion": {
+            "@type": "Country",
+            "name": "Australia"
+          },
+          "seller": {
+            "@id": "https://oraproducts.medicalfs.com.au/#organization"
+          },
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "29.99",
+            "priceCurrency": "AUD",
+            "valueAddedTaxIncluded": false,
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "minValue": 6,
+              "unitText": "bottle"
+            },
+            "description": "Six or more bottles: $29.99 each excluding GST, with a seventh bottle free."
+          }
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "Product",
+        "name": "ORA-Sweet®",
+        "description": "Sucrose-sweetened citrus-berry syrup vehicle, a modern version of simple syrup for extemporaneous oral preparations. 473 mL bottle.",
+        "image": "https://oraproducts.medicalfs.com.au/assets/ora-sweet-1.png",
+        "brand": {
+          "@type": "Brand",
+          "name": "ORA®"
+        },
+        "manufacturer": {
+          "@type": "Organization",
+          "name": "Padagis"
+        },
+        "size": "473 mL",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://oraproducts.medicalfs.com.au/#builder",
+          "priceCurrency": "AUD",
+          "price": "32.99",
+          "availability": "https://schema.org/InStock",
+          "eligibleRegion": {
+            "@type": "Country",
+            "name": "Australia"
+          },
+          "seller": {
+            "@id": "https://oraproducts.medicalfs.com.au/#organization"
+          },
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "29.99",
+            "priceCurrency": "AUD",
+            "valueAddedTaxIncluded": false,
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "minValue": 6,
+              "unitText": "bottle"
+            },
+            "description": "Six or more bottles: $29.99 each excluding GST, with a seventh bottle free."
+          }
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "Product",
+        "name": "ORA-Sweet® SF",
+        "description": "Sugar-free, alcohol-free citrus-berry syrup vehicle for sweetening sugar-free oral preparations. 473 mL bottle.",
+        "image": "https://oraproducts.medicalfs.com.au/assets/ora-sweet-sf-1.png",
+        "brand": {
+          "@type": "Brand",
+          "name": "ORA®"
+        },
+        "manufacturer": {
+          "@type": "Organization",
+          "name": "Padagis"
+        },
+        "size": "473 mL",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://oraproducts.medicalfs.com.au/#builder",
+          "priceCurrency": "AUD",
+          "price": "32.99",
+          "availability": "https://schema.org/InStock",
+          "eligibleRegion": {
+            "@type": "Country",
+            "name": "Australia"
+          },
+          "seller": {
+            "@id": "https://oraproducts.medicalfs.com.au/#organization"
+          },
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "29.99",
+            "priceCurrency": "AUD",
+            "valueAddedTaxIncluded": false,
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "minValue": 6,
+              "unitText": "bottle"
+            },
+            "description": "Six or more bottles: $29.99 each excluding GST, with a seventh bottle free."
+          }
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "Product",
+        "name": "ORA-Blend®",
+        "description": "Ready-blended suspending and flavouring vehicle combining ORA-Plus® and ORA-Sweet® in one bottle. 473 mL bottle.",
+        "image": "https://oraproducts.medicalfs.com.au/assets/ora-blend-1.png",
+        "brand": {
+          "@type": "Brand",
+          "name": "ORA®"
+        },
+        "manufacturer": {
+          "@type": "Organization",
+          "name": "Padagis"
+        },
+        "size": "473 mL",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://oraproducts.medicalfs.com.au/#builder",
+          "priceCurrency": "AUD",
+          "price": "32.99",
+          "availability": "https://schema.org/InStock",
+          "eligibleRegion": {
+            "@type": "Country",
+            "name": "Australia"
+          },
+          "seller": {
+            "@id": "https://oraproducts.medicalfs.com.au/#organization"
+          },
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "29.99",
+            "priceCurrency": "AUD",
+            "valueAddedTaxIncluded": false,
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "minValue": 6,
+              "unitText": "bottle"
+            },
+            "description": "Six or more bottles: $29.99 each excluding GST, with a seventh bottle free."
+          }
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "Product",
+        "name": "ORA-Blend® SF",
+        "description": "Sugar-free flavoured suspending vehicle combining ORA-Plus® suspending properties with ORA-Sweet® SF. 473 mL bottle.",
+        "image": "https://oraproducts.medicalfs.com.au/assets/ora-blend-sf-1.png",
+        "brand": {
+          "@type": "Brand",
+          "name": "ORA®"
+        },
+        "manufacturer": {
+          "@type": "Organization",
+          "name": "Padagis"
+        },
+        "size": "473 mL",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://oraproducts.medicalfs.com.au/#builder",
+          "priceCurrency": "AUD",
+          "price": "32.99",
+          "availability": "https://schema.org/InStock",
+          "eligibleRegion": {
+            "@type": "Country",
+            "name": "Australia"
+          },
+          "seller": {
+            "@id": "https://oraproducts.medicalfs.com.au/#organization"
+          },
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "29.99",
+            "priceCurrency": "AUD",
+            "valueAddedTaxIncluded": false,
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "minValue": 6,
+              "unitText": "bottle"
+            },
+            "description": "Six or more bottles: $29.99 each excluding GST, with a seventh bottle free."
+          }
+        }
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://oraproducts.medicalfs.com.au/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I mix products to reach my six?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Any combination of ORA-Plus®, ORA-Sweet®, ORA-Sweet® SF, ORA-Blend® and ORA-Blend® SF counts. Orders of 1–5 bottles are $32.99 each. At six paid bottles, the price becomes $29.99 each and one bonus bottle is included free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a trade account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Retail pharmacies can order directly. Hospital pharmacy departments and compounding laboratories ordering on contract pricing need a trade account, the order desk can set one up on the same call."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I support a beyond-use date?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Over 150 published stability studies cover ORA® vehicles across common extemporaneous formulations. Ask the order desk for the study list relevant to your formulation and we will send the references."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which products are sugar-free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ORA-Sweet® SF and ORA-Blend® SF are sugar-free and dye-free, suitable for paediatric, diabetic and enteral-feed patients."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens when I buy twelve bottles?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 12-bottle boost replaces the standard two bonuses with three: twelve paid bottles at $29.99 each ship as fifteen bottles. For larger trade orders, each complete block of twelve earns three bonus bottles and a remaining block of six earns one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How quickly does it ship?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Orders ship in 24–48 hours from Brunswick East, Victoria. If you need stock on the ward or the bench by a particular date, tell the order desk when you place the order and they will confirm it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When does the offer close?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 1-on-6 bonus offer runs while stocks last and closes 18 September 2026. Prices exclude GST and are per 473 mL bottle."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div id="top" aria-hidden="true"></div>
@@ -1777,7 +2201,7 @@ body.has-product-modal{overflow:hidden}
     <span style="display:inline-flex;align-items:center;gap:9px"><i class="pulse-dot"></i> Limited time offer</span>
     <span>Australia's lowest price on the ORA® range</span>
     <span class="countdown" aria-live="off">
-      <b>Offer ends 31 Aug 2026</b>
+      <b>Offer ends 18 Sep 2026</b>
       <span class="cd-cell" data-cd="d">--</span><span class="cd-sep">:</span>
       <span class="cd-cell" data-cd="h">--</span><span class="cd-sep">:</span>
       <span class="cd-cell" data-cd="m">--</span><span class="cd-sep">:</span>
@@ -2086,6 +2510,8 @@ body.has-product-modal{overflow:hidden}
             <span class="trust-tip-ca">Let’s Encrypt</span>
           </span>
         </div>
+        <img class="checkout-cards" src="assets/card-brands.png" width="560" height="57" loading="lazy"
+             alt="Mastercard, Visa, American Express, Discover and Apple Pay accepted">
         <p class="checkout-privacy">We respect your privacy · your details are never sold or shared</p>
         <p class="checkout-status" id="checkoutStatus" role="status" aria-live="polite"></p>
       </aside>
@@ -2194,8 +2620,8 @@ body.has-product-modal{overflow:hidden}
 <section class="shell section-space">
   <div class="closer" data-reveal>
     <div class="closer-row">
-      <div>
-        <h2>Offer ends 31 Aug 2026,<br>lock in your allocation</h2>
+      <div class="closer-copy">
+        <h2>Offer ends 18 Sep 2026,<br>lock in your allocation</h2>
         <div class="cd-strip">
           <div class="cd-box"><div class="n" data-cd="d">--</div><div class="l">Days</div></div>
           <div class="cd-box"><div class="n" data-cd="h">--</div><div class="l">Hours</div></div>
@@ -2203,11 +2629,27 @@ body.has-product-modal{overflow:hidden}
           <div class="cd-box"><div class="n" data-cd="s">--</div><div class="l">Secs</div></div>
         </div>
       </div>
-      <div class="cta-stack">
-        <a class="btn btn--navy btn--text-only" href="#builder">
-          <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
-          <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
-        </a>
+      <div class="closer-offer">
+        <div class="closer-lineup" aria-hidden="true">
+          <div class="closer-six">
+            <img src="assets/ora-plus-1.png" alt="" loading="lazy">
+            <img src="assets/ora-sweet-1.png" alt="" loading="lazy">
+            <img src="assets/ora-sweet-sf-1.png" alt="" loading="lazy">
+            <img src="assets/ora-blend-1.png" alt="" loading="lazy">
+            <img src="assets/ora-blend-sf-1.png" alt="" loading="lazy">
+            <img src="assets/ora-plus-1.png" alt="" loading="lazy">
+          </div>
+          <div class="closer-free">
+            <span class="closer-flag">7th bottle free!</span>
+            <img src="assets/ora-blend-1.png" alt="" loading="lazy">
+          </div>
+        </div>
+        <div class="cta-stack">
+          <a class="btn btn--navy btn--text-only" href="#builder">
+            <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
+            <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -2290,7 +2732,7 @@ body.has-product-modal{overflow:hidden}
 var PRICING = window.MFSPricing;
 if(!PRICING) throw new Error('Pricing engine failed to load');
 var RULES = PRICING.RULES;
-var DEADLINE = new Date('2026-08-31T23:59:59+10:00').getTime();
+var DEADLINE = new Date('2026-09-18T23:59:59+10:00').getTime();
 
 /* Products live in `catalog.js` so the sales page, the checkout page and the
    Stripe endpoints all read one list. */
@@ -2306,7 +2748,7 @@ var FAQ = [
   { q:'Which products are sugar-free?', a:'ORA-Sweet® SF and ORA-Blend® SF are sugar-free and dye-free, suitable for paediatric, diabetic and enteral-feed patients.' },
   { q:'What happens when I buy twelve bottles?', a:'The 12-bottle boost replaces the standard two bonuses with three: twelve paid bottles at $29.99 each ship as fifteen bottles. For larger trade orders, each complete block of twelve earns three bonus bottles and a remaining block of six earns one.' },
   { q:'How quickly does it ship?', a:'Orders ship in 24–48 hours from Brunswick East, Victoria. If you need stock on the ward or the bench by a particular date, tell the order desk when you place the order and they will confirm it.' },
-  { q:'When does the offer close?', a:'The 1-on-6 bonus offer runs while stocks last and closes 31 August 2026. Prices exclude GST and are per 473 mL bottle.' }
+  { q:'When does the offer close?', a:'The 1-on-6 bonus offer runs while stocks last and closes 18 September 2026. Prices exclude GST and are per 473 mL bottle.' }
 ];
 
 /* ============================================================
