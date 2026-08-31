@@ -3336,9 +3336,10 @@ if(navToggle && mobileNav){
   mobileNav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeNav); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeNav(); });
   /* A drawer that outlives its breakpoint would strand the page with no
-     visible nav and a locked body. */
+     visible nav and a locked body. Watch the button rather than a fixed
+     width: each page hides its inline nav at a different size. */
   window.addEventListener('resize', function(){
-    if(window.innerWidth > 1080) closeNav();
+    if(navOpen && !navToggle.offsetParent) closeNav();
   }, { passive:true });
 }
 

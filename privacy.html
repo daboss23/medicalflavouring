@@ -24,6 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&amp;family=Geist+Mono:wght@400..600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="legal.css">
+<link rel="stylesheet" href="mobile-nav.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -75,9 +76,42 @@
       <a href="privacy.html" aria-current="page">Privacy</a>
       <a href="terms.html">Terms</a>
     </nav>
-    <a class="home-link" href="index.html"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.8 4.2 7 10l5.8 5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Back to site</span></a>
+    <div class="head-side">
+      <button class="nav-toggle" type="button" id="navToggle"
+              aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
+        <i></i><i></i><i></i>
+      </button>
+      <a class="home-link" href="index.html"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.8 4.2 7 10l5.8 5.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Back to site</span></a>
+    </div>
   </div>
 </header>
+
+<div class="mobile-nav" id="mobileNav" hidden>
+  <button class="mobile-nav-scrim" type="button" id="navScrim" tabindex="-1" aria-label="Close menu"></button>
+  <div class="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Site menu">
+    <div class="mobile-nav-head">
+      <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+      <button class="mobile-nav-close" type="button" id="navClose" aria-label="Close menu">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <nav class="mobile-nav-links" aria-label="Primary">
+      <a href="index.html#top">Home<svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+      <a href="index.html#why">Why ORA®<svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+      <a href="studies.html">Studies<svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+      <a href="index.html#range">Range<svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+      <a href="index.html#builder">Bundle 1 on 6<svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+      <a href="index.html#faq">FAQ<svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+    </nav>
+    <a class="mobile-nav-cta" href="index.html#builder">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</a>
+    <div class="mobile-nav-contact">
+      <strong>Order desk</strong>
+      <a href="tel:+61393870427">(03) 9387 0427</a>
+      <a href="mailto:info@medicalfs.com.au">info@medicalfs.com.au</a>
+    </div>
+  </div>
+</div>
+
 
 <main id="content">
   <section class="legal-hero">
@@ -255,5 +289,6 @@
     <div class="foot-legal"><span>© 2026 MFS P/L. All rights reserved.</span><nav class="legal-links" aria-label="Legal"><a href="privacy.html" aria-current="page">Privacy Policy</a><a href="terms.html">Terms of Use</a></nav></div>
   </div>
 </footer>
+<script src="mobile-nav.js"></script>
 </body>
 </html>

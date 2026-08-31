@@ -1,0 +1,96 @@
+/* ============================================================
+   MFS · mobile navigation
+   The drawer that replaces the inline header nav once the viewport is
+   too narrow for it. Shared by studies.html, privacy.html and terms.html;
+   the sales page carries its own copy inline, because build.py flattens
+   that page into a single self-contained file.
+
+   Each page decides WHEN to show the button — .nav-toggle{display:flex}
+   inside its own media query — because their inline navs give out at
+   different widths.
+   ============================================================ */
+/* ---- Mobile navigation ----------------------------------------------
+   Below 1080px the inline nav has no room, so it becomes a button and a
+   drawer. The button is the only nav in the header at that size, which
+   gives the header back its single row. */
+.nav-toggle{
+  display:none; position:relative;
+  width:46px; height:46px; padding:0; flex:none;
+  align-items:center; justify-content:center;
+  border:1px solid var(--line); border-radius:10px;
+  background:#fff; color:var(--navy); cursor:pointer;
+}
+.nav-toggle:hover{background:var(--mist)}
+.nav-toggle i{
+  display:block; position:absolute; left:13px; width:20px; height:2px; border-radius:2px;
+  background:currentColor;
+  transition:transform .38s var(--ease), opacity .22s var(--ease);
+}
+.nav-toggle i:nth-child(1){top:15px}
+.nav-toggle i:nth-child(2){top:22px}
+.nav-toggle i:nth-child(3){top:29px}
+.nav-toggle[aria-expanded="true"] i:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] i:nth-child(2){opacity:0}
+.nav-toggle[aria-expanded="true"] i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.mobile-nav{position:fixed; inset:0; z-index:130; visibility:hidden}
+.mobile-nav.is-open{visibility:visible}
+.mobile-nav-scrim{
+  position:absolute; inset:0; width:100%; height:100%; border:0; padding:0; cursor:pointer;
+  background:rgba(6,18,34,.6); opacity:0;
+  transition:opacity .4s var(--ease);
+}
+.mobile-nav.is-open .mobile-nav-scrim{opacity:1}
+.mobile-nav-panel{
+  position:absolute; top:0; right:0; z-index:1;
+  width:min(340px,86vw); height:100%;
+  display:flex; flex-direction:column;
+  padding:18px 22px calc(26px + env(safe-area-inset-bottom));
+  background:#fff; box-shadow:-24px 0 60px -30px rgba(4,14,28,.5);
+  overflow-y:auto; overscroll-behavior:contain;
+  transform:translateX(100%);
+  transition:transform .42s var(--ease);
+}
+.mobile-nav.is-open .mobile-nav-panel{transform:translateX(0)}
+.mobile-nav-head{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:46px}
+.mobile-nav-head img{height:36px; width:auto}
+.mobile-nav-close{
+  width:42px; height:42px; flex:none; display:grid; place-items:center;
+  border:1px solid var(--line); border-radius:10px;
+  background:#fff; color:var(--ink-2); cursor:pointer;
+}
+.mobile-nav-close svg{width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round}
+.mobile-nav-links{display:flex; flex-direction:column; margin-top:18px}
+.mobile-nav-links a{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  min-height:54px; padding:8px 4px;
+  border-bottom:1px solid var(--line-soft,rgba(14,20,32,.06));
+  font-size:17px; font-weight:600; letter-spacing:-.015em; color:var(--ink);
+}
+.mobile-nav-links a:active{color:var(--flame)}
+.mobile-nav-links a svg{width:16px; height:16px; flex:none; color:var(--ink-4,#8b95a4)}
+.mobile-nav .btn{margin-top:22px; width:100%; padding-inline:18px}
+/* The panel is narrower than any viewport this button was sized for, so
+   its label has to be allowed a second line. */
+.mobile-nav .btn .btn-label{white-space:normal; text-wrap:balance; line-height:1.25; width:100%; text-align:center}
+.mobile-nav-contact{margin-top:auto; padding-top:26px; font-size:14px; color:var(--ink-3)}
+.mobile-nav-contact strong{display:block; margin-bottom:7px; font-size:11.5px; font-family:var(--mono);
+  font-weight:550; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4,#8b95a4)}
+.mobile-nav-contact a{display:block; min-height:40px; display:flex; align-items:center;
+  font-weight:650; color:var(--navy)}
+.mobile-nav-cta{
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  margin-top:22px; padding:14px 18px; border-radius:12px;
+  border:1px solid rgba(255,128,86,.92);
+  background:linear-gradient(174deg,#ff7652 0%,var(--flame-lift,#ff5a2b) 16%,var(--flame,#ee3c13) 52%,#c92508 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.68), inset 0 -4px 0 rgba(117,18,4,.48),
+             0 13px 28px -10px rgba(238,60,19,.58);
+  color:#fff; font-size:15px; font-weight:750; line-height:1.25;
+  letter-spacing:.025em; text-transform:uppercase; text-shadow:0 1px 2px rgba(91,14,2,.34);
+}
+.mobile-nav-cta:hover{color:#fff}
+.mobile-nav-links a[aria-current="page"]{color:var(--navy,#123a6b)}
+body.has-mobile-nav{overflow:hidden}
+@media (prefers-reduced-motion:reduce){
+  .mobile-nav-panel,.mobile-nav-scrim,.nav-toggle i{transition:none}
+}
