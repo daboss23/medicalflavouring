@@ -489,14 +489,23 @@ p{text-wrap:pretty}
   width:210%; aspect-ratio:1;
   background:radial-gradient(circle at center,rgba(238,60,19,.22),rgba(238,60,19,0) 62%);
 }
+/* The flag wears the CTA's navy so the badge and the button a reader is
+   being sent to are visibly the same promise, and the flag stops competing
+   with the flame button beside it. */
 .free-flag{
   position:absolute; left:50%; top:-24px; translate:-50% -100%;
   white-space:nowrap;
   padding:9px 19px; border-radius:10px;
-  background:linear-gradient(168deg,var(--flame-lift),var(--flame) 55%,var(--flame-deep));
-  color:#fff; box-shadow:var(--lift-flame);
+  background:linear-gradient(174deg,#2c5d92 0%,#1d4a7d 16%,var(--navy) 52%,#071f3c 100%);
+  color:#fff;
+  border:1px solid rgba(55,102,155,.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.48),
+    inset 0 -3px 0 rgba(3,18,35,.62),
+    0 13px 28px -10px rgba(18,58,107,.62);
   font-family:var(--display); font-weight:800;
   font-size:clamp(13px,1.3vw,17px); line-height:1.2; letter-spacing:.02em; text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(3,18,35,.48);
 }
 .free-arrows{
   position:absolute; left:50%; top:-15px; translate:-50% 0;
@@ -1320,7 +1329,12 @@ body.has-product-modal{overflow:hidden}
 .route .v{font-family:var(--display); font-size:19px; font-weight:700; letter-spacing:-.025em; color:var(--flame); word-break:break-word}
 .route .v:hover{color:var(--navy)}
 .route .m{font-size:13.5px; color:var(--ink-3); margin:0}
-.route .btn{align-self:flex-start}
+/* The route card is the narrowest place this 33-character CTA appears. Left
+   to nowrap it runs past the card edge and under its own arrow, so here the
+   button fills the card and the label is allowed to take a second line. */
+.route .btn{align-self:stretch; justify-content:center; padding:11px 46px; gap:0}
+.route .btn .btn-label{white-space:normal; text-wrap:balance; line-height:1.25; width:100%; text-align:center}
+.route .btn .btn-arrow{position:absolute; right:16px; top:50%; transform:translateY(-50%)}
 
 .assure{
   border-radius:var(--r-xl); padding:var(--panel-pad);
@@ -1355,7 +1369,47 @@ body.has-product-modal{overflow:hidden}
   position:relative; display:flex; flex-wrap:wrap; gap:28px;
   align-items:center; justify-content:space-between;
 }
+.closer-copy{flex:1 1 340px; min-width:0}
 .closer h2{font-size:clamp(28px,3.6vw,46px); font-weight:800; letter-spacing:-.035em; line-height:1.05}
+
+/* The closer repeats the hero's picture of the offer — six bottles and the
+   free seventh — so the last thing a reader sees before the button is what
+   the button actually gets them. The bottles and the CTA are one column:
+   the button sits directly under the group and matches its width. */
+.closer-offer{
+  position:relative; flex:0 1 500px; min-width:0;
+  display:flex; flex-direction:column; align-items:center; gap:20px;
+}
+.closer-lineup{
+  display:flex; align-items:flex-end; justify-content:center;
+  gap:clamp(10px,1.5vw,20px); padding-top:30px; width:100%;
+}
+.closer-six{display:flex; align-items:flex-end; min-width:0}
+.closer-lineup img{
+  height:clamp(84px,10vw,124px); width:auto; flex:none;
+  margin-left:clamp(-15px,-1.1vw,-8px);
+  filter:drop-shadow(0 14px 18px rgba(94,17,2,.36));
+}
+.closer-six img:first-child{margin-left:0}
+.closer-free{position:relative; flex:none}
+.closer-free img{margin-left:0; height:clamp(94px,11.1vw,138px)}
+.closer-flag{
+  position:absolute; left:50%; top:-12px; translate:-50% -100%;
+  white-space:nowrap;
+  padding:6px 14px; border-radius:9px;
+  background:linear-gradient(174deg,#2c5d92 0%,#1d4a7d 16%,var(--navy) 52%,#071f3c 100%);
+  color:#fff;
+  border:1px solid rgba(55,102,155,.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.48),
+    inset 0 -3px 0 rgba(3,18,35,.62),
+    0 12px 24px -10px rgba(3,18,35,.5);
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(10.5px,1.05vw,13px); line-height:1.2; letter-spacing:.03em; text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(3,18,35,.48);
+}
+.closer-offer .cta-stack{width:100%}
+.closer-offer .btn{width:100%}
 .closer .cd-strip{
   display:flex; gap:8px; margin-top:20px; flex-wrap:wrap;
 }
@@ -1630,7 +1684,7 @@ body.has-product-modal{overflow:hidden}
   .closer .cd-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:100%}
   .closer .cd-box{min-width:0;padding:9px 5px}
   .closer .cd-box .n{font-size:23px}
-  .closer-row>.cta-stack{width:100%}
+  .closer-row>.cta-stack,.closer-row>.closer-offer{width:100%;max-width:none}
   .site-foot{margin-top:0}
   .foot-note{gap:7px 14px;font-size:9.5px;line-height:1.55}
   .foot-legal{padding-block:20px var(--band-space);font-size:11.5px}
@@ -2575,7 +2629,7 @@ body.has-product-modal{overflow:hidden}
 <section class="shell section-space">
   <div class="closer" data-reveal>
     <div class="closer-row">
-      <div>
+      <div class="closer-copy">
         <h2>Offer ends 18 Sep 2026,<br>lock in your allocation</h2>
         <div class="cd-strip">
           <div class="cd-box"><div class="n" data-cd="d">--</div><div class="l">Days</div></div>
@@ -2584,11 +2638,27 @@ body.has-product-modal{overflow:hidden}
           <div class="cd-box"><div class="n" data-cd="s">--</div><div class="l">Secs</div></div>
         </div>
       </div>
-      <div class="cta-stack">
-        <a class="btn btn--navy btn--text-only" href="#builder">
-          <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
-          <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
-        </a>
+      <div class="closer-offer">
+        <div class="closer-lineup" aria-hidden="true">
+          <div class="closer-six">
+            <img src="assets/ora-plus-1.png" alt="" loading="lazy">
+            <img src="assets/ora-sweet-1.png" alt="" loading="lazy">
+            <img src="assets/ora-sweet-sf-1.png" alt="" loading="lazy">
+            <img src="assets/ora-blend-1.png" alt="" loading="lazy">
+            <img src="assets/ora-blend-sf-1.png" alt="" loading="lazy">
+            <img src="assets/ora-plus-1.png" alt="" loading="lazy">
+          </div>
+          <div class="closer-free">
+            <span class="closer-flag">7th bottle free!</span>
+            <img src="assets/ora-blend-1.png" alt="" loading="lazy">
+          </div>
+        </div>
+        <div class="cta-stack">
+          <a class="btn btn--navy btn--text-only" href="#builder">
+            <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
+            <span class="btn-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
