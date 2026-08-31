@@ -377,6 +377,80 @@ p{text-wrap:pretty}
 .head-nav a:hover{color:var(--ink); background:rgba(14,20,32,.035)}
 .head-nav a:hover::after{transform:scaleX(1)}
 .head-actions{display:flex; align-items:center; gap:12px}
+
+/* ---- Mobile navigation ----------------------------------------------
+   Below 1080px the inline nav has no room, so it becomes a button and a
+   drawer. The button is the only nav in the header at that size, which
+   gives the header back its single row. */
+.nav-toggle{
+  display:none; position:relative;
+  width:46px; height:46px; padding:0; flex:none;
+  align-items:center; justify-content:center;
+  border:1px solid var(--line); border-radius:10px;
+  background:#fff; color:var(--navy); cursor:pointer;
+}
+.nav-toggle:hover{background:var(--mist)}
+.nav-toggle i{
+  display:block; position:absolute; left:13px; width:20px; height:2px; border-radius:2px;
+  background:currentColor;
+  transition:transform .38s var(--ease), opacity .22s var(--ease);
+}
+.nav-toggle i:nth-child(1){top:15px}
+.nav-toggle i:nth-child(2){top:22px}
+.nav-toggle i:nth-child(3){top:29px}
+.nav-toggle[aria-expanded="true"] i:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] i:nth-child(2){opacity:0}
+.nav-toggle[aria-expanded="true"] i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.mobile-nav{position:fixed; inset:0; z-index:130; visibility:hidden}
+.mobile-nav.is-open{visibility:visible}
+.mobile-nav-scrim{
+  position:absolute; inset:0; width:100%; height:100%; border:0; padding:0; cursor:pointer;
+  background:rgba(6,18,34,.6); opacity:0;
+  transition:opacity .4s var(--ease);
+}
+.mobile-nav.is-open .mobile-nav-scrim{opacity:1}
+.mobile-nav-panel{
+  position:absolute; top:0; right:0; z-index:1;
+  width:min(340px,86vw); height:100%;
+  display:flex; flex-direction:column;
+  padding:18px 22px calc(26px + env(safe-area-inset-bottom));
+  background:#fff; box-shadow:-24px 0 60px -30px rgba(4,14,28,.5);
+  overflow-y:auto; overscroll-behavior:contain;
+  transform:translateX(100%);
+  transition:transform .42s var(--ease);
+}
+.mobile-nav.is-open .mobile-nav-panel{transform:translateX(0)}
+.mobile-nav-head{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:46px}
+.mobile-nav-head img{height:36px; width:auto}
+.mobile-nav-close{
+  width:42px; height:42px; flex:none; display:grid; place-items:center;
+  border:1px solid var(--line); border-radius:10px;
+  background:#fff; color:var(--ink-2); cursor:pointer;
+}
+.mobile-nav-close svg{width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round}
+.mobile-nav-links{display:flex; flex-direction:column; margin-top:18px}
+.mobile-nav-links a{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  min-height:54px; padding:8px 4px;
+  border-bottom:1px solid var(--line-soft);
+  font-size:17px; font-weight:600; letter-spacing:-.015em; color:var(--ink);
+}
+.mobile-nav-links a:active{color:var(--flame)}
+.mobile-nav-links a svg{width:16px; height:16px; flex:none; color:var(--ink-4)}
+.mobile-nav .btn{margin-top:22px; width:100%; padding-inline:18px}
+/* The panel is narrower than any viewport this button was sized for, so
+   its label has to be allowed a second line. */
+.mobile-nav .btn .btn-label{white-space:normal; text-wrap:balance; line-height:1.25; width:100%; text-align:center}
+.mobile-nav-contact{margin-top:auto; padding-top:26px; font-size:14px; color:var(--ink-3)}
+.mobile-nav-contact strong{display:block; margin-bottom:7px; font-size:11.5px; font-family:var(--mono);
+  font-weight:550; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-4)}
+.mobile-nav-contact a{display:block; min-height:40px; display:flex; align-items:center;
+  font-weight:650; color:var(--navy)}
+body.has-mobile-nav{overflow:hidden}
+@media (prefers-reduced-motion:reduce){
+  .mobile-nav-panel,.mobile-nav-scrim,.nav-toggle i{transition:none}
+}
 .cart-chip{
   gap:9px; padding:5px 7px 5px 14px; border-radius:10px;
   color:#fff; font-size:14px; font-weight:750; letter-spacing:.02em;
@@ -1501,20 +1575,17 @@ body.has-product-modal{overflow:hidden}
   .panel-art--scene{width:min(100%,720px);aspect-ratio:1.08 / 1;justify-self:center}
   .foot-grid{grid-template-columns:1fr 1fr}
   .head-nav{display:none}
+  .nav-toggle{display:flex}
 }
 @media (max-width:720px){
   :root{--gutter:20px;--space:40px;--band-space:58px;--panel-pad:30px;--section-space:var(--space);--bay:var(--space);--r-xl:24px;--r-lg:18px}
   body{font-size:16px;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-  html{scroll-padding-top:128px}
-  .head-row{flex-wrap:wrap;padding-block:11px 0;gap:10px 14px}
-  .brand{order:1}
-  .brand img{height:44px}
-  .head-actions{display:contents}
-  .head-nav{order:3;display:flex;width:calc(100% + (var(--gutter) * 2));margin-inline:calc(var(--gutter) * -1);padding:7px var(--gutter) 9px;gap:4px;overflow-x:auto;overscroll-behavior-inline:contain;border-top:1px solid var(--line-soft);scrollbar-width:none}
-  .head-nav::-webkit-scrollbar{display:none}
-  .head-nav a{flex:none;min-height:44px;display:flex;align-items:center;padding:8px 11px;font-size:13.5px}
-  .head-nav a::after{left:11px;right:11px}
-  .cart-chip{order:2;margin-left:auto;min-height:44px;padding:8px 12px;gap:8px}
+  html{scroll-padding-top:96px}
+  .head-row{min-height:66px;gap:12px}
+  .brand img{height:40px}
+  .head-actions{gap:9px}
+  .cart-chip{min-height:44px;padding:8px 12px;gap:8px}
+  .nav-toggle{width:44px;height:44px}
   .card-grid,.stat-grid,.spec-grid{grid-template-columns:repeat(2,1fr)}
   .foot-grid{grid-template-columns:1fr;gap:28px;padding-block:var(--band-space) 28px}
   .assure{grid-template-columns:1fr; text-align:center; justify-items:center}
@@ -2229,9 +2300,41 @@ body.has-product-modal{overflow:hidden}
         <span>Cart</span>
         <span class="n" id="cartCount">0</span>
       </a>
+      <button class="nav-toggle" type="button" id="navToggle"
+              aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
+        <i></i><i></i><i></i>
+      </button>
     </div>
   </div>
 </header>
+
+<div class="mobile-nav" id="mobileNav" hidden>
+  <button class="mobile-nav-scrim" type="button" id="navScrim" tabindex="-1" aria-label="Close menu"></button>
+  <div class="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Site menu">
+    <div class="mobile-nav-head">
+      <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems">
+      <button class="mobile-nav-close" type="button" id="navClose" aria-label="Close menu">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <nav class="mobile-nav-links" aria-label="Primary">
+      <a href="#top">Home<svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="#why">Why ORA®<svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="studies.html">Studies<svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="#range">Range<svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="#builder">Bundle 1 on 6<svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a href="#faq">FAQ<svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </nav>
+    <a class="btn btn--flame btn--sm btn--text-only" href="#builder">
+      <span class="btn-label">BUNDLE YOUR 1 ON 6 + FREE BOTTLE!</span>
+    </a>
+    <div class="mobile-nav-contact">
+      <strong>Order desk</strong>
+      <a href="tel:+61393870427">(03) 9387 0427</a>
+      <a href="mailto:info@medicalfs.com.au">info@medicalfs.com.au</a>
+    </div>
+  </div>
+</div>
 
 <main>
 
@@ -3194,6 +3297,49 @@ if('IntersectionObserver' in window && !reduced){
     });
   }, { threshold:0.6 });
   document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
+}
+
+/* ============================================================
+   Mobile navigation
+   ============================================================ */
+var navToggle = $('#navToggle'), mobileNav = $('#mobileNav');
+if(navToggle && mobileNav){
+  var navPanel = mobileNav.querySelector('.mobile-nav-panel');
+  var navOpen = false;
+
+  function setNav(open){
+    navOpen = open;
+    if(open) mobileNav.hidden = false;
+    /* One frame between unhiding and animating, or the panel jumps in
+       from its open position instead of sliding. */
+    requestAnimationFrame(function(){
+      mobileNav.classList.toggle('is-open', open);
+    });
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.classList.toggle('has-mobile-nav', open);
+    /* The header hides itself on a downward scroll; with the menu open it
+       would take the close button with it. */
+    if(open) $('#siteHead').classList.remove('is-tucked');
+    if(open){ navPanel.querySelector('a,button').focus(); }
+    else { navToggle.focus(); }
+  }
+  function closeNav(){
+    if(!navOpen) return;
+    setNav(false);
+    window.setTimeout(function(){ if(!navOpen) mobileNav.hidden = true; }, 450);
+  }
+
+  navToggle.addEventListener('click', function(){ navOpen ? closeNav() : setNav(true); });
+  $('#navClose').addEventListener('click', closeNav);
+  $('#navScrim').addEventListener('click', closeNav);
+  mobileNav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeNav); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeNav(); });
+  /* A drawer that outlives its breakpoint would strand the page with no
+     visible nav and a locked body. */
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 1080) closeNav();
+  }, { passive:true });
 }
 
 /* ============================================================
