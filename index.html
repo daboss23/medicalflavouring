@@ -489,23 +489,14 @@ p{text-wrap:pretty}
   width:210%; aspect-ratio:1;
   background:radial-gradient(circle at center,rgba(238,60,19,.22),rgba(238,60,19,0) 62%);
 }
-/* The flag wears the CTA's navy so the badge and the button a reader is
-   being sent to are visibly the same promise, and the flag stops competing
-   with the flame button beside it. */
 .free-flag{
   position:absolute; left:50%; top:-24px; translate:-50% -100%;
   white-space:nowrap;
   padding:9px 19px; border-radius:10px;
-  background:linear-gradient(174deg,#2c5d92 0%,#1d4a7d 16%,var(--navy) 52%,#071f3c 100%);
-  color:#fff;
-  border:1px solid rgba(55,102,155,.9);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.48),
-    inset 0 -3px 0 rgba(3,18,35,.62),
-    0 13px 28px -10px rgba(18,58,107,.62);
+  background:linear-gradient(168deg,var(--flame-lift),var(--flame) 55%,var(--flame-deep));
+  color:#fff; box-shadow:var(--lift-flame);
   font-family:var(--display); font-weight:800;
   font-size:clamp(13px,1.3vw,17px); line-height:1.2; letter-spacing:.02em; text-transform:uppercase;
-  text-shadow:0 1px 2px rgba(3,18,35,.48);
 }
 .free-arrows{
   position:absolute; left:50%; top:-15px; translate:-50% 0;
