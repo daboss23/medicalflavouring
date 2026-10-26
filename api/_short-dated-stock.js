@@ -18,12 +18,13 @@
    only ever sees Available / Low / Sold out. */
 
 const STOCK={
-  countedAt:'2026-10-26T00:00:00+11:00',
-  /* 16 Oct figures from the brief. Replace with Piero's current counts before launch. */
+  countedAt:'2026-10-26T15:30:00+11:00',
+  /* Shelf counts supplied 26 Oct 2026. Web orders paid after `countedAt` are
+     subtracted automatically; fax, email and phone orders are not. */
   onHand:{
-    'plus-sd':480,
-    'sweet-sd':396,
-    'blend-sd':288
+    'plus-sd':430,
+    'sweet-sd':380,
+    'blend-sd':250
   },
   /* At or under this many bottles a product reads "Low stock". */
   lowAt:36
