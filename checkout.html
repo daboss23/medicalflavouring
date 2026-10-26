@@ -10,6 +10,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://js.stripe.com">
+<script>
+/* The short-dated clearance checks out on this same page in its own colours.
+   Decided before first paint so the page never flashes navy first. */
+(function(){
+  var search=window.location.search;
+  if(/[?&]offer=short-dated(&|$)/.test(search)||/[?&,=]\w+-sd:/.test(search)){
+    document.documentElement.classList.add('offer-sd');
+  }
+})();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
@@ -58,6 +68,34 @@
   --r-sm:10px; --r-md:14px; --r-lg:20px; --r-pill:999px;
   --r-btn:12px;                /* rectangular CTA geometry, as on the sales page */
 }
+
+/* Short-dated clearance: the "clearance tag" palette from the landing page —
+   charcoal for structure, MFS red for the action, clearance yellow for the
+   one thing to notice. Same tokens, so every component follows. */
+:root.offer-sd{
+  --flame:#e4401b;
+  --flame-lift:#ee5530;
+  --flame-deep:#c2330f;
+  --navy:#1f1d1f;
+  --navy-deep:#141214;
+  --navy-soft:#3a3537;
+  --ink:#141214;
+  --ink-2:#3d3638;
+  --ink-3:#6e6262;
+  --mist:#f5f2ef;
+  --line:rgba(31,29,31,.11);
+  --line-soft:rgba(31,29,31,.07);
+  --line-strong:rgba(31,29,31,.18);
+  --clearance:#ffd500;
+  --clearance-soft:#fff6c4;
+}
+.offer-sd .co-offer-head{background:var(--navy); border-top:6px solid var(--clearance)}
+.offer-sd .co-offer-head .eyebrow{color:var(--clearance)}
+/* The upgrade's photograph shows the full range, sugar-free bottles included,
+   and the "not available at any other time" line is not true of a clearance
+   that offers the same upgrade on its own page. Neither belongs here. */
+.offer-sd .co-bump-shot,.offer-sd .co-bump-fine{display:none}
+.offer-sd .co-bump{background:linear-gradient(180deg,var(--clearance-soft),#ffffff)}
 
 *,*::before,*::after{box-sizing:border-box}
 /* A `display` rule on a class beats the browser's own [hidden] styling, so say
@@ -813,7 +851,7 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
 
 <header class="co-head">
   <div class="co-head-row">
-    <a class="co-brand" href="index.html" aria-label="MFS Medical Flavouring Systems, back to the shop">
+    <a class="co-brand" href="index.html" data-shop-link aria-label="MFS Medical Flavouring Systems, back to the shop">
       <img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems" width="220" height="60">
     </a>
     <div class="co-secure">
@@ -1031,7 +1069,7 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
   <!-- ================= RIGHT: the offer ================= -->
   <aside class="co-offer" aria-label="Order summary">
     <div class="co-offer-head">
-      <p class="eyebrow">Your order</p>
+      <p class="eyebrow" id="offerEyebrow">Your order</p>
       <h1 id="offerHeadline">YES! SEND MY 6 BOTTLES + 1 FREE</h1>
     </div>
     <div class="co-offer-body">
@@ -1064,7 +1102,7 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
 
       <div class="co-sums">
         <div class="co-sum"><span id="subtotalLabel">Bottles ex GST</span><span class="v" id="sumSubtotal">$0.00</span></div>
-        <div class="co-sum"><span>Freight (flat rate, ex GST)</span><span class="v" id="sumFreight">$0.00</span></div>
+        <div class="co-sum"><span>Freight (ex GST)</span><span class="v" id="sumFreight">$0.00</span></div>
         <div class="co-sum"><span>GST (10%)</span><span class="v" id="sumGst">$0.00</span></div>
         <div class="co-sum co-sum--total"><span>Total inc GST</span><span class="v" id="sumTotal">$0.00</span></div>
       </div>
@@ -1085,7 +1123,7 @@ body.is-hosted #paymentElement,body.is-hosted .co-payment-loading{display:none}
 
 <footer class="co-foot">
   <p>© <span id="year">2026</span> Medical Flavouring Systems · P.O. Box 270, Brunswick East VIC 3057 · ORA® is a registered trademark of Padagis.</p>
-  <p><a href="index.html">Back to the shop</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="studies.html">Stability studies</a></p>
+  <p><a href="index.html" data-shop-link>Back to the shop</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="studies.html">Stability studies</a></p>
 </footer>
 
 <!-- ============================================================

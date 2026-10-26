@@ -338,6 +338,10 @@ p{text-wrap:pretty}
   font-variant-numeric:tabular-nums; letter-spacing:.06em;
 }
 .cd-sep{opacity:.5}
+/* Once the deadline has passed, nothing on the page may still count down to
+   it or name it: the timers and the dated lines go, rather than sitting at
+   00:00:00 under an offer that has closed. */
+.is-past-deadline [data-deadline-only]{display:none !important}
 
 /* ============================================================
    Header — glass, hides on scroll down
@@ -2269,9 +2273,9 @@ body.has-product-modal{overflow:hidden}
 <!-- ========== Announcement bar with live countdown ========== -->
 <div class="ticker">
   <div class="ticker-inner">
-    <span style="display:inline-flex;align-items:center;gap:9px"><i class="pulse-dot"></i> Limited time offer</span>
+    <span style="display:inline-flex;align-items:center;gap:9px" data-deadline-only><i class="pulse-dot"></i> Limited time offer</span>
     <span>Australia's lowest price on the ORA® range</span>
-    <span class="countdown" aria-live="off">
+    <span class="countdown" aria-live="off" data-deadline-only>
       <b>Offer ends 31st Oct 2026</b>
       <span class="cd-cell" data-cd="d">--</span><span class="cd-sep">:</span>
       <span class="cd-cell" data-cd="h">--</span><span class="cd-sep">:</span>
@@ -2593,7 +2597,7 @@ body.has-product-modal{overflow:hidden}
         <div class="sum-line"><span class="k">Bottles shipped</span><span class="v" id="shipCount">0</span></div>
         <div class="sum-line" id="effectiveLine" hidden><span class="k">Effective per shipped bottle</span><span class="v" id="effectivePrice">$0.00</span></div>
         <div class="sum-line"><span class="k">Subtotal ex GST</span><span class="v" id="orderSubtotal">$0.00</span></div>
-        <div class="sum-line"><span class="k">Freight (flat rate, ex GST)</span><span class="v" id="orderFreight">$0.00</span></div>
+        <div class="sum-line"><span class="k">Freight (ex GST)</span><span class="v" id="orderFreight">$0.00</span></div>
         <div class="sum-line"><span class="k">GST (10%)</span><span class="v" id="orderGst">$0.00</span></div>
         <div class="sum-line is-total"><span class="k">Total inc GST</span><span class="v" id="orderTotal">$0.00</span></div>
         <div class="saving-note" id="savingNote">1–5 bottles are $32.99 each.</div>
@@ -2724,8 +2728,8 @@ body.has-product-modal{overflow:hidden}
   <div class="closer" data-reveal>
     <div class="closer-row">
       <div class="closer-copy">
-        <h2>Offer ends 31st Oct 2026,<br>lock in your allocation</h2>
-        <div class="cd-strip">
+        <h2 id="closerHeadline">Offer ends 31st Oct 2026,<br>lock in your allocation</h2>
+        <div class="cd-strip" data-deadline-only>
           <div class="cd-box"><div class="n" data-cd="d">--</div><div class="l">Days</div></div>
           <div class="cd-box"><div class="n" data-cd="h">--</div><div class="l">Hours</div></div>
           <div class="cd-box"><div class="n" data-cd="m">--</div><div class="l">Mins</div></div>
@@ -2835,7 +2839,10 @@ body.has-product-modal{overflow:hidden}
 var PRICING = window.MFSPricing;
 if(!PRICING) throw new Error('Pricing engine failed to load');
 var RULES = PRICING.RULES;
-var DEADLINE = new Date('2026-10-31T23:59:59+10:00').getTime();
+/* Melbourne is on daylight saving (AEDT, UTC+11) from the first Sunday in
+   October, so 11:59:59 pm on 31 October is +11:00. At +10:00 the timer ran an
+   hour past midnight into 1 November. */
+var DEADLINE = new Date('2026-10-31T23:59:59+11:00').getTime();
 
 /* Products live in `catalog.js` so the sales page, the checkout page and the
    Stripe endpoints all read one list. */
@@ -2851,8 +2858,8 @@ var FAQ = [
   { q:'Which products are sugar-free?', a:'ORA-Sweet® SF and ORA-Blend® SF are sugar-free and dye-free, suitable for paediatric, diabetic and enteral-feed patients.' },
   { q:'What happens when I buy twelve bottles?', a:'The 12-bottle boost replaces the standard two bonuses with three: twelve paid bottles at $29.99 each ship as fifteen bottles. For larger trade orders, each complete block of twelve earns three bonus bottles and a remaining block of six earns one.' },
   { q:'How quickly does it ship?', a:'Orders ship in 24–48 hours from Brunswick East, Victoria. If you need stock on the ward or the bench by a particular date, tell the order desk when you place the order and they will confirm it.' },
-  { q:'When does the offer close?', a:'The 1-on-6 bonus offer runs while stocks last and closes 31st October 2026. Prices exclude GST and are per 473 mL bottle.' }
-];
+  { q:'When does the offer close?', a:'The 1-on-6 bonus offer runs while stocks last and closes 31st October 2026. Prices exclude GST and are per 473 mL bottle.', beforeDeadline:true }
+].filter(function(item){ return !item.beforeDeadline || Date.now() < DEADLINE; });
 
 /* ============================================================
    Helpers
@@ -3239,8 +3246,16 @@ document.addEventListener('keydown', function(e){
 /* ============================================================
    Countdown — a real deadline, counted honestly
    ============================================================ */
+var deadlinePassed = false;
+function markDeadlinePassed(){
+  if(deadlinePassed) return;
+  deadlinePassed = true;
+  document.documentElement.classList.add('is-past-deadline');
+  $('#closerHeadline').textContent = 'Lock in your allocation';
+}
 function tickClock(){
   var left = Math.max(0, DEADLINE - Date.now());
+  if(left === 0){ markDeadlinePassed(); return; }
   var s = Math.floor(left/1000);
   var parts = {
     d: Math.floor(s/86400),

@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Short-dated ORA® clearance | MFS</title>
+<meta name="description" content="Short-dated Padagis ORA-Plus®, ORA-Sweet® and ORA-Blend® at $17.99 + GST a bottle, with 1 free with every 6 or 3 free with every 12. Limited stock, expiry dates shown.">
+<!-- Reached from MFS emails and faxes only: kept out of search and out of the sitemap. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1f1d1f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400..600&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MFS · ORA® short-dated clearance
+
+   The sales page's type, spacing, radii and components, repainted in the
+   "clearance tag" palette from the flyer: charcoal for structure, MFS red
+   for prices and the one action, clearance yellow for the thing to notice.
+   Different on purpose, so nobody mistakes it for the 1-on-6 offer.
+   ============================================================ */
+:root{
+  color-scheme: light;
+
+  --charcoal:#1f1d1f;
+  --charcoal-2:#2c282a;
+  --ink:#141214;
+  --ink-2:#3d3638;
+  --grey:#6e6262;          /* secondary text: 5.9:1 on white, 5.3:1 on the warm tint */
+  --tint:#f5f2ef;
+  --paper:#ffffff;
+  --line:rgba(31,29,31,.12);
+  --line-soft:rgba(31,29,31,.07);
+  --line-strong:rgba(31,29,31,.22);
+
+  --yellow:#ffd500;
+  --yellow-soft:#fff6c4;
+  --red:#e4401b;           /* prices and large type only — 4.2:1 on white */
+  --red-ink:#c2330f;       /* red at text sizes — 5.6:1 on white */
+  --red-btn:#d0360f;       /* white button labels — 5.0:1 */
+  --good:#13744a;
+  --good-soft:#e7f4ec;
+  --low:#8a5a00;
+  --low-soft:#fff1cc;
+
+  --display:'Geist','Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --body:'Geist','Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+
+  --lift-1:0 1px 2px rgba(20,18,20,.05), 0 8px 20px -12px rgba(20,18,20,.18);
+  --lift-2:0 1px 2px rgba(20,18,20,.05), 0 20px 44px -20px rgba(20,18,20,.28);
+
+  --ease:cubic-bezier(.22,1,.36,1);
+  --r-xs:8px; --r-sm:12px; --r-md:16px; --r-lg:20px; --r-btn:12px;
+
+  --gutter:clamp(16px,4vw,32px);
+  --shell:1120px;
+  --space:clamp(44px,3vw + 26px,80px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none !important}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:20px; overflow-x:hidden}
+button,a,label,summary,input,select{touch-action:manipulation}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--body); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+img{max-width:100%; display:block}
+a{color:var(--red-ink); text-underline-offset:3px}
+a:hover{color:var(--ink)}
+button,input,select{font:inherit; color:inherit}
+h1,h2,h3{font-family:var(--display); margin:0; text-wrap:balance}
+p{margin:0; text-wrap:pretty}
+::selection{background:var(--yellow); color:var(--ink)}
+:focus-visible{outline:3px solid var(--charcoal); outline-offset:3px; border-radius:4px}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{transition:none !important; animation:none !important} }
+
+.shell{max-width:var(--shell); margin:0 auto; padding-inline:var(--gutter)}
+.section{padding-block:var(--space)}
+.section + .section{padding-top:0}
+.h2{font-size:clamp(26px,2.6vw + 12px,38px); font-weight:800; line-height:1.08; letter-spacing:-.03em}
+.lede{font-size:clamp(16.5px,.5vw + 14px,19px); line-height:1.6; color:var(--ink-2); max-width:62ch}
+.nowrap{white-space:nowrap}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.skip{position:absolute; left:12px; top:-60px; z-index:100; padding:10px 14px; border-radius:8px; background:var(--charcoal); color:#fff}
+.skip:focus{top:12px; color:#fff}
+
+/* ---------- Buttons ---------- */
+.btn{
+  position:relative; display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  min-height:54px; padding:12px 24px; border-radius:var(--r-btn);
+  border:0; cursor:pointer; text-decoration:none; text-align:center;
+  font-family:var(--display); font-size:16.5px; font-weight:750; letter-spacing:-.005em; line-height:1.2;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease), background-color .3s var(--ease);
+}
+.btn svg{width:20px; height:20px; flex:none; transition:transform .45s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
+.btn:active{transform:translateY(1px) scale(.99); transition-duration:.1s}
+.btn--red{
+  background:var(--red-btn); color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), inset 0 -3px 0 rgba(110,22,4,.38), 0 10px 22px -12px rgba(20,18,20,.55);
+}
+.btn--red:hover{color:#fff; transform:translateY(-2px); box-shadow:inset 0 1px 0 rgba(255,255,255,.3), inset 0 -3px 0 rgba(110,22,4,.4), 0 16px 30px -14px rgba(20,18,20,.6)}
+.btn--line{background:#fff; color:var(--ink); box-shadow:inset 0 0 0 2px var(--charcoal)}
+.btn--line:hover{color:var(--ink); background:var(--tint); transform:translateY(-2px)}
+.btn--block{display:flex; width:100%}
+.btn[disabled]{opacity:.55; cursor:not-allowed; transform:none}
+.link-quiet{
+  display:inline-flex; align-items:center; min-height:44px;
+  font-weight:650; color:var(--ink); text-decoration:underline; text-decoration-thickness:1.5px;
+  text-decoration-color:var(--line-strong); text-underline-offset:5px;
+}
+.link-quiet:hover{color:var(--red-ink); text-decoration-color:currentColor}
+
+/* ---------- Clearance strip + header ---------- */
+.strip{
+  background:var(--yellow); color:var(--ink);
+  font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+}
+.strip .shell{display:flex; justify-content:center; gap:8px 28px; flex-wrap:wrap; padding-block:9px; text-align:center}
+.head{border-bottom:2px solid var(--charcoal); background:#fff}
+.head .shell{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:72px}
+.head-logo img{height:42px; width:auto}
+.head-call{display:flex; flex-direction:column; align-items:flex-end; line-height:1.2}
+.head-call small{font-size:12px; color:var(--grey); font-weight:500}
+.head-call a{font-family:var(--display); font-size:18px; font-weight:800; letter-spacing:-.02em; color:var(--red-ink); text-decoration:none; min-height:28px; display:inline-flex; align-items:center}
+.head-call a:hover{color:var(--ink)}
+
+/* ---------- Hero ---------- */
+.hero{padding-block:clamp(32px,3vw + 16px,64px) clamp(28px,2vw + 16px,48px)}
+.hero-grid{display:grid; grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr); gap:clamp(28px,4vw,56px); align-items:center}
+.tag{
+  display:inline-block; margin-bottom:18px; padding:6px 11px;
+  background:var(--charcoal); color:var(--yellow);
+  font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; line-height:1.3;
+}
+.hero h1{
+  font-size:clamp(38px,4.6vw + 10px,64px); font-weight:850; line-height:1.02; letter-spacing:-.04em;
+  margin-bottom:18px;
+}
+/* The one authored moment on the page: the clearance price gets its yellow
+   tag swept in behind it once, like a shelf ticket being stuck on. */
+.price-mark{
+  position:relative; display:inline-block; color:var(--red); padding:0 .12em; margin:0 -.04em;
+  isolation:isolate;
+}
+.price-mark::before{
+  content:''; position:absolute; inset:.04em 0 .02em; z-index:-1; background:var(--yellow);
+  transform-origin:left; animation:tagIn .9s var(--ease) .25s both;
+}
+@keyframes tagIn{from{transform:scaleX(0)} to{transform:scaleX(1)}}
+.hero .lede strong{color:var(--ink)}
+.hero-cta{display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px; margin-top:26px}
+.trust{list-style:none; margin:22px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px 20px; font-size:14px; color:var(--ink-2); font-weight:520}
+.trust li{display:inline-flex; align-items:center; gap:7px}
+.trust svg{width:15px; height:15px; color:var(--red-ink); flex:none}
+
+.hero-art{
+  position:relative; aspect-ratio:5/4; border:2px solid var(--charcoal); background:var(--tint);
+  display:flex; align-items:flex-end; justify-content:center; padding:10% 8% 7%;
+}
+.hero-art .bottles{display:flex; align-items:flex-end; justify-content:center; height:100%}
+.hero-art img{height:100%; width:auto; margin-inline:-3%; filter:drop-shadow(0 16px 18px rgba(20,18,20,.22))}
+.hero-art img:nth-child(2){height:104%; position:relative; z-index:1}
+.free-tag{
+  position:absolute; top:-14px; right:-14px; z-index:2;
+  padding:10px 16px 11px; background:var(--yellow); color:var(--ink);
+  border:2px solid var(--charcoal); box-shadow:5px 5px 0 var(--charcoal);
+  font-family:var(--display); font-weight:850; line-height:1.05; letter-spacing:-.01em; text-align:center;
+  transform:rotate(3deg);
+}
+.free-tag small{display:block; font-size:12px; letter-spacing:.12em; text-transform:uppercase}
+.free-tag b{display:block; font-size:24px; color:var(--red)}
+
+/* ---------- Deal cards ---------- */
+.deals{display:grid; grid-template-columns:1fr 1fr; gap:clamp(14px,2vw,24px); margin-top:clamp(28px,3vw,44px)}
+.deal{
+  position:relative; display:flex; flex-direction:column; gap:6px;
+  padding:clamp(20px,2.4vw,28px); border:1.5px solid var(--line-strong); border-radius:var(--r-md); background:#fff;
+}
+.deal--best{background:var(--yellow-soft); border:2px solid var(--charcoal); box-shadow:6px 6px 0 var(--charcoal)}
+.ribbon{
+  position:absolute; top:-13px; right:18px; padding:5px 10px;
+  background:var(--red-btn); color:#fff;
+  font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+}
+.deal h3{font-size:20px; font-weight:800; letter-spacing:-.02em}
+.deal-price{display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 10px; margin-top:4px}
+.deal-price b{font-family:var(--display); font-size:clamp(40px,3vw + 22px,50px); font-weight:850; letter-spacing:-.045em; line-height:1; color:var(--red); font-variant-numeric:tabular-nums}
+.deal-price span{font-size:14px; font-weight:650; color:var(--ink-2)}
+.deal p{font-size:15px; color:var(--ink-2)}
+.deal .fine{font-size:13.5px; color:var(--grey)}
+.deal .btn{margin-top:auto; align-self:flex-start}
+.deal-foot{margin-top:14px}
+
+/* ---------- Stock table ---------- */
+.stock-head{display:flex; align-items:end; justify-content:space-between; gap:12px 24px; flex-wrap:wrap; margin-bottom:18px}
+.stock-head p{font-size:15px; color:var(--grey)}
+.stock{width:100%; border-collapse:collapse; font-size:15.5px}
+.stock th{
+  background:var(--charcoal); color:#fff; text-align:left; padding:13px 16px;
+  font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+}
+.stock td{padding:15px 16px; border-bottom:1px solid var(--line); vertical-align:middle}
+.stock .prod{display:flex; align-items:center; gap:12px; font-weight:750; white-space:nowrap}
+.stock .prod img{height:44px; width:auto}
+.stock .exp{font-weight:800; color:var(--red-ink); white-space:nowrap}
+.stock .exp small{display:block; font-weight:500; color:var(--grey); font-size:13px}
+.status{
+  display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px;
+  font-size:13px; font-weight:700; white-space:nowrap; background:var(--tint); color:var(--grey);
+}
+.status::before{content:''; width:7px; height:7px; border-radius:50%; background:currentColor}
+.status[data-status="available"]{background:var(--good-soft); color:var(--good)}
+.status[data-status="low"]{background:var(--low-soft); color:var(--low)}
+.status[data-status="sold-out"]{background:#f1e9e9; color:var(--red-ink)}
+
+/* The use-before rule, pinned by the brief: light yellow with a charcoal bar. */
+.before{
+  margin-top:22px; padding:clamp(18px,2.4vw,26px) clamp(18px,2.6vw,30px);
+  background:var(--yellow-soft); border-left:6px solid var(--charcoal);
+}
+.before h3{font-size:19px; font-weight:800; letter-spacing:-.02em; margin-bottom:10px}
+.before ul{margin:0; padding-left:20px; display:grid; gap:7px; font-size:15.5px; color:var(--ink-2)}
+.before li::marker{color:var(--ink)}
+.before strong{color:var(--ink)}
+
+.points{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(18px,3vw,36px); margin-top:clamp(36px,4vw,56px)}
+.point{border-top:3px solid var(--red); padding-top:14px}
+.point h3{font-size:17px; font-weight:800; letter-spacing:-.015em; margin-bottom:6px}
+.point p{font-size:15px; color:var(--ink-2)}
+
+/* ---------- Builder ---------- */
+.builder-head{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px 40px; align-items:end; margin-bottom:22px}
+.builder-head p{margin-top:12px}
+.ladder{display:grid; grid-template-columns:repeat(4,auto); border:1.5px solid var(--line-strong); border-radius:var(--r-sm); overflow:hidden; background:#fff}
+.ladder div{padding:9px 14px; text-align:center; border-left:1px solid var(--line)}
+.ladder div:first-child{border-left:0}
+.ladder b{display:block; font-family:var(--display); font-size:17px; font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.ladder span{font-size:12px; color:var(--grey); white-space:nowrap}
+.ladder .is-best{background:var(--yellow-soft)}
+
+.builder{
+  display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(16px,2.4vw,28px);
+  padding:clamp(14px,2.4vw,28px); background:var(--tint); border-radius:var(--r-lg);
+}
+.skus{display:flex; flex-direction:column; gap:10px}
+.sku{
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:14px;
+  padding:12px 14px 12px 12px; background:#fff; border-radius:var(--r-md);
+  box-shadow:inset 0 0 0 1px var(--line);
+  transition:box-shadow .3s var(--ease);
+}
+.sku.is-on{box-shadow:inset 0 0 0 2px var(--charcoal)}
+.sku-thumb{width:48px; height:64px; display:grid; place-items:center; background:var(--tint); border-radius:var(--r-xs)}
+.sku-thumb img{height:56px; width:auto}
+.sku-name{font-family:var(--display); font-weight:800; font-size:17px; letter-spacing:-.02em; line-height:1.25}
+.sku-sub{font-size:13.5px; color:var(--grey); margin-top:2px}
+.sku-sub b{color:var(--red-ink); font-weight:700}
+.sku-out{display:none; font-size:13px; font-weight:700; color:var(--red-ink)}
+.sku.is-out{opacity:.62}
+.sku.is-out .sku-out{display:block}
+.sku.is-out .qty{display:none}
+
+.qty{display:inline-grid; grid-template-columns:44px 52px 44px; align-items:center; border:1.5px solid var(--charcoal); border-radius:10px; overflow:hidden; background:#fff}
+.qty button{
+  height:44px; border:0; background:#fff; cursor:pointer; display:grid; place-items:center; color:var(--ink);
+  transition:background-color .2s var(--ease);
+}
+.qty button:hover{background:var(--tint)}
+.qty button:active{background:var(--yellow-soft)}
+.qty button[disabled]{color:#bdb4b4; cursor:not-allowed; background:#fff}
+.qty svg{width:15px; height:15px}
+.qty input{
+  width:100%; height:44px; border:0; border-inline:1.5px solid var(--line); text-align:center;
+  font-family:var(--mono); font-size:16px; font-weight:600; font-variant-numeric:tabular-nums; background:#fff;
+  -moz-appearance:textfield; appearance:textfield; border-radius:0;
+}
+.qty input:focus{outline:none; background:var(--yellow-soft)}
+.builder-note{margin-top:12px; font-size:13.5px; color:var(--grey)}
+.builder-flash{min-height:22px; margin-top:12px; font-size:14px; font-weight:650; color:var(--good)}
+
+/* Free bottle choices */
+.free{margin-top:16px; padding:16px; background:#fff; border-radius:var(--r-md); box-shadow:inset 0 0 0 1px var(--line)}
+.free h3{font-size:16px; font-weight:800; letter-spacing:-.015em}
+.free h3 em{font-style:normal; color:var(--red-ink)}
+.free p{font-size:13.5px; color:var(--grey); margin-top:3px}
+.free-list{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:8px; margin-top:12px}
+.free-list label{display:grid; grid-template-columns:auto 1fr; align-items:center; gap:10px; font-size:13px; font-weight:650; color:var(--grey)}
+.free-list select{
+  min-height:44px; width:100%; padding:8px 10px; border:1.5px solid var(--line-strong); border-radius:9px; background:#fff;
+  font-size:15px; font-weight:600; color:var(--ink);
+}
+.free-list select:focus{outline:none; border-color:var(--charcoal); box-shadow:0 0 0 3px var(--yellow)}
+
+/* Order summary */
+.summary{
+  align-self:start; position:sticky; top:16px;
+  padding:clamp(18px,2vw,22px); background:#fff; border:2px solid var(--charcoal); border-radius:var(--r-md);
+}
+.offer{margin-bottom:16px}
+.offer:empty{display:none}
+.bump{padding:14px 16px; background:var(--yellow); border:2px solid var(--charcoal); border-radius:var(--r-sm); color:var(--ink)}
+.bump p{font-size:15px; font-weight:700; line-height:1.4}
+.bump p em{font-style:normal; color:var(--red-ink)}
+.bump .sub{font-size:13.5px; font-weight:500; margin-top:4px}
+.bump button{
+  margin-top:10px; min-height:44px; padding:8px 14px; border:0; border-radius:9px; cursor:pointer;
+  background:var(--charcoal); color:#fff; font-family:var(--display); font-weight:750; font-size:15px;
+}
+.bump button:hover{background:#000}
+.nudge{padding:12px 14px; background:var(--tint); border-radius:var(--r-sm); font-size:14.5px; color:var(--ink-2)}
+.nudge b{color:var(--ink)}
+.nudge button{
+  margin-left:4px; padding:0; min-height:32px; border:0; background:none; cursor:pointer;
+  font-weight:750; color:var(--red-ink); text-decoration:underline; text-underline-offset:3px;
+}
+.won{padding:12px 14px; background:var(--good-soft); border-radius:var(--r-sm); font-size:14.5px; font-weight:650; color:var(--good)}
+
+.sum{display:grid; gap:7px; font-size:15px}
+.sum div{display:flex; justify-content:space-between; gap:12px}
+.sum dt{color:var(--ink-2)}
+.sum dd{margin:0; font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:500}
+.sum .is-free dd.has-free{color:var(--red-ink); font-weight:700}
+.sum hr{border:0; border-top:1px solid var(--line); margin:5px 0}
+.total{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-top:10px; padding-top:12px; border-top:2px solid var(--charcoal)}
+.total span{font-family:var(--display); font-weight:800; font-size:17px}
+.total b{font-family:var(--display); font-weight:850; font-size:30px; letter-spacing:-.04em; font-variant-numeric:tabular-nums}
+.saving{margin-top:8px; font-size:14px; font-weight:650; color:var(--good); min-height:21px}
+.summary .btn{margin-top:14px}
+.summary-fine{margin-top:12px; font-size:12.5px; color:var(--grey); text-align:center; line-height:1.5}
+.cards-row{display:block; width:100%; max-width:230px; height:auto; margin:10px auto 0; opacity:.9}
+.status-line{min-height:20px; margin-top:8px; font-size:13.5px; text-align:center; color:var(--red-ink)}
+.status-line.is-ok{color:var(--good)}
+
+/* ---------- PO / fax / phone ---------- */
+.ways{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(12px,1.6vw,18px)}
+.way{
+  display:flex; flex-direction:column; gap:6px; padding:clamp(18px,2vw,24px);
+  background:var(--charcoal); color:#fff; border-radius:var(--r-md);
+}
+.way h3{font-size:18px; font-weight:800; letter-spacing:-.02em; color:var(--yellow)}
+.way p{font-size:15px; color:#ddd5d5}
+.way a{color:#fff; font-weight:700; text-decoration:underline; text-decoration-color:rgba(255,255,255,.4); text-underline-offset:4px; min-height:32px; display:inline-flex; align-items:center}
+.way a:hover{color:var(--yellow); text-decoration-color:currentColor}
+.way .big{font-family:var(--display); font-size:21px; font-weight:750; letter-spacing:-.02em; text-decoration:none; color:#fff}
+.way .eg{font-size:13.5px; color:#b8aeae; margin-top:auto; padding-top:8px}
+
+/* ---------- FAQ ---------- */
+.faq{max-width:760px; margin-top:22px; border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  min-height:60px; padding:14px 2px; cursor:pointer; list-style:none;
+  font-family:var(--display); font-size:17px; font-weight:700; letter-spacing:-.015em;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:''; width:26px; height:26px; flex:none; border-radius:7px; background:var(--tint)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 4v12M4 10h12' stroke='%23141214' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/12px no-repeat;
+  transition:transform .4s var(--ease);
+}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq summary:hover{color:var(--red-ink)}
+.faq details p{padding:0 2px 20px; max-width:68ch; font-size:16px; color:var(--ink-2)}
+
+/* ---------- Closing band + footer ---------- */
+.closer{background:var(--charcoal); color:#fff; text-align:center; padding-block:var(--space)}
+.closer h2{color:var(--yellow); font-size:clamp(30px,3.4vw + 12px,48px); font-weight:850; letter-spacing:-.035em}
+.closer p{margin:14px auto 0; max-width:52ch; font-size:18px; color:#e9e2e2}
+.closer cite{display:block; margin-top:6px; font-style:normal; font-size:15px; color:#b8aeae}
+.closer .btn{margin-top:28px}
+.foot{background:var(--charcoal-2); color:#b8aeae; font-size:13px; line-height:1.65; padding-block:28px 40px}
+.foot p + p{margin-top:10px}
+.foot a{color:#fff}
+.foot a:hover{color:var(--yellow)}
+.foot nav{display:flex; flex-wrap:wrap; gap:6px 22px; margin-top:14px}
+.foot nav a{font-weight:650; min-height:32px; display:inline-flex; align-items:center}
+
+/* ---------- Sticky order bar ---------- */
+.bar{
+  position:fixed; inset:auto 0 0 0; z-index:50;
+  padding:10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+  background:var(--charcoal); color:#fff; border-top:3px solid var(--yellow);
+  transform:translateY(115%); transition:transform .45s var(--ease);
+}
+.bar.is-up{transform:none}
+.bar-inner{max-width:var(--shell); margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:14px}
+.bar-facts{display:flex; gap:20px; min-width:0}
+.bar-facts div{display:flex; flex-direction:column; line-height:1.2}
+.bar-facts span{font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#b8aeae}
+.bar-facts b{font-family:var(--display); font-size:18px; font-weight:800; font-variant-numeric:tabular-nums}
+.bar-facts .is-free{color:var(--yellow)}
+.bar .btn{min-height:46px; padding:8px 16px; font-size:15px}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width:940px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{max-width:520px; width:calc(100% - 14px); aspect-ratio:16/10; padding:7% 10% 5%}
+  .builder{grid-template-columns:1fr}
+  .summary{position:static}
+  .builder-head{grid-template-columns:1fr}
+  .ladder{justify-self:start}
+}
+@media (max-width:720px){
+  body{font-size:16px}
+  .strip{font-size:10.5px; letter-spacing:.12em}
+  .strip .shell span:nth-child(n+2){display:none}
+  .head .shell{min-height:62px}
+  .head-logo img{height:34px}
+  .head-call small{display:none}
+  .head-call a{font-size:16px}
+  .hero-cta .btn{flex:1 1 100%}
+  .hero-cta .link-quiet{margin-inline:auto}
+  .deals{grid-template-columns:1fr; gap:24px}
+  .deal .btn{align-self:stretch}
+  /* The table becomes one stacked block per product: name and expiry lead,
+     because expiry is what the reader came to check. */
+  .stock thead{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+  .stock, .stock tbody, .stock tr, .stock td{display:block; width:100%}
+  .stock tr{display:grid; grid-template-columns:1fr auto; gap:4px 12px; padding:14px 0; border-bottom:1px solid var(--line)}
+  .stock tr:first-child{border-top:2px solid var(--charcoal)}
+  .stock td{padding:0; border:0}
+  .stock td.what{grid-column:1 / -1; font-size:14.5px; color:var(--ink-2)}
+  .stock td.size{display:none}
+  .stock td.exp{grid-column:1; font-size:15px}
+  .stock td.exp small{display:inline; margin-left:6px}
+  .stock td.state{grid-row:1; grid-column:2; align-self:center}
+  .points{grid-template-columns:1fr; gap:20px}
+  .ladder{grid-template-columns:repeat(2,1fr); width:100%}
+  .ladder div:nth-child(3){border-left:0}
+  .ladder div:nth-child(n+3){border-top:1px solid var(--line)}
+  .sku{grid-template-columns:auto minmax(0,1fr); gap:10px 12px}
+  .sku .qty,.sku .sku-out{grid-column:1 / -1; width:100%}
+  .sku .qty{grid-template-columns:52px 1fr 52px}
+  .sku .qty button,.sku .qty input{height:48px}
+  .ways{grid-template-columns:1fr}
+  .bar-facts{gap:14px}
+  .bar-facts div:nth-child(3){display:none}
+  .bar .btn{padding:8px 14px; font-size:14.5px}
+  .free-tag{right:-8px; padding:8px 12px 9px}
+  .free-tag b{font-size:20px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#builder">Skip to choosing your bottles</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="i-arrow"><path d="M4 10h12M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-check"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g id="i-plus"><path d="M10 4v12M4 10h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+    <g id="i-minus"><path d="M4 10h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+  </defs>
+</svg>
+
+<div class="strip" role="note"><div class="shell"><span>Short-dated clearance</span><span>Limited stock</span><span>While it lasts</span></div></div>
+
+<header class="head">
+  <div class="shell">
+    <a class="head-logo" href="#top" aria-label="Medical Flavouring Systems, back to top"><img src="assets/mfs-logo.png" alt="MFS Medical Flavouring Systems" width="208" height="70"></a>
+    <p class="head-call"><small>Order desk</small><a href="tel:+61393870427">(03) 9387 0427</a></p>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ========== Hero ========== -->
+<section class="hero">
+  <div class="shell">
+    <div class="hero-grid">
+      <div>
+        <span class="tag">Short-dated clearance · Limited stock</span>
+        <h1>Short-dated ORA® from <span class="nowrap"><span class="price-mark" data-money="best-effective">$14.39</span> a bottle</span></h1>
+        <p class="lede">Short-dated stock of ORA-Plus®, ORA-Sweet® and ORA-Blend®, cleared at a price we've never offered before in Australia. Usual price <span data-money="list">$32.99</span>. Clearance price <strong><span data-money="unit">$17.99</span> + GST</strong>, with <strong>up to 3 bottles free</strong>.</p>
+        <div class="hero-cta">
+          <a class="btn btn--red" href="#builder">Choose your bottles <svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="link-quiet" href="#order-other-ways">Order by PO, fax or phone</a>
+        </div>
+        <ul class="trust">
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg>Padagis ORA®</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg>473 mL bottles</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg>Dispatched within 24 hours</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"/></svg>A real person answers the phone</li>
+        </ul>
+      </div>
+      <div class="hero-art">
+        <div class="free-tag" aria-hidden="true"><small>Up to</small><b>3 FREE</b></div>
+        <div class="bottles">
+          <img src="assets/ora-plus-1.png" alt="ORA-Plus® 473 mL bottle" width="330" height="1085">
+          <img src="assets/ora-sweet-1.png" alt="ORA-Sweet® 473 mL bottle" width="330" height="1085">
+          <img src="assets/ora-blend-1.png" alt="ORA-Blend® 473 mL bottle" width="330" height="1084">
+        </div>
+      </div>
+    </div>
+
+    <div class="deals">
+      <article class="deal">
+        <h3>Buy 6, get the 7th FREE</h3>
+        <p class="deal-price"><b data-money="effective-6">$15.42</b><span>+ GST a bottle</span></p>
+        <p><span data-count="shipped-6">7</span> bottles for <span data-money="subtotal-6">$107.94</span> + GST. Save <span data-money="saving-6">$122.99</span> (<span data-pct="6">53</span>% off).</p>
+        <p class="fine">Delivery <span data-money="freight-6">$18.00</span> + GST per order</p>
+        <div class="deal-foot"><button class="btn btn--line" type="button" data-start="6">Start with 6 <svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+      </article>
+      <article class="deal deal--best">
+        <span class="ribbon">Best value</span>
+        <h3>Buy 12, get 3 FREE</h3>
+        <p class="deal-price"><b data-money="effective-12">$14.39</b><span>+ GST a bottle</span></p>
+        <p><span data-count="shipped-12">15</span> bottles for <span data-money="subtotal-12">$215.88</span> + GST. Save <span data-money="saving-12">$278.97</span> (<span data-pct="12">56</span>% off).</p>
+        <p class="fine">Delivery <span data-money="freight-12">$30.00</span> + GST per order, only <span data-money="freight-per-12">$2.00</span> a bottle</p>
+        <div class="deal-foot"><button class="btn btn--red" type="button" data-start="12">Start with 12 <svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========== The stock ========== -->
+<section class="section" id="stock" aria-labelledby="stockTitle">
+  <div class="shell">
+    <div class="stock-head">
+      <h2 class="h2" id="stockTitle">The stock</h2>
+      <p>Genuine Padagis ORA®. Only the expiry is shorter.</p>
+    </div>
+    <table class="stock">
+      <thead>
+        <tr><th scope="col">Product</th><th scope="col">What it is</th><th scope="col">Size</th><th scope="col">Use before (expiry)</th><th scope="col">Stock</th></tr>
+      </thead>
+      <tbody id="stockRows"><!-- rendered from catalog.js --></tbody>
+    </table>
+
+    <div class="before" role="note" aria-labelledby="beforeTitle">
+      <h3 id="beforeTitle">Read this before you order</h3>
+      <ul>
+        <li>These bottles expire on the dates shown. They are the same Padagis ORA® you use every day; the only difference is the shorter expiry.</li>
+        <li><strong>A compounded preparation's use-by date must not go past the expiry of the ORA® used in it.</strong></li>
+        <li>So this stock suits preparations with <strong>short use-by dates (days to a few weeks)</strong> that you'll make and use well before the expiry.</li>
+        <li><strong>Order only what you'll use before the expiry dates above.</strong> Need longer dating? <a href="/">Choose our standard long-dated stock</a> instead.</li>
+      </ul>
+    </div>
+
+    <div class="points">
+      <div class="point">
+        <h3>Who it suits</h3>
+        <p>Hospitals and compounding pharmacies with high turnover of oral liquids. If you go through ORA® every week, you'll use this stock well before it expires and pay far less for every bottle.</p>
+      </div>
+      <div class="point">
+        <h3>Mix and match</h3>
+        <p>Any mix of the three counts toward your 6 or 12. Sugar-free versions aren't part of this clearance.</p>
+      </div>
+      <div class="point">
+        <h3>Fast, personal service</h3>
+        <p>Dispatched within 24 hours. A real person answers the phone, and Piero is on <a href="tel:+61416201733">0416 201 733</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Builder ========== -->
+<section class="section" id="builder" aria-labelledby="builderTitle">
+  <div class="shell">
+    <div class="builder-head">
+      <div>
+        <h2 class="h2" id="builderTitle">Choose your bottles</h2>
+        <p class="lede"><span data-money="unit">$17.99</span> + GST a bottle, any mix of the three. Buy 6 and the 7th is free; buy 12 and get 3 free. Every 12 after that earns 3 more. All prices + GST and delivery.</p>
+      </div>
+      <div class="ladder" aria-label="Free bottles by order size">
+        <div><b>6 → 7</b><span>1 free</span></div>
+        <div class="is-best"><b>12 → 15</b><span>3 free · best value</span></div>
+        <div><b>18 → 22</b><span>4 free</span></div>
+        <div><b>24 → 30</b><span>6 free</span></div>
+      </div>
+    </div>
+
+    <div class="builder">
+      <div>
+        <div class="skus" id="skuList"><!-- rendered from catalog.js --></div>
+        <p class="builder-flash" id="builderFlash" role="status" aria-live="polite"></p>
+        <div class="free" id="freeChoices" hidden>
+          <h3 id="freeTitle">Choose your free bottles</h3>
+          <p>Free bottles are any of the three. We've matched them to your mix; change any you like.</p>
+          <div class="free-list" id="freeList"></div>
+        </div>
+      </div>
+
+      <aside class="summary" aria-labelledby="summaryTitle">
+        <h3 class="sr" id="summaryTitle">Your order</h3>
+        <div class="offer" id="offer" aria-live="polite"></div>
+        <dl class="sum">
+          <div><dt>Bottles paid</dt><dd id="sumPaid">0</dd></div>
+          <div class="is-free"><dt>Free bottles</dt><dd id="sumFree">0</dd></div>
+          <div><dt>Bottles shipped</dt><dd id="sumShipped">0</dd></div>
+          <div><dt>Price per bottle shipped</dt><dd id="sumEach">–</dd></div>
+          <hr>
+          <div><dt>Subtotal (ex GST)</dt><dd id="sumSubtotal">$0.00</dd></div>
+          <div><dt>Delivery (ex GST)</dt><dd id="sumFreight">$0.00</dd></div>
+          <div><dt>GST (10%)</dt><dd id="sumGst">$0.00</dd></div>
+        </dl>
+        <div class="total"><span>Total inc GST</span><b id="sumTotal">$0.00</b></div>
+        <p class="saving" id="sumSaving"></p>
+        <button class="btn btn--red btn--block" id="checkoutBtn" type="button">Continue to checkout <svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <p class="status-line" id="checkoutStatus" role="status" aria-live="polite"></p>
+        <img class="cards-row" src="assets/card-brands.png" width="560" height="57" loading="lazy" alt="Mastercard, Visa, American Express, Discover and Apple Pay accepted">
+        <p class="summary-fine">Secure card payment by Stripe. Paying by PO? <a href="#order-other-ways">Order by email, fax or phone</a>.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PO, fax or phone ========== -->
+<section class="section" id="order-other-ways" aria-labelledby="waysTitle">
+  <div class="shell">
+    <div class="stock-head">
+      <h2 class="h2" id="waysTitle">Ordering with a PO, by fax or phone</h2>
+      <p>Most hospitals order this way. Same prices, same dispatch.</p>
+    </div>
+    <div class="ways">
+      <div class="way">
+        <h3>Email your mix + PO</h3>
+        <p><a id="mailOrder" href="mailto:info@medicalfs.com.au">info@medicalfs.com.au</a></p>
+        <p>Or reply to our email with your quantities and PO number.</p>
+        <p class="eg">e.g. "Short-dated: ORA-Plus x4, ORA-Sweet x3. PO 12345"</p>
+      </div>
+      <div class="way">
+        <h3>Fax the order form</h3>
+        <p class="big">(03) 9387 0627</p>
+        <p><a href="assets/ora-short-dated-order-form.pdf" download>Download the order form (PDF)</a></p>
+        <p class="eg">Tick your deal, fill in your mix and PO, fax it back.</p>
+      </div>
+      <div class="way">
+        <h3>Call us</h3>
+        <p>Order desk <a class="big" href="tel:+61393870427">(03) 9387 0427</a></p>
+        <p>Piero <a href="tel:+61416201733">0416 201 733</a></p>
+        <p class="eg">A real person answers the phone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section class="section" aria-labelledby="faqTitle">
+  <div class="shell">
+    <h2 class="h2" id="faqTitle">Questions</h2>
+    <div class="faq">
+      <details><summary>Is this the same product?</summary><p>Yes. Genuine Padagis ORA® in 473 mL bottles; only the expiry is shorter.</p></details>
+      <details><summary>Can I mix products?</summary><p>Yes. Any mix of ORA-Plus®, ORA-Sweet® and ORA-Blend® counts toward your 6, and toward your 12.</p></details>
+      <details><summary>Why no sugar-free versions?</summary><p>The clearance covers only the three products listed.</p></details>
+      <details><summary>How fast is dispatch?</summary><p>Within 24 hours. Delivery is <span data-money="freight-6">$18.00</span> + GST per order under 12 bottles, and <span data-money="freight-12">$30.00</span> + GST for 12 or more.</p></details>
+      <details><summary>What if it sells out?</summary><p>When a product is gone, it's gone. Our <a href="/">standard long-dated range</a> is still available.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Closing band ========== -->
+<section class="closer">
+  <div class="shell">
+    <h2>When it's gone, it's gone.</h2>
+    <p>I can't get more at this price.<cite>Piero Sacchetta, Medical Flavouring Systems</cite></p>
+    <a class="btn btn--red" href="#builder">Choose your bottles <svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="shell">
+    <p>Medical Flavouring Systems P/L · ABN 55 083 023 373 · P.O. Box 270, Brunswick East VIC 3057.</p>
+    <p>Prices exclude GST, per 473 mL bottle. Usual price is MFS's standard list price. Short-dated offer: 1 bottle free with every 6 purchased, or 3 bottles free with every 12 purchased; any combination of the short-dated products listed qualifies; subject to stock availability; expiry as shown. Delivery per order: $18 + GST under 12 bottles purchased, $30 + GST for 12 or more. ORA-Plus®, ORA-Sweet® and ORA-Blend® are registered trademarks of Padagis.</p>
+    <nav aria-label="Legal and other links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="/">Standard long-dated ORA® range</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="bar" id="orderBar" aria-hidden="true">
+  <div class="bar-inner">
+    <div class="bar-facts">
+      <div><span>Paid</span><b id="barPaid">0</b></div>
+      <div><span>Free</span><b class="is-free" id="barFree">0</b></div>
+      <div><span>Total inc GST</span><b id="barTotal">$0.00</b></div>
+    </div>
+    <a class="btn btn--red" href="#builder" id="barCta" tabindex="-1">Choose your bottles</a>
+  </div>
+</div>
+
+<script src="pricing.js"></script>
+<script src="catalog.js"></script>
+<script src="cart.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ============================================================
+   Short-dated clearance page
+
+   Every price on this page comes from `pricing.js` (the same engine the
+   Stripe endpoints recalculate with), every product fact from `catalog.js`.
+   The figures written into the HTML above are only what shows before this
+   script runs; it overwrites them from the engine.
+   ============================================================ */
+var OFFER='short-dated';
+var PRICING=window.MFSPricing&&window.MFSPricing.shortDated;
+var CATALOG=window.MFSCatalog;
+var CART=window.MFSCart;
+if(!PRICING||!CATALOG||!CART) throw new Error('Short-dated page dependencies failed to load');
+
+var RULES=PRICING.RULES;
+var SKUS=CATALOG.skus(OFFER);
+var KEYS=CATALOG.keys(OFFER);
+var MAX_QTY=999;
+
+var $=function(id){ return document.getElementById(id); };
+function money(cents){
+  return '$'+(Math.round(cents)/100).toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function plural(count,word){ return count+' '+word+(count===1?'':'s'); }
+function icon(id){ return '<svg viewBox="0 0 20 20" aria-hidden="true"><use href="#'+id+'"/></svg>'; }
+function bottlesOf(key){ return SKUS.filter(function(sku){ return sku.key===key; })[0]; }
+
+/* ============================================================
+   State
+   ============================================================ */
+var restored=CART.restore(window.location.search,KEYS,OFFER);
+var state={
+  qty:restored.quantities,
+  bonus:restored.bonusChoices.slice(),
+  bonusTouched:restored.bonusChoices.length>0,
+  /* The landing link's own src/e win over anything remembered. */
+  tracking:Object.assign({},restored.tracking,CART.trackingFrom(window.location.search)),
+  stock:{}           // key -> available | low | sold-out, once the server answers
+};
+
+function isOut(key){ return state.stock[key]==='sold-out'; }
+function forSale(){ return KEYS.filter(function(key){ return !isOut(key); }); }
+
+/* ============================================================
+   Static figures, from the engine
+   ============================================================ */
+function deal(paid){
+  var quantities={}; quantities[KEYS[0]]=paid;
+  return PRICING.quote(quantities);
+}
+(function fillFigures(){
+  var six=deal(RULES.dealThreshold), twelve=deal(RULES.boostedThreshold);
+  var figures={
+    'list':RULES.listUnitCents,
+    'unit':RULES.baseUnitCents,
+    'best-effective':twelve.effectiveUnitCents,
+    'effective-6':six.effectiveUnitCents,
+    'subtotal-6':six.subtotalCents,
+    'saving-6':six.savingsCents,
+    'freight-6':six.freightCents,
+    'effective-12':twelve.effectiveUnitCents,
+    'subtotal-12':twelve.subtotalCents,
+    'saving-12':twelve.savingsCents,
+    'freight-12':twelve.freightCents,
+    'freight-per-12':Math.round(twelve.freightCents/twelve.shippedCount)
+  };
+  document.querySelectorAll('[data-money]').forEach(function(el){
+    var key=el.getAttribute('data-money');
+    if(Object.prototype.hasOwnProperty.call(figures,key)) el.textContent=money(figures[key]);
+  });
+  [[6,six],[12,twelve]].forEach(function(pair){
+    var q=pair[1];
+    document.querySelectorAll('[data-count="shipped-'+pair[0]+'"]').forEach(function(el){ el.textContent=q.shippedCount; });
+    document.querySelectorAll('[data-pct="'+pair[0]+'"]').forEach(function(el){
+      el.textContent=Math.round(q.savingsCents/(q.shippedCount*RULES.listUnitCents)*100);
+    });
+  });
+})();
+
+/* ============================================================
+   Stock table
+   ============================================================ */
+var STATUS_TEXT={'available':'Available','low':'Low stock','sold-out':'Sold out'};
+function renderStock(){
+  $('stockRows').innerHTML=SKUS.map(function(sku){
+    var status=state.stock[sku.key];
+    return '<tr>'+
+      '<td class="prod"><img src="'+sku.img+'" alt="" width="330" height="1085" loading="lazy">'+sku.name+'</td>'+
+      '<td class="what">'+sku.what+'</td>'+
+      '<td class="size">473 mL</td>'+
+      '<td class="exp">'+sku.expiryLong+'<small>('+sku.expiry+')</small></td>'+
+      '<td class="state"><span class="status"'+(status?' data-status="'+status+'"':'')+'>'+(STATUS_TEXT[status]||'Checking…')+'</span></td>'+
+    '</tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Builder rows
+   ============================================================ */
+$('skuList').innerHTML=SKUS.map(function(sku){
+  return '<div class="sku" data-sku="'+sku.key+'">'+
+    '<div class="sku-thumb"><img src="'+sku.img+'" alt="" width="330" height="1085" loading="lazy"></div>'+
+    '<div><div class="sku-name">'+sku.name+'</div>'+
+      '<div class="sku-sub">'+sku.sub+' · exp. <b>'+sku.expiry+'</b></div>'+
+      '<div class="sku-out">Sold out</div></div>'+
+    '<div class="qty">'+
+      '<button type="button" data-dec="'+sku.key+'" aria-label="One less '+sku.name+'">'+icon('i-minus')+'</button>'+
+      '<input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" data-qty="'+sku.key+'" aria-label="'+sku.name+' bottles" value="0">'+
+      '<button type="button" data-inc="'+sku.key+'" aria-label="One more '+sku.name+'">'+icon('i-plus')+'</button>'+
+    '</div>'+
+  '</div>';
+}).join('');
+
+function setQty(key,value){
+  var next=Math.max(0,Math.min(MAX_QTY,CART.cleanQuantity(value)));
+  if(isOut(key)) next=0;
+  state.qty[key]=next;
+}
+
+/* Spread `target` paid bottles across what is in the basket, or evenly across
+   the products still for sale when the basket is empty. Used by the deal cards
+   and the upgrade prompts, so a customer's own mix is always what grows. */
+function fillTo(target){
+  var paid=PRICING.paidCount(state.qty);
+  if(paid>=target) return 0;
+  var additions;
+  if(paid===0){
+    var open=forSale();
+    if(!open.length) return 0;
+    var seed=KEYS.reduce(function(result,key){ result[key]=open.indexOf(key)!==-1?1:0; return result; },{});
+    additions=PRICING.additionsTo(seed,KEYS,target);
+    KEYS.forEach(function(key){ state.qty[key]=seed[key]+additions[key]; });
+  }else{
+    additions=PRICING.additionsTo(state.qty,KEYS,target);
+    KEYS.forEach(function(key){ state.qty[key]+=additions[key]; });
+  }
+  return target-paid;
+}
+
+function describeMix(){
+  return SKUS.filter(function(sku){ return state.qty[sku.key]>0; })
+    .map(function(sku){ return state.qty[sku.key]+' × '+sku.name; }).join(', ');
+}
+
+function flash(message){
+  var el=$('builderFlash');
+  el.textContent=message;
+  window.clearTimeout(flash.timer);
+  flash.timer=window.setTimeout(function(){ el.textContent=''; },6000);
+}
+
+/* ============================================================
+   Free bottles
+   ============================================================ */
+/* Matched to the mix by default — someone buying mostly ORA-Plus® gets mostly
+   ORA-Plus® free — until they choose for themselves. */
+function defaultBonus(count){
+  var open=forSale();
+  var base=KEYS.reduce(function(result,key){ result[key]=open.indexOf(key)!==-1?state.qty[key]:0; return result; },{});
+  if(!PRICING.paidCount(base)) return [];
+  var paid=PRICING.paidCount(base);
+  var extra=PRICING.additionsTo(base,KEYS,paid+count);
+  var list=[];
+  KEYS.forEach(function(key){ for(var i=0;i<extra[key];i+=1) list.push(key); });
+  return list;
+}
+
+function syncBonus(count){
+  if(!state.bonusTouched){
+    state.bonus=defaultBonus(count);
+    return;
+  }
+  var fallback=defaultBonus(count);
+  var kept=state.bonus.filter(function(key){ return KEYS.indexOf(key)!==-1&&!isOut(key); }).slice(0,count);
+  while(kept.length<count) kept.push(fallback[kept.length]||forSale()[0]);
+  state.bonus=kept;
+}
+
+function renderFree(count){
+  var wrap=$('freeChoices');
+  wrap.hidden=count===0;
+  if(!count){ $('freeList').innerHTML=''; return; }
+  $('freeTitle').innerHTML='Choose your <em>'+plural(count,'free bottle')+'</em>';
+  var open=forSale();
+  $('freeList').innerHTML=state.bonus.map(function(choice,index){
+    return '<label><span>'+(index+1)+'</span><select data-free="'+index+'" aria-label="Free bottle '+(index+1)+'">'+
+      SKUS.filter(function(sku){ return open.indexOf(sku.key)!==-1; }).map(function(sku){
+        return '<option value="'+sku.key+'"'+(sku.key===choice?' selected':'')+'>'+sku.name+'</option>';
+      }).join('')+
+    '</select></label>';
+  }).join('');
+}
+
+/* ============================================================
+   The offer above the checkout button
+   ============================================================ */
+function freightEach(q){ return q.shippedCount?q.freightCents/q.shippedCount:0; }
+
+function renderOffer(t){
+  var box=$('offer');
+  var paid=t.paidCount;
+  if(paid===0){
+    box.innerHTML='<p class="nudge">Add <b>'+RULES.dealThreshold+' bottles</b> and the 7th is free. Any mix of the three.</p>';
+    return;
+  }
+  var target=t.nextThreshold;
+  var add=target-paid;
+  var after=deal(target);
+  var remainder=paid%RULES.boostedThreshold;
+
+  /* 6–11 (and the same half-box past each 12): the box of twelve is the
+     upgrade worth putting in front of the button. */
+  if(remainder>=RULES.dealThreshold){
+    var lines='<p>Add '+plural(add,'more bottle')+' and get <em>'+after.bonusCount+' FREE</em> instead of '+t.bonusCount+'</p>'+
+      '<p class="sub"><b>'+money(after.effectiveUnitCents)+'</b> a bottle shipped'+(paid<RULES.boostedThreshold?' · Best value':'')+'.';
+    /* Only claimed when it is true for this basket: delivery per bottle falls
+       on the bigger order from 6 or 7 bottles, not from 8 up. */
+    if(freightEach(after)<freightEach(t)){
+      lines+=' Delivery drops to '+money(freightEach(after))+' a bottle, from '+money(freightEach(t))+'.';
+    }
+    lines+='</p><button type="button" data-fill="'+target+'">Add '+add+' in my mix</button>';
+    box.innerHTML='<div class="bump">'+lines+'</div>';
+    return;
+  }
+  if(remainder===0){
+    box.innerHTML='<p class="won">'+plural(t.bonusCount,'free bottle')+' included. '+(paid===RULES.boostedThreshold?'Best value unlocked.':'')+'</p>';
+    return;
+  }
+  /* 1–5 (and 13–17…): a lighter nudge to the next free bottle. */
+  box.innerHTML='<p class="nudge">Add <b>'+add+' more</b> for '+(t.bonusCount?'another free bottle':'a free bottle')+'.'+
+    '<button type="button" data-fill="'+target+'">Add '+add+' in my mix</button></p>';
+}
+
+/* ============================================================
+   Render
+   ============================================================ */
+function render(options){
+  var opts=options||{};
+  KEYS.forEach(function(key){ if(isOut(key)) state.qty[key]=0; });
+  var t=PRICING.quote(state.qty);
+  syncBonus(t.bonusCount);
+
+  SKUS.forEach(function(sku){
+    var row=document.querySelector('.sku[data-sku="'+sku.key+'"]');
+    var count=state.qty[sku.key];
+    var input=row.querySelector('[data-qty]');
+    if(document.activeElement!==input||opts.force) input.value=String(count);
+    row.classList.toggle('is-on',count>0);
+    row.classList.toggle('is-out',isOut(sku.key));
+    row.querySelector('[data-dec]').disabled=count<1;
+    row.querySelector('[data-inc]').disabled=count>=MAX_QTY||isOut(sku.key);
+  });
+
+  $('sumPaid').textContent=t.paidCount;
+  $('sumFree').textContent=t.bonusCount;
+  $('sumFree').classList.toggle('has-free',t.bonusCount>0);
+  $('sumShipped').textContent=t.shippedCount;
+  $('sumEach').textContent=t.shippedCount?money(t.effectiveUnitCents)+' + GST':'–';
+  $('sumSubtotal').textContent=money(t.subtotalCents);
+  $('sumFreight').textContent=money(t.freightCents);
+  $('sumGst').textContent=money(t.gstCents);
+  $('sumTotal').textContent=money(t.totalIncGstCents);
+  $('sumSaving').textContent=t.savingsCents>0?'You save '+money(t.savingsCents)+' on the usual '+money(RULES.listUnitCents)+' a bottle.':'';
+
+  renderOffer(t);
+  renderFree(t.bonusCount);
+
+  $('barPaid').textContent=t.paidCount;
+  $('barFree').textContent=t.bonusCount;
+  $('barTotal').textContent=money(t.totalIncGstCents);
+  $('barCta').textContent=t.paidCount?'Checkout':'Choose your bottles';
+
+  updateMailto();
+  CART.save(cartState(),KEYS,OFFER);
+}
+
+function cartState(){
+  return {offer:OFFER,quantities:state.qty,bonusChoices:state.bonus,tracking:state.tracking};
+}
+
+/* The email route carries the basket too: what is in the builder becomes the
+   order line, ready for a PO number. */
+function updateMailto(){
+  var mix=SKUS.filter(function(sku){ return state.qty[sku.key]>0; })
+    .map(function(sku){ return sku.name.replace('®','')+' x'+state.qty[sku.key]; });
+  var line=mix.length?mix.join(', '):'ORA-Plus x__, ORA-Sweet x__, ORA-Blend x__';
+  var body='Short-dated: '+line+'. PO ______\n\nPharmacy / hospital:\nContact name:\nDelivery address:\nPhone:';
+  $('mailOrder').href='mailto:info@medicalfs.com.au?subject='+encodeURIComponent('Short-dated ORA order')+'&body='+encodeURIComponent(body);
+}
+
+/* ============================================================
+   Interactions
+   ============================================================ */
+document.addEventListener('click',function(event){
+  var inc=event.target.closest('[data-inc]');
+  var dec=event.target.closest('[data-dec]');
+  var fill=event.target.closest('[data-fill]');
+  var start=event.target.closest('[data-start]');
+  if(inc||dec){
+    var key=(inc||dec).getAttribute(inc?'data-inc':'data-dec');
+    setQty(key,state.qty[key]+(inc?1:-1));
+    render({force:true});
+    return;
+  }
+  if(fill){
+    var added=fillTo(Number(fill.getAttribute('data-fill')));
+    render({force:true});
+    if(added) flash('Added '+plural(added,'bottle')+'. Your order: '+describeMix()+'.');
+    return;
+  }
+  if(start){
+    var target=Number(start.getAttribute('data-start'));
+    var wasEmpty=PRICING.paidCount(state.qty)===0;
+    var count=fillTo(target);
+    render({force:true});
+    $('builder').scrollIntoView({behavior:'smooth',block:'start'});
+    if(count) flash((wasEmpty?plural(target,'bottle')+' added, split across the three: ':'Topped up to '+target+': ')+describeMix()+'. Change the mix below.');
+    else flash('You already have '+PRICING.paidCount(state.qty)+' bottles in your order.');
+  }
+});
+
+document.addEventListener('input',function(event){
+  var input=event.target.closest('[data-qty]');
+  if(!input) return;
+  var digits=input.value.replace(/\D/g,'').slice(0,3);
+  if(digits!==input.value) input.value=digits;
+  setQty(input.getAttribute('data-qty'),digits===''?0:Number(digits));
+  render();
+});
+/* Leaving a box only tidies its own text (a cleared box back to 0). It must
+   not re-render anything else: a tap on "Add 4 in my mix" blurs the box first,
+   and redrawing the prompt then would swap its button out from under the tap. */
+document.addEventListener('focusout',function(event){
+  var input=event.target.closest&&event.target.closest('[data-qty]');
+  if(input) input.value=String(state.qty[input.getAttribute('data-qty')]);
+});
+document.addEventListener('focusin',function(event){
+  var input=event.target.closest&&event.target.closest('[data-qty]');
+  if(input) window.setTimeout(function(){ input.select(); },0);
+});
+
+$('freeList').addEventListener('change',function(event){
+  var select=event.target.closest('[data-free]');
+  if(!select) return;
+  state.bonus[Number(select.getAttribute('data-free'))]=select.value;
+  state.bonusTouched=true;
+  render();
+});
+
+function checkout(){
+  var t=PRICING.quote(state.qty);
+  var status=$('checkoutStatus');
+  status.classList.remove('is-ok');
+  if(t.paidCount<1){
+    status.textContent='Add at least one bottle first.';
+    document.querySelector('.sku [data-qty]').focus();
+    return;
+  }
+  status.classList.add('is-ok');
+  status.textContent='Opening secure checkout…';
+  $('checkoutBtn').disabled=true;
+  window.location.href='checkout.html?'+CART.encode(cartState(),KEYS);
+}
+$('checkoutBtn').addEventListener('click',checkout);
+$('barCta').addEventListener('click',function(event){
+  if(!PRICING.paidCount(state.qty)) return;
+  event.preventDefault();
+  checkout();
+});
+
+/* A back button from checkout restores the page from the browser's cache with
+   the button still showing "Opening…". Give it back. */
+window.addEventListener('pageshow',function(){
+  $('checkoutBtn').disabled=false;
+  $('checkoutStatus').textContent='';
+});
+
+/* ============================================================
+   Sticky order bar: on once the hero is gone, off while the builder
+   itself is on screen (it would cover its own button) and at the footer.
+   ============================================================ */
+(function(){
+  if(!('IntersectionObserver' in window)) return;
+  var bar=$('orderBar');
+  var seen={hero:true,builder:false,foot:false};
+  function update(){
+    var up=!seen.hero&&!seen.builder&&!seen.foot;
+    bar.classList.toggle('is-up',up);
+    bar.setAttribute('aria-hidden',up?'false':'true');
+    $('barCta').tabIndex=up?0:-1;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){ seen[entry.target.getAttribute('data-watch')]=entry.isIntersecting; });
+    update();
+  },{threshold:0});
+  [['hero','.hero'],['builder','#builder .builder'],['foot','.closer']].forEach(function(pair){
+    var el=document.querySelector(pair[1]);
+    el.setAttribute('data-watch',pair[0]);
+    io.observe(el);
+  });
+})();
+
+/* ============================================================
+   Live stock status
+   ============================================================ */
+function loadStock(){
+  return fetch('/api/short-dated-stock',{headers:{Accept:'application/json'}})
+    .then(function(response){ return response.ok?response.json():null; })
+    .then(function(body){
+      if(!body||!body.products) throw new Error('no status');
+      state.stock=body.products;
+    })
+    .catch(function(){
+      /* Unknown is shown as unknown — never as "Available". Checkout still
+         checks stock on the server either way. */
+      state.stock=KEYS.reduce(function(result,key){ result[key]='unknown'; return result; },{});
+      STATUS_TEXT.unknown='Call to confirm';
+    })
+    .then(function(){
+      var removed=KEYS.filter(function(key){ return isOut(key)&&state.qty[key]>0; });
+      renderStock();
+      render({force:true});
+      if(removed.length){
+        flash(removed.map(function(key){ return bottlesOf(key).name; }).join(' and ')+' has sold out and was taken out of your order.');
+      }
+    });
+}
+
+renderStock();
+render({force:true});
+loadStock();
+})();
+</script>
+</body>
+</html>

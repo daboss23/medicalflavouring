@@ -6,15 +6,18 @@
    receipt does not care which way the customer paid. */
 
 const Catalog=require('../catalog.js');
+const Pricing=require('../pricing.js');
+const Stock=require('./_short-dated-stock.js');
 
 const PRODUCT_NAMES=Catalog.names();
+const ALL_SKUS=Catalog.SKUS.concat(Catalog.SHORT_DATED);
 
-const SKU_IMAGES=Catalog.SKUS.reduce((result,sku)=>{
+const SKU_IMAGES=ALL_SKUS.reduce((result,sku)=>{
   result[sku.key]=sku.img;
   return result;
 },{});
 
-const SKU_TINTS=Catalog.SKUS.reduce((result,sku)=>{
+const SKU_TINTS=ALL_SKUS.reduce((result,sku)=>{
   result[sku.key]=sku.hex;
   return result;
 },{});
@@ -57,7 +60,68 @@ function itemView(sku,name,quantity,amountTotal,bonus){
   };
 }
 
+/* The basket both payment endpoints accept, read and priced the same way.
+
+   An order is one offer or the other, never both: the offer named in the
+   request picks the product keys and the pricing engine, and a bottle from the
+   other offer anywhere in the basket — paid or free — rejects the whole order.
+   That is what keeps the clearance price off standard stock, and standard
+   prices off clearance stock, whatever a hand-edited request says. Short-dated
+   orders are also checked against what is left on the shelf. */
+async function readBasket(body){
+  const offer=body&&body.offer==='short-dated'?'short-dated':'standard';
+  const pricing=Pricing.forOffer(offer);
+  const keys=Catalog.keys(offer);
+  const raw=body&&body.quantities&&typeof body.quantities==='object'?body.quantities:{};
+
+  const stray=Object.keys(raw).some(key=>{
+    const owner=Catalog.offerOf(key);
+    return owner&&owner!==offer&&pricing.cleanQuantity(raw[key])>0;
+  });
+  if(stray){
+    return {error:{field:'cart',error:'Short-dated and standard ORA® have to be ordered separately. Please check out one, then the other.'}};
+  }
+
+  const quantities=pricing.normalizeQuantities(raw,keys);
+  const quote=pricing.quote(quantities);
+  if(quote.paidCount<1) return {error:{field:'cart',error:'Add at least one bottle'}};
+
+  const bonuses=Array.isArray(body.bonusChoices)?body.bonusChoices:[];
+  if(bonuses.length!==quote.bonusCount||bonuses.some(key=>keys.indexOf(key)===-1)){
+    return {error:{field:'bonus',error:'Choose each free bottle'}};
+  }
+
+  if(offer==='short-dated'){
+    const shipped=Object.assign({},quantities);
+    bonuses.forEach(key=>{ shipped[key]+=1; });
+    const left=await Stock.remaining({fresh:true});
+    const short=Stock.shortfall(left,shipped);
+    if(short){
+      const name=Catalog.get(short.key).name;
+      return {error:{
+        field:'cart',
+        code:'stock',
+        error:short.remaining>0
+          ?`Only ${short.remaining} short-dated ${name} ${short.remaining===1?'bottle is':'bottles are'} left, free bottles included. Please reduce your ${name} and try again.`
+          :`Short-dated ${name} has sold out. Please remove it and try again.`
+      }};
+    }
+  }
+
+  return {offer,pricing,keys,quantities,quote,bonuses};
+}
+
+/* Where an order came from — `?src=email&e=3` on the campaign links, `/sd` on
+   the faxes — kept to short, plain tokens before it is written to Stripe. */
+function readTracking(body){
+  const source=body&&body.tracking&&typeof body.tracking==='object'?body.tracking:{};
+  const clean=value=>String(value==null?'':value).toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,40);
+  return {source:clean(source.src),email:clean(source.e)};
+}
+
 module.exports={
+  readBasket,
+  readTracking,
   PRODUCT_NAMES,
   SKU_IMAGES,
   SKU_TINTS,

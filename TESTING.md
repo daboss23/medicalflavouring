@@ -147,3 +147,27 @@ under Payments too, with `checkout: embedded` and the bottles in `items` metadat
    separately. Vercel bakes environment variables in at build time, so every key
    change needs a redeploy before it takes effect.
 4. Make one small real purchase and refund it, to confirm the live path end to end.
+
+## Short-dated clearance (`/short-dated`)
+
+`node tests/short-dated.test.js` checks the brief's acceptance table to the cent, the
+mixed-basket and stock-cap refusals, and what each Stripe request carries, with Stripe
+simulated. Then, in test mode, run these baskets through the real checkout and check the
+Stripe dashboard charge equals the page's "Total inc GST":
+
+| Paid | Shipped | Bottles ex GST | Freight ex GST | Total inc GST (one product) |
+|---|---|---|---|---|
+| 1 | 1 | $17.99 | $18.00 | $39.59 |
+| 5 | 5 | $89.95 | $18.00 | $118.75 |
+| 6 | 7 | $107.94 | $18.00 | $138.53 |
+| 8 | 9 | $143.92 | $18.00 | $178.11 (4/2/2 split: $178.12) |
+| 12 | 15 | $215.88 | $30.00 | $270.47 |
+| 18 | 22 | $323.82 | $30.00 | $389.20 |
+| 24 | 30 | $431.76 | $30.00 | $507.94 |
+
+A split basket can differ from the single-product total by a cent: GST is rounded per
+line, exactly as Stripe rounds it, so the page and the charge still agree.
+
+Also check: the yellow "get 3 FREE" prompt appears at 6–11 bottles and its button tops up
+in the same mix; `/sd` lands on `/short-dated?src=fax`; a paid order's PaymentIntent in
+Stripe carries `offer=short-dated` and the `source` it came from.

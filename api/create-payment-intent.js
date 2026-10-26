@@ -13,8 +13,7 @@
       changed quantity updates the intent it already has rather than leaving a
       trail of abandoned intents behind every order. */
 
-const Pricing=require('../pricing.js');
-const {PRODUCT_NAMES:PRODUCTS,send}=require('./order-fields.js');
+const {PRODUCT_NAMES:PRODUCTS,send,readBasket,readTracking}=require('./order-fields.js');
 
 const INTENT_ID=/^pi_[A-Za-z0-9_]{8,255}$/;
 const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -81,11 +80,12 @@ function itemList(quantities,keys){
   return keys.filter(key=>quantities[key]>0).map(key=>`${key}:${quantities[key]}`).join(',');
 }
 
-function orderSummary(quote,quantities,keys,bonuses){
+function orderSummary(offer,quantities,keys,bonuses){
   const bottles=keys.filter(key=>quantities[key]>0)
     .map(key=>`${quantities[key]} × ${PRODUCTS[key]}`).join(', ');
   const free=bonuses.length?` + ${bonuses.length} free (${bonuses.map(key=>PRODUCTS[key]).join(', ')})`:'';
-  return `ORA® order · ${bottles}${free}`.slice(0,350);
+  const label=offer==='short-dated'?'ORA® SHORT-DATED clearance order':'ORA® order';
+  return `${label} · ${bottles}${free}`.slice(0,350);
 }
 
 module.exports=async function handler(req,res){
@@ -99,15 +99,10 @@ module.exports=async function handler(req,res){
 
   try{
     const body=typeof req.body==='string'?JSON.parse(req.body||'{}'):(req.body||{});
-    const productKeys=Object.keys(PRODUCTS);
-    const quantities=Pricing.normalizeQuantities(body.quantities,productKeys);
-    const quote=Pricing.quote(quantities);
-    if(quote.paidCount<1) return send(res,400,invalid('cart','Add at least one bottle'));
-
-    const bonuses=Array.isArray(body.bonusChoices)?body.bonusChoices:[];
-    if(bonuses.length!==quote.bonusCount||bonuses.some(key=>!PRODUCTS[key])){
-      return send(res,400,invalid('bonus','Choose each free bottle'));
-    }
+    const basket=await readBasket(body);
+    if(basket.error) return send(res,basket.error.code==='stock'?409:400,basket.error);
+    const {offer,quantities,quote,bonuses,keys:productKeys}=basket;
+    const tracking=readTracking(body);
 
     const customerResult=readCustomer(body);
     if(customerResult.error) return send(res,400,customerResult);
@@ -129,22 +124,27 @@ module.exports=async function handler(req,res){
     const fullName=`${customer.firstName} ${customer.lastName}`.trim();
     const params=new URLSearchParams();
     params.set('amount',String(quote.totalIncGstCents));
-    params.set('currency',Pricing.RULES.currency);
+    params.set('currency',quote.currency);
     /* Elements is built with captureMethod 'automatic' and Stripe refuses to
        confirm an intent whose capture method disagrees with it. Left unset this
        follows the account's API-version default — which is automatic_async on
        current versions — so the two silently drift apart and every payment
        fails at the last step. Say it, so the pair is one decision. */
     params.set('capture_method','automatic');
-    params.set('description',orderSummary(quote,quantities,productKeys,bonuses));
+    params.set('description',orderSummary(offer,quantities,productKeys,bonuses));
     params.set('receipt_email',customer.email);
     params.set('shipping[name]',customer.business||fullName);
     params.set('shipping[phone]',customer.phone);
     setAddress(params,'shipping[address]',shipping);
 
+    /* `offer` is what the short-dated stock count searches on, so every
+       clearance payment must carry it. */
     const metadata={
       pricing_version:quote.pricingVersion,
+      offer:offer,
       checkout:'embedded',
+      source:tracking.source,
+      source_email:tracking.email,
       items:itemList(quantities,productKeys),
       bonus_items:bonuses.join(','),
       paid_bottles:String(quote.paidCount),

@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    { "source": "/short-dated", "destination": "/short-dated.html" },
+    { "source": "/short-dated/", "destination": "/short-dated.html" }
+  ],
+  "redirects": [
+    { "source": "/sd", "destination": "/short-dated?src=fax", "permanent": false },
+    { "source": "/sd/", "destination": "/short-dated?src=fax", "permanent": false },
+    { "source": "/SD", "destination": "/short-dated?src=fax", "permanent": false },
+    { "source": "/Sd", "destination": "/short-dated?src=fax", "permanent": false }
+  ]
+}
