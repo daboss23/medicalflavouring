@@ -124,10 +124,11 @@ p{margin:0; text-wrap:pretty}
 .strip .shell{display:flex; justify-content:center; gap:8px 28px; flex-wrap:wrap; padding-block:9px; text-align:center}
 .head{border-bottom:2px solid var(--charcoal); background:#fff}
 .head .shell{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:72px}
+.head-logo{display:flex; align-items:center; min-height:48px}
 .head-logo img{height:42px; width:auto}
 .head-call{display:flex; flex-direction:column; align-items:flex-end; line-height:1.2}
-.head-call small{font-size:12px; color:var(--grey); font-weight:500}
-.head-call a{font-family:var(--display); font-size:18px; font-weight:800; letter-spacing:-.02em; color:var(--red-ink); text-decoration:none; min-height:28px; display:inline-flex; align-items:center}
+.head-call small{font-size:12px; color:var(--grey); font-weight:500; margin-bottom:-8px}
+.head-call a{font-family:var(--display); font-size:18px; font-weight:800; letter-spacing:-.02em; color:var(--red-ink); text-decoration:none; min-height:44px; display:inline-flex; align-items:center}
 .head-call a:hover{color:var(--ink)}
 
 /* ---------- Hero ---------- */
@@ -206,6 +207,7 @@ p{margin:0; text-wrap:pretty}
   font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
 }
 .stock td{padding:15px 16px; border-bottom:1px solid var(--line); vertical-align:middle}
+.stock th, .stock td.size{white-space:nowrap}
 .stock .prod{display:flex; align-items:center; gap:12px; font-weight:750; white-space:nowrap}
 .stock .prod img{height:44px; width:auto}
 .stock .exp{font-weight:800; color:var(--red-ink); white-space:nowrap}
@@ -282,7 +284,8 @@ p{margin:0; text-wrap:pretty}
 }
 .qty input:focus{outline:none; background:var(--yellow-soft)}
 .builder-note{margin-top:12px; font-size:13.5px; color:var(--grey)}
-.builder-flash{min-height:22px; margin-top:12px; font-size:14px; font-weight:650; color:var(--good)}
+.builder-flash{margin-top:12px; font-size:14px; font-weight:650; color:var(--good)}
+.builder-flash:empty{margin-top:0}
 
 /* Free bottle choices */
 .free{margin-top:16px; padding:16px; background:#fff; border-radius:var(--r-md); box-shadow:inset 0 0 0 1px var(--line)}
@@ -324,11 +327,11 @@ p{margin:0; text-wrap:pretty}
 .sum{display:grid; gap:7px; font-size:15px}
 .sum div{display:flex; justify-content:space-between; gap:12px}
 .sum dt{color:var(--ink-2)}
-.sum dd{margin:0; font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:500}
+.sum dd{margin:0; font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:500; white-space:nowrap}
 .sum .is-free dd.has-free{color:var(--red-ink); font-weight:700}
 .sum hr{border:0; border-top:1px solid var(--line); margin:5px 0}
 .total{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-top:10px; padding-top:12px; border-top:2px solid var(--charcoal)}
-.total span{font-family:var(--display); font-weight:800; font-size:17px}
+.total span{font-family:var(--display); font-weight:800; font-size:17px; white-space:nowrap}
 .total b{font-family:var(--display); font-weight:850; font-size:30px; letter-spacing:-.04em; font-variant-numeric:tabular-nums}
 .saving{margin-top:8px; font-size:14px; font-weight:650; color:var(--good); min-height:21px}
 .summary .btn{margin-top:14px}
@@ -340,12 +343,12 @@ p{margin:0; text-wrap:pretty}
 /* ---------- PO / fax / phone ---------- */
 .ways{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(12px,1.6vw,18px)}
 .way{
-  display:flex; flex-direction:column; gap:6px; padding:clamp(18px,2vw,24px);
+  display:flex; flex-direction:column; gap:2px; padding:clamp(18px,2vw,24px);
   background:var(--charcoal); color:#fff; border-radius:var(--r-md);
 }
 .way h3{font-size:18px; font-weight:800; letter-spacing:-.02em; color:var(--yellow)}
 .way p{font-size:15px; color:#ddd5d5}
-.way a{color:#fff; font-weight:700; text-decoration:underline; text-decoration-color:rgba(255,255,255,.4); text-underline-offset:4px; min-height:32px; display:inline-flex; align-items:center}
+.way a{color:#fff; font-weight:700; text-decoration:underline; text-decoration-color:rgba(255,255,255,.4); text-underline-offset:4px; min-height:44px; display:inline-flex; align-items:center}
 .way a:hover{color:var(--yellow); text-decoration-color:currentColor}
 .way .big{font-family:var(--display); font-size:21px; font-weight:750; letter-spacing:-.02em; text-decoration:none; color:#fff}
 .way .eg{font-size:13.5px; color:#b8aeae; margin-top:auto; padding-top:8px}
@@ -379,7 +382,7 @@ p{margin:0; text-wrap:pretty}
 .foot a{color:#fff}
 .foot a:hover{color:var(--yellow)}
 .foot nav{display:flex; flex-wrap:wrap; gap:6px 22px; margin-top:14px}
-.foot nav a{font-weight:650; min-height:32px; display:inline-flex; align-items:center}
+.foot nav a{font-weight:650; min-height:44px; display:inline-flex; align-items:center}
 
 /* ---------- Sticky order bar ---------- */
 .bar{
@@ -402,7 +405,7 @@ p{margin:0; text-wrap:pretty}
    ============================================================ */
 @media (max-width:940px){
   .hero-grid{grid-template-columns:1fr}
-  .hero-art{max-width:520px; width:calc(100% - 14px); aspect-ratio:16/10; padding:7% 10% 5%}
+  .hero-art{max-width:520px; width:calc(100% - 14px); margin-inline:auto; aspect-ratio:16/10; padding:7% 10% 5%}
   .builder{grid-template-columns:1fr}
   .summary{position:static}
   .builder-head{grid-template-columns:1fr}
@@ -447,6 +450,16 @@ p{margin:0; text-wrap:pretty}
   .free-tag{right:-8px; padding:8px 12px 9px}
   .free-tag b{font-size:20px}
 }
+/* Small phones (iPhone SE and narrower). The label, the totals and the
+   checkout button are the lines that wrapped badly at 320px. */
+@media (max-width:380px){
+  .tag{font-size:10.5px; letter-spacing:.1em; padding:5px 9px}
+  .builder{padding:10px}
+  .summary{padding:16px 14px}
+  .total b{font-size:26px}
+  .btn{padding-inline:16px; font-size:16px}
+  .deal-price b{font-size:38px}
+}
 </style>
 </head>
 <body>
@@ -477,7 +490,7 @@ p{margin:0; text-wrap:pretty}
   <div class="shell">
     <div class="hero-grid">
       <div>
-        <span class="tag">Short-dated clearance · Limited stock</span>
+        <span class="tag"><span class="nowrap">Short-dated clearance ·</span> <span class="nowrap">Limited stock</span></span>
         <h1>Short-dated ORA® from <span class="nowrap"><span class="price-mark" data-money="best-effective">$14.39</span> a bottle</span></h1>
         <p class="lede">Short-dated stock of ORA-Plus®, ORA-Sweet® and ORA-Blend®, cleared at a price we've never offered before in Australia. Usual price <span data-money="list">$32.99</span>. Clearance price <strong><span data-money="unit">$17.99</span> + GST</strong>, with <strong>up to 3 bottles free</strong>.</p>
         <div class="hero-cta">
@@ -596,7 +609,7 @@ p{margin:0; text-wrap:pretty}
           <div><dt>Bottles paid</dt><dd id="sumPaid">0</dd></div>
           <div class="is-free"><dt>Free bottles</dt><dd id="sumFree">0</dd></div>
           <div><dt>Bottles shipped</dt><dd id="sumShipped">0</dd></div>
-          <div><dt>Price per bottle shipped</dt><dd id="sumEach">–</dd></div>
+          <div><dt>Per bottle shipped</dt><dd id="sumEach">–</dd></div>
           <hr>
           <div><dt>Subtotal (ex GST)</dt><dd id="sumSubtotal">$0.00</dd></div>
           <div><dt>Delivery (ex GST)</dt><dd id="sumFreight">$0.00</dd></div>
@@ -1093,7 +1106,7 @@ window.addEventListener('pageshow',function(){
     entries.forEach(function(entry){ seen[entry.target.getAttribute('data-watch')]=entry.isIntersecting; });
     update();
   },{threshold:0});
-  [['hero','.hero'],['builder','#builder .builder'],['foot','.closer']].forEach(function(pair){
+  [['hero','.hero'],['builder','#builder'],['foot','.closer']].forEach(function(pair){
     var el=document.querySelector(pair[1]);
     el.setAttribute('data-watch',pair[0]);
     io.observe(el);
