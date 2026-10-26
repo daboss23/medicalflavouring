@@ -10,13 +10,27 @@
    again server-side before Stripe ever sees it.
    ============================================================ */
 
-var PRICING=window.MFSPricing;
 var CATALOG=window.MFSCatalog;
 var CART=window.MFSCart;
-if(!PRICING||!CATALOG||!CART) throw new Error('Checkout dependencies failed to load');
+if(!window.MFSPricing||!CATALOG||!CART) throw new Error('Checkout dependencies failed to load');
 
+/* One checkout page, two offers. The short-dated clearance arrives with
+   `offer=short-dated` (or, from a hand-trimmed link, with short-dated product
+   keys alone) and from then on this page prices, lists and remembers only
+   short-dated bottles. The server makes the same decision independently. */
+var OFFER=(function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('offer')==='short-dated') return 'short-dated';
+  var keys=String(params.get('q')||'').split(',').map(function(pair){ return pair.split(':')[0]; });
+  return keys.some(function(key){ return CATALOG.offerOf(key)==='short-dated'; })?'short-dated':'standard';
+})();
+var SHORT_DATED=OFFER==='short-dated';
+
+var PRICING=window.MFSPricing.forOffer(OFFER);
 var RULES=PRICING.RULES;
-var KEYS=CATALOG.keys();
+var SKUS=CATALOG.skus(OFFER);
+var KEYS=CATALOG.keys(OFFER);
+var SHOP_URL=SHORT_DATED?'/short-dated':'index.html';
 var $=function(id){ return document.getElementById(id); };
 
 var state={
@@ -24,6 +38,7 @@ var state={
   upgraded:false,         // the price-option upgrade, mirrored by the order bump
   upgradeMix:null,        // the bottles chosen in the upgrade modal, when taken
   bonusChoices:[],
+  tracking:{},            // campaign source, carried from the landing link to Stripe
   stripe:null,
   elements:null,
   intentId:'',
@@ -59,6 +74,10 @@ function defaultCart(){
 /* An accepted upgrade replaces the basket outright with what the customer
    built in the modal — they chose those bottles by hand, so nothing is spread
    across the old mix behind their back. */
+function cartState(){
+  return {offer:OFFER,quantities:quantities(),bonusChoices:state.bonusChoices,tracking:state.tracking};
+}
+
 function quantities(){
   if(state.upgraded&&state.upgradeMix) return Object.assign({},state.upgradeMix);
   return Object.assign({},state.base);
@@ -176,10 +195,10 @@ function renderLines(){
     return result;
   },{});
 
-  var paidRows=CATALOG.SKUS.filter(function(sku){ return current[sku.key]>0; }).map(function(sku){
+  var paidRows=SKUS.filter(function(sku){ return current[sku.key]>0; }).map(function(sku){
     return lineRow(sku,current[sku.key],money(current[sku.key]*t.unitCents),false);
   });
-  var freeRows=CATALOG.SKUS.filter(function(sku){ return bonusCounts[sku.key]>0; }).map(function(sku){
+  var freeRows=SKUS.filter(function(sku){ return bonusCounts[sku.key]>0; }).map(function(sku){
     return lineRow(sku,bonusCounts[sku.key],'FREE',true);
   });
 
@@ -193,7 +212,7 @@ function lineRow(sku,count,value,free){
       '<span class="thumb"><img src="'+sku.img+'" alt="" loading="lazy"></span>'+
       '<span>'+
         '<span class="n">'+sku.name+'</span><br>'+
-        '<span class="m">'+sku.sub+' · 473 mL · ×'+count+'</span>'+
+        '<span class="m">'+sku.sub+' · 473 mL'+(sku.expiry?' · exp '+sku.expiry:'')+' · ×'+count+'</span>'+
       '</span>'+
       '<span class="v'+(free?' free':'')+'">'+value+'</span>'+
     '</li>';
@@ -230,7 +249,7 @@ function renderSummary(){
      added together, which reads like they are paying for the bonus stock. */
   $('offerHeadline').textContent=orderHeadline(t.paidCount,t.bonusCount);
 
-  $('editLink').href='index.html?'+CART.encode({quantities:quantities(),bonusChoices:state.bonusChoices},KEYS)+'#builder';
+  $('editLink').href=SHOP_URL+'?'+CART.encode(cartState(),KEYS)+'#builder';
 }
 
 function render(){
@@ -239,7 +258,7 @@ function render(){
   renderLines();
   renderSummary();
   updateStripeAmount();
-  CART.save({quantities:quantities(),bonusChoices:state.bonusChoices},KEYS);
+  CART.save(cartState(),KEYS,OFFER);
 }
 
 /* ============================================================
@@ -346,6 +365,8 @@ function readForm(){
   }
 
   return {
+    offer:OFFER,
+    tracking:Object.assign({},state.tracking),
     quantities:quantities(),
     bonusChoices:state.bonusChoices.slice(),
     customer:{
@@ -428,7 +449,7 @@ function closeUpgrade(){
 
 function renderModalSkus(){
   var paid=modalPaid();
-  $('ouSkus').innerHTML=CATALOG.SKUS.map(function(sku){
+  $('ouSkus').innerHTML=SKUS.map(function(sku){
     var count=modal.mix[sku.key]||0;
     return ''+
       '<div class="ou-sku'+(count>0?' is-on':'')+'" style="--tint:'+sku.hex+'">'+
@@ -453,7 +474,7 @@ function renderModalFree(){
   modal.free.length=modal.freeCount;
 
   $('ouFree').innerHTML=modal.free.map(function(choice,index){
-    var options=CATALOG.SKUS.map(function(sku){
+    var options=SKUS.map(function(sku){
       return '<option value="'+sku.key+'"'+(sku.key===choice?' selected':'')+'>'+sku.name+'</option>';
     }).join('');
     return ''+
@@ -712,6 +733,8 @@ async function payHosted(){
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
+      offer:OFFER,
+      tracking:Object.assign({},state.tracking),
       pricingVersion:RULES.version,
       quantities:quantities(),
       bonusChoices:state.bonusChoices.slice()
@@ -760,7 +783,9 @@ async function payEmbedded(){
   });
   if(!intent.ok||!intent.body.clientSecret){
     busy(false);
-    if(intent.body.field) return failField(intent.body.field,intent.body.error);
+    if(intent.body.field&&document.querySelector('[data-field="'+intent.body.field+'"]')){
+      return failField(intent.body.field,intent.body.error);
+    }
     showStatus(intent.body.error||'We could not start this payment. Please try again, or call (03) 9387 0427.',false);
     return;
   }
@@ -804,7 +829,7 @@ async function payEmbedded(){
 
   var paid=confirmed.paymentIntent;
   if(paid&&(paid.status==='succeeded'||paid.status==='processing')){
-    CART.clear();
+    CART.clear(OFFER);
     showStatus('Payment accepted. Taking you to your receipt…',true);
     window.location.href=returnUrl()+
       '?payment_intent='+encodeURIComponent(paid.id)+
@@ -858,12 +883,18 @@ $('checkoutForm').addEventListener('submit',function(event){
    Start
    ============================================================ */
 (function start(){
-  var restored=CART.restore(window.location.search,KEYS);
+  var restored=CART.restore(window.location.search,KEYS,OFFER);
+  state.tracking=restored.tracking||{};
   if(CART.isEmpty(restored)) restored=defaultCart();
   state.base=restored.quantities;
   state.bonusChoices=restored.bonusChoices.slice();
 
   $('year').textContent=String(new Date().getFullYear());
+  if(SHORT_DATED){
+    $('offerEyebrow').textContent='Short-dated clearance';
+    document.querySelectorAll('[data-shop-link]').forEach(function(link){ link.href=SHOP_URL; });
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#1f1d1f');
+  }
   if(window.matchMedia('(min-width:941px)').matches) $('offerFold').open=true;
 
   render();
@@ -871,6 +902,7 @@ $('checkoutForm').addEventListener('submit',function(event){
 })();
 
 window.MFSCheckoutPage={
+  offer:OFFER,
   quantities:quantities,
   quote:quote,
   upgrade:upgrade,

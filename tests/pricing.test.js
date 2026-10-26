@@ -16,7 +16,7 @@ for(let paid=1;paid<=5;paid+=1){
 
 assert.deepEqual(
   (({unitCents,subtotalCents,freightCents,freightGstCents,bonusCount,shippedCount,effectiveUnitCents,gstCents,totalIncGstCents})=>({unitCents,subtotalCents,freightCents,freightGstCents,bonusCount,shippedCount,effectiveUnitCents,gstCents,totalIncGstCents}))(quote(6)),
-  {unitCents:2999,subtotalCents:17994,freightCents:3000,freightGstCents:300,bonusCount:1,shippedCount:7,effectiveUnitCents:2570,gstCents:2099,totalIncGstCents:23093}
+  {unitCents:2999,subtotalCents:17994,freightCents:1800,freightGstCents:180,bonusCount:1,shippedCount:7,effectiveUnitCents:2570,gstCents:1979,totalIncGstCents:21773}
 );
 
 assert.deepEqual(
@@ -24,17 +24,20 @@ assert.deepEqual(
   {unitCents:2999,subtotalCents:35988,freightCents:3000,freightGstCents:300,bonusCount:3,shippedCount:15,effectiveUnitCents:2399,gstCents:3899,totalIncGstCents:42887}
 );
 
-/* Freight is flat: one charge per order, none on an empty builder, and never
-   scaled by how many bottles ship. */
+/* Freight is tiered on paid bottles: $18 under twelve, $30 from twelve up.
+   One charge per order, none on an empty builder, never scaled per bottle. */
 assert.equal(quote(0).freightCents,0);
 assert.equal(quote(0).totalIncGstCents,0);
-assert.equal(quote(1).freightCents,Pricing.RULES.freightCents);
-assert.equal(quote(48).freightCents,Pricing.RULES.freightCents);
-/* Freight is quoted ex GST: GST is added on top of the flat fee, and the
-   single GST figure covers the bottles and the freight together. */
-assert.equal(quote(3).totalIncGstCents,3*3299+3000+Math.round((3*3299+3000)*0.1));
-assert.equal(quote(3).freightGstCents,300);
-assert.equal(quote(3).gstCents,Math.round(3*3299*0.1)+300);
+for(const [paid,freight] of [[1,1800],[5,1800],[6,1800],[11,1800],[12,3000],[13,3000],[24,3000],[48,3000]]){
+  assert.equal(quote(paid).freightCents,freight,`${paid} paid bottles should pay ${freight} freight`);
+  assert.equal(Pricing.freightFor(paid),freight);
+}
+assert.equal(Pricing.freightFor(0),0);
+/* Freight is quoted ex GST: GST is added on top of the fee, and the single
+   GST figure covers the bottles and the freight together. */
+assert.equal(quote(3).totalIncGstCents,3*3299+1800+Math.round((3*3299+1800)*0.1));
+assert.equal(quote(3).freightGstCents,180);
+assert.equal(quote(3).gstCents,Math.round(3*3299*0.1)+180);
 
 /* GST is rounded line by line, the way Stripe rounds the tax on each line item
    it is sent, so the total quoted on the page is the total the card is charged.
@@ -42,10 +45,10 @@ assert.equal(quote(3).gstCents,Math.round(3*3299*0.1)+300);
    but their GST differs by a cent — and each matches its own Stripe basket. */
 const split=Pricing.quote({plus:2,sweet:2,sweetsf:0,blend:2,blendsf:0});
 assert.equal(split.subtotalCents,17994);
-assert.equal(split.gstCents,3*Math.round(2*2999*0.1)+300);
-assert.equal(split.gstCents,2100);
+assert.equal(split.gstCents,3*Math.round(2*2999*0.1)+180);
+assert.equal(split.gstCents,1980);
 assert.equal(split.totalIncGstCents,split.subtotalCents+split.gstCents+split.freightCents);
-assert.equal(quote(6).gstCents,2099);
+assert.equal(quote(6).gstCents,1979);
 
 /* Whatever the mix, the parts always add up to the total that is charged. */
 for(const basket of [{plus:1,sweet:1},{plus:5,blend:2},{plus:3,sweet:3,blend:3,blendsf:3},{sweetsf:7}]){

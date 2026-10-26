@@ -75,24 +75,70 @@
       contraindications:'Contraindicated in persons who have shown hypersensitivity to any listed ingredient.' }
   };
 
-  var BY_KEY=SKUS.reduce(function(result,sku){ result[sku.key]=sku; return result; },{});
+  /* The short-dated clearance: three of the five products, sold under their
+     own keys so a short-dated bottle can never be priced, picked or packed as
+     long-dated stock. Photography and product copy come from the standard
+     entry; what differs is the expiry and the name Stripe, the invoice and the
+     packing room see. The sugar-free products are not part of the clearance,
+     so they have no short-dated key at all. */
+  var SHORT_DATED_INFO = [
+    { base:'plus',  sub:'Suspension vehicle', what:'Suspension vehicle', expiry:'04/2027', expiryLong:'April 2027' },
+    { base:'sweet', sub:'Sweetening agent', what:'Sweetening agent (syrup vehicle)', expiry:'01/2027', expiryLong:'January 2027' },
+    { base:'blend', sub:'Plus + Sweet, 1:1', what:'ORA-Plus® and ORA-Sweet® already combined 1:1 in one bottle', expiry:'01/2027', expiryLong:'January 2027' }
+  ];
 
-  function keys(){ return SKUS.map(function(sku){ return sku.key; }); }
+  var SHORT_DATED = SHORT_DATED_INFO.map(function(info){
+    var base = SKUS.filter(function(sku){ return sku.key===info.base; })[0];
+    return Object.assign({}, base, {
+      key:info.base+'-sd',
+      base:info.base,
+      offer:'short-dated',
+      sub:info.sub,
+      what:info.what,
+      expiry:info.expiry,
+      expiryLong:info.expiryLong,
+      stripeName:base.name+' SHORT-DATED (exp '+info.expiry+')'
+    });
+  });
+
+  var OFFERS = { 'standard':SKUS, 'short-dated':SHORT_DATED };
+
+  var BY_KEY=SKUS.concat(SHORT_DATED).reduce(function(result,sku){ result[sku.key]=sku; return result; },{});
+
+  /* Unknown offer names fall back to the standard range, never to the
+     clearance — the same rule `pricing.js` follows. */
+  function skus(offer){
+    return Object.prototype.hasOwnProperty.call(OFFERS,offer)?OFFERS[offer]:SKUS;
+  }
+  function keys(offer){ return skus(offer).map(function(sku){ return sku.key; }); }
   function get(key){ return BY_KEY[key]||null; }
+  /* Which offer a product key belongs to, or null for a key nobody sells. */
+  function offerOf(key){
+    var sku=BY_KEY[key];
+    return sku?(sku.offer||'standard'):null;
+  }
   /* Product names for anything that only needs the label — Stripe line items,
      the order metadata, the receipt. */
   /* `tint` is a CSS custom property, which only resolves inside a page that
      defines it. `hex` is the same colour for anywhere that cannot — JSON sent
      to the receipt, an email, a Stripe metadata field. */
+  /* Short-dated bottles are named with their expiry, so a Stripe line, an
+     order description or a receipt can never be mistaken for standard stock. */
   function names(){
-    return SKUS.reduce(function(result,sku){ result[sku.key]=sku.name; return result; },{});
+    return SKUS.concat(SHORT_DATED).reduce(function(result,sku){
+      result[sku.key]=sku.stripeName||sku.name;
+      return result;
+    },{});
   }
 
   return Object.freeze({
     SKUS:SKUS,
+    SHORT_DATED:SHORT_DATED,
     EXTRA:EXTRA,
+    skus:skus,
     keys:keys,
     get:get,
+    offerOf:offerOf,
     names:names
   });
 });

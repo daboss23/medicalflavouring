@@ -1,7 +1,6 @@
 'use strict';
 
-const Pricing=require('../pricing.js');
-const {PRODUCT_NAMES:PRODUCTS,send}=require('./order-fields.js');
+const {PRODUCT_NAMES:PRODUCTS,send,readBasket,readTracking}=require('./order-fields.js');
 
 function requestOrigin(req){
   if(process.env.SITE_URL) return process.env.SITE_URL.replace(/\/$/,'');
@@ -10,9 +9,9 @@ function requestOrigin(req){
   return `${proto}://${host}`;
 }
 
-function addLineItem(params,index,name,unitCents,quantity,sku,bonus){
+function addLineItem(params,index,currency,name,unitCents,quantity,sku,bonus){
   const base=`line_items[${index}]`;
-  params.set(`${base}[price_data][currency]`,Pricing.RULES.currency);
+  params.set(`${base}[price_data][currency]`,currency);
   params.set(`${base}[price_data][unit_amount]`,String(unitCents));
   params.set(`${base}[price_data][tax_behavior]`,'exclusive');
   params.set(`${base}[price_data][product_data][name]`,bonus?`Bonus: ${name}`:name);
@@ -33,21 +32,20 @@ module.exports=async function handler(req,res){
 
   try{
     const body=typeof req.body==='string'?JSON.parse(req.body||'{}'):(req.body||{});
-    const productKeys=Object.keys(PRODUCTS);
-    const quantities=Pricing.normalizeQuantities(body.quantities,productKeys);
-    const quote=Pricing.quote(quantities);
-    if(quote.paidCount<1) return send(res,400,{error:'Add at least one bottle'});
-
-    const bonuses=Array.isArray(body.bonusChoices)?body.bonusChoices:[];
-    if(bonuses.length!==quote.bonusCount||bonuses.some(key=>!PRODUCTS[key])){
-      return send(res,400,{error:'Choose each promotional bonus bottle'});
+    const basket=await readBasket(body);
+    if(basket.error){
+      const message=basket.error.field==='bonus'?'Choose each promotional bonus bottle':basket.error.error;
+      return send(res,basket.error.code==='stock'?409:400,{error:message});
     }
+    const {offer,quantities,quote,bonuses,keys:productKeys}=basket;
+    const tracking=readTracking(body);
+    const shortDated=offer==='short-dated';
 
     const params=new URLSearchParams();
     const origin=requestOrigin(req);
     params.set('mode','payment');
     params.set('success_url',`${origin}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`);
-    params.set('cancel_url',`${origin}/#builder`);
+    params.set('cancel_url',shortDated?`${origin}/short-dated#builder`:`${origin}/#builder`);
     params.set('billing_address_collection','required');
     params.set('shipping_address_collection[allowed_countries][0]','AU');
     params.set('phone_number_collection[enabled]','true');
@@ -58,16 +56,17 @@ module.exports=async function handler(req,res){
     params.set('name_collection[business][optional]','true');
     params.set('custom_text[shipping_address][message]','Enter the Australian delivery address for this ORA® order.');
     params.set('automatic_tax[enabled]','true');
-    /* Flat freight as a Stripe shipping rate rather than a line item: it shows
+    /* Freight as a Stripe shipping rate rather than a line item: it shows
        under its own "Freight" heading at checkout, stays out of the bottle
        count, and lands in `total_details.amount_shipping` for the thank-you
-       page. Quoted ex GST with the shipping tax code, so Automatic Tax adds
-       the GST on top of the $30 alongside the GST on the bottles. Defined inline — no Dashboard object to
-       keep in sync with `pricing.js`. */
+       page. The amount is this order's tier from `pricing.js`, quoted ex GST
+       with the shipping tax code, so Automatic Tax adds the GST on top
+       alongside the GST on the bottles. Defined inline — no Dashboard object
+       to keep in sync with `pricing.js`. */
     params.set('shipping_options[0][shipping_rate_data][type]','fixed_amount');
-    params.set('shipping_options[0][shipping_rate_data][display_name]','Flat rate freight');
-    params.set('shipping_options[0][shipping_rate_data][fixed_amount][currency]',Pricing.RULES.currency);
-    params.set('shipping_options[0][shipping_rate_data][fixed_amount][amount]',String(Pricing.RULES.freightCents));
+    params.set('shipping_options[0][shipping_rate_data][display_name]','Freight');
+    params.set('shipping_options[0][shipping_rate_data][fixed_amount][currency]',quote.currency);
+    params.set('shipping_options[0][shipping_rate_data][fixed_amount][amount]',String(quote.freightCents));
     params.set('shipping_options[0][shipping_rate_data][tax_behavior]','exclusive');
     params.set('shipping_options[0][shipping_rate_data][tax_code]','txcd_92010001');
     params.set('customer_creation','always');
@@ -75,7 +74,7 @@ module.exports=async function handler(req,res){
     let index=0;
     productKeys.forEach(key=>{
       if(quantities[key]>0){
-        addLineItem(params,index++,PRODUCTS[key],quote.unitCents,quantities[key],key,false);
+        addLineItem(params,index++,quote.currency,PRODUCTS[key],quote.unitCents,quantities[key],key,false);
       }
     });
     const bonusBySku=bonuses.reduce((result,key)=>{
@@ -83,18 +82,29 @@ module.exports=async function handler(req,res){
       return result;
     },{});
     Object.keys(bonusBySku).forEach(key=>{
-      addLineItem(params,index++,PRODUCTS[key],0,bonusBySku[key],key,true);
+      addLineItem(params,index++,quote.currency,PRODUCTS[key],0,bonusBySku[key],key,true);
     });
 
     const metadata={
       pricing_version:quote.pricingVersion,
+      offer:offer,
       paid_bottles:String(quote.paidCount),
       bonus_bottles:String(quote.bonusCount),
       unit_price_cents:String(quote.unitCents),
       subtotal_ex_gst_cents:String(quote.subtotalCents),
-      freight_ex_gst_cents:String(quote.freightCents)
+      freight_ex_gst_cents:String(quote.freightCents),
+      source:tracking.source,
+      source_email:tracking.email
     };
     Object.keys(metadata).forEach(key=>params.set(`metadata[${key}]`,metadata[key]));
+    /* The session's metadata stays on the session; the PaymentIntent behind it
+       needs its own copy, with the bottles, so the short-dated stock count —
+       which searches payments — sees hosted orders as well as embedded ones. */
+    const intentMetadata=Object.assign({},metadata,{
+      items:productKeys.filter(key=>quantities[key]>0).map(key=>`${key}:${quantities[key]}`).join(','),
+      bonus_items:bonuses.join(',')
+    });
+    Object.keys(intentMetadata).forEach(key=>params.set(`payment_intent_data[metadata][${key}]`,intentMetadata[key]));
 
     const stripeResponse=await fetch('https://api.stripe.com/v1/checkout/sessions',{
       method:'POST',

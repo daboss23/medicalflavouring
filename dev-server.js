@@ -120,16 +120,27 @@ if(publishable.startsWith('pk_live_')){
   process.exit(1);
 }
 
+/* The same two routes `vercel.json` gives production: the clearance page at
+   a clean address, and the short one typed off a fax. */
+const REWRITES={'/short-dated':'/short-dated.html','/short-dated/':'/short-dated.html'};
+const FAX_REDIRECT=/^\/sd\/?$/i;
+
 http.createServer(function(req,res){
   const url=new URL(req.url,'http://localhost');
   const api=/^\/api\/([A-Za-z0-9-]+)$/.exec(url.pathname);
   console.log(req.method+' '+url.pathname+(url.search||''));
   if(api) return serveApi(req,res,api[1]);
-  return serveStatic(req,res,url.pathname);
+  if(FAX_REDIRECT.test(url.pathname)){
+    res.statusCode=307;
+    res.setHeader('Location','/short-dated?src=fax');
+    return res.end();
+  }
+  return serveStatic(req,res,REWRITES[url.pathname]||url.pathname);
 }).listen(PORT,function(){
   console.log('\n  ORA sandbox running in Stripe TEST mode');
   console.log('  ------------------------------------------------');
   console.log('  Shop            http://localhost:'+PORT+'/');
+  console.log('  Short-dated     http://localhost:'+PORT+'/short-dated  (fax link: /sd)');
   console.log('  Checkout        http://localhost:'+PORT+'/checkout.html');
   console.log('  Thank-you page  reached automatically after paying');
   if(!publishable){

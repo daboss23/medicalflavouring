@@ -9,6 +9,11 @@ Sales page for the Padagis ORA® compounding vehicle range (Medical Flavouring S
 | `index.html` | The page. Single file, no build step, no dependencies. Loads fonts from Google Fonts and bottle images from `assets/`. |
 | `studies.html` | Searchable, branded A–Z bibliography of ORA® stability studies. |
 | `studies-data.js` | The 107 Padagis study citations, available synopsis links, and 70-issue Secundum Artem archive. |
+| `short-dated.html` | Short-dated clearance landing page, served at `/short-dated` (and `/sd` from faxes). ORA-Plus®, ORA-Sweet® and ORA-Blend® only, at $17.99 + GST with 1 free per 6 and 3 free per 12. `noindex`, not in the sitemap, not linked from the main page. |
+| `vercel.json` | The `/short-dated` rewrite and the `/sd` → `/short-dated?src=fax` redirect. |
+| `api/_short-dated-stock.js` | **Short-dated stock counts — the file to edit after a stocktake.** Holds the shelf count per product and the moment it was counted; paid web orders since then are subtracted automatically from Stripe. Fax, email and phone orders are not: after a batch of those, put the real count in `onHand`, move `countedAt` to now, and redeploy. Never served to browsers. |
+| `api/short-dated-stock.js` | Available / Low / Sold out per short-dated product, for the page's stock table. Never returns the counts. |
+| `assets/ora-short-dated-order-form.pdf` | The colour flyer with the fax-back order form, downloadable from the short-dated page. |
 | `checkout.html` | Branded checkout page. Collects the customer's details in MFS fields and takes the card in an embedded Stripe Payment Element, with the offer, order summary and upgrade beside it. |
 | `checkout.js` | The checkout page's logic: basket, price options, order bump, validation, Stripe Elements and payment confirmation. |
 | `catalog.js` | The ORA® range — names, photography, colours and product copy. One list, read by the sales page, the checkout page and the Stripe endpoints. |
@@ -17,7 +22,7 @@ Sales page for the Padagis ORA® compounding vehicle range (Medical Flavouring S
 | `privacy.html` | Branded MFS privacy policy covering website, order and hosted Stripe Checkout data. |
 | `terms.html` | Branded MFS website and ordering Terms of Use. |
 | `legal.css` | Shared responsive design system for the Privacy Policy and Terms of Use pages. |
-| `pricing.js` | Shared, integer-cent pricing engine used by the page and Stripe checkout endpoint. |
+| `pricing.js` | Shared, integer-cent pricing engine used by the pages and the Stripe endpoints. Two rule sets — the standard offer and the short-dated clearance (`MFSPricing.shortDated`) — sharing the tiered freight: $18 + GST under 12 paid bottles, $30 + GST from 12. |
 | `api/create-checkout-session.js` | Stripe-ready Vercel endpoint that validates product choices and recalculates every charge server-side. |
 | `api/checkout-session.js` | Reads one paid Checkout Session back from Stripe for the thank-you page, returning a whitelisted subset of the order. |
 | `api/create-payment-intent.js` | Opens (or updates) the PaymentIntent behind the embedded checkout page, recalculating every cent server-side. |
